@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_pet_nest/home/home.dart';
+import 'package:the_pet_nest/dashboard/dashboard.dart';
 import 'package:the_pet_nest/login/login.dart';
 
 void main() {
@@ -13,12 +13,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.amber,
+          fontFamily: 'Poppins',
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         routes: {
           '/login': (context) => MobileLogin(),
-          '/home': (context) => Home()
+          '/dashboard': (context) => Dashboard()
         },
-        // initialRoute: '/login',
-        home: MobileLogin());
+        initialRoute: '/dashboard');
+    // home: MobileLogin());
   }
 }
