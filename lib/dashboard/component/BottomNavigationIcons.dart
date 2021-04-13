@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class BottomNavigationIcons extends StatelessWidget {
-  final Color activeColor;
   final Color color;
   final String text;
   final IconData icon;
@@ -9,25 +8,21 @@ class BottomNavigationIcons extends StatelessWidget {
   final Function onPressed;
 
   const BottomNavigationIcons(
-      {this.activeColor,
-      this.color,
-      this.text,
-      this.icon,
-      this.size,
-      this.onPressed});
+      {this.color, this.text, this.icon, this.size, this.onPressed});
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: onPressed,
       child: Column(
         children: [
           Icon(
             icon,
             size: 35,
+            color: color,
           ),
           Text(
             text,
-            style: TextStyle(fontWeight: FontWeight.w100),
+            style: TextStyle(fontWeight: FontWeight.w100, color: color),
           )
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/bookings/bookings.dart';
 import 'package:the_pet_nest/dashboard/component/BottomNavigationIcons.dart';
 import 'package:the_pet_nest/home/home.dart';
@@ -9,8 +10,11 @@ class Dashboard extends StatefulWidget {
 }
 
 enum BottomNavigationOptions { HOME, BOOKING, INVITE, ME }
+const Color activeColor = Color(0xFFFF7717);
+const Color inactiveColor = Color(0xFFB6B7B9);
 
 class _DashboardState extends State<Dashboard> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   BottomNavigationOptions navigationOptions = BottomNavigationOptions.HOME;
   Widget fragment;
   @override
@@ -28,14 +32,20 @@ class _DashboardState extends State<Dashboard> {
       backgroundColor: Color(0xFFE5E5E5),
       appBar: AppBar(
         toolbarHeight: 60,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFE5E5E5),
+        elevation: 0,
         title: Center(
           child: Container(
               width: 150, child: Image.asset('assets/the_pet_nest.png')),
         ),
-        leading: IconButton(
-          icon: Icon(Icons.accessible),
-          onPressed: () => Scaffold.of(context).openDrawer(),
+        leading: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: TextButton(
+            child: SvgPicture.asset('assets/icons/hamburger.svg'),
+            onPressed: () {
+              _scaffoldKey.currentState.openDrawer();
+            },
+          ),
         ),
         actions: [
           Padding(
@@ -43,14 +53,7 @@ class _DashboardState extends State<Dashboard> {
             child: Container(
               width: 50,
               height: 50,
-              child: Icon(
-                Icons.person_add_alt,
-                color: Colors.orangeAccent,
-                size: 30,
-              ),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  color: Color.fromARGB(70, 255, 191, 71)),
+              child: Image.asset('assets/icons/avatar.png'),
             ),
           )
         ],
@@ -80,9 +83,10 @@ class _DashboardState extends State<Dashboard> {
                           width: 100,
                           child: RawMaterialButton(
                             shape: new CircleBorder(),
-                            fillColor: Colors.orange,
+                            fillColor: Colors.white,
                             onPressed: () {},
-                            child: Icon(Icons.add_a_photo_sharp),
+                            child: SvgPicture.asset(
+                                'assets/icons/pet_paw_icon.svg'),
                           ),
                         ),
                       ),
@@ -91,6 +95,7 @@ class _DashboardState extends State<Dashboard> {
                         height: 80,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             BottomNavigationIcons(
                               onPressed: () {
@@ -100,6 +105,10 @@ class _DashboardState extends State<Dashboard> {
                                 });
                               },
                               icon: Icons.home_filled,
+                              color: navigationOptions ==
+                                      BottomNavigationOptions.HOME
+                                  ? activeColor
+                                  : inactiveColor,
                               text: 'Home',
                             ),
                             BottomNavigationIcons(
@@ -110,6 +119,10 @@ class _DashboardState extends State<Dashboard> {
                                 });
                               },
                               icon: Icons.list_alt,
+                              color: navigationOptions ==
+                                      BottomNavigationOptions.BOOKING
+                                  ? activeColor
+                                  : inactiveColor,
                               text: 'Booking',
                             ),
                             SizedBox(
@@ -123,6 +136,10 @@ class _DashboardState extends State<Dashboard> {
                                 });
                               },
                               icon: Icons.person_add_alt,
+                              color: navigationOptions ==
+                                      BottomNavigationOptions.INVITE
+                                  ? activeColor
+                                  : inactiveColor,
                               text: 'Invite',
                             ),
                             BottomNavigationIcons(
@@ -133,6 +150,10 @@ class _DashboardState extends State<Dashboard> {
                                 });
                               },
                               icon: Icons.person_outline,
+                              color: navigationOptions ==
+                                      BottomNavigationOptions.ME
+                                  ? activeColor
+                                  : inactiveColor,
                               text: 'Me',
                             ),
                           ],

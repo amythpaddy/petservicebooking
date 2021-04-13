@@ -29,6 +29,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.1
   flutter_rating_bar: ^4.0.0
+  flutter_svg: ^0.21.0+1
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +58,19 @@ flutter:
     - assets/petgroomingimage.png
     - assets/blueServiceCardBg.png
     - assets/orangeServiceCardBg.png
+    - assets/icons/hamburger.svg
+    - assets/icons/avatar.png
+    - assets/icons/home/pet_grooming.svg
+    - assets/icons/home/pet_training.svg
+    - assets/icons/home/vet_on_call.svg
+    - assets/icons/home/refer_n_earn.svg
+    - assets/icons/home/arogya_setu_icon.svg
+    - assets/icons/home/one_time_product_icon.svg
+    - assets/icons/home/sanatise_icon.svg
+    - assets/icons/home/temp_icon.svg
+    - assets/icons/home/pet_service_heading.svg
+    - assets/icons/home/how_it_work.svg
+    - assets/icons/pet_paw_icon.svg
 
   fonts:
     - family: Poppins

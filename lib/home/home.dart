@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/home/component/petHeroesCard.dart';
 import 'package:the_pet_nest/home/component/petParentReviewCard.dart';
 import 'package:the_pet_nest/home/component/petServicesDisplay.dart';
@@ -52,7 +53,7 @@ class _HomeState extends State<Home> {
                                 top: 28,
                                 left: 18,
                                 child: Container(
-                                  width: 231,
+                                  width: 163,
                                   child: Text(
                                     'Pet grooming service at Home',
                                     style: TextStyle(
@@ -173,8 +174,13 @@ class _HomeState extends State<Home> {
                         child: Stack(
                           children: [
                             Positioned(
-                                child:
-                                    Image.asset('assets/pettrainingimage.png')),
+                                child: ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(1)),
+                                    child: Image.asset(
+                                      'assets/pettrainingimage.png',
+                                      fit: BoxFit.fill,
+                                    ))),
                             Positioned(
                                 right: 0,
                                 child: CustomPaint(
@@ -228,11 +234,66 @@ class _HomeState extends State<Home> {
                     scrollDirection: Axis.horizontal,
                     itemCount: ServiceList.length,
                     itemBuilder: (context, index) {
-                      // print(context.size.width);
+                      print(ServiceList[index]['image']);
                       return ServicesCard(
-                        text: ServiceList[index]['name'],
-                      );
+                          text: ServiceList[index]['name'],
+                          svgPath: ServiceList[index]['image']);
                     },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 13, bottom: 10),
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Text(
+                        'How it works?',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Color(0xFF232C63)),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      SvgPicture.asset('assets/icons/home/how_it_work.svg'),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Search pet cares\nheroes by location\nand service',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 10,
+                                height: 1,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          Text('Schedule your\nappointment at\nhome',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  height: 1,
+                                  fontWeight: FontWeight.w400)),
+                          Text(
+                              'Sit back and relax!\nYour pet hero is on\nhis way',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  height: 1,
+                                  fontWeight: FontWeight.w400))
+                        ],
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                    ],
                   ),
                 ),
                 Container(
@@ -279,11 +340,7 @@ class _HomeState extends State<Home> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Icon(
-                        Icons.wallet_giftcard_sharp,
-                        color: Colors.orangeAccent,
-                        size: 56,
-                      ),
+                      SvgPicture.asset('assets/icons/home/refer_n_earn.svg'),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -305,40 +362,45 @@ class _HomeState extends State<Home> {
               ),
               Container(
                 margin: EdgeInsets.only(top: 13),
+                padding: EdgeInsets.symmetric(vertical: 16),
                 color: Colors.white,
                 child: Column(
                   children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 20, bottom: 18),
+                      child: Row(children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          margin: EdgeInsets.only(right: 5),
+                          child: SvgPicture.asset(
+                              'assets/icons/home/pet_service_heading.svg'),
+                        ),
+                        Text(
+                          'Pet Services at Home with Safety',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 16),
+                        )
+                      ]),
+                    ),
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Icon(
-                            Icons.clean_hands_rounded,
-                            color: Colors.orangeAccent,
-                            size: 50,
-                          ),
-                          Text(
-                            'Pet Services at Home with Safety',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 16),
-                          )
-                        ]),
-                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         PetServicesListDisplay(
                           text: 'Sanitized Kits and Tools',
-                          image: Icons.sanitizer,
+                          image: 'assets/icons/home/sanatise_icon.svg',
                         ),
                         PetServicesListDisplay(
                           text: 'Temperature Record',
-                          image: Icons.battery_charging_full_outlined,
+                          image: 'assets/icons/home/temp_icon.svg',
                         ),
                         PetServicesListDisplay(
                           text: 'Updated Status on Arogya Setu App',
-                          image: Icons.sanitizer,
+                          image: 'assets/icons/home/arogya_setu_icon.svg',
                         ),
                         PetServicesListDisplay(
                           text: 'One Time Usable Products',
-                          image: Icons.dinner_dining,
+                          image: 'assets/icons/home/one_time_product_icon.svg',
                         )
                       ],
                     )
