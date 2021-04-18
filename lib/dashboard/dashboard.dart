@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/bookings/bookings.dart';
 import 'package:the_pet_nest/dashboard/component/BottomNavigationIcons.dart';
 import 'package:the_pet_nest/home/home.dart';
+import 'package:the_pet_nest/sidebar/sidebar.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -29,6 +30,7 @@ class _DashboardState extends State<Dashboard> {
         break;
     }
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Color(0xFFE5E5E5),
       appBar: AppBar(
         toolbarHeight: 60,
@@ -58,7 +60,7 @@ class _DashboardState extends State<Dashboard> {
           )
         ],
       ),
-      drawer: Drawer(),
+      drawer: Sidebar(),
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,

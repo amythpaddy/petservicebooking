@@ -23,206 +23,208 @@ class _HomeState extends State<Home> {
       child: Column(
         children: [
           Padding(
+            padding: const EdgeInsets.only(left: 20.0, top: 20.0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(22)),
+                      color: Colors.transparent,
+                    ),
+                    margin: EdgeInsets.only(right: 20),
+                    height: 162,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                            child: Image.asset('assets/petgroomingimage.png')),
+                        Positioned(
+                            child: CustomPaint(
+                          size: Size(232, 162),
+                          painter: ServiceCardOrangePainter(),
+                        )),
+                        Positioned(
+                            top: 28,
+                            left: 18,
+                            child: Container(
+                              width: 163,
+                              child: Text(
+                                'Pet grooming service at Home',
+                                style: TextStyle(
+                                    color: Color(0xFF232C63),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15),
+                              ),
+                            )),
+                        Positioned(
+                            top: 92,
+                            left: 18,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  color: Colors.white),
+                              child: FlatButton(
+                                textColor: Color(0xFF232C63),
+                                child: Text(
+                                  'Book Now',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14),
+                                ),
+                                onPressed: () {},
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(22)),
+                      color: Colors.transparent,
+                    ),
+                    margin: EdgeInsets.only(right: 20),
+                    height: 162,
+                    width: 365,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: Image.asset('assets/vetimage.png'),
+                        ),
+                        Positioned(
+                            child: CustomPaint(
+                          size: Size(232, 162),
+                          painter: ServiceCardOrangePainter(),
+                        )),
+                        Positioned(
+                            top: 28,
+                            left: 18,
+                            child: Container(
+                              width: 231.63,
+                              child: Text(
+                                'Vet on call start from',
+                                style: TextStyle(
+                                    color: Color(0xFF232C63),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15),
+                              ),
+                            )),
+                        Positioned(
+                          left: 0,
+                          top: 57.26,
+                          child: CustomPaint(
+                            painter: PricePainter(),
+                            child: Container(
+                              padding: EdgeInsets.only(left: 20, right: 20),
+                              height: 24.74,
+                              child: Text.rich(TextSpan(children: [
+                                new TextSpan(
+                                  text: '499',
+                                  style: TextStyle(
+                                    color: Color(0xFF232C63),
+                                    fontSize: 15,
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                                new TextSpan(
+                                    text: ' /199',
+                                    style: TextStyle(
+                                      color: Color(0xFF232C63),
+                                      fontSize: 15,
+                                    )),
+                              ])),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                            top: 92,
+                            left: 18,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  color: Colors.white),
+                              child: FlatButton(
+                                textColor: Color(0xFF232C63),
+                                child: Text(
+                                  'Talk to Vet',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14),
+                                ),
+                                onPressed: () {},
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 20),
+                    height: 162,
+                    width: 335,
+                    color: Colors.transparent,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                            child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(1)),
+                                child: Image.asset(
+                                  'assets/pettrainingimage.png',
+                                  fit: BoxFit.fill,
+                                ))),
+                        Positioned(
+                            right: 0,
+                            child: CustomPaint(
+                              size: Size(232, 162),
+                              painter: ServiceCardBluePainter(),
+                            )),
+                        Positioned(
+                            top: 28,
+                            left: 165,
+                            child: Container(
+                              width: 154,
+                              child: Text(
+                                'Dog training service at Home',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 14),
+                              ),
+                            )),
+                        Positioned(
+                            top: 92,
+                            right: 18,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  color: Colors.white),
+                              child: FlatButton(
+                                textColor: Color(0xFFFF7717),
+                                child: Text(
+                                  'Schedule a Demo',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14),
+                                ),
+                                onPressed: () {},
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(22)),
-                          color: Colors.transparent,
-                        ),
-                        margin: EdgeInsets.only(right: 20),
-                        height: 162,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                                child:
-                                    Image.asset('assets/petgroomingimage.png')),
-                            Positioned(
-                                child: CustomPaint(
-                              size: Size(232, 162),
-                              painter: ServiceCardOrangePainter(),
-                            )),
-                            Positioned(
-                                top: 28,
-                                left: 18,
-                                child: Container(
-                                  width: 163,
-                                  child: Text(
-                                    'Pet grooming service at Home',
-                                    style: TextStyle(
-                                        color: Color(0xFF232C63),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 15),
-                                  ),
-                                )),
-                            Positioned(
-                                top: 92,
-                                left: 18,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
-                                      color: Colors.white),
-                                  child: FlatButton(
-                                    textColor: Color(0xFF232C63),
-                                    child: Text(
-                                      'Book Now',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14),
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(22)),
-                          color: Colors.transparent,
-                        ),
-                        margin: EdgeInsets.only(right: 20),
-                        height: 162,
-                        width: 365,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              top: 0,
-                              right: 0,
-                              child: Image.asset('assets/vetimage.png'),
-                            ),
-                            Positioned(
-                                child: CustomPaint(
-                              size: Size(232, 162),
-                              painter: ServiceCardOrangePainter(),
-                            )),
-                            Positioned(
-                                top: 28,
-                                left: 18,
-                                child: Container(
-                                  width: 231.63,
-                                  child: Text(
-                                    'Vet on call start from',
-                                    style: TextStyle(
-                                        color: Color(0xFF232C63),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 15),
-                                  ),
-                                )),
-                            Positioned(
-                              left: 0,
-                              top: 57.26,
-                              child: CustomPaint(
-                                painter: PricePainter(),
-                                child: Container(
-                                  padding: EdgeInsets.only(left: 20, right: 20),
-                                  height: 24.74,
-                                  child: Text.rich(TextSpan(children: [
-                                    new TextSpan(
-                                      text: '499',
-                                      style: TextStyle(
-                                        color: Color(0xFF232C63),
-                                        fontSize: 15,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),
-                                    ),
-                                    new TextSpan(
-                                        text: ' /199',
-                                        style: TextStyle(
-                                          color: Color(0xFF232C63),
-                                          fontSize: 15,
-                                        )),
-                                  ])),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                                top: 92,
-                                left: 18,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
-                                      color: Colors.white),
-                                  child: FlatButton(
-                                    textColor: Color(0xFF232C63),
-                                    child: Text(
-                                      'Talk to Vet',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14),
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(right: 20),
-                        height: 162,
-                        width: 335,
-                        color: Colors.transparent,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                                child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(1)),
-                                    child: Image.asset(
-                                      'assets/pettrainingimage.png',
-                                      fit: BoxFit.fill,
-                                    ))),
-                            Positioned(
-                                right: 0,
-                                child: CustomPaint(
-                                  size: Size(232, 162),
-                                  painter: ServiceCardBluePainter(),
-                                )),
-                            Positioned(
-                                top: 28,
-                                left: 165,
-                                child: Container(
-                                  width: 154,
-                                  child: Text(
-                                    'Dog training service at Home',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14),
-                                  ),
-                                )),
-                            Positioned(
-                                top: 92,
-                                right: 18,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(8)),
-                                      color: Colors.white),
-                                  child: FlatButton(
-                                    textColor: Color(0xFFFF7717),
-                                    child: Text(
-                                      'Schedule a Demo',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14),
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 Text(
                   'Services',
                   style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17),

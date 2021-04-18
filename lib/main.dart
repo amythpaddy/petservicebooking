@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
-import 'package:the_pet_nest/login/login.dart';
+import 'package:the_pet_nest/konstants.dart';
+import 'package:the_pet_nest/welcome/login/login.dart';
+import 'package:the_pet_nest/welcome/welcome.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,10 +19,11 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         routes: {
-          '/login': (context) => MobileLogin(),
-          '/dashboard': (context) => Dashboard()
+          kNavigationLogin: (context) => MobileLogin(),
+          kNavigationDashboard: (context) => Dashboard(),
+          kNavigationWelcome: (context) => Welcome()
         },
-        initialRoute: '/dashboard');
+        initialRoute: kNavigationWelcome);
     // home: MobileLogin());
   }
 }

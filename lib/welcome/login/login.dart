@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_pet_nest/konstants.dart';
-import 'package:the_pet_nest/login/components/OTPTextBox.dart';
+import 'package:the_pet_nest/welcome/login/components/OTPTextBox.dart';
 
 class MobileLogin extends StatefulWidget {
   @override
@@ -243,6 +243,6 @@ class _MobileLoginState extends State<MobileLogin> {
   }
 
   skipScreen(BuildContext context) {
-    Navigator.pushReplacementNamed(context, kNavigationHome);
+    Navigator.pushReplacementNamed(context, kNavigationDashboard);
   }
 }
