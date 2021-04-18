@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
 import 'package:the_pet_nest/konstants.dart';
 import 'package:the_pet_nest/welcome/login/login.dart';
+import 'package:the_pet_nest/welcome/login/otp.dart';
 import 'package:the_pet_nest/welcome/welcome.dart';
 
 void main() {
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
         routes: {
           kNavigationLogin: (context) => MobileLogin(),
           kNavigationDashboard: (context) => Dashboard(),
-          kNavigationWelcome: (context) => Welcome()
+          kNavigationWelcome: (context) => Welcome(),
+          kNavigationOtp: (context) => OtpEntry()
         },
         initialRoute: kNavigationWelcome);
     // home: MobileLogin());

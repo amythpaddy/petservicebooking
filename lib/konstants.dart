@@ -9,3 +9,4 @@ const String kNavigationOtp = '/otp';
 
 //---------------------colors
 const Color kAppIconColor = Color(0xFFFF7717);
+const Color kAppBackgroundColor = Color(0xFFE5E5E5);

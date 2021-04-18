@@ -24,7 +24,8 @@ class Sidebar extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () =>
+                            Navigator.pushNamed(context, kNavigationLogin),
                         child: Text(
                           'Login',
                           style: TextStyle(
@@ -165,8 +166,7 @@ class Sidebar extends StatelessWidget {
                       fontSize: 14,
                       height: 1)),
               onTap: () {
-                // Update the state of the app.
-                // ...
+                Navigator.pushNamed(context, kNavigationLogin);
               },
             ),
           ))

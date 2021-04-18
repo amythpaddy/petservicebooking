@@ -130,7 +130,7 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                                 new TextSpan(
-                                    text: ' /199',
+                                    text: ' /\u{20B9}199',
                                     style: TextStyle(
                                       color: Color(0xFF232C63),
                                       fontSize: 15,
@@ -261,7 +261,7 @@ class _HomeState extends State<Home> {
                       SizedBox(
                         height: 12,
                       ),
-                      SvgPicture.asset('assets/icons/home/how_it_work.svg'),
+                      SvgPicture.asset('assets/images/home/how_it_work.svg'),
                       SizedBox(
                         height: 12,
                       ),
@@ -342,7 +342,7 @@ class _HomeState extends State<Home> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      SvgPicture.asset('assets/icons/home/refer_n_earn.svg'),
+                      SvgPicture.asset('assets/images/home/refer_n_earn.svg'),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -376,7 +376,7 @@ class _HomeState extends State<Home> {
                           width: 30,
                           margin: EdgeInsets.only(right: 5),
                           child: SvgPicture.asset(
-                              'assets/icons/home/pet_service_heading.svg'),
+                              'assets/images/home/pet_service_heading.svg'),
                         ),
                         Text(
                           'Pet Services at Home with Safety',
@@ -390,19 +390,19 @@ class _HomeState extends State<Home> {
                       children: [
                         PetServicesListDisplay(
                           text: 'Sanitized Kits and Tools',
-                          image: 'assets/icons/home/sanatise_icon.svg',
+                          image: 'assets/images/home/sanatise_icon.svg',
                         ),
                         PetServicesListDisplay(
                           text: 'Temperature Record',
-                          image: 'assets/icons/home/temp_icon.svg',
+                          image: 'assets/images/home/temp_icon.svg',
                         ),
                         PetServicesListDisplay(
                           text: 'Updated Status on Arogya Setu App',
-                          image: 'assets/icons/home/arogya_setu_icon.svg',
+                          image: 'assets/images/home/arogya_setu_icon.svg',
                         ),
                         PetServicesListDisplay(
                           text: 'One Time Usable Products',
-                          image: 'assets/icons/home/one_time_product_icon.svg',
+                          image: 'assets/images/home/one_time_product_icon.svg',
                         )
                       ],
                     )

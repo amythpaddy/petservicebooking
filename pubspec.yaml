@@ -59,19 +59,20 @@ flutter:
     - assets/petgroomingimage.png
     - assets/blueServiceCardBg.png
     - assets/orangeServiceCardBg.png
-    - assets/icons/hamburger.svg
-    - assets/icons/avatar.png
-    - assets/icons/home/pet_grooming.svg
-    - assets/icons/home/pet_training.svg
-    - assets/icons/home/vet_on_call.svg
-    - assets/icons/home/refer_n_earn.svg
-    - assets/icons/home/arogya_setu_icon.svg
-    - assets/icons/home/one_time_product_icon.svg
-    - assets/icons/home/sanatise_icon.svg
-    - assets/icons/home/temp_icon.svg
-    - assets/icons/home/pet_service_heading.svg
-    - assets/icons/home/how_it_work.svg
-    - assets/icons/pet_paw_icon.svg
+    - assets/images/hamburger.svg
+    - assets/images/avatar.png
+    - assets/images/home/pet_grooming.svg
+    - assets/images/home/pet_training.svg
+    - assets/images/home/vet_on_call.svg
+    - assets/images/home/refer_n_earn.svg
+    - assets/images/home/arogya_setu_icon.svg
+    - assets/images/home/one_time_product_icon.svg
+    - assets/images/home/sanatise_icon.svg
+    - assets/images/home/temp_icon.svg
+    - assets/images/home/pet_service_heading.svg
+    - assets/images/home/how_it_work.svg
+    - assets/images/pet_paw_icon.svg
+    - assets/images/welcome/hero_image.svg
 
   fonts:
     - family: Poppins

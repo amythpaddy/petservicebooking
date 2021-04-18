@@ -12,15 +12,21 @@ class OTPTextBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(10, 50, 10, 50),
-      width: 80,
-      child: TextField(
-        decoration:
-            InputDecoration(border: OutlineInputBorder(), counterText: ""),
-        maxLength: 1,
-        keyboardType: TextInputType.number,
-        onChanged: onChanged,
-        focusNode: focusNode,
+      width: 48,
+      height: 50,
+      child: Center(
+        child: TextField(
+          decoration: InputDecoration(
+              focusColor: Color(0x331A202E),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0x331A202E)),
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              counterText: ""),
+          maxLength: 1,
+          keyboardType: TextInputType.number,
+          onChanged: onChanged,
+          focusNode: focusNode,
+        ),
       ),
     );
   }

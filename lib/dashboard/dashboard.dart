@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/bookings/bookings.dart';
 import 'package:the_pet_nest/dashboard/component/BottomNavigationIcons.dart';
 import 'package:the_pet_nest/home/home.dart';
+import 'package:the_pet_nest/konstants.dart';
 import 'package:the_pet_nest/sidebar/sidebar.dart';
 
 class Dashboard extends StatefulWidget {
@@ -31,10 +32,10 @@ class _DashboardState extends State<Dashboard> {
     }
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Color(0xFFE5E5E5),
+      backgroundColor: kAppBackgroundColor,
       appBar: AppBar(
         toolbarHeight: 60,
-        backgroundColor: Color(0xFFE5E5E5),
+        backgroundColor: kAppBackgroundColor,
         elevation: 0,
         title: Center(
           child: Container(
@@ -43,7 +44,7 @@ class _DashboardState extends State<Dashboard> {
         leading: Padding(
           padding: const EdgeInsets.all(20.0),
           child: TextButton(
-            child: SvgPicture.asset('assets/icons/hamburger.svg'),
+            child: SvgPicture.asset('assets/images/hamburger.svg'),
             onPressed: () {
               _scaffoldKey.currentState.openDrawer();
             },
@@ -55,7 +56,7 @@ class _DashboardState extends State<Dashboard> {
             child: Container(
               width: 50,
               height: 50,
-              child: Image.asset('assets/icons/avatar.png'),
+              child: Image.asset('assets/images/avatar.png'),
             ),
           )
         ],
@@ -88,7 +89,7 @@ class _DashboardState extends State<Dashboard> {
                             fillColor: Colors.white,
                             onPressed: () {},
                             child: SvgPicture.asset(
-                                'assets/icons/pet_paw_icon.svg'),
+                                'assets/images/pet_paw_icon.svg'),
                           ),
                         ),
                       ),
