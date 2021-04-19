@@ -51,7 +51,7 @@ flutter:
   assets:
     - assets/the_pet_nest.png
     - assets/login_bg.jpg
-    - assets/india_icon.png
+    - assets/images/india_icon.svg
     - assets/placeholder.png
     - assets/skillindia.png
     - assets/pettrainingimage.png

@@ -6,10 +6,11 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
 import 'package:the_pet_nest/main.dart' as app;
 
 void main() => run(_testMain);
+
+run(void Function() testMain) {}
 
 void _testMain() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

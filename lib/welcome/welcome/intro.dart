@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/konstants.dart';
 
-class Welcome extends StatelessWidget {
+class Intro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
