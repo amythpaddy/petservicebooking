@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:the_pet_nest/konstants.dart';
+import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/welcome/component/phoneNumberModule.dart';
 
 class MobileLogin extends StatefulWidget {

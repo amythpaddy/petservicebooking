@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/bookings/bookings.dart';
 import 'package:the_pet_nest/dashboard/component/BottomNavigationIcons.dart';
 import 'package:the_pet_nest/home/home.dart';
-import 'package:the_pet_nest/konstants.dart';
+import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/sidebar/sidebar.dart';
 
 class Dashboard extends StatefulWidget {
@@ -109,7 +109,10 @@ class _DashboardState extends State<Dashboard> {
                                       BottomNavigationOptions.HOME;
                                 });
                               },
-                              icon: Icons.home_filled,
+                              icon: navigationOptions ==
+                                      BottomNavigationOptions.HOME
+                                  ? 'assets/images/bottomNavigation/home_fill_icon.svg'
+                                  : 'assets/images/bottomNavigation/home_icon.svg',
                               color: navigationOptions ==
                                       BottomNavigationOptions.HOME
                                   ? activeColor
@@ -123,7 +126,10 @@ class _DashboardState extends State<Dashboard> {
                                       BottomNavigationOptions.BOOKING;
                                 });
                               },
-                              icon: Icons.list_alt,
+                              icon: navigationOptions ==
+                                      BottomNavigationOptions.BOOKING
+                                  ? 'assets/images/bottomNavigation/booking_fill_icon.svg'
+                                  : 'assets/images/bottomNavigation/booking_icon.svg',
                               color: navigationOptions ==
                                       BottomNavigationOptions.BOOKING
                                   ? activeColor
@@ -140,7 +146,10 @@ class _DashboardState extends State<Dashboard> {
                                       BottomNavigationOptions.INVITE;
                                 });
                               },
-                              icon: Icons.person_add_alt,
+                              icon: navigationOptions ==
+                                      BottomNavigationOptions.INVITE
+                                  ? 'assets/images/bottomNavigation/invite_fill_icon.svg'
+                                  : 'assets/images/bottomNavigation/invite_icon.svg',
                               color: navigationOptions ==
                                       BottomNavigationOptions.INVITE
                                   ? activeColor
@@ -154,7 +163,10 @@ class _DashboardState extends State<Dashboard> {
                                       BottomNavigationOptions.ME;
                                 });
                               },
-                              icon: Icons.person_outline,
+                              icon: navigationOptions ==
+                                      BottomNavigationOptions.ME
+                                  ? 'assets/images/bottomNavigation/me_fill_icon.svg'
+                                  : 'assets/images/bottomNavigation/me_icon.svg',
                               color: navigationOptions ==
                                       BottomNavigationOptions.ME
                                   ? activeColor

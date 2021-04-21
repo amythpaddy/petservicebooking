@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
-import 'package:the_pet_nest/konstants.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/welcome/login/login.dart';
 import 'package:the_pet_nest/welcome/otp/otp.dart';
 import 'package:the_pet_nest/welcome/register/register.dart';
@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.amber,
           fontFamily: 'Poppins',
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          cardTheme: CardTheme(shadowColor: Color(0x0c000000)),
         ),
         routes: {
           kNavigationLogin: (context) => MobileLogin(),

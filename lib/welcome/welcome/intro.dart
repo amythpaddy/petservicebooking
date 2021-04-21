@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:the_pet_nest/konstants.dart';
+import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 
 class Intro extends StatelessWidget {
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:the_pet_nest/konstants/styles.dart';
 
 class PetParentReviewCard extends StatelessWidget {
   final String name;
@@ -18,9 +19,12 @@ class PetParentReviewCard extends StatelessWidget {
       this.review});
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(12))),
+    return Container(
+      margin: EdgeInsets.only(right: 8.05),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [kContainerBoxShadow],
+          borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: EdgeInsets.all(10),
         child: Column(

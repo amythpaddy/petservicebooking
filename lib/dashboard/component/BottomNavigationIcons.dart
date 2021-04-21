@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BottomNavigationIcons extends StatelessWidget {
   final Color color;
   final String text;
-  final IconData icon;
+  final String icon;
   final int size;
   final Function onPressed;
 
@@ -15,14 +16,22 @@ class BottomNavigationIcons extends StatelessWidget {
       onPressed: onPressed,
       child: Column(
         children: [
-          Icon(
+          SvgPicture.asset(
             icon,
-            size: 35,
+            height: 20,
+            width: 19,
             color: color,
+          ),
+          SizedBox(
+            height: 4,
           ),
           Text(
             text,
-            style: TextStyle(fontWeight: FontWeight.w100, color: color),
+            style: TextStyle(
+                fontWeight: FontWeight.w400,
+                color: color,
+                height: 1,
+                fontSize: 12),
           )
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:the_pet_nest/konstants/styles.dart';
 
 class ServicesCard extends StatelessWidget {
   final String text;
@@ -9,11 +10,13 @@ class ServicesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 2),
+      margin: EdgeInsets.only(right: 9),
       width: 140,
-      // height: 122,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [kContainerBoxShadow],
+            borderRadius: BorderRadius.circular(18)),
         child: Column(
           children: [
             Container(

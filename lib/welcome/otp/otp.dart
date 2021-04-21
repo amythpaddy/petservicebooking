@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_pet_nest/konstants.dart';
+import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/welcome/otp/components/OTPTextBox.dart';
 
 class OtpEntry extends StatelessWidget {

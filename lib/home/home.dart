@@ -7,6 +7,8 @@ import 'package:the_pet_nest/home/component/servicesCard.dart';
 import 'package:the_pet_nest/home/model/petHeroesModel.dart';
 import 'package:the_pet_nest/home/model/petParentsReview.dart';
 import 'package:the_pet_nest/home/model/services_model.dart';
+import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/styles.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -231,6 +233,7 @@ class _HomeState extends State<Home> {
                 ),
                 Container(
                   height: 160,
+                  color: kAppBackgroundColor,
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
@@ -336,7 +339,8 @@ class _HomeState extends State<Home> {
           Column(
             children: [
               Container(
-                color: Colors.white,
+                decoration: BoxDecoration(
+                    color: Colors.white, boxShadow: [kContainerBoxShadow]),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Row(
@@ -363,9 +367,10 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Container(
+                decoration: BoxDecoration(
+                    color: Colors.white, boxShadow: [kContainerBoxShadow]),
                 margin: EdgeInsets.only(top: 13),
                 padding: EdgeInsets.symmetric(vertical: 16),
-                color: Colors.white,
                 child: Column(
                   children: [
                     Container(
@@ -412,7 +417,7 @@ class _HomeState extends State<Home> {
               Container(
                 margin: EdgeInsets.only(top: 13),
                 child: Text(
-                  'Reiews from Our Happy Pet Parrents',
+                  'Reiews from Our Happy Pet Parents',
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                 ),
               ),
@@ -439,7 +444,8 @@ class _HomeState extends State<Home> {
               Container(
                 margin: EdgeInsets.only(top: 12),
                 padding: EdgeInsets.symmetric(vertical: 12),
-                color: Colors.white,
+                decoration: BoxDecoration(
+                    color: Colors.white, boxShadow: [kContainerBoxShadow]),
                 child: Center(child: Image.asset('assets/skillindia.png')),
               )
             ],

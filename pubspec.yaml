@@ -73,6 +73,22 @@ flutter:
     - assets/images/home/how_it_work.svg
     - assets/images/pet_paw_icon.svg
     - assets/images/welcome/hero_image.svg
+    - assets/images/bottomNavigation/me_icon.svg
+    - assets/images/bottomNavigation/me_fill_icon.svg
+    - assets/images/bottomNavigation/invite_icon.svg
+    - assets/images/bottomNavigation/invite_fill_icon.svg
+    - assets/images/bottomNavigation/home_icon.svg
+    - assets/images/bottomNavigation/home_fill_icon.svg
+    - assets/images/bottomNavigation/booking_icon.svg
+    - assets/images/bottomNavigation/booking_fill_icon.svg
+    - assets/images/sidebar/login.svg
+    - assets/images/sidebar/logout.svg
+    - assets/images/sidebar/privacyPolicy.svg
+    - assets/images/sidebar/referNearn.svg
+    - assets/images/sidebar/registerAsPetPartner.svg
+    - assets/images/sidebar/shop.svg
+    - assets/images/sidebar/support.svg
+    - assets/images/sidebar/tnc.svg
 
   fonts:
     - family: Poppins

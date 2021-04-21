@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:the_pet_nest/konstants.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 
 class Sidebar extends StatelessWidget {
   bool loggedIn = false;
@@ -56,10 +57,7 @@ class Sidebar extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(
-              Icons.person_add_alt_1_outlined,
-              color: kAppIconColor,
-            ),
+            leading: SvgPicture.asset('assets/images/sidebar/referNearn.svg'),
             title: Text('Refer & Earn',
                 style: TextStyle(
                     color: Color(0xFF232C63),
@@ -72,10 +70,8 @@ class Sidebar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
-              Icons.app_registration,
-              color: kAppIconColor,
-            ),
+            leading: SvgPicture.asset(
+                'assets/images/sidebar/registerAsPetPartner.svg'),
             title: Text('Register as Pet Partner',
                 style: TextStyle(
                     color: Color(0xFF232C63),
@@ -88,10 +84,7 @@ class Sidebar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
-              Icons.star_border,
-              color: kAppIconColor,
-            ),
+            leading: SvgPicture.asset('assets/images/sidebar/support.svg'),
             title: Text('Support',
                 style: TextStyle(
                     color: Color(0xFF232C63),
@@ -104,10 +97,7 @@ class Sidebar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
-              Icons.shopping_cart_outlined,
-              color: kAppIconColor,
-            ),
+            leading: SvgPicture.asset('assets/images/sidebar/shop.svg'),
             title: Text('Shop',
                 style: TextStyle(
                     color: Color(0xFF232C63),
@@ -120,10 +110,8 @@ class Sidebar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
-              Icons.list_alt_rounded,
-              color: kAppIconColor,
-            ),
+            leading:
+                SvgPicture.asset('assets/images/sidebar/privacyPolicy.svg'),
             title: Text('Privacy & Policy',
                 style: TextStyle(
                     color: Color(0xFF232C63),
@@ -136,10 +124,8 @@ class Sidebar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(
-              Icons.shield,
-              color: kAppIconColor,
-            ),
+            leading: SvgPicture.asset(
+                'assets/images/sidebar/registerAsPetPartner.svg'),
             title: Text('Register as Pet Partner',
                 style: TextStyle(
                     color: Color(0xFF232C63),
@@ -155,10 +141,7 @@ class Sidebar extends StatelessWidget {
               child: Align(
             alignment: Alignment.bottomLeft,
             child: ListTile(
-              leading: Icon(
-                Icons.login_rounded,
-                color: kAppIconColor,
-              ),
+              leading: SvgPicture.asset('assets/images/sidebar/login.svg'),
               title: Text('Login',
                   style: TextStyle(
                       color: Color(0xFF232C63),

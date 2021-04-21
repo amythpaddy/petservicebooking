@@ -22,6 +22,9 @@ class PetServicesListDisplay extends StatelessWidget {
                 color: Color.fromARGB(50, 255, 191, 76)),
             child: SvgPicture.asset(image),
           ),
+          SizedBox(
+            height: 8.95,
+          ),
           Text(
             text,
             textAlign: TextAlign.center,
