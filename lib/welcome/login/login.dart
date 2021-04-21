@@ -100,8 +100,16 @@ class _MobileLoginState extends State<MobileLogin> {
                   ),
                   child: TextButton(
                     onPressed: numberValid
-                        ? () => {Navigator.pushNamed(context, kNavigationOtp)}
-                        : null,
+                        ? () => {
+                              Navigator.pushNamed(context, kNavigationOtp,
+                                  arguments: number)
+                            }
+                        : () =>
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content:
+                                  Text('Phone Number Should be of 10 digit '),
+                              duration: Duration(seconds: 1),
+                            )),
                     child: Text(
                       'Continue',
                       style: TextStyle(

@@ -3,9 +3,6 @@ import 'package:the_pet_nest/konstants.dart';
 import 'package:the_pet_nest/welcome/otp/components/OTPTextBox.dart';
 
 class OtpEntry extends StatelessWidget {
-  OtpEntry({this.number});
-  final String number;
-
   FocusNode digit1 = FocusNode();
   FocusNode digit2 = FocusNode();
   FocusNode digit3 = FocusNode();
@@ -35,6 +32,7 @@ class OtpEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String number = ModalRoute.of(context).settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBackgroundColor,

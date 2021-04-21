@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class PhoneNumberModule extends StatelessWidget {
   const PhoneNumberModule({this.onPhoneNumberChange});
@@ -20,8 +19,8 @@ class PhoneNumberModule extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            child: SvgPicture.asset(
-              'assets/images/india_icon.svg',
+            child: Image.asset(
+              'assets/images/india_icon.png',
               height: 22.53,
               width: 33.79,
             ),

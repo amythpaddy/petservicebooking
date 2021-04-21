@@ -2,16 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:the_pet_nest/konstants.dart';
 import 'package:the_pet_nest/welcome/component/phoneNumberModule.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
+  @override
+  _RegisterState createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  bool nameFilled = false;
+  bool emailFilled = false;
   bool numberValid = false;
+  String number = '';
+  void onPhoneNumberChange(String number) {
+    if (number.length == 10)
+      numberValid = true;
+    else
+      numberValid = false;
+    this.number = number;
+    setState(() {
+      numberValid;
+      number;
+    });
+  }
+
+  void onNameFilled(String name) {
+    setState(() {
+      nameFilled = name.length > 0 ? true : false;
+    });
+  }
+
+  void onEmailFilled(String email) {
+    setState(() {
+      emailFilled = email.length > 0 ? true : false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    String text;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBackgroundColor,
       ),
       body: Stack(children: [
-        Padding(
+        Container(
+          color: kAppBackgroundColor,
           padding: const EdgeInsets.only(left: 18.0, right: 18, top: 42),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,6 +86,7 @@ class Register extends StatelessWidget {
                 TextSpan(text: '*', style: TextStyle(color: kAppIconColor))
               ])),
               TextField(
+                onChanged: onNameFilled,
                 decoration: InputDecoration(
                   focusColor: Color(0x331A202E),
                   hintText: 'Enter name',
@@ -74,6 +109,7 @@ class Register extends StatelessWidget {
                 TextSpan(text: '*', style: TextStyle(color: kAppIconColor))
               ])),
               TextField(
+                onChanged: onEmailFilled,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   focusColor: Color(0x331A202E),
@@ -97,7 +133,8 @@ class Register extends StatelessWidget {
                 TextSpan(text: '*', style: TextStyle(color: kAppIconColor))
               ])),
               PhoneNumberModule(
-                onPhoneNumberChange: (String number) {},
+                onPhoneNumberChange: (String number) =>
+                    onPhoneNumberChange(number),
               ),
               SizedBox(
                 height: 75,
@@ -109,9 +146,23 @@ class Register extends StatelessWidget {
                   color: Color(0xFFff7716),
                 ),
                 child: TextButton(
-                  onPressed: numberValid
-                      ? () => {Navigator.pushNamed(context, kNavigationOtp)}
-                      : null,
+                  onPressed: numberValid && nameFilled && emailFilled
+                      ? () => {
+                            Navigator.pushNamed(context, kNavigationOtp,
+                                arguments: number)
+                          }
+                      : () => {
+                            if (!nameFilled)
+                              {text = 'Name is Mandatory'}
+                            else if (!emailFilled)
+                              {text = 'Email is Mandatory'}
+                            else if (!numberValid)
+                              {text = 'Phone Number Should be of 10 digit '},
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(text),
+                              duration: Duration(seconds: 1),
+                            ))
+                          },
                   child: Text(
                     'Register',
                     style: TextStyle(

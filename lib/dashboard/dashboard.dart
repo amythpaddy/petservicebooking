@@ -41,10 +41,12 @@ class _DashboardState extends State<Dashboard> {
           child: Container(
               width: 150, child: Image.asset('assets/the_pet_nest.png')),
         ),
-        leading: Padding(
-          padding: const EdgeInsets.all(20.0),
+        leading: Container(
           child: TextButton(
-            child: SvgPicture.asset('assets/images/hamburger.svg'),
+            child: SvgPicture.asset(
+              'assets/images/hamburger.svg',
+              color: Colors.black87,
+            ),
             onPressed: () {
               _scaffoldKey.currentState.openDrawer();
             },
