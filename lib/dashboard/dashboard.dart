@@ -4,6 +4,7 @@ import 'package:the_pet_nest/bookings/bookings.dart';
 import 'package:the_pet_nest/dashboard/component/BottomNavigationIcons.dart';
 import 'package:the_pet_nest/home/home.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/sidebar/sidebar.dart';
 
 class Dashboard extends StatefulWidget {
@@ -11,7 +12,7 @@ class Dashboard extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
-enum BottomNavigationOptions { HOME, BOOKING, INVITE, ME }
+enum BottomNavigationOptions { HOME, BOOKING, MESSAGE, ME }
 const Color activeColor = Color(0xFFFF7717);
 const Color inactiveColor = Color(0xFFB6B7B9);
 
@@ -55,10 +56,13 @@ class _DashboardState extends State<Dashboard> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: 50,
-              height: 50,
-              child: Image.asset('assets/images/avatar.png'),
+            child: TextButton(
+              onPressed:(){Navigator.pushNamed(context, kNavigationUserprofile);},
+              child: Container(
+                width: 50,
+                height: 50,
+                child: Image.asset('assets/images/avatar.png'),
+              ),
             ),
           )
         ],
@@ -143,18 +147,18 @@ class _DashboardState extends State<Dashboard> {
                               onPressed: () {
                                 setState(() {
                                   navigationOptions =
-                                      BottomNavigationOptions.INVITE;
+                                      BottomNavigationOptions.MESSAGE;
                                 });
                               },
                               icon: navigationOptions ==
-                                      BottomNavigationOptions.INVITE
-                                  ? 'assets/images/bottomNavigation/invite_fill_icon.svg'
-                                  : 'assets/images/bottomNavigation/invite_icon.svg',
+                                      BottomNavigationOptions.MESSAGE
+                                  ? 'assets/images/bottomNavigation/message_fill_icon.svg'
+                                  : 'assets/images/bottomNavigation/message_icon.svg',
                               color: navigationOptions ==
-                                      BottomNavigationOptions.INVITE
+                                      BottomNavigationOptions.MESSAGE
                                   ? activeColor
                                   : inactiveColor,
-                              text: 'Invite',
+                              text: 'Messages',
                             ),
                             BottomNavigationIcons(
                               onPressed: () {

@@ -125,8 +125,8 @@ class Sidebar extends StatelessWidget {
           ),
           ListTile(
             leading: SvgPicture.asset(
-                'assets/images/sidebar/registerAsPetPartner.svg'),
-            title: Text('Register as Pet Partner',
+                'assets/images/sidebar/tnc.svg'),
+            title: Text('Terms & Condition',
                 style: TextStyle(
                     color: Color(0xFF232C63),
                     fontWeight: FontWeight.w400,

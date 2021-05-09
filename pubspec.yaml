@@ -31,6 +31,7 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   flutter_svg: ^0.21.0+1
   shared_preferences: ^2.0.5
+  package_info: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +82,8 @@ flutter:
     - assets/images/bottomNavigation/home_fill_icon.svg
     - assets/images/bottomNavigation/booking_icon.svg
     - assets/images/bottomNavigation/booking_fill_icon.svg
+    - assets/images/bottomNavigation/message_icon.svg
+    - assets/images/bottomNavigation/message_fill_icon.svg
     - assets/images/sidebar/login.svg
     - assets/images/sidebar/logout.svg
     - assets/images/sidebar/privacyPolicy.svg
@@ -89,6 +92,15 @@ flutter:
     - assets/images/sidebar/shop.svg
     - assets/images/sidebar/support.svg
     - assets/images/sidebar/tnc.svg
+    - assets/images/bookings/no_bookings.svg
+    - assets/images/bookings/dog_placeholder.svg
+    - assets/images/bookings/cat_placeholder.svg
+    - assets/images/feedback/empty_star.svg
+    - assets/images/feedback/message_icon.svg
+    - assets/images/feedback/location.svg
+    - assets/images/feedback/placeholder.png
+    - assets/images/profile/edit.svg
+    - assets/images/profile/coupons.svg
 
   fonts:
     - family: Poppins

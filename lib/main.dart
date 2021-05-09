@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:the_pet_nest/bookings/feedback/feedback.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
+import 'package:the_pet_nest/profiles/userProfile/editProfile.dart';
+import 'package:the_pet_nest/profiles/userProfile/userProfile.dart';
 import 'package:the_pet_nest/welcome/login/login.dart';
 import 'package:the_pet_nest/welcome/otp/otp.dart';
 import 'package:the_pet_nest/welcome/register/register.dart';
@@ -26,7 +29,10 @@ class MyApp extends StatelessWidget {
           kNavigationDashboard: (context) => Dashboard(),
           kNavigationWelcome: (context) => Welcome(),
           kNavigationOtp: (context) => OtpEntry(),
-          kNavigationRegister: (context) => Register()
+          kNavigationRegister: (context) => Register(),
+          kNavigationFeedback: (context) => PetheroFeedback(),
+          kNavigationUserprofile: (context) => UserProfile(),
+          kNavigationEditUserprofile:(context)=> EditUserProfile()
         },
         initialRoute: kNavigationWelcome);
     // home: MobileLogin());
