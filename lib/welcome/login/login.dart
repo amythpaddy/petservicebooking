@@ -51,7 +51,7 @@ class _MobileLoginState extends State<MobileLogin> {
                           color: kAppIconColor,
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
-                          height: 1),
+                          height: 1.5),
                     ),
                   ),
                 ),
@@ -65,7 +65,7 @@ class _MobileLoginState extends State<MobileLogin> {
                       color: Color(0xFF232C63),
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
-                      height: 1),
+                      height: 1.5),
                 ),
                 SizedBox(
                   height: 51.59,
@@ -78,7 +78,7 @@ class _MobileLoginState extends State<MobileLogin> {
                         style: TextStyle(
                             color: Color(0xFF1A202E),
                             fontSize: 16,
-                            height: 1,
+                            height: 1.5,
                             fontWeight: FontWeight.w400)),
                     TextSpan(
                         text: '*',
@@ -117,7 +117,7 @@ class _MobileLoginState extends State<MobileLogin> {
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
-                          height: 1),
+                          height: 1.5),
                     ),
                   ),
                 ),

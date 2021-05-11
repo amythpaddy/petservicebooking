@@ -54,7 +54,7 @@ class OtpEntry extends StatelessWidget {
                     style: TextStyle(
                         color: kAppIconColor,
                         fontSize: 24,
-                        height: 1,
+                        height: 1.5,
                         fontWeight: FontWeight.w500),
                   ),
                 ),
@@ -65,7 +65,7 @@ class OtpEntry extends StatelessWidget {
                     child: Text(
                   'Check your messages. We`ve sent\nyou the PIN at (+91) $number',
                   style: TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 16, height: 1),
+                      fontWeight: FontWeight.w400, fontSize: 16, height: 1.5),
                 )),
                 SizedBox(
                   height: 66,
@@ -119,7 +119,7 @@ class OtpEntry extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
-                          height: 1),
+                          height: 1.5),
                     ),
                   ),
                 ),
@@ -142,7 +142,7 @@ class OtpEntry extends StatelessWidget {
                           color: Color(0xFF232C63),
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
-                          height: 1),
+                          height: 1.5),
                     ),
                   ),
                 )

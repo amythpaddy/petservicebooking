@@ -23,7 +23,7 @@ class MenuItem extends StatelessWidget {
                   color: Color(0xFF232C63),
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
-                  height: 1),
+                  height: 1.5),
             ),
           ),
           Icon(Icons.keyboard_arrow_right, color: kAppIconColor,),

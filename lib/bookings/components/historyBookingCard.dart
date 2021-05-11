@@ -50,7 +50,7 @@ class HistoryBookingCard extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
-                            height: 1),
+                            height: 1.5),
                       ),
                       flex: 3,
                     ),
@@ -62,7 +62,7 @@ class HistoryBookingCard extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 10,
-                              height: 1,
+                              height: 1.5,
                               color: Color(0xFF0C0F15))),
                     )
                   ],
@@ -71,14 +71,14 @@ class HistoryBookingCard extends StatelessWidget {
                   dateTime,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 12, height: 1),
+                      fontWeight: FontWeight.w400, fontSize: 12, height: 1.5),
                 )
               ],
             ),
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 8.25),
-            height: 1,
+            height: 1.5,
             color: Color.fromARGB(16, 00, 0, 0),
           ),
           Container(
@@ -93,7 +93,7 @@ class HistoryBookingCard extends StatelessWidget {
                     Text(
                       petName,
                       style: TextStyle(
-                          fontWeight: FontWeight.w500, fontSize: 16, height: 1),
+                          fontWeight: FontWeight.w500, fontSize: 16, height: 1.5),
                     ),
                     Text.rich(TextSpan(children: [
                       TextSpan(
@@ -101,14 +101,14 @@ class HistoryBookingCard extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              height: 1)),
+                              height: 1.5)),
                       TextSpan(
                           text: petHero,
                           style: TextStyle(
                               color: kAppIconColor,
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              height: 1))
+                              height: 1.5))
                     ])),
                     Text.rich(TextSpan(children: [
                       WidgetSpan(
@@ -121,13 +121,13 @@ class HistoryBookingCard extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              height: 1)),
+                              height: 1.5)),
                     ])),
                   ],
                 ),
                 Expanded(
                     child: SizedBox(
-                  height: 1,
+                  height: 1.5,
                 )),
                 Container(
                   child: Text(
@@ -137,7 +137,7 @@ class HistoryBookingCard extends StatelessWidget {
                             cancelled ? Color(0xFFFF5B5B) : Color(0xFF00BE63),
                         fontWeight: FontWeight.w400,
                         fontSize: 12,
-                        height: 1),
+                        height: 1.5),
                   ),
                   decoration: BoxDecoration(
                       color: cancelled
@@ -166,7 +166,7 @@ class HistoryBookingCard extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              height: 1,
+                              height: 1.5,
                               color: kAppIconColor))))
             ],
           ):
@@ -185,7 +185,7 @@ class HistoryBookingCard extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              height: 1,
+                              height: 1.5,
                               color: kAppIconColor)))),
               TextButton(
                   onPressed: () {
@@ -203,7 +203,7 @@ class HistoryBookingCard extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 14,
-                          height: 1,
+                          height: 1.5,
                           color: Colors.white),
                     ),
                   ))

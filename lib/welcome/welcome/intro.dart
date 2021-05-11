@@ -36,7 +36,7 @@ class Intro extends StatelessWidget {
                   style: TextStyle(
                       color: kAppIconColor,
                       fontSize: 18,
-                      height: 1,
+                      height: 1.5,
                       fontWeight: FontWeight.w700),
                 )),
             Positioned(
@@ -47,7 +47,7 @@ class Intro extends StatelessWidget {
                   style: TextStyle(
                       color: Color(0xFF232C63),
                       fontSize: 16,
-                      height: 1,
+                      height: 1.5,
                       fontWeight: FontWeight.w300),
                 )),
             Positioned(
@@ -69,7 +69,7 @@ class Intro extends StatelessWidget {
                                 color: kAppIconColor,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16,
-                                height: 1),
+                                height: 1.5),
                           )),
                     ),
                     SizedBox(
@@ -91,7 +91,7 @@ class Intro extends StatelessWidget {
                                 color: Colors.white,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16,
-                                height: 1),
+                                height: 1.5),
                           )),
                     )
                   ],
@@ -107,7 +107,7 @@ class Intro extends StatelessWidget {
                     'Skip',
                     style: TextStyle(
                         fontSize: 16,
-                        height: 1,
+                        height: 1.5,
                         fontWeight: FontWeight.w500,
                         color: Color(0xFF232C63)),
                   ),

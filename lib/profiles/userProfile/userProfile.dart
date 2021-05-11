@@ -41,7 +41,7 @@ class _UserProfileState extends State<UserProfile> {
               color: kAppIconColor,
               fontWeight: FontWeight.w600,
               fontSize: 18,
-              height: 1),
+              height: 1.5),
         ),
         backgroundColor: kAppBackgroundAltGray,
         elevation: 0,
@@ -74,7 +74,7 @@ class _UserProfileState extends State<UserProfile> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
-                                height: 1),
+                                height: 1.5),
                           ),
                           Text(
                             'Delhi, Add Line1,110011',
@@ -82,7 +82,7 @@ class _UserProfileState extends State<UserProfile> {
                                 color: Color(0xFF232C63),
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12,
-                                height: 1),
+                                height: 1.5),
                           )
                         ],
                       )),
@@ -175,7 +175,7 @@ class _UserProfileState extends State<UserProfile> {
               ),
               SizedBox(height: 72,),
               Center(
-                child: Text('Version $versionNumber',style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w400,fontSize: 16, height: 1),),
+                child: Text('Version $versionNumber',style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w400,fontSize: 16, height: 1.5),),
               )
             ],
           ),

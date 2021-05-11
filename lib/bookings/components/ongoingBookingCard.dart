@@ -39,49 +39,44 @@ class OngoingBookingCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Text(
-                        serviceName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            height: 1),
-                      ),
-                      flex:3,
+                    Text(
+                      serviceName,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          height: 1.5),
                     ),
-                    Expanded(
-                        child: SizedBox()),
-                    Expanded(
-flex: 2,
-                      child: Text('Order id: $orderId',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 10,
-                              height: 1,
-                              color: Color(0xFF0C0F15))),
-                    )
+
+                    Text('Order id: $orderId',
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10,
+                            height: 1.5,
+                            color: Color(0xFF0C0F15)))
                   ],
                 ),
                 Text(
                   dateTime,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 12, height: 1),
+                      fontWeight: FontWeight.w400, fontSize: 12, height: 1.5),
                 )
               ],
             ),
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 8.25),
-            height: 1,
+            height: 1.5,
             color: Color.fromARGB(16, 00, 0, 0),
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SvgPicture.asset('assets/images/bookings/dog_placeholder.svg'),
                 Column(
@@ -90,7 +85,7 @@ flex: 2,
                     Text(
                       petName,
                       style: TextStyle(
-                          fontWeight: FontWeight.w500, fontSize: 16, height: 1),
+                          fontWeight: FontWeight.w500, fontSize: 16, height: 1.5),
                     ),
                     Text.rich(TextSpan(
                         children: [
@@ -99,14 +94,14 @@ flex: 2,
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              height: 1)),
+                              height: 1.5)),
                       TextSpan(
                           text: petHero,
                           style: TextStyle(
                               color: kAppIconColor,
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              height: 1))
+                              height: 1.5))
                     ])),
                     Text.rich(TextSpan(children: [
                       WidgetSpan(
@@ -119,7 +114,7 @@ flex: 2,
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              height: 1)),
+                              height: 1.5)),
                     ])),
                   ],
                 ),
@@ -131,7 +126,7 @@ flex: 2,
                         color: kAppIconColor,
                         fontWeight: FontWeight.w400,
                         fontSize: 12,
-                        height: 1),
+                        height: 1.5),
                   ),
                   decoration: BoxDecoration(
                       color: Color.fromARGB(40, 255, 119, 23),

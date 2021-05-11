@@ -11,15 +11,15 @@ const kInactiveButtonTextStyle = TextStyle(
     color: Color(0xFF0C0F15),
     fontWeight: FontWeight.w400,
     fontSize: 16,
-    height: 1);
+    height: 1.5);
 const kActiveButtonTextStyle = TextStyle(
-    color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16, height: 1);
+    color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16, height: 1.5);
 const kActiveButtonContainerStyle = BoxDecoration(
     color: kActiveButtonColor,
     borderRadius: BorderRadius.all(Radius.circular(8)),
     boxShadow: [kContainerBoxShadow]);
 const kActiveButtonOutlineTextStyle = TextStyle(
-    color: kAppIconColor, fontWeight: FontWeight.w400, fontSize: 16, height: 1);
+    color: kAppIconColor, fontWeight: FontWeight.w400, fontSize: 16, height: 1.5);
 const kActiveButtonOutlineContainerStyle = BoxDecoration(
     border: Border(
       top: BorderSide(color: kAppIconColor),

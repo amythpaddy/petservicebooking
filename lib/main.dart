@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.amber,
           fontFamily: 'Poppins',
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+          visualDensity: VisualDensity.standard,
           cardTheme: CardTheme(shadowColor: Color(0x0c000000)),
         ),
         routes: {

@@ -29,7 +29,7 @@ class PetServicesListDisplay extends StatelessWidget {
             text,
             textAlign: TextAlign.center,
             style:
-                TextStyle(fontWeight: FontWeight.w400, fontSize: 11, height: 1),
+                TextStyle(fontWeight: FontWeight.w400, fontSize: 11, height: 1.5),
           )
         ],
       ),

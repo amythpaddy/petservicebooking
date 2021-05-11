@@ -25,7 +25,7 @@ class UserDetailInput extends StatelessWidget {
               style: TextStyle(
                   color: Color(0xFF1A202E),
                   fontSize: 16,
-                  height: 1,
+                  height: 1.5,
                   fontWeight: FontWeight.w400)),
           required
               ? TextSpan(text: '*', style: TextStyle(color: kAppIconColor))

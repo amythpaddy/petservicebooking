@@ -59,7 +59,7 @@ class _RegisterState extends State<Register> {
                       color: kAppIconColor,
                       fontWeight: FontWeight.w600,
                       fontSize: 24,
-                      height: 1),
+                      height: 1.5),
                 ),
               ),
               SizedBox(
@@ -71,7 +71,7 @@ class _RegisterState extends State<Register> {
                         color: Color(0xFF232C63),
                         fontWeight: FontWeight.w400,
                         fontSize: 18,
-                        height: 1)),
+                        height: 1.5)),
               ),
               SizedBox(
                 height: 25,
@@ -82,7 +82,7 @@ class _RegisterState extends State<Register> {
                     style: TextStyle(
                         color: Color(0xFF1A202E),
                         fontSize: 16,
-                        height: 1,
+                        height: 1.5,
                         fontWeight: FontWeight.w400)),
                 TextSpan(text: '*', style: TextStyle(color: kAppIconColor))
               ])),
@@ -105,7 +105,7 @@ class _RegisterState extends State<Register> {
                     style: TextStyle(
                         color: Color(0xFF1A202E),
                         fontSize: 16,
-                        height: 1,
+                        height: 1.5,
                         fontWeight: FontWeight.w400)),
                 TextSpan(text: '*', style: TextStyle(color: kAppIconColor))
               ])),
@@ -129,7 +129,7 @@ class _RegisterState extends State<Register> {
                     style: TextStyle(
                         color: Color(0xFF1A202E),
                         fontSize: 16,
-                        height: 1,
+                        height: 1.5,
                         fontWeight: FontWeight.w400)),
                 TextSpan(text: '*', style: TextStyle(color: kAppIconColor))
               ])),
@@ -170,7 +170,7 @@ class _RegisterState extends State<Register> {
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
-                        height: 1),
+                        height: 1.5),
                   ),
                 ),
               ),

@@ -33,7 +33,7 @@ class Sidebar extends StatelessWidget {
                               color: Color(0xFF232C63),
                               fontWeight: FontWeight.w300,
                               fontSize: 12,
-                              height: 1),
+                              height: 1.5),
                         ))),
                 Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
@@ -51,7 +51,7 @@ class Sidebar extends StatelessWidget {
                               color: Colors.white,
                               fontWeight: FontWeight.w300,
                               fontSize: 12,
-                              height: 1),
+                              height: 1.5),
                         )))
               ],
             ),
@@ -63,7 +63,7 @@ class Sidebar extends StatelessWidget {
                     color: Color(0xFF232C63),
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
-                    height: 1)),
+                    height: 1.5)),
             onTap: () {
               // Update the state of the app.
               // ...
@@ -77,7 +77,7 @@ class Sidebar extends StatelessWidget {
                     color: Color(0xFF232C63),
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
-                    height: 1)),
+                    height: 1.5)),
             onTap: () {
               // Update the state of the app.
               // ...
@@ -90,7 +90,7 @@ class Sidebar extends StatelessWidget {
                     color: Color(0xFF232C63),
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
-                    height: 1)),
+                    height: 1.5)),
             onTap: () {
               // Update the state of the app.
               // ...
@@ -103,7 +103,7 @@ class Sidebar extends StatelessWidget {
                     color: Color(0xFF232C63),
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
-                    height: 1)),
+                    height: 1.5)),
             onTap: () {
               // Update the state of the app.
               // ...
@@ -117,7 +117,7 @@ class Sidebar extends StatelessWidget {
                     color: Color(0xFF232C63),
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
-                    height: 1)),
+                    height: 1.5)),
             onTap: () {
               // Update the state of the app.
               // ...
@@ -131,7 +131,7 @@ class Sidebar extends StatelessWidget {
                     color: Color(0xFF232C63),
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
-                    height: 1)),
+                    height: 1.5)),
             onTap: () {
               // Update the state of the app.
               // ...
@@ -147,7 +147,7 @@ class Sidebar extends StatelessWidget {
                       color: Color(0xFF232C63),
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
-                      height: 1)),
+                      height: 1.5)),
               onTap: () {
                 Navigator.pushNamed(context, kNavigationLogin);
               },

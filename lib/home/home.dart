@@ -277,21 +277,21 @@ class _HomeState extends State<Home> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 10,
-                                height: 1,
+                                height: 1.5,
                                 fontWeight: FontWeight.w400),
                           ),
                           Text('Schedule your\nappointment at\nhome',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 10,
-                                  height: 1,
+                                  height: 1.5,
                                   fontWeight: FontWeight.w400)),
                           Text(
                               'Sit back and relax!\nYour pet hero is on\nhis way',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 10,
-                                  height: 1,
+                                  height: 1.5,
                                   fontWeight: FontWeight.w400))
                         ],
                       ),
@@ -305,7 +305,7 @@ class _HomeState extends State<Home> {
                   margin: EdgeInsets.only(top: 13, bottom: 10),
                   child: Text(
                     'Pet Heroes of the month',
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17, height: 1.5),
                   ),
                 ),
                 ListView.builder(
@@ -322,7 +322,7 @@ class _HomeState extends State<Home> {
                             PetHeroes[index]['rating'].toString()));
                   },
                 ),
-                if (PetHeroes.length > 3) Center(child: Text('View More')),
+                if (PetHeroes.length > 3) Center(child: Text('View More',style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10, height: 1.5),)),
                 if (PetHeroes.length > 3)
                   Center(
                       child: Container(

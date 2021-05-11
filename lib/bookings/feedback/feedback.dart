@@ -29,10 +29,10 @@ class PetheroFeedback extends StatelessWidget {
               SizedBox(height: 21,),
               Image.asset('assets/images/feedback/placeholder.png'),
               SizedBox(height: 8.5),
-              Text(args.petHero,style: TextStyle(color: Colors.white, fontSize: 16,height: 1,fontWeight: FontWeight.w500),),
+              Text(args.petHero,style: TextStyle(color: Colors.white, fontSize: 16,height: 1.5,fontWeight: FontWeight.w500),),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [SvgPicture.asset('assets/images/feedback/location.svg'), Text(args.city,style:TextStyle(color: Colors.white, fontSize: 12,height: 1,fontWeight: FontWeight.w400))],
+                children: [SvgPicture.asset('assets/images/feedback/location.svg'), Text(args.city,style:TextStyle(color: Colors.white, fontSize: 12,height: 1.5,fontWeight: FontWeight.w400))],
               )
             ],
           ),
@@ -49,7 +49,7 @@ class PetheroFeedback extends StatelessWidget {
             Text(
               'How was your service?',
               style: TextStyle(
-                  fontWeight: FontWeight.w500, fontSize: 20, height: 1),
+                  fontWeight: FontWeight.w500, fontSize: 20, height: 1.5),
             ),
             RatingBar(
               itemCount: 5,

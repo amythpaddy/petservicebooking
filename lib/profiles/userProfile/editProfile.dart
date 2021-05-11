@@ -16,7 +16,7 @@ class EditUserProfile extends StatelessWidget {
               color: kAppIconColor,
               fontWeight: FontWeight.w600,
               fontSize: 18,
-              height: 1),
+              height: 1.5),
         ),
         backgroundColor: kAppBackgroundColor,
         elevation: 0,
