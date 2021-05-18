@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/profiles/petProfile/component/heading.dart';
 
 class UserDetailInput extends StatelessWidget {
   final String heading;
@@ -9,8 +9,15 @@ class UserDetailInput extends StatelessWidget {
   final Function onDataFilled;
   final String value;
 
-  const UserDetailInput({this.heading, this.hint, this.required = false, this.inputType = TextInputType
-          .text, this.onDataFilled, this.value='',Key key,}) : super(key: key);
+  const UserDetailInput({
+    this.heading,
+    this.hint,
+    this.required = false,
+    this.inputType = TextInputType.text,
+    this.onDataFilled,
+    this.value = '',
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,30 +26,33 @@ class UserDetailInput extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text.rich(TextSpan(children: [
-          TextSpan(
-              text: heading,
-              style: TextStyle(
-                  color: Color(0xFF1A202E),
-                  fontSize: 16,
-                  height: 1.5,
-                  fontWeight: FontWeight.w400)),
-          required
-              ? TextSpan(text: '*', style: TextStyle(color: kAppIconColor))
-              : null
-        ])),
-        TextField(
-          controller: _controller,
-          onChanged: onDataFilled,
-          decoration: InputDecoration(
-            focusColor: Color(0x331A202E),
-            hintText: hint,
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0x331A202E)),
-                borderRadius: BorderRadius.all(Radius.circular(12))),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0x331A202E)),
-                borderRadius: BorderRadius.all(Radius.circular(12))),
+        Heading(
+          heading: heading,
+          required: required,
+        ),
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Color(0x331A202E))),
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+          child: TextField(
+            controller: _controller,
+            onChanged: onDataFilled,
+            style: TextStyle(height: .75),
+            decoration: InputDecoration(
+                focusColor: Color(0x331A202E),
+                hintText: hint,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none
+                // focusedBorder: OutlineInputBorder(
+                //     borderSide: BorderSide(color: Color(0x331A202E)),
+                //     borderRadius: BorderRadius.all(Radius.circular(12))),
+                // border: OutlineInputBorder(
+                //     borderSide: BorderSide(color: Color(0x331A202E)),
+                //     borderRadius: BorderRadius.all(Radius.circular(12))),
+                ),
           ),
         ),
       ],

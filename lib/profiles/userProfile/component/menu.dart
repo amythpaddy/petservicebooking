@@ -14,7 +14,11 @@ class MenuItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 15),
       child: Row(
         children: [
-          SvgPicture.asset(icon),
+          SvgPicture.asset(
+            icon,
+            height: 22,
+            width: 22,
+          ),
           SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -26,7 +30,10 @@ class MenuItem extends StatelessWidget {
                   height: 1.5),
             ),
           ),
-          Icon(Icons.keyboard_arrow_right, color: kAppIconColor,),
+          Icon(
+            Icons.keyboard_arrow_right,
+            color: kAppIconColor,
+          ),
         ],
       ),
     );

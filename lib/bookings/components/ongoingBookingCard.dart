@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 
@@ -39,7 +38,7 @@ class OngoingBookingCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       serviceName,
@@ -48,7 +47,6 @@ class OngoingBookingCard extends StatelessWidget {
                           fontSize: 15,
                           height: 1.5),
                     ),
-
                     Text('Order id: $orderId',
                         textAlign: TextAlign.end,
                         style: TextStyle(
@@ -78,17 +76,21 @@ class OngoingBookingCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SvgPicture.asset('assets/images/bookings/dog_placeholder.svg'),
+                Image.asset('assets/images/profile/dog_avatar.png'),
+                SizedBox(
+                  width: 5,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       petName,
                       style: TextStyle(
-                          fontWeight: FontWeight.w500, fontSize: 16, height: 1.5),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          height: 1.5),
                     ),
-                    Text.rich(TextSpan(
-                        children: [
+                    Text.rich(TextSpan(children: [
                       TextSpan(
                           text: 'Pet Hero:',
                           style: TextStyle(
@@ -107,8 +109,10 @@ class OngoingBookingCard extends StatelessWidget {
                       WidgetSpan(
                           child: Icon(
                             Icons.star,
-                            color: kAppIconColor,
-                          )),
+                            color: Colors.amber,
+                            size: 14,
+                          ),
+                          alignment: PlaceholderAlignment.middle),
                       TextSpan(
                           text: petHeroRating,
                           style: TextStyle(
@@ -118,7 +122,10 @@ class OngoingBookingCard extends StatelessWidget {
                     ])),
                   ],
                 ),
-                Expanded(child: SizedBox(height: 1,)),
+                Expanded(
+                    child: SizedBox(
+                  height: 1,
+                )),
                 Container(
                   child: Text(
                     'On Going',
@@ -132,7 +139,8 @@ class OngoingBookingCard extends StatelessWidget {
                       color: Color.fromARGB(40, 255, 119, 23),
                       boxShadow: [kContainerBoxShadow],
                       borderRadius: BorderRadius.circular(6)),
-                  padding: EdgeInsets.symmetric(horizontal: 8.0,vertical: 3.75),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.75),
                 )
               ],
             ),

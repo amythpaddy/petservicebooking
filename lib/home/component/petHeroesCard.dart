@@ -74,11 +74,11 @@ class PetHeroesCard extends StatelessWidget {
               ],
             ),
             Container(
-              height: 56,
+              height: 60,
               width: 32,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(12)),
-                color: Color.fromARGB(50, 255, 119, 23),
+                color: Color.fromARGB(15, 255, 119, 23),
               ),
               child: Icon(
                 Icons.navigate_next,

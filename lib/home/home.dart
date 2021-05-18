@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/home/component/petHeroesCard.dart';
 import 'package:the_pet_nest/home/component/petParentReviewCard.dart';
 import 'package:the_pet_nest/home/component/petServicesDisplay.dart';
@@ -20,7 +21,7 @@ enum BottomNavigationOptions { HOME, BOOKING, INVITE, ME }
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    SizeConfig().init(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -36,28 +37,32 @@ class _HomeState extends State<Home> {
                       color: Colors.transparent,
                     ),
                     margin: EdgeInsets.only(right: 20),
-                    height: 162,
+                    height: SizeConfig.blockSizeVertical * 19.95,
                     child: Stack(
                       children: [
                         Positioned(
-                            child: Image.asset('assets/petgroomingimage.png')),
+                          child: Image.asset(
+                            'assets/petgroomingimage.png',
+                            fit: BoxFit.fill,
+                            height: SizeConfig.blockSizeVertical * 19.95,
+                            width: SizeConfig.blockSizeHorizontal * 89.33,
+                          ),
+                        ),
                         Positioned(
                             child: CustomPaint(
-                          size: Size(232, 162),
+                          size: Size(SizeConfig.blockSizeHorizontal * 61.86,
+                              SizeConfig.blockSizeVertical * 19.95),
                           painter: ServiceCardOrangePainter(),
                         )),
                         Positioned(
                             top: 28,
                             left: 18,
-                            child: Container(
-                              width: 163,
-                              child: Text(
-                                'Pet grooming service at Home',
-                                style: TextStyle(
-                                    color: Color(0xFF232C63),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15),
-                              ),
+                            child: Text(
+                              'Pet grooming service \nat Home',
+                              style: TextStyle(
+                                  color: Color(0xFF232C63),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15),
                             )),
                         Positioned(
                             top: 92,
@@ -229,7 +234,8 @@ class _HomeState extends State<Home> {
               children: [
                 Text(
                   'Services',
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700, fontSize: 17, height: 1.5),
                 ),
                 Container(
                   height: 160,
@@ -255,9 +261,9 @@ class _HomeState extends State<Home> {
                         height: 12,
                       ),
                       Text(
-                        'How it works?',
+                        'How it work?',
                         style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                             fontSize: 16,
                             color: Color(0xFF232C63)),
                       ),
@@ -305,7 +311,8 @@ class _HomeState extends State<Home> {
                   margin: EdgeInsets.only(top: 13, bottom: 10),
                   child: Text(
                     'Pet Heroes of the month',
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17, height: 1.5),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, fontSize: 17, height: 1.5),
                   ),
                 ),
                 ListView.builder(
@@ -322,7 +329,13 @@ class _HomeState extends State<Home> {
                             PetHeroes[index]['rating'].toString()));
                   },
                 ),
-                if (PetHeroes.length > 3) Center(child: Text('View More',style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10, height: 1.5),)),
+                if (PetHeroes.length > 3)
+                  Center(
+                      child: Text(
+                    'View More',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 10, height: 1.5),
+                  )),
                 if (PetHeroes.length > 3)
                   Center(
                       child: Container(
@@ -386,7 +399,7 @@ class _HomeState extends State<Home> {
                         Text(
                           'Pet Services at Home with Safety',
                           style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16),
+                              fontWeight: FontWeight.w600, fontSize: 16),
                         )
                       ]),
                     ),

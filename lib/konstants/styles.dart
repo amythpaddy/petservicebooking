@@ -13,13 +13,19 @@ const kInactiveButtonTextStyle = TextStyle(
     fontSize: 16,
     height: 1.5);
 const kActiveButtonTextStyle = TextStyle(
-    color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16, height: 1.5);
+    color: Colors.white,
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    height: 1.5);
 const kActiveButtonContainerStyle = BoxDecoration(
     color: kActiveButtonColor,
     borderRadius: BorderRadius.all(Radius.circular(8)),
     boxShadow: [kContainerBoxShadow]);
 const kActiveButtonOutlineTextStyle = TextStyle(
-    color: kAppIconColor, fontWeight: FontWeight.w400, fontSize: 16, height: 1.5);
+    color: kAppIconColor,
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    height: 1.5);
 const kActiveButtonOutlineContainerStyle = BoxDecoration(
     border: Border(
       top: BorderSide(color: kAppIconColor),
@@ -29,3 +35,9 @@ const kActiveButtonOutlineContainerStyle = BoxDecoration(
     ),
     borderRadius: BorderRadius.all(Radius.circular(8)),
     boxShadow: [kContainerBoxShadow]);
+
+const kAppBarTitleStyle = TextStyle(
+    color: kAppIconColor,
+    fontWeight: FontWeight.w600,
+    fontSize: 18,
+    height: 1.5);

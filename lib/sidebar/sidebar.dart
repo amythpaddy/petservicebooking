@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
+import 'package:the_pet_nest/sidebar/component/welcome/welcomeModal.dart';
 
 class Sidebar extends StatelessWidget {
   bool loggedIn = false;
@@ -25,8 +26,20 @@ class Sidebar extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: TextButton(
-                        onPressed: () =>
-                            Navigator.pushNamed(context, kNavigationLogin),
+                        onPressed: () {
+                          showModalBottomSheet(
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) => Theme(
+                              data: ThemeData(canvasColor: Colors.transparent),
+                              child: FractionallySizedBox(
+                                heightFactor: 0.75,
+                                child: WelcomeModal(),
+                              ),
+                            ),
+                          );
+                        },
+                        // Navigator.pushNamed(context, kNavigationLogin),
                         child: Text(
                           'Login',
                           style: TextStyle(
@@ -44,7 +57,9 @@ class Sidebar extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, kNavigationRegister);
+                        },
                         child: Text(
                           'Register',
                           style: TextStyle(
@@ -92,8 +107,7 @@ class Sidebar extends StatelessWidget {
                     fontSize: 14,
                     height: 1.5)),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushNamed(context, kNavigationSupport);
             },
           ),
           ListTile(
@@ -124,8 +138,7 @@ class Sidebar extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: SvgPicture.asset(
-                'assets/images/sidebar/tnc.svg'),
+            leading: SvgPicture.asset('assets/images/sidebar/tnc.svg'),
             title: Text('Terms & Condition',
                 style: TextStyle(
                     color: Color(0xFF232C63),
