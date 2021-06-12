@@ -6,7 +6,7 @@ import 'package:the_pet_nest/konstants/styles.dart';
 import 'package:the_pet_nest/support/component/supportCard.dart';
 
 class Support extends StatelessWidget {
-  const Support({Key key}) : super(key: key);
+  const Support({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +27,8 @@ class Support extends StatelessWidget {
           SizedBox(height: 62.65),
           SvgPicture.asset(
             'assets/images/support/support_banner.svg',
-            height: SizeConfig.blockSizeVertical * 18.23,
-            width: SizeConfig.blockSizeHorizontal * 54.93,
+            height: SizeConfig.blockSizeVertical! * 18.23,
+            width: SizeConfig.blockSizeHorizontal! * 54.93,
           ),
           SizedBox(
             height: 66,

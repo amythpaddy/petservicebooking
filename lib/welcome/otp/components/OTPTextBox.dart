@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OTPTextBox extends StatelessWidget {
-  OTPTextBox({this.onOTPChanged, this.focusNode});
+  OTPTextBox({required this.onOTPChanged, required this.focusNode});
   final void Function(String otp) onOTPChanged;
   final FocusNode focusNode;
 

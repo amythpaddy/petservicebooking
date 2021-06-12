@@ -15,17 +15,25 @@ class Sidebar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           DrawerHeader(
+            decoration: BoxDecoration(color: Color(0xFF9F9F9)),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    margin: EdgeInsets.only(right: 6, left: 52),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    constraints: BoxConstraints(
+                      minWidth: 72,
+                      minHeight: 23,
+                    ),
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: Color(0xFF232C63),
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: TextButton(
+                        style: ButtonStyle(
+                            padding:
+                                MaterialStateProperty.all(EdgeInsets.zero)),
                         onPressed: () {
                           showModalBottomSheet(
                             isScrollControlled: true,
@@ -33,7 +41,7 @@ class Sidebar extends StatelessWidget {
                             builder: (context) => Theme(
                               data: ThemeData(canvasColor: Colors.transparent),
                               child: FractionallySizedBox(
-                                heightFactor: 0.75,
+                                heightFactor: 1,
                                 child: WelcomeModal(),
                               ),
                             ),
@@ -48,8 +56,12 @@ class Sidebar extends StatelessWidget {
                               fontSize: 12,
                               height: 1.5),
                         ))),
+                SizedBox(
+                  width: 6,
+                ),
                 Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 14),
+                    constraints: BoxConstraints(minHeight: 23, minWidth: 76),
                     decoration: BoxDecoration(
                         color: Color(0xFF232C63),
                         border: Border.all(
@@ -60,6 +72,9 @@ class Sidebar extends StatelessWidget {
                         onPressed: () {
                           Navigator.pushNamed(context, kNavigationRegister);
                         },
+                        style: ButtonStyle(
+                            padding:
+                                MaterialStateProperty.all(EdgeInsets.zero)),
                         child: Text(
                           'Register',
                           style: TextStyle(

@@ -32,7 +32,7 @@ class OtpEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String number = ModalRoute.of(context).settings.arguments as String;
+    final String number = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBackgroundColor,

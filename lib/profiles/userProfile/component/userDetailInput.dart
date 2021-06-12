@@ -10,13 +10,13 @@ class UserDetailInput extends StatelessWidget {
   final String value;
 
   const UserDetailInput({
-    this.heading,
-    this.hint,
+    required this.heading,
+    this.hint = '',
     this.required = false,
     this.inputType = TextInputType.text,
-    this.onDataFilled,
+    required this.onDataFilled,
     this.value = '',
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -39,7 +39,7 @@ class UserDetailInput extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
           child: TextField(
             controller: _controller,
-            onChanged: onDataFilled,
+            onChanged: (data) => onDataFilled,
             style: TextStyle(height: .75),
             decoration: InputDecoration(
                 focusColor: Color(0x331A202E),

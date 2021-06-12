@@ -76,7 +76,7 @@ class _UserProfileState extends State<UserProfile> {
                                 height: 1.5),
                           ),
                           Text(
-                            'Delhi, Add Line1,110011',
+                            'ayeshach@gmail.com',
                             style: TextStyle(
                                 color: Color(0xFF232C63),
                                 fontWeight: FontWeight.w400,
@@ -101,14 +101,15 @@ class _UserProfileState extends State<UserProfile> {
               ),
               GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 3),
+                    crossAxisCount: 2,
+                    childAspectRatio: 3,
+                    mainAxisSpacing: 11,
+                    crossAxisSpacing: 11),
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-//                  return Text('test');
                   if (index == PetData.length)
                     return Container(
-                      margin: EdgeInsets.all(11),
                       decoration: BoxDecoration(
                           boxShadow: [kContainerBoxShadow],
                           color: Colors.white,
@@ -124,18 +125,20 @@ class _UserProfileState extends State<UserProfile> {
                             Icon(
                               Icons.add_circle,
                               color: kAppIconColor,
-                              size: 32,
-                            ),
-                            Text(
-                              'Add Pet',
-                              style: TextStyle(
-                                  color: kTextColorBlue,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.5),
+                              size: 36,
                             ),
                             SizedBox(
-                              width: 26.29,
+                              width: 11.45,
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Add Pet',
+                                style: TextStyle(
+                                    color: kTextColorBlue,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.5),
+                              ),
                             ),
                             Icon(
                               Icons.keyboard_arrow_right,
@@ -147,7 +150,6 @@ class _UserProfileState extends State<UserProfile> {
                     );
                   else
                     return Container(
-                      margin: EdgeInsets.all(11),
                       decoration: BoxDecoration(
                           boxShadow: [kContainerBoxShadow],
                           color: Colors.white,
@@ -161,6 +163,8 @@ class _UserProfileState extends State<UserProfile> {
                           children: [
                             Image.asset(
                               'assets/images/profile/dog_avatar.png',
+                              height: 46.16,
+                              width: 46.16,
                             ),
                             SizedBox(
                               width: 5,

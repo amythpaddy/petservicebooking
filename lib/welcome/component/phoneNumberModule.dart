@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PhoneNumberModule extends StatelessWidget {
-  const PhoneNumberModule({this.onPhoneNumberChange});
+  const PhoneNumberModule({required this.onPhoneNumberChange});
   final void Function(String number) onPhoneNumberChange;
 
   @override
@@ -27,8 +27,8 @@ class PhoneNumberModule extends StatelessWidget {
           ),
           Text(
             '+91',
-            style:
-                TextStyle(fontWeight: FontWeight.w400, fontSize: 16, height: 1.5),
+            style: TextStyle(
+                fontWeight: FontWeight.w400, fontSize: 16, height: 1.5),
           ),
           SizedBox(
             width: 41,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:the_pet_nest/bookings/feedback/component/feedbackOptions.dart';
-import 'package:the_pet_nest/konstants/colors.dart';
 
 class SwipeQuestionCard extends StatefulWidget {
   final String question;
@@ -9,7 +8,11 @@ class SwipeQuestionCard extends StatefulWidget {
   final String option3;
 
   SwipeQuestionCard(
-      {Key key, this.question, this.option1, this.option2, this.option3})
+      {Key? key,
+      required this.question,
+      required this.option1,
+      required this.option2,
+      required this.option3})
       : super(key: key);
 
   @override
@@ -19,9 +22,9 @@ class SwipeQuestionCard extends StatefulWidget {
 class _SwipeQuestionCardState extends State<SwipeQuestionCard> {
   int selected = 0;
 
-  void updateSelectedOption(optionNumber){
-    setState((){
-      selected=optionNumber;
+  void updateSelectedOption(optionNumber) {
+    setState(() {
+      selected = optionNumber;
     });
   }
 
@@ -56,7 +59,6 @@ class _SwipeQuestionCardState extends State<SwipeQuestionCard> {
               optionNumber: 3,
               text: widget.option3,
               onClick: updateSelectedOption,
-
             ),
           ],
         )

@@ -8,7 +8,7 @@ import 'package:the_pet_nest/profiles/petProfile/component/optionsChip.dart';
 import 'package:the_pet_nest/profiles/userProfile/component/userDetailInput.dart';
 
 class AddPetProfile extends StatefulWidget {
-  const AddPetProfile({Key key}) : super(key: key);
+  const AddPetProfile({Key? key}) : super(key: key);
 
   @override
   _AddPetProfileState createState() => _AddPetProfileState();
@@ -30,8 +30,8 @@ class _AddPetProfileState extends State<AddPetProfile> {
         backgroundColor: kAppBackgroundColor,
         elevation: 0,
       ),
+      backgroundColor: kAppBackgroundColor,
       body: Container(
-        color: kAppBackgroundColor,
         margin: EdgeInsets.all(23),
         child: SingleChildScrollView(
           child: Column(

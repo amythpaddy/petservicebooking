@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/config/sizeConfig.dart';
+import 'package:the_pet_nest/home/component/petGroomingHeroCard.dart';
 import 'package:the_pet_nest/home/component/petHeroesCard.dart';
 import 'package:the_pet_nest/home/component/petParentReviewCard.dart';
 import 'package:the_pet_nest/home/component/petServicesDisplay.dart';
+import 'package:the_pet_nest/home/component/petTrainingHeroCard.dart';
+import 'package:the_pet_nest/home/component/petVetHeroCard.dart';
 import 'package:the_pet_nest/home/component/servicesCard.dart';
 import 'package:the_pet_nest/home/model/petHeroesModel.dart';
 import 'package:the_pet_nest/home/model/petParentsReview.dart';
@@ -31,197 +34,9 @@ class _HomeState extends State<Home> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(22)),
-                      color: Colors.transparent,
-                    ),
-                    margin: EdgeInsets.only(right: 20),
-                    height: SizeConfig.blockSizeVertical * 19.95,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          child: Image.asset(
-                            'assets/petgroomingimage.png',
-                            fit: BoxFit.fill,
-                            height: SizeConfig.blockSizeVertical * 19.95,
-                            width: SizeConfig.blockSizeHorizontal * 89.33,
-                          ),
-                        ),
-                        Positioned(
-                            child: CustomPaint(
-                          size: Size(SizeConfig.blockSizeHorizontal * 61.86,
-                              SizeConfig.blockSizeVertical * 19.95),
-                          painter: ServiceCardOrangePainter(),
-                        )),
-                        Positioned(
-                            top: 28,
-                            left: 18,
-                            child: Text(
-                              'Pet grooming service \nat Home',
-                              style: TextStyle(
-                                  color: Color(0xFF232C63),
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15),
-                            )),
-                        Positioned(
-                            top: 92,
-                            left: 18,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                  color: Colors.white),
-                              child: FlatButton(
-                                textColor: Color(0xFF232C63),
-                                child: Text(
-                                  'Book Now',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14),
-                                ),
-                                onPressed: () {},
-                              ),
-                            ))
-                      ],
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(22)),
-                      color: Colors.transparent,
-                    ),
-                    margin: EdgeInsets.only(right: 20),
-                    height: 162,
-                    width: 365,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Image.asset('assets/vetimage.png'),
-                        ),
-                        Positioned(
-                            child: CustomPaint(
-                          size: Size(232, 162),
-                          painter: ServiceCardOrangePainter(),
-                        )),
-                        Positioned(
-                            top: 28,
-                            left: 18,
-                            child: Container(
-                              width: 231.63,
-                              child: Text(
-                                'Vet on call start from',
-                                style: TextStyle(
-                                    color: Color(0xFF232C63),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15),
-                              ),
-                            )),
-                        Positioned(
-                          left: 0,
-                          top: 57.26,
-                          child: CustomPaint(
-                            painter: PricePainter(),
-                            child: Container(
-                              padding: EdgeInsets.only(left: 20, right: 20),
-                              height: 24.74,
-                              child: Text.rich(TextSpan(children: [
-                                new TextSpan(
-                                  text: '499',
-                                  style: TextStyle(
-                                    color: Color(0xFF232C63),
-                                    fontSize: 15,
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
-                                ),
-                                new TextSpan(
-                                    text: ' /\u{20B9}199',
-                                    style: TextStyle(
-                                      color: Color(0xFF232C63),
-                                      fontSize: 15,
-                                    )),
-                              ])),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                            top: 92,
-                            left: 18,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                  color: Colors.white),
-                              child: FlatButton(
-                                textColor: Color(0xFF232C63),
-                                child: Text(
-                                  'Talk to Vet',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14),
-                                ),
-                                onPressed: () {},
-                              ),
-                            ))
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(right: 20),
-                    height: 162,
-                    width: 335,
-                    color: Colors.transparent,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                            child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(1)),
-                                child: Image.asset(
-                                  'assets/pettrainingimage.png',
-                                  fit: BoxFit.fill,
-                                ))),
-                        Positioned(
-                            right: 0,
-                            child: CustomPaint(
-                              size: Size(232, 162),
-                              painter: ServiceCardBluePainter(),
-                            )),
-                        Positioned(
-                            top: 28,
-                            left: 165,
-                            child: Container(
-                              width: 154,
-                              child: Text(
-                                'Dog training service at Home',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 14),
-                              ),
-                            )),
-                        Positioned(
-                            top: 92,
-                            right: 18,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                  color: Colors.white),
-                              child: FlatButton(
-                                textColor: Color(0xFFFF7717),
-                                child: Text(
-                                  'Schedule a Demo',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14),
-                                ),
-                                onPressed: () {},
-                              ),
-                            ))
-                      ],
-                    ),
-                  ),
+                  PetGroomingHeroCard(),
+                  PetVetHeroCard(),
+                  PetTrainingHeroCard(),
                 ],
               ),
             ),
@@ -247,8 +62,8 @@ class _HomeState extends State<Home> {
                     itemBuilder: (context, index) {
                       print(ServiceList[index]['image']);
                       return ServicesCard(
-                          text: ServiceList[index]['name'],
-                          svgPath: ServiceList[index]['image']);
+                          text: ServiceList[index]['name']!,
+                          svgPath: ServiceList[index]['image']!);
                     },
                   ),
                 ),
@@ -321,10 +136,11 @@ class _HomeState extends State<Home> {
                   itemCount: 3,
                   itemBuilder: (context, index) {
                     return PetHeroesCard(
-                        name: PetHeroes[index]['name'],
-                        service: PetHeroes[index]['job'],
-                        appointmentCompleted: PetHeroes[index]
-                            ['completed_appointments'],
+                        name: PetHeroes[index]['name'].toString(),
+                        service: PetHeroes[index]['job'].toString(),
+                        appointmentCompleted: int.parse(PetHeroes[index]
+                                ['completed_appointments']
+                            .toString()),
                         rating: double.parse(
                             PetHeroes[index]['rating'].toString()));
                   },
@@ -350,6 +166,7 @@ class _HomeState extends State<Home> {
             ),
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 decoration: BoxDecoration(
@@ -428,28 +245,28 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 13),
+                margin: EdgeInsets.only(top: 13, left: 20),
                 child: Text(
-                  'Reiews from Our Happy Pet Parents',
+                  'What our customer says',
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 20, top: 13),
-                height: 300,
+                height: 175,
                 child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: petParentReviews.length,
                   itemBuilder: (context, index) {
                     return PetParentReviewCard(
-                      name: petParentReviews[index]['name'],
-                      date: petParentReviews[index]['date'],
+                      name: petParentReviews[index]['name'].toString(),
+                      date: petParentReviews[index]['date'].toString(),
                       rating: double.parse(
                           petParentReviews[index]['rating'].toString()),
-                      userImage: petParentReviews[index]['userImage'],
-                      petImage: petParentReviews[index]['petImage'],
-                      review: petParentReviews[index]['review'],
+                      userImage:
+                          petParentReviews[index]['userImage'].toString(),
+                      review: petParentReviews[index]['review'].toString(),
                     );
                   },
                 ),
@@ -469,101 +286,5 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
-  }
-}
-
-class ServiceCardOrangePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint();
-    Path path = Path();
-
-    paint.color = Color(0xffFF7717);
-    path = Path();
-    path.lineTo(0, size.height * 0.14);
-    path.cubicTo(
-        0, size.height * 0.06, size.width * 0.04, 0, size.width * 0.1, 0);
-    path.cubicTo(size.width * 0.1, 0, size.width * 0.9, 0, size.width * 0.9, 0);
-    path.cubicTo(size.width * 0.97, 0, size.width, size.height * 0.08,
-        size.width, size.height * 0.17);
-    path.cubicTo(size.width, size.height * 0.17, size.width * 0.87,
-        size.height * 0.9, size.width * 0.87, size.height * 0.9);
-    path.cubicTo(size.width * 0.86, size.height * 0.96, size.width * 0.82,
-        size.height, size.width * 0.78, size.height);
-    path.cubicTo(size.width * 0.78, size.height, size.width * 0.1, size.height,
-        size.width * 0.1, size.height);
-    path.cubicTo(size.width * 0.04, size.height, 0, size.height * 0.94, 0,
-        size.height * 0.87);
-    path.cubicTo(
-        0, size.height * 0.87, 0, size.height * 0.14, 0, size.height * 0.14);
-    path.cubicTo(
-        0, size.height * 0.14, 0, size.height * 0.14, 0, size.height * 0.14);
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
-  }
-}
-
-class ServiceCardBluePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint();
-    Path path = Path();
-
-    // Path number 1
-
-    paint.color = Color(0xff232C63);
-    path = Path();
-    path.lineTo(size.width, size.height * 0.87);
-    path.cubicTo(size.width, size.height * 0.94, size.width * 0.96, size.height,
-        size.width * 0.9, size.height);
-    path.cubicTo(size.width * 0.9, size.height, size.width * 0.1, size.height,
-        size.width * 0.1, size.height);
-    path.cubicTo(size.width * 0.03, size.height, -0.01, size.height * 0.92, 0,
-        size.height * 0.84);
-    path.cubicTo(0, size.height * 0.84, size.width * 0.13, size.height * 0.11,
-        size.width * 0.13, size.height * 0.11);
-    path.cubicTo(size.width * 0.14, size.height * 0.05, size.width * 0.18, 0,
-        size.width * 0.22, 0);
-    path.cubicTo(
-        size.width * 0.22, 0, size.width * 0.9, 0, size.width * 0.9, 0);
-    path.cubicTo(size.width * 0.96, 0, size.width, size.height * 0.06,
-        size.width, size.height * 0.14);
-    path.cubicTo(size.width, size.height * 0.14, size.width, size.height * 0.87,
-        size.width, size.height * 0.87);
-    path.cubicTo(size.width, size.height * 0.87, size.width, size.height * 0.87,
-        size.width, size.height * 0.87);
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
-  }
-}
-
-class PricePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint();
-    Path path = Path();
-
-    paint.color = Colors.white;
-    path = Path()
-      ..moveTo(0, 0)
-      ..lineTo(size.width, 0)
-      ..lineTo(size.width - 10, size.height / 2)
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
   }
 }

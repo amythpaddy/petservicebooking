@@ -41,3 +41,7 @@ const kAppBarTitleStyle = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 18,
     height: 1.5);
+const kTabbedHeadingBlue = BoxDecoration(
+    color: kTextColorBlue,
+    borderRadius: BorderRadius.all(Radius.circular(42)),
+    boxShadow: [kContainerBoxShadow]);

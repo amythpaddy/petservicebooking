@@ -39,7 +39,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    String text;
+    late String text;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBackgroundColor,

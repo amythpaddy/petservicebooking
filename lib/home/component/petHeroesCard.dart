@@ -10,7 +10,10 @@ class PetHeroesCard extends StatelessWidget {
   // final ImageData image;
 
   const PetHeroesCard(
-      {this.name, this.service, this.appointmentCompleted, this.rating});
+      {required this.name,
+      required this.service,
+      required this.appointmentCompleted,
+      required this.rating});
   @override
   Widget build(BuildContext context) {
     return Container(

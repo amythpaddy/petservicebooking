@@ -6,7 +6,10 @@ class OptionsChip extends StatelessWidget {
   final bool selected;
   final Function onSelected;
   const OptionsChip(
-      {Key key, this.title, this.selected = false, this.onSelected})
+      {Key? key,
+      required this.title,
+      this.selected = false,
+      required this.onSelected})
       : super(key: key);
 
   @override
@@ -19,7 +22,7 @@ class OptionsChip extends StatelessWidget {
       child: TextButton(
         style: TextButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4.5)),
-        onPressed: onSelected,
+        onPressed: () => onSelected,
         child: Text(
           title,
           textAlign: TextAlign.center,

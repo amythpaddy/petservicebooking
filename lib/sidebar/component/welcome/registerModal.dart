@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
+import 'package:the_pet_nest/profiles/petProfile/component/heading.dart';
+import 'package:the_pet_nest/profiles/userProfile/component/userDetailInput.dart';
 import 'package:the_pet_nest/welcome/component/phoneNumberModule.dart';
 
 class RegisterModal extends StatefulWidget {
+  final Function registrationScreenResponse;
+
+  const RegisterModal({Key? key, required this.registrationScreenResponse})
+      : super(key: key);
   @override
-  _RegisterModalState createState() => _RegisterModalState();
+  _RegisterModalState createState() =>
+      _RegisterModalState(registrationScreenResponse);
 }
 
 class _RegisterModalState extends State<RegisterModal> {
+  final Function registrationScreenResponse;
   bool nameFilled = false;
   bool emailFilled = false;
   bool numberValid = false;
   String number = '';
+
+  _RegisterModalState(this.registrationScreenResponse);
   void onPhoneNumberChange(String number) {
     if (number.length == 10)
       numberValid = true;
@@ -39,150 +49,119 @@ class _RegisterModalState extends State<RegisterModal> {
 
   @override
   Widget build(BuildContext context) {
-    String text;
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kAppBackgroundColor,
-      ),
-      body: Stack(children: [
-        Container(
-          color: kAppBackgroundColor,
-          padding: const EdgeInsets.only(left: 18.0, right: 18, top: 42),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Center(
-                child: Text(
-                  'Let`s Register.',
-                  style: TextStyle(
-                      color: kAppIconColor,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24,
-                      height: 1.5),
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Center(
-                child: Text('Welcome!',
-                    style: TextStyle(
-                        color: Color(0xFF232C63),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                        height: 1.5)),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                    text: 'Name',
-                    style: TextStyle(
-                        color: Color(0xFF1A202E),
-                        fontSize: 16,
-                        height: 1.5,
-                        fontWeight: FontWeight.w400)),
-                TextSpan(text: '*', style: TextStyle(color: kAppIconColor))
-              ])),
-              TextField(
-                onChanged: onNameFilled,
-                decoration: InputDecoration(
-                  focusColor: Color(0x331A202E),
-                  hintText: 'Enter name',
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0x331A202E)),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                    text: 'Email',
-                    style: TextStyle(
-                        color: Color(0xFF1A202E),
-                        fontSize: 16,
-                        height: 1.5,
-                        fontWeight: FontWeight.w400)),
-                TextSpan(text: '*', style: TextStyle(color: kAppIconColor))
-              ])),
-              TextField(
-                onChanged: onEmailFilled,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  focusColor: Color(0x331A202E),
-                  hintText: 'Enter email',
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0x331A202E)),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                    text: 'Phone Number',
-                    style: TextStyle(
-                        color: Color(0xFF1A202E),
-                        fontSize: 16,
-                        height: 1.5,
-                        fontWeight: FontWeight.w400)),
-                TextSpan(text: '*', style: TextStyle(color: kAppIconColor))
-              ])),
-              PhoneNumberModule(
-                onPhoneNumberChange: (String number) =>
-                    onPhoneNumberChange(number),
-              ),
-              SizedBox(
-                height: 75,
-              ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Color(0xFFff7716),
-                ),
-                child: TextButton(
-                  onPressed: numberValid && nameFilled && emailFilled
-                      ? () => {
-                            Navigator.pushNamed(context, kNavigationOtp,
-                                arguments: number)
-                          }
-                      : () => {
-                            if (!nameFilled)
-                              {text = 'Name is Mandatory'}
-                            else if (!emailFilled)
-                              {text = 'Email is Mandatory'}
-                            else if (!numberValid)
-                              {text = 'Phone Number Should be of 10 digit '},
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(text),
-                              duration: Duration(seconds: 1),
-                            ))
-                          },
-                  child: Text(
-                    'Register',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        height: 1.5),
-                  ),
-                ),
-              ),
-            ],
+    late String text;
+    return Container(
+      // constraints: BoxConstraints.expand(),
+      margin: EdgeInsets.symmetric(horizontal: 20.5),
+      color: Colors.transparent,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 12.76,
           ),
-        ),
-        Container(
-          height: 3,
-          color: kAppIconColor,
-          width: MediaQuery.of(context).size.width * .5,
-        ),
-      ]),
+          Container(
+            height: 2,
+            width: 38.34,
+            decoration: BoxDecoration(
+                color: kAppIconColor, borderRadius: BorderRadius.circular(1)),
+          ),
+          SizedBox(
+            height: 33.24,
+          ),
+          Center(
+            child: Text(
+              'Let`s Register.',
+              style: TextStyle(
+                  color: kAppIconColor,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24,
+                  height: 1.5),
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Center(
+            child: Text('Welcome!',
+                style: TextStyle(
+                    color: Color(0xFF232C63),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                    height: 1.5)),
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          UserDetailInput(
+            heading: 'Name',
+            required: true,
+            hint: 'Enter Name',
+            onDataFilled: onNameFilled,
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          UserDetailInput(
+            heading: 'Email',
+            inputType: TextInputType.emailAddress,
+            required: true,
+            hint: 'Enter email',
+            onDataFilled: onEmailFilled,
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Heading(
+              heading: 'Phone Number',
+              required: true,
+            ),
+          ),
+          PhoneNumberModule(
+            onPhoneNumberChange: (String number) => onPhoneNumberChange(number),
+          ),
+          SizedBox(
+            height: 75,
+          ),
+          Container(
+            height: 50,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Color(0xFFff7716),
+            ),
+            child: TextButton(
+              onPressed: numberValid && nameFilled && emailFilled
+                  ? () => {
+                        Navigator.pushNamed(context, kNavigationOtp,
+                            arguments: number)
+                      }
+                  : () => {
+                        if (!nameFilled)
+                          {text = 'Name is Mandatory'}
+                        else if (!emailFilled)
+                          {text = 'Email is Mandatory'}
+                        else if (!numberValid)
+                          {text = 'Phone Number Should be of 10 digit '},
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(text),
+                          duration: Duration(seconds: 1),
+                        ))
+                      },
+              child: Text(
+                'Register',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                    height: 1.5),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

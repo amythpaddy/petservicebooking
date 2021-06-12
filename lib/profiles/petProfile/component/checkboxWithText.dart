@@ -7,13 +7,17 @@ class CheckboxWithText extends StatelessWidget {
   final String title;
   final Function onChanged;
 
-  const CheckboxWithText({Key key, this.selected, this.title, this.onChanged})
+  const CheckboxWithText(
+      {Key? key,
+      required this.selected,
+      required this.title,
+      required this.onChanged})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onChanged,
+      onPressed: () => onChanged,
       child: Row(
         children: [
           OutlineCheckbox(

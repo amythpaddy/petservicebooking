@@ -5,16 +5,21 @@ class BottomNavigationIcons extends StatelessWidget {
   final Color color;
   final String text;
   final String icon;
-  final int size;
+  final int? size;
   final Function onPressed;
 
   const BottomNavigationIcons(
-      {this.color, this.text, this.icon, this.size, this.onPressed});
+      {required this.color,
+      required this.text,
+      required this.icon,
+      this.size,
+      required this.onPressed});
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onPressed,
+      onPressed: () => onPressed,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(
             icon,

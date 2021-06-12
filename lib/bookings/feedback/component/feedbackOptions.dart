@@ -8,7 +8,11 @@ class FeedbackOptions extends StatelessWidget {
   final Function onClick;
 
   const FeedbackOptions(
-      {Key key, this.selected, this.optionNumber, this.text, this.onClick})
+      {Key? key,
+      required this.selected,
+      required this.optionNumber,
+      required this.text,
+      required this.onClick})
       : super(key: key);
 
   @override

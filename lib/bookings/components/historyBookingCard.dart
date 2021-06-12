@@ -15,14 +15,14 @@ class HistoryBookingCard extends StatelessWidget {
   final bool cancelled;
 
   const HistoryBookingCard(
-      {Key key,
-      this.serviceName,
-      this.petName,
-      this.petHero,
-      this.dateTime,
-      this.orderId,
-      this.petHeroRating,
-      this.cancelled})
+      {Key? key,
+      required this.serviceName,
+      required this.petName,
+      required this.petHero,
+      required this.dateTime,
+      required this.orderId,
+      required this.petHeroRating,
+      required this.cancelled})
       : super(key: key);
 
   @override

@@ -6,7 +6,8 @@ import 'package:the_pet_nest/konstants/styles.dart';
 class SupportCard extends StatelessWidget {
   final String title;
   final String image;
-  const SupportCard({this.title, this.image, Key key}) : super(key: key);
+  const SupportCard({required this.title, required this.image, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

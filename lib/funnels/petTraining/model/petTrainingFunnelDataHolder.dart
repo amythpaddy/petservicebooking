@@ -1,0 +1,3 @@
+class PetTrainingFunnelDataHolder {
+  String? location;
+}

@@ -24,8 +24,8 @@ class IntroModal extends StatelessWidget {
         Flexible(
             child: SvgPicture.asset(
           'assets/images/welcome/hero_image.svg',
-          width: SizeConfig.blockSizeHorizontal * 72.2,
-          height: SizeConfig.blockSizeVertical * 22.2,
+          width: SizeConfig.blockSizeHorizontal! * 72.2,
+          height: SizeConfig.blockSizeVertical! * 22.2,
         )),
         SizedBox(
           height: 67.55,
@@ -52,7 +52,7 @@ class IntroModal extends StatelessWidget {
               fontWeight: FontWeight.w300),
         ),
         SizedBox(
-          height: SizeConfig.blockSizeVertical * 14.5,
+          height: SizeConfig.blockSizeVertical! * 14.5,
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 16),
@@ -103,7 +103,7 @@ class IntroModal extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: SizeConfig.blockSizeVertical * 10.87,
+          height: SizeConfig.blockSizeVertical! * 10.87,
         )
       ],
     );

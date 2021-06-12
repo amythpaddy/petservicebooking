@@ -4,35 +4,62 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/bookings/feedback/component/dotIndicator.dart';
 import 'package:the_pet_nest/bookings/feedback/component/swipeQuestionCards.dart';
+import 'package:the_pet_nest/bookings/feedback/model/feedbackQuestions.dart';
 import 'package:the_pet_nest/bookings/model/feedbackDataHolder.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
-import 'package:the_pet_nest/bookings/feedback/model/feedbackQuestions.dart';
 
 class PetheroFeedback extends StatelessWidget {
-  FeedbackDataHolder args;
+  late FeedbackDataHolder args;
   PageController pageController = PageController(initialPage: 0);
 
 //  PageView feedbackQuestionsPV = ;
 
   @override
   Widget build(BuildContext context) {
-    args= ModalRoute.of(context).settings.arguments as FeedbackDataHolder;
+    args = ModalRoute.of(context)!.settings.arguments as FeedbackDataHolder;
 //    args = FeedbackDataHolder('Karan Johar', 'Delhi');
     return Scaffold(
       appBar: AppBar(
-        leading: Container(child: Icon(Icons.arrow_back,color: Colors.white,),alignment: Alignment.topCenter,margin: EdgeInsets.only(top: 18),),
+        leading: Container(
+          child: TextButton(
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+          alignment: Alignment.topCenter,
+          margin: EdgeInsets.only(top: 18),
+        ),
         centerTitle: true,
         title: Container(
           margin: EdgeInsets.only(right: 50),
           child: Column(
             children: [
-              SizedBox(height: 21,),
+              SizedBox(
+                height: 21,
+              ),
               Image.asset('assets/images/feedback/placeholder.png'),
               SizedBox(height: 8.5),
-              Text(args.petHero,style: TextStyle(color: Colors.white, fontSize: 16,height: 1.5,fontWeight: FontWeight.w500),),
+              Text(
+                args.petHero,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    height: 1.5,
+                    fontWeight: FontWeight.w500),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [SvgPicture.asset('assets/images/feedback/location.svg'), Text(args.city,style:TextStyle(color: Colors.white, fontSize: 12,height: 1.5,fontWeight: FontWeight.w400))],
+                children: [
+                  SvgPicture.asset('assets/images/feedback/location.svg'),
+                  Text(args.city,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          height: 1.5,
+                          fontWeight: FontWeight.w400))
+                ],
               )
             ],
           ),
@@ -60,6 +87,11 @@ class PetheroFeedback extends StatelessWidget {
                     color: Color(0xFFFFC107),
                     size: 36,
                   ),
+                  half: Icon(
+                    Icons.star_rounded,
+                    color: Color(0xFFFFC107),
+                    size: 36,
+                  ),
                   empty: Icon(Icons.star_outline_rounded,
                       size: 36, color: Color(0xFFFFC107))),
               onRatingUpdate: (rating) {},
@@ -82,14 +114,14 @@ class PetheroFeedback extends StatelessWidget {
                     controller: pageController,
                   ),
                   Positioned(
-                    bottom: 0,
+                      bottom: 0,
                       left: 0,
                       right: 0,
                       child: DotIndicator(
-                    controller: pageController,
-                    itemCount: feedbackQuestions.length,
-                        onPageSelected: (page){},
-                  ))
+                        controller: pageController,
+                        itemCount: feedbackQuestions.length,
+                        onPageSelected: (page) {},
+                      ))
                 ],
               ),
               height: 300,

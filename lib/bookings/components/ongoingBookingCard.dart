@@ -12,13 +12,13 @@ class OngoingBookingCard extends StatelessWidget {
   final String petHeroRating;
 
   const OngoingBookingCard(
-      {Key key,
-      this.serviceName,
-      this.petName,
-      this.petHero,
-      this.dateTime,
-      this.orderId,
-      this.petHeroRating})
+      {Key? key,
+      required this.serviceName,
+      required this.petName,
+      required this.petHero,
+      required this.dateTime,
+      required this.orderId,
+      required this.petHeroRating})
       : super(key: key);
 
   @override

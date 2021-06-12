@@ -22,8 +22,8 @@ class Welcome extends StatelessWidget {
               Center(
                   child: Image.asset(
                 'assets/the_pet_nest.png',
-                width: SizeConfig.blockSizeHorizontal * 43,
-                height: SizeConfig.blockSizeVertical * 5.5,
+                width: SizeConfig.blockSizeHorizontal! * 43,
+                height: SizeConfig.blockSizeVertical! * 5.5,
               )),
               SizedBox(
                 height: 62,
@@ -31,8 +31,8 @@ class Welcome extends StatelessWidget {
               Flexible(
                   child: SvgPicture.asset(
                 'assets/images/welcome/hero_image.svg',
-                width: SizeConfig.blockSizeHorizontal * 72.2,
-                height: SizeConfig.blockSizeVertical * 22.2,
+                width: SizeConfig.blockSizeHorizontal! * 72.2,
+                height: SizeConfig.blockSizeVertical! * 22.2,
               )),
               SizedBox(
                 height: 67.55,

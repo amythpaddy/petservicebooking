@@ -12,3 +12,4 @@ const String kNavigationPetProfile = '/pet-profile';
 const String kNavigationEditPetProfile = '/edit-pet-profile';
 const String kNavigationAddPetProfile = '/add-pet-profile';
 const String kNavigationSupport = '/get-support';
+const String kNavigationPetTrainingFunnel = '/pet-training';

@@ -5,7 +5,7 @@ class PetServicesListDisplay extends StatelessWidget {
   final String text;
   final String image;
 
-  const PetServicesListDisplay({this.text, this.image});
+  const PetServicesListDisplay({required this.text, required this.image});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -28,8 +28,8 @@ class PetServicesListDisplay extends StatelessWidget {
           Text(
             text,
             textAlign: TextAlign.center,
-            style:
-                TextStyle(fontWeight: FontWeight.w400, fontSize: 11, height: 1.5),
+            style: TextStyle(
+                fontWeight: FontWeight.w400, fontSize: 11, height: 1.5),
           )
         ],
       ),

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/bookings/bookings.dart';
 import 'package:the_pet_nest/dashboard/component/BottomNavigationIcons.dart';
+import 'package:the_pet_nest/dashboard/component/addPetPopup/addPetPopup.dart';
 import 'package:the_pet_nest/home/home.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
+import 'package:the_pet_nest/profiles/userProfile/userProfile.dart';
 import 'package:the_pet_nest/sidebar/sidebar.dart';
 
 class Dashboard extends StatefulWidget {
@@ -19,7 +21,7 @@ const Color inactiveColor = Color(0xFFB6B7B9);
 class _DashboardState extends State<Dashboard> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   BottomNavigationOptions navigationOptions = BottomNavigationOptions.HOME;
-  Widget fragment;
+  late Widget fragment;
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -30,6 +32,8 @@ class _DashboardState extends State<Dashboard> {
       case BottomNavigationOptions.BOOKING:
         fragment = Bookings();
         break;
+      case BottomNavigationOptions.ME:
+        fragment = UserProfile();
     }
     return Scaffold(
       key: _scaffoldKey,
@@ -40,7 +44,11 @@ class _DashboardState extends State<Dashboard> {
         elevation: 0,
         title: Center(
           child: Container(
-              width: 150, child: Image.asset('assets/the_pet_nest.png')),
+              width: 150,
+              child: Image.asset(
+                'assets/the_pet_nest.png',
+                height: 32.67,
+              )),
         ),
         leading: Container(
           child: TextButton(
@@ -49,20 +57,19 @@ class _DashboardState extends State<Dashboard> {
               color: Colors.black87,
             ),
             onPressed: () {
-              _scaffoldKey.currentState.openDrawer();
+              _scaffoldKey.currentState!.openDrawer();
             },
           ),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextButton(
-              onPressed:(){Navigator.pushNamed(context, kNavigationUserprofile);},
-              child: Container(
-                width: 50,
-                height: 50,
-                child: Image.asset('assets/images/avatar.png'),
-              ),
+          TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, kNavigationUserprofile);
+            },
+            child: Container(
+              width: 50,
+              height: 50,
+              child: Image.asset('assets/images/avatar.png'),
             ),
           )
         ],
@@ -86,14 +93,39 @@ class _DashboardState extends State<Dashboard> {
                         painter: BottomNavigationCustomPainter(),
                       ),
                       Center(
-                        heightFactor: 0.1,
+                        heightFactor: 0.15,
                         child: Container(
-                          height: 100,
-                          width: 100,
+                          height: 80,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: kAppIconColor.withOpacity(.3),
+                                spreadRadius: 4,
+                                blurRadius: 10,
+                                // offset: Offset(3, 3),
+                              ),
+                            ],
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(500),
+                          ),
                           child: RawMaterialButton(
                             shape: new CircleBorder(),
                             fillColor: Colors.white,
-                            onPressed: () {},
+                            onPressed: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (context) => Theme(
+                                  data: ThemeData(
+                                      canvasColor: Colors.transparent),
+                                  child: FractionallySizedBox(
+                                    heightFactor: 1,
+                                    child: AddPetPopup(),
+                                  ),
+                                ),
+                              );
+                            },
                             child: SvgPicture.asset(
                                 'assets/images/pet_paw_icon.svg'),
                           ),
@@ -198,15 +230,23 @@ class BottomNavigationCustomPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     Path path = Path()
-      ..moveTo(0, 0)
-      ..lineTo(size.width * .37, 0)
-      ..arcToPoint(Offset(size.width * .63, 0),
-          radius: Radius.circular(5.0), clockwise: false)
-      ..lineTo(size.width, 0)
+      ..moveTo(0, size.height * .25)
+      ..arcToPoint(Offset(size.width * .05, 0),
+          radius: Radius.circular(25.0), clockwise: true)
+      ..lineTo(size.width * .35, 0)
+      ..arcToPoint(Offset(size.width * .40, size.height * .25),
+          radius: Radius.circular(25.0), clockwise: true)
+      ..arcToPoint(Offset(size.width * .60, size.height * .25),
+          radius: Radius.circular(57.0), clockwise: false)
+      ..arcToPoint(Offset(size.width * .65, 0),
+          radius: Radius.circular(25.0), clockwise: true)
+      ..lineTo(size.width * .95, 0)
+      ..arcToPoint(Offset(size.width, size.height * .25),
+          radius: Radius.circular(25.0), clockwise: true)
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height);
 
-    canvas.drawShadow(path, Colors.black26, 50, true);
+    canvas.drawShadow(path, kAppIconColor, 3, true);
     canvas.drawPath(path, paint);
   }
 

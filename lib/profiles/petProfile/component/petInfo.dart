@@ -4,7 +4,8 @@ import 'package:the_pet_nest/konstants/colors.dart';
 class PetInfo extends StatelessWidget {
   final String heading;
   final String value;
-  const PetInfo({Key key, this.heading, this.value}) : super(key: key);
+  const PetInfo({Key? key, required this.heading, required this.value})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

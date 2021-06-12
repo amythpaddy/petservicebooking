@@ -6,7 +6,7 @@ class ServicesCard extends StatelessWidget {
   final String text;
   final String svgPath;
 
-  const ServicesCard({this.text, this.svgPath});
+  const ServicesCard({required this.text, required this.svgPath});
   @override
   Widget build(BuildContext context) {
     return Container(

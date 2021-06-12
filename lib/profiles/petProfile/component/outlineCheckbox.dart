@@ -5,7 +5,7 @@ class OutlineCheckbox extends StatelessWidget {
   final bool selected;
 
   const OutlineCheckbox({
-    Key key,
+    Key? key,
     this.selected = false,
   }) : super(key: key);
 

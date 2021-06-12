@@ -8,7 +8,7 @@ import 'package:the_pet_nest/profiles/petProfile/component/optionsChip.dart';
 import 'package:the_pet_nest/profiles/userProfile/component/userDetailInput.dart';
 
 class EditPetProfile extends StatefulWidget {
-  const EditPetProfile({Key key}) : super(key: key);
+  const EditPetProfile({Key? key}) : super(key: key);
 
   @override
   _EditPetProfileState createState() => _EditPetProfileState();
@@ -30,8 +30,8 @@ class _EditPetProfileState extends State<EditPetProfile> {
         backgroundColor: kAppBackgroundColor,
         elevation: 0,
       ),
+      backgroundColor: kAppBackgroundColor,
       body: Container(
-        color: kAppBackgroundColor,
         margin: EdgeInsets.all(23),
         child: SingleChildScrollView(
           child: Column(
@@ -239,6 +239,7 @@ class _EditPetProfileState extends State<EditPetProfile> {
                     child: Container(
                       decoration: kActiveButtonContainerStyle,
                       child: TextButton(
+                        onPressed: () {},
                         child: Text(
                           'Submit',
                           style: kActiveButtonTextStyle,
