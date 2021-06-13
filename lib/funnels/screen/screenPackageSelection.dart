@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/funnels/component/cardDatePicker.dart';
 import 'package:the_pet_nest/funnels/component/cardPackageInfo.dart';
+import 'package:the_pet_nest/funnels/component/timeSelectionCard.dart';
 import 'package:the_pet_nest/funnels/petTraining/model/petTrainingFunnelDataHolder.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
@@ -26,6 +28,7 @@ class _ScreenPackageSelectionState extends State<ScreenPackageSelection> {
   final PetTrainingFunnelDataHolder dataHolder;
   final Function screenPackageSelectionResponse;
   bool showDatePicker = false;
+  String dateSelected = '';
 
   PackageType _packageType = PackageType.INHOME;
 
@@ -61,11 +64,7 @@ class _ScreenPackageSelectionState extends State<ScreenPackageSelection> {
                   ),
                   Text(
                     'Choose a service package',
-                    style: TextStyle(
-                        color: kAppIconColor,
-                        fontSize: 24,
-                        height: 1.5,
-                        fontWeight: FontWeight.w600),
+                    style: kFunnelScreenHeadingTextStyle,
                   ),
                   SizedBox(
                     height: 16.19,
@@ -135,13 +134,83 @@ class _ScreenPackageSelectionState extends State<ScreenPackageSelection> {
                               initialDate: DateTime.now(),
                               firstDate: DateTime.now(),
                               lastDate: DateTime(DateTime.now().year,
-                                  DateTime.now().month + 1))
+                                  DateTime.now().month + 1),
+                              cancelText: 'Close',
+                              confirmText: 'Submit')
                           .then((data) {
                         hideDatePicker();
-                        print(data);
+                        setState(() {
+                          dateSelected = DateFormat('dd/MM/yy').format(data!);
+                        });
                       });
                     },
-                    child: Text('Select Date'),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12)),
+                      padding: EdgeInsets.all(15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            dateSelected.isNotEmpty ? dateSelected : 'dd/mm/yy',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                height: 1.5,
+                                color: dateSelected.isNotEmpty
+                                    ? Colors.black87
+                                    : Colors.grey),
+                          ),
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            color: kAppIconColor,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'Select Time',
+                    style: TextStyle(
+                        height: 1.5, fontWeight: FontWeight.w400, fontSize: 16),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 3.5,
+                          mainAxisSpacing: 11,
+                          crossAxisSpacing: 11),
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return TimeSelectionCard(
+                          selected: false,
+                          available: true,
+                        );
+                      }),
+                  SizedBox(
+                    height: 59,
+                  ),
+                  TextButton(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      width: double.infinity,
+                      decoration: kActiveButtonContainerStyle,
+                      child: Text(
+                        'Next',
+                        textAlign: TextAlign.center,
+                        style: kActiveButtonTextStyle,
+                      ),
+                    ),
+                    onPressed: () => screenPackageSelectionResponse(dataHolder),
+                  ),
+                  SizedBox(
+                    height: 69,
                   )
                 ],
               ),

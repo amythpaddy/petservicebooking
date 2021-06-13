@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:the_pet_nest/funnels/component/AppBarComponent.dart';
 import 'package:the_pet_nest/funnels/petTraining/model/petTrainingFunnelDataHolder.dart';
 import 'package:the_pet_nest/funnels/screen/ScreenAddressSelection.dart';
+import 'package:the_pet_nest/funnels/screen/screenBookingDetail.dart';
 import 'package:the_pet_nest/funnels/screen/screenPackageSelection.dart';
+import 'package:the_pet_nest/funnels/screen/screenPaymentMethod.dart';
 import 'package:the_pet_nest/funnels/screen/screenPetSelection.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 
@@ -17,8 +18,9 @@ enum PetTrainingStep {
   STEP_SELECT_LOCATION,
   STEP_SELECT_PET,
   STEP_CHOOSE_PACKAGE,
-  STEP_BOOKING_DETAILS,
+  STEP_SELECT_BOOKING_DETAILS,
   STEP_SELECT_DATE_TIME,
+  STEP_PAYMENT_METHOD,
   STEP_BOOKING_CONFIRMED,
   STEP_BOOKING_CANCELLED,
   STEP_SHOW_BOOKING_DETAILS
@@ -36,7 +38,7 @@ class _PetTrainingServiceState extends State<PetTrainingService> {
     this.dataHolder = dataHolder;
     setState(() {
       currentStep = PetTrainingStep.STEP_SELECT_PET;
-      _progressValue = 2 / _totalScreens;
+      _progressValue = 2;
     });
   }
 
@@ -44,15 +46,31 @@ class _PetTrainingServiceState extends State<PetTrainingService> {
     this.dataHolder = dataHolder;
     setState(() {
       currentStep = PetTrainingStep.STEP_CHOOSE_PACKAGE;
-      _progressValue = 3 / _totalScreens;
+      _progressValue = 3;
     });
   }
 
   void screenPackageSelectionResponse(PetTrainingFunnelDataHolder dataHolder) {
     this.dataHolder = dataHolder;
     setState(() {
-      currentStep = PetTrainingStep.STEP_SELECT_PET;
-      _progressValue = 4 / _totalScreens;
+      currentStep = PetTrainingStep.STEP_SELECT_BOOKING_DETAILS;
+      _progressValue = 4;
+    });
+  }
+
+  void screenBookingDetailResponse(PetTrainingFunnelDataHolder dataHolder) {
+    this.dataHolder = dataHolder;
+    setState(() {
+      currentStep = PetTrainingStep.STEP_PAYMENT_METHOD;
+      _progressValue = 5;
+    });
+  }
+
+  void screenPaymentMethodResponse(PetTrainingFunnelDataHolder dataHolder) {
+    this.dataHolder = dataHolder;
+    setState(() {
+      currentStep = PetTrainingStep.STEP_BOOKING_CONFIRMED;
+      _progressValue = 6;
     });
   }
 
@@ -76,9 +94,59 @@ class _PetTrainingServiceState extends State<PetTrainingService> {
           screenPackageSelectionResponse: screenPackageSelectionResponse,
         );
         break;
+      case PetTrainingStep.STEP_SELECT_BOOKING_DETAILS:
+        body = ScreenBookingDetail(
+          dataHolder: dataHolder,
+          screenBookingDetailResponse: screenBookingDetailResponse,
+        );
+        break;
+      case PetTrainingStep.STEP_PAYMENT_METHOD:
+        body = ScreenPaymentMethod(
+            screenPaymentMethodResponse: screenPaymentMethodResponse,
+            dataHolder: dataHolder);
+        break;
     }
     return Scaffold(
-      appBar: AppBarComponent(),
+      appBar: AppBar(
+        backgroundColor: kAppBackgroundAltGray,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            switch (currentStep) {
+              case PetTrainingStep.STEP_SELECT_LOCATION:
+              case PetTrainingStep.STEP_BOOKING_CANCELLED:
+              case PetTrainingStep.STEP_BOOKING_CONFIRMED:
+              case PetTrainingStep.STEP_SHOW_BOOKING_DETAILS:
+                Navigator.pop(context);
+                break;
+              case PetTrainingStep.STEP_SELECT_PET:
+                setState(() {
+                  currentStep = PetTrainingStep.STEP_SELECT_LOCATION;
+                  _progressValue = 1;
+                });
+                break;
+              case PetTrainingStep.STEP_CHOOSE_PACKAGE:
+                setState(() {
+                  currentStep = PetTrainingStep.STEP_SELECT_PET;
+                  _progressValue = 2;
+                });
+                break;
+              case PetTrainingStep.STEP_SELECT_BOOKING_DETAILS:
+                setState(() {
+                  currentStep = PetTrainingStep.STEP_CHOOSE_PACKAGE;
+                  _progressValue = 3;
+                });
+                break;
+              case PetTrainingStep.STEP_PAYMENT_METHOD:
+                setState(() {
+                  currentStep = PetTrainingStep.STEP_SELECT_BOOKING_DETAILS;
+                  _progressValue = 4;
+                });
+                break;
+            }
+          },
+        ),
+      ),
       backgroundColor: kAppBackgroundAltGray,
       resizeToAvoidBottomInset: true,
       body: Column(
@@ -86,7 +154,7 @@ class _PetTrainingServiceState extends State<PetTrainingService> {
           LinearProgressIndicator(
             backgroundColor: kAppBackgroundAltGray,
             color: kAppIconColor,
-            value: _progressValue,
+            value: _progressValue / _totalScreens,
           ),
           body
         ],

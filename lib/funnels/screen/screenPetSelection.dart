@@ -37,11 +37,7 @@ class _ScreenPetSelectionState extends State<ScreenPetSelection> {
           ),
           Text(
             'Who are we helping?',
-            style: TextStyle(
-                height: 1.5,
-                fontWeight: FontWeight.w600,
-                fontSize: 24,
-                color: kAppIconColor),
+            style: kFunnelScreenHeadingTextStyle,
           ),
           SizedBox(
             height: 33.62,

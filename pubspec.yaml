@@ -31,6 +31,7 @@ dependencies:
   flutter_svg: ^0.21.0+1
   shared_preferences: ^2.0.5
   package_info: ^2.0.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -110,6 +111,8 @@ flutter:
     - assets/images/funnels/icon_home.svg
     - assets/images/funnels/icon_add_home.svg
     - assets/images/funnels/package_cost_bg.png
+    - assets/images/funnels/icon_payment_cash.svg
+    - assets/images/funnels/icon_payment_online.svg
 
   fonts:
     - family: Poppins

@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:the_pet_nest/funnels/component/timeSelectionCard.dart';
+import 'package:the_pet_nest/konstants/colors.dart';
 
 const Size _calendarPortraitDialogSize = Size(330.0, 518.0);
 const Size _calendarLandscapeDialogSize = Size(496.0, 346.0);
@@ -508,16 +510,47 @@ class _CardDatePickerDialogState extends State<CardDatePickerDialog>
     final Widget actions = Container(
       alignment: AlignmentDirectional.centerEnd,
       constraints: const BoxConstraints(minHeight: 52.0),
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: OverflowBar(
-        spacing: 8,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      margin: EdgeInsets.only(bottom: 19),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           TextButton(
-            child: Text('new name'),
+            child: Container(
+              width: 106,
+              padding: EdgeInsets.symmetric(vertical: 6.5),
+              child: Text(
+                widget.cancelText ?? localizations.cancelButtonLabel,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    height: 1.5),
+              ),
+              decoration: BoxDecoration(
+                  color: Color(0xFF232C63),
+                  borderRadius: BorderRadius.circular(8)),
+            ),
             onPressed: _handleCancel,
           ),
           TextButton(
-            child: Text(widget.confirmText ?? localizations.okButtonLabel),
+            child: Container(
+              width: 106,
+              padding: EdgeInsets.symmetric(vertical: 6.5),
+              child: Text(
+                widget.confirmText ?? localizations.okButtonLabel,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    height: 1.5),
+              ),
+              decoration: BoxDecoration(
+                  color: kAppIconColor,
+                  borderRadius: BorderRadius.circular(12)),
+            ),
             onPressed: _handleOk,
           ),
         ],
@@ -606,6 +639,22 @@ class _CardDatePickerDialogState extends State<CardDatePickerDialog>
         break;
     }
 
+    final Widget timeGrid = GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 3.5,
+            mainAxisSpacing: 11,
+            crossAxisSpacing: 11),
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return TimeSelectionCard(
+            selected: false,
+            available: true,
+          );
+        });
+
     final Widget header = _DatePickerHeader(
       helpText: widget.helpText ?? localizations.datePickerHelpText,
       titleText: dateText,
@@ -629,20 +678,36 @@ class _CardDatePickerDialogState extends State<CardDatePickerDialog>
           child: Builder(builder: (BuildContext context) {
             switch (orientation) {
               case Orientation.portrait:
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    header,
-                    picker,
-                    Expanded(
-                      child: Text(
-                        'Time selector',
-                        style: TextStyle(color: Colors.black),
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      // header,
+                      picker,
+                      Divider(),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20.72),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Select Time',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16),
+                            ),
+                            timeGrid,
+                          ],
+                        ),
                       ),
-                    ),
-                    actions,
-                  ],
+                      SizedBox(
+                        height: 30,
+                      ),
+                      actions,
+                    ],
+                  ),
                 );
               case Orientation.landscape:
                 return Row(

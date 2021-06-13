@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_pet_nest/konstants/colors.dart';
 
 class AppBarComponent extends AppBar {
   @override
@@ -15,7 +16,7 @@ class AppBarComponent extends AppBar {
         alignment: Alignment.topCenter,
         margin: EdgeInsets.only(top: 18),
       ),
-      backgroundColor: Color(0xFF232C63),
+      backgroundColor: kAppBackgroundAltGray,
       toolbarHeight: 200,
     );
   }
