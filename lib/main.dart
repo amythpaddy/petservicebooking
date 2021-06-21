@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:the_pet_nest/bookings/feedback/feedback.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
 import 'package:the_pet_nest/funnels/petTraining/petTrarining.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/flavorValues/stagingValues.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/profiles/petProfile/addPetProfile.dart';
 import 'package:the_pet_nest/profiles/petProfile/editPetProfile.dart';
@@ -16,6 +18,11 @@ import 'package:the_pet_nest/welcome/register/register.dart';
 import 'package:the_pet_nest/welcome/welcome.dart';
 
 void main() {
+  FlavorConfig(
+      name: "DEV",
+      color: Colors.red,
+      location: BannerLocation.bottomStart,
+      variables: stagingValues);
   runApp(MyApp());
 }
 
@@ -62,7 +69,7 @@ class MyApp extends StatelessWidget {
           kNavigationSupport: (context) => Support(),
           kNavigationPetTrainingFunnel: (context) => PetTrainingService()
         },
-        initialRoute: kNavigationDashboard);
+        initialRoute: kNavigationWelcome);
     // home: MobileLogin());
   }
 }
