@@ -1,44 +1,16 @@
-import 'package:the_pet_nest/welcome/models/baseRequestModal.dart';
-
-class RegisterRequest extends BaseRequestModel {
-  String firstName = '';
-  String lastName = '';
-  String email = '';
-
-  RegisterRequest(
-      {required this.firstName,
-      required this.lastName,
-      required number,
-      required this.email})
-      : super(type: 'register_request ', number: number);
-
-  Map<String, dynamic> toJson() => {
-        'code': code,
-        'destination_type': 'phone',
-        'destination_value': number,
-        'user': {
-          'first_name': firstName,
-          'last_name': lastName,
-          'contact_number': number,
-          'email': email
-        }
-      };
-}
-
-class RegisterResponse {
+class CreateUserResponse {
   Data? data;
   Error? error;
 
-  RegisterResponse({required this.data, required this.error});
+  CreateUserResponse({this.data, this.error});
 
-  RegisterResponse.fromJson(Map<String, dynamic> json) {
+  CreateUserResponse.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     error = json['error'] != null ? new Error.fromJson(json['error']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -50,17 +22,48 @@ class RegisterResponse {
 }
 
 class Data {
-  String? expiredAt;
+  User? user;
 
-  Data({this.expiredAt});
+  Data({this.user});
 
   Data.fromJson(Map<String, dynamic> json) {
-    expiredAt = json['expired_at'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['expired_at'] = this.expiredAt;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    return data;
+  }
+}
+
+class User {
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? contactNumber;
+  String? email;
+
+  User(
+      {this.id, this.firstName, this.lastName, this.contactNumber, this.email});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+    contactNumber = json['contact_number'];
+    email = json['email'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
+    data['contact_number'] = this.contactNumber;
+    data['email'] = this.email;
     return data;
   }
 }

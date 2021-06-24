@@ -38,8 +38,8 @@ class UserDetailInput extends StatelessWidget {
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
           child: TextField(
-            controller: _controller,
-            onChanged: (data) => onDataFilled,
+            // controller: _controller,
+            onChanged: (data) => onDataFilled(data),
             style: TextStyle(height: .75),
             decoration: InputDecoration(
                 focusColor: Color(0x331A202E),

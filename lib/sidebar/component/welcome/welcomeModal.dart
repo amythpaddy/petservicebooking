@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/dashboard/component/addPetPopup/component/petInfoModal.dart';
 import 'package:the_pet_nest/dashboard/component/addPetPopup/component/petSelectModal.dart';
@@ -7,6 +8,8 @@ import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/sidebar/component/welcome/loginModal.dart';
 import 'package:the_pet_nest/sidebar/component/welcome/otpModal.dart';
 import 'package:the_pet_nest/sidebar/component/welcome/registerModal.dart';
+import 'package:the_pet_nest/welcome/models/loginDataModel.dart';
+import 'package:the_pet_nest/welcome/models/registerDataModel.dart';
 import 'package:the_pet_nest/welcome/welcome/intro.dart';
 
 class WelcomeModal extends StatefulWidget {
@@ -25,6 +28,7 @@ enum Screens {
 }
 
 class _WelcomeModalState extends State<WelcomeModal> {
+  late SharedPreferences prefs;
   Screens currentScreen = Screens.WELCOME_SCREEN;
   late Widget body;
   String phoneNumber = '';
@@ -33,6 +37,8 @@ class _WelcomeModalState extends State<WelcomeModal> {
   final double otpHeight = 552;
   final double selectPetHeight = 445;
   final double petInfoHeight = 672;
+  late LoginRequest? loginRequest;
+  late RegisterRequest? registerRequest;
 
   double heightProp = 616;
 
@@ -51,12 +57,13 @@ class _WelcomeModalState extends State<WelcomeModal> {
       });
   }
 
-  void loginScreenResponse(String response, String number) {
+  void loginScreenResponse(String response, LoginRequest request) {
+    loginRequest = request;
     if (response == kPopupSelectOTP)
       setState(() {
         currentScreen = Screens.OTP_SCREEN;
         heightProp = otpHeight;
-        phoneNumber = number;
+        phoneNumber = loginRequest!.number;
       });
     else if (response == kPopupSelectRegister)
       setState(() {
@@ -65,12 +72,13 @@ class _WelcomeModalState extends State<WelcomeModal> {
       });
   }
 
-  void registrationScreenResponse(String response, String number) {
+  void registrationScreenResponse(String response, RegisterRequest request) {
+    registerRequest = request;
     if (response == kPopupSelectOTP)
       setState(() {
         currentScreen = Screens.OTP_SCREEN;
         heightProp = otpHeight;
-        phoneNumber = number;
+        phoneNumber = registerRequest!.number;
       });
   }
 
@@ -106,7 +114,8 @@ class _WelcomeModalState extends State<WelcomeModal> {
         body = Intro(introScreenResponse: introScreenReponse);
         break;
       case Screens.LOGIN_SCREEN:
-        body = LoginModal(loginScreenResponse: loginScreenResponse);
+        body =
+            LoginModal(loginScreenResponse: loginScreenResponse, prefs: prefs);
         break;
       case Screens.REGISTER_SCREEN:
         body = RegisterModal(
@@ -114,7 +123,7 @@ class _WelcomeModalState extends State<WelcomeModal> {
         break;
       case Screens.OTP_SCREEN:
         body = OtpModal(
-          phoneNumber: phoneNumber,
+          requestModel: loginRequest ?? registerRequest!,
           optVerified: otpScreenResponse,
         );
         break;
@@ -149,5 +158,14 @@ class _WelcomeModalState extends State<WelcomeModal> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    initSharedPreference();
+  }
+
+  void initSharedPreference() async {
+    prefs = await SharedPreferences.getInstance();
   }
 }

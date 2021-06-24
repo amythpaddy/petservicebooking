@@ -8,6 +8,10 @@ class Sidebar extends StatelessWidget {
   bool loggedIn = false;
   Future<SharedPreferences> pref = SharedPreferences.getInstance();
 
+  void dismissDrawer(context) {
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -35,6 +39,7 @@ class Sidebar extends StatelessWidget {
                             padding:
                                 MaterialStateProperty.all(EdgeInsets.zero)),
                         onPressed: () {
+                          dismissDrawer(context);
                           showModalBottomSheet(
                             isScrollControlled: true,
                             context: context,

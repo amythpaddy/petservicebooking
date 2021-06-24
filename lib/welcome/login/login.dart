@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/welcome/bloc/login/loginBloc.dart';
 import 'package:the_pet_nest/welcome/bloc/login/loginState.dart';
@@ -15,10 +17,16 @@ class MobileLogin extends StatefulWidget {
 class _MobileLoginState extends State<MobileLogin> {
   LoginBloc _loginBloc = LoginBloc(LoginState());
   String number = '';
+  late SharedPreferences prefs;
   void onPhoneNumberChange(String number) {
     setState(() {
       this.number = number;
     });
+  }
+
+  @override
+  void initState() {
+    initSharedPref();
   }
 
   @override
@@ -40,7 +48,8 @@ class _MobileLoginState extends State<MobileLogin> {
                 }
                 if (state.openOtp) {
                   Navigator.pushNamed(context, kNavigationOtp,
-                      arguments: LoginRequest(number));
+                      arguments: LoginRequest(
+                          phone: number, id: prefs.getInt(kDataUserId)));
                 }
                 if (state.openRegistration) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -126,7 +135,7 @@ class _MobileLoginState extends State<MobileLogin> {
                               child: TextButton(
                                 onPressed: () {
                                   if (!state.validating) {
-                                    _loginBloc.loginWithNumber(number, context);
+                                    _loginBloc.loginWithNumber(number);
                                   }
                                 },
                                 child: state.validating
@@ -156,5 +165,9 @@ class _MobileLoginState extends State<MobileLogin> {
                 },
               )),
         ));
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
   }
 }

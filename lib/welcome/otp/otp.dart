@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/welcome/bloc/otp/otpBloc.dart';
 import 'package:the_pet_nest/welcome/bloc/otp/otpState.dart';
 import 'package:the_pet_nest/welcome/models/baseRequestModal.dart';
@@ -57,7 +58,12 @@ class OtpEntry extends StatelessWidget {
         body: BlocProvider(
           create: (_) => _otpBloc,
           child: BlocListener<OtpBloc, OtpState>(
-            listener: (context, OtpState state) {},
+            listener: (context, OtpState state) {
+              if (state.verifySuccess) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, kNavigationDashboard, (route) => false);
+              }
+            },
             child: BlocBuilder(
                 bloc: _otpBloc,
                 builder: (context, OtpState state) {
@@ -138,7 +144,7 @@ class OtpEntry extends StatelessWidget {
                                 print(otp.toString());
                                 if (otp.toString().trim().length == 4) {
                                   requestModel.code = otp.toString();
-                                  if (requestModel.type == 'register_model')
+                                  if (requestModel.type == 'login_request')
                                     _otpBloc.verifyLoginOtp(
                                         requestModel as LoginRequest);
                                   else
@@ -175,8 +181,12 @@ class OtpEntry extends StatelessWidget {
                             TextButton(
                               onPressed: () {
                                 if (state.canResend) {
-                                  _otpBloc.resendRegistrationOtp(
-                                      requestModel as RegisterRequest);
+                                  if (requestModel.type == 'register_request')
+                                    _otpBloc.resendRegistrationOtp(
+                                        requestModel as RegisterRequest);
+                                  else
+                                    _otpBloc.resendLoginOtp(
+                                        requestModel as LoginRequest);
                                 }
                               },
                               child: Container(

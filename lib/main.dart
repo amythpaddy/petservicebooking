@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/bookings/feedback/feedback.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
 import 'package:the_pet_nest/funnels/petTraining/petTrarining.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/flavorValues/stagingValues.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/profiles/petProfile/addPetProfile.dart';
@@ -17,12 +19,15 @@ import 'package:the_pet_nest/welcome/otp/otp.dart';
 import 'package:the_pet_nest/welcome/register/register.dart';
 import 'package:the_pet_nest/welcome/welcome.dart';
 
-void main() {
+late SharedPreferences prefs;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   FlavorConfig(
       name: "DEV",
       color: Colors.red,
       location: BannerLocation.bottomStart,
       variables: stagingValues);
+  prefs = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 
@@ -69,7 +74,9 @@ class MyApp extends StatelessWidget {
           kNavigationSupport: (context) => Support(),
           kNavigationPetTrainingFunnel: (context) => PetTrainingService()
         },
-        initialRoute: kNavigationWelcome);
+        initialRoute: (prefs.getString(kDataToken) ?? '') == ''
+            ? kNavigationWelcome
+            : kNavigationDashboard);
     // home: MobileLogin());
   }
 }

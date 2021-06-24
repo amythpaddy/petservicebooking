@@ -1,44 +1,16 @@
-import 'package:the_pet_nest/welcome/models/baseRequestModal.dart';
-
-class RegisterRequest extends BaseRequestModel {
-  String firstName = '';
-  String lastName = '';
-  String email = '';
-
-  RegisterRequest(
-      {required this.firstName,
-      required this.lastName,
-      required number,
-      required this.email})
-      : super(type: 'register_request ', number: number);
-
-  Map<String, dynamic> toJson() => {
-        'code': code,
-        'destination_type': 'phone',
-        'destination_value': number,
-        'user': {
-          'first_name': firstName,
-          'last_name': lastName,
-          'contact_number': number,
-          'email': email
-        }
-      };
-}
-
-class RegisterResponse {
+class ValidateUserResponse {
   Data? data;
   Error? error;
 
-  RegisterResponse({required this.data, required this.error});
+  ValidateUserResponse({this.data, this.error});
 
-  RegisterResponse.fromJson(Map<String, dynamic> json) {
+  ValidateUserResponse.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     error = json['error'] != null ? new Error.fromJson(json['error']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -50,17 +22,17 @@ class RegisterResponse {
 }
 
 class Data {
-  String? expiredAt;
+  String? authToken;
 
-  Data({this.expiredAt});
+  Data({this.authToken});
 
   Data.fromJson(Map<String, dynamic> json) {
-    expiredAt = json['expired_at'];
+    authToken = json['auth_token'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['expired_at'] = this.expiredAt;
+    data['auth_token'] = this.authToken;
     return data;
   }
 }
