@@ -115,7 +115,6 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
   }
 
   void _loginUser(LoginRequest request) async {
-    print(request.toJson());
     var value = await ApiCaller.post(
         kUrlLoginVerifyOTP, request.toJsonForOtpVerification());
     ValidateUserResponse response = ValidateUserResponse.fromJson(value);

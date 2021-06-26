@@ -83,11 +83,7 @@ class _WelcomeModalState extends State<WelcomeModal> {
   }
 
   void otpScreenResponse(String response) {
-    if (response == kPopupOTPValid)
-      setState(() {
-        currentScreen = Screens.SELECT_PET_SCREEN;
-        heightProp = selectPetHeight;
-      });
+    if (response == kPopupOTPValid) Navigator.of(context).pop();
   }
 
   void selectPetScreenResponse(String response) {

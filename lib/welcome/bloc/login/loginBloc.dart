@@ -23,7 +23,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     add(LoginEvent.NumberValidEvent);
     if (number.length == 10) {
       add(LoginEvent.LoginUserEvent);
-      print(req.toJson().toString());
       var value = await ApiCaller.post(kUrlLogin, req.toJson());
       LoginResponse response = LoginResponse.fromJson(value);
       if (response.data!.user == null)

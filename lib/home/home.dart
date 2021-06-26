@@ -60,7 +60,6 @@ class _HomeState extends State<Home> {
                     scrollDirection: Axis.horizontal,
                     itemCount: ServiceList.length,
                     itemBuilder: (context, index) {
-                      print(ServiceList[index]['image']);
                       return ServicesCard(
                           text: ServiceList[index]['name']!,
                           svgPath: ServiceList[index]['image']!);

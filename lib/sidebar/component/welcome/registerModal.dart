@@ -36,7 +36,6 @@ class _RegisterModalState extends State<RegisterModal> {
   }
 
   void onNameFilled(String name) {
-    print(name);
     this.name = name;
     setState(() {
       nameFilled = name.length > 0 ? true : false;

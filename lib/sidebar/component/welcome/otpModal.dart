@@ -142,7 +142,6 @@ class OtpModal extends StatelessWidget {
                             code.forEach((element) {
                               otp.write(element);
                             });
-                            print(otp.toString());
                             if (otp.toString().trim().length == 4) {
                               requestModel.code = otp.toString();
                               if (requestModel.type == 'login_request')

@@ -13,7 +13,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     var value = await ApiCaller.post(kUrlRegisterSendOTP, request.toJson());
     RegisterResponse response = RegisterResponse.fromJson(value);
-    print('${response.data!.expiredAt == null} response');
     if (response.data!.expiredAt == null) {
       add(RegisterEvent.registerNotSuccess);
     } else {
