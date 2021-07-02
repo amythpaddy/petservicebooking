@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/bookings/bookings.dart';
 import 'package:the_pet_nest/dashboard/component/BottomNavigationIcons.dart';
 import 'package:the_pet_nest/dashboard/component/addPetPopup/addPetPopup.dart';
 import 'package:the_pet_nest/home/home.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/profiles/userProfile/userProfile.dart';
 import 'package:the_pet_nest/sidebar/sidebar.dart';
@@ -21,7 +23,18 @@ const Color inactiveColor = Color(0xFFB6B7B9);
 class _DashboardState extends State<Dashboard> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   BottomNavigationOptions navigationOptions = BottomNavigationOptions.HOME;
+  late SharedPreferences prefs;
   late Widget fragment;
+
+  @override
+  void initState() {
+    initSharedPreferences();
+  }
+
+  void initSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -64,7 +77,9 @@ class _DashboardState extends State<Dashboard> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, kNavigationUserprofile);
+              String token = prefs.getString(kDataToken) ?? '';
+              if (token.isNotEmpty)
+                Navigator.pushNamed(context, kNavigationUserprofile);
             },
             child: Container(
               width: 50,

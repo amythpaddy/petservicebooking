@@ -14,7 +14,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   bool nameFilled = false;
-  bool emailFilled = false;
+  bool emailValid = false;
   bool numberValid = false;
   String number = '';
   late String name;
@@ -43,7 +43,9 @@ class _RegisterState extends State<Register> {
   void onEmailFilled(String email) {
     this.email = email;
     setState(() {
-      emailFilled = email.length > 0 ? true : false;
+      emailValid = RegExp(
+              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+          .hasMatch(email);
     });
   }
 
@@ -151,11 +153,15 @@ class _RegisterState extends State<Register> {
                           onChanged: onEmailFilled,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                            focusColor: Color(0x331A202E),
+                            focusColor: emailValid
+                                ? Color(0x331A202E)
+                                : Colors.redAccent,
                             hintText: 'Enter email',
                             border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0x331A202E)),
+                                borderSide: BorderSide(
+                                    color: emailValid
+                                        ? Color(0x331A202E)
+                                        : Colors.redAccent),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12))),
                           ),
@@ -190,7 +196,7 @@ class _RegisterState extends State<Register> {
                           child: TextButton(
                             onPressed: numberValid &&
                                     nameFilled &&
-                                    emailFilled &&
+                                    emailValid &&
                                     !state.registering
                                 ? () => _registerBloc
                                         .registerNewUser(RegisterRequest(
@@ -202,8 +208,8 @@ class _RegisterState extends State<Register> {
                                 : () => {
                                       if (!nameFilled)
                                         {text = 'Name is Mandatory'}
-                                      else if (!emailFilled)
-                                        {text = 'Email is Mandatory'}
+                                      else if (!emailValid)
+                                        {text = 'Email is not valid'}
                                       else if (!numberValid)
                                         {
                                           text =

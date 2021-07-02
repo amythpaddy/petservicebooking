@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:package_info/package_info.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
+import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
 import 'package:the_pet_nest/profiles/petProfile/component/petInfo.dart';
 
 class PetProfile extends StatefulWidget {
@@ -83,7 +85,9 @@ class _PetProfileState extends State<PetProfile> {
                     TextButton(
                         onPressed: () {
                           Navigator.pushNamed(
-                              context, kNavigationEditPetProfile);
+                              context, kNavigationEditPetProfile,
+                              arguments:
+                                  BlocProvider.of<PetProfileBloc>(context));
                         },
                         child: SvgPicture.asset(
                           'assets/images/profile/edit.svg',

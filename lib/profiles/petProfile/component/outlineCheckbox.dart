@@ -20,7 +20,7 @@ class OutlineCheckbox extends StatelessWidget {
       child: Icon(
         Icons.check,
         size: 17,
-        color: selected ? kTextColorBlue : Colors.white,
+        color: selected ? kTextColorBlue : kAppBackgroundColor,
       ),
     );
   }

@@ -1,15 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
-import 'package:the_pet_nest/sidebar/component/welcome/welcomeModal.dart';
+import 'package:the_pet_nest/sidebar/component/welcome/loginRegisterHeader.dart';
+import 'package:the_pet_nest/sidebar/component/welcome/userHeaderTile.dart';
 
-class Sidebar extends StatelessWidget {
+class Sidebar extends StatefulWidget {
+  @override
+  _SidebarState createState() => _SidebarState();
+}
+
+class _SidebarState extends State<Sidebar> {
   bool loggedIn = false;
-  Future<SharedPreferences> pref = SharedPreferences.getInstance();
+
+  late SharedPreferences pref;
 
   void dismissDrawer(context) {
     Navigator.of(context).pop();
+  }
+
+  @override
+  void initState() {
+    getLoggedInState();
+  }
+
+  void getLoggedInState() async {
+    pref = await SharedPreferences.getInstance();
+    String token = pref.getString(kDataToken) ?? '';
+    if (token.isNotEmpty)
+      setState(() {
+        loggedIn = true;
+      });
   }
 
   @override
@@ -20,76 +42,11 @@ class Sidebar extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(color: Color(0xFF9F9F9)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    constraints: BoxConstraints(
-                      minWidth: 72,
-                      minHeight: 23,
-                    ),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color(0xFF232C63),
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: TextButton(
-                        style: ButtonStyle(
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.zero)),
-                        onPressed: () {
-                          dismissDrawer(context);
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (context) => Theme(
-                              data: ThemeData(canvasColor: Colors.transparent),
-                              child: FractionallySizedBox(
-                                heightFactor: 1,
-                                child: WelcomeModal(),
-                              ),
-                            ),
-                          );
-                        },
-                        // Navigator.pushNamed(context, kNavigationLogin),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                              color: Color(0xFF232C63),
-                              fontWeight: FontWeight.w300,
-                              fontSize: 12,
-                              height: 1.5),
-                        ))),
-                SizedBox(
-                  width: 6,
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(horizontal: 14),
-                    constraints: BoxConstraints(minHeight: 23, minWidth: 76),
-                    decoration: BoxDecoration(
-                        color: Color(0xFF232C63),
-                        border: Border.all(
-                          color: Color(0xFF232C63),
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, kNavigationRegister);
-                        },
-                        style: ButtonStyle(
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.zero)),
-                        child: Text(
-                          'Register',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w300,
-                              fontSize: 12,
-                              height: 1.5),
-                        )))
-              ],
-            ),
+            child: loggedIn
+                ? LoggedInHeader()
+                : LoginRegisterHeader(
+                    dismissDrawer: dismissDrawer,
+                  ),
           ),
           ListTile(
             leading: SvgPicture.asset('assets/images/sidebar/referNearn.svg'),
@@ -174,15 +131,21 @@ class Sidebar extends StatelessWidget {
               child: Align(
             alignment: Alignment.bottomLeft,
             child: ListTile(
-              leading: SvgPicture.asset('assets/images/sidebar/login.svg'),
-              title: Text('Login',
+              leading: loggedIn
+                  ? SvgPicture.asset('assets/images/sidebar/logout.svg')
+                  : SvgPicture.asset('assets/images/sidebar/login.svg'),
+              title: Text(loggedIn ? 'Logout' : 'Login',
                   style: TextStyle(
                       color: Color(0xFF232C63),
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
                       height: 1.5)),
               onTap: () {
-                Navigator.pushNamed(context, kNavigationLogin);
+                if (loggedIn) {
+                  pref.clear();
+                  Navigator.pushReplacementNamed(context, kNavigationWelcome);
+                } else
+                  Navigator.pushNamed(context, kNavigationLogin);
               },
             ),
           ))

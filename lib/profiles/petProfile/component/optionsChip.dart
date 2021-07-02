@@ -22,7 +22,9 @@ class OptionsChip extends StatelessWidget {
       child: TextButton(
         style: TextButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4.5)),
-        onPressed: () => onSelected,
+        onPressed: () {
+          onSelected();
+        },
         child: Text(
           title,
           textAlign: TextAlign.center,

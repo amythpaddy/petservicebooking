@@ -20,7 +20,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void loginWithNumber(String number) async {
     LoginRequest req = LoginRequest(phone: number);
-    add(LoginEvent.NumberValidEvent);
     if (number.length == 10) {
       add(LoginEvent.LoginUserEvent);
       var value = await ApiCaller.post(kUrlLogin, req.toJson());
@@ -46,7 +45,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event == LoginEvent.LoginUserEvent) {
-      yield state.copyWith(validating: true);
+      yield state.copyWith(validating: true, numberValid: true);
     } else if (event == LoginEvent.OpenOTPEvent) {
       yield state.copyWith(validated: true, validating: false);
     } else if (event == LoginEvent.NumberValidEvent) {

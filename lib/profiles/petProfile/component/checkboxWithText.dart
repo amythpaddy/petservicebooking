@@ -17,7 +17,7 @@ class CheckboxWithText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => onChanged,
+      onPressed: () => onChanged(),
       child: Row(
         children: [
           OutlineCheckbox(
