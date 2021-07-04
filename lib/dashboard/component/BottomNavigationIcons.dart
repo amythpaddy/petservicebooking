@@ -17,7 +17,7 @@ class BottomNavigationIcons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => onPressed,
+      onPressed: () => onPressed(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

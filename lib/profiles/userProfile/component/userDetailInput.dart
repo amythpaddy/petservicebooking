@@ -22,15 +22,18 @@ class UserDetailInput extends StatelessWidget {
     Key? key,
   }) : super(key: key) {
     _controller.text = value;
-    _focusNode = FocusNode();
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus) {
-        onDataFilled(_controller.text);
-      }
-    });
-    // _controller.addListener(() {
-    //   onDataFilled(_controller.text);
+    _controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: _controller.text.length));
+    // _focusNode = FocusNode();
+    // // _focusNode.addListener(() {
+    // //   if (!_focusNode.hasFocus) {
+    // //     print('focus lost');
+    // //     onDataFilled(_controller.text);
+    // //   }
     // });
+    _controller.addListener(() {
+      onDataFilled(_controller.text);
+    });
   }
   TextEditingController _controller = TextEditingController();
 
@@ -55,7 +58,7 @@ class UserDetailInput extends StatelessWidget {
           child: TextField(
             readOnly: disabled,
             controller: _controller,
-            focusNode: _focusNode,
+            // focusNode: _focusNode,
             // initialValue: value,
             // onChanged: (data) => onDataFilled(data),
             style: TextStyle(height: .75),
