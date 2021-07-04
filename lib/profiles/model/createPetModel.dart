@@ -35,7 +35,7 @@ class RequestPetData {
     return requestBody;
   }
 
-  static RequestPetData from(PetDetail detail) {
+  static RequestPetData from(PetDetailForUpload detail) {
     int aggression = 0;
     switch (detail.aggression) {
       case Aggression.HIGH:

@@ -9,3 +9,4 @@ const kUrlGetUserData = '/users/details';
 const kUrlGetPetData = '/customer_pets/user_pets';
 const kUrlGetPetBreed = '/pets/breeds';
 const kUrlCreatePet = '/customer_pets';
+const kUrlUpdatePet = '/customer_pets/';

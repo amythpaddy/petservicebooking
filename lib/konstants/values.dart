@@ -16,3 +16,9 @@ const String kPopupOTPValid = 'otpValid';
 const String kPopupSelectPetType = 'petSelected';
 const String kPopupOpenPetInfo = 'addedPetInfo';
 const String kPopupAddedPetList = 'allAddedPets';
+
+//---------------Add Pet Popup Height---------------------------------------//
+const double kHeightPetPopupSelectPet = 445;
+const double kHeightPetPopupPetInfo = 672;
+const double kHeightPetPopupAddedPet = 436;
+const double kHeightPetPopupDefault = 445;

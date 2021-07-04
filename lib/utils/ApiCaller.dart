@@ -48,6 +48,24 @@ class ApiCaller {
     return responseJson;
   }
 
+  static Future<dynamic> put(String url, dynamic data,
+      {bool withToken = false}) async {
+    var responseJson;
+    try {
+      final Map<String, String> header = {"Content-Type": "application/json"};
+      if (withToken) {
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        header["Authorization"] = pref.getString(kDataToken) ?? '';
+      }
+      final response = await http.put(Uri.parse('$_baseUrl$url'),
+          body: jsonEncode(data), headers: header);
+      responseJson = _returnResponse(response);
+    } on SocketException {
+      throw Exception('No Internet connection');
+    }
+    return responseJson;
+  }
+
   static dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/config/sizeConfig.dart';
-import 'package:the_pet_nest/dashboard/component/addPetPopup/component/petInfoModal.dart';
-import 'package:the_pet_nest/dashboard/component/addPetPopup/component/petSelectModal.dart';
 import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/sidebar/component/welcome/loginModal.dart';
 import 'package:the_pet_nest/sidebar/component/welcome/otpModal.dart';
@@ -122,19 +120,6 @@ class _WelcomeModalState extends State<WelcomeModal> {
           requestModel: loginRequest ?? registerRequest!,
           optVerified: otpScreenResponse,
         );
-        break;
-      case Screens.SELECT_PET_SCREEN:
-        body = PetSelectModal(
-          selectPetScreenResponse: selectPetScreenResponse,
-        );
-        break;
-      case Screens.PET_INFO_PAGE:
-        body = PetInfoModal(
-          petInfoScreenResponse: petInfoScreenResponse,
-        );
-        break;
-      case Screens.ADDED_PET_PAGE:
-        body = PetSelectModal(selectPetScreenResponse: selectPetScreenResponse);
         break;
     }
     SizeConfig().init(context);

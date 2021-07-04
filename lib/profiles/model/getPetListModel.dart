@@ -1,22 +1,45 @@
 class PetList {
   PetList();
-  List<PetData> petList = [];
+  List<PetCURLModel> petList = [];
   PetList.fromJson(Map<String, dynamic> json) {
     List<dynamic> data = json['data'];
     // data.forEach((element) { })
   }
 
-  void add(PetData petCreatedResponse) {
+  void add(PetCURLModel petCreatedResponse) {
     petList.add(petCreatedResponse);
   }
 }
 
-class PetData {
+class ResponseGetPet {
+  List<CustomerPet>? data;
+
+  ResponseGetPet({this.data});
+
+  ResponseGetPet.fromJson(Map<String, dynamic> json) {
+    if (json['data'] != null) {
+      data = [];
+      json['data'].forEach((v) {
+        data!.add(new CustomerPet.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class PetCURLModel {
   Data? data;
 
-  PetData({this.data});
+  PetCURLModel({this.data});
 
-  PetData.fromJson(Map<String, dynamic> json) {
+  PetCURLModel.fromJson(Map<String, dynamic> json) {
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
@@ -171,5 +194,20 @@ class Subcategory {
     data['id'] = this.id;
     data['name'] = this.name;
     return data;
+  }
+}
+
+class PetDataStore {
+  List<CustomerPet> petDataStore = [];
+  void getList(ResponseGetPet petData) {
+    petDataStore = [];
+    petData.data!.forEach((element) {
+      petDataStore.add(element);
+    });
+  }
+
+  void addToList(PetCURLModel petData) {
+    CustomerPet? customerPet = petData.data!.customerPet;
+    if (customerPet != null) petDataStore.add(customerPet);
   }
 }

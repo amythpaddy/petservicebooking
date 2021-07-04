@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/dashboard/component/addPetPopup/component/petInfoModal.dart';
 import 'package:the_pet_nest/dashboard/component/addPetPopup/component/petSelectModal.dart';
+import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/konstants/values.dart';
+import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
+import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
+import 'package:the_pet_nest/utils/utils.dart';
 
 import 'component/addedPetModal.dart';
 
@@ -12,10 +17,8 @@ class AddPetPopup extends StatefulWidget {
   _AddPetPopupState createState() => _AddPetPopupState();
 }
 
-enum Screens { SELECT_PET_SCREEN, PET_INFO_PAGE, ADDED_PET_PAGE }
-
 class _AddPetPopupState extends State<AddPetPopup> {
-  Screens currentScreen = Screens.SELECT_PET_SCREEN;
+  PetPopupScreens currentScreen = PetPopupScreens.SELECT_PET_CATEGORY_SCREEN;
   late Widget body;
   String phoneNumber = '';
   final double selectPetHeight = 445;
@@ -29,7 +32,7 @@ class _AddPetPopupState extends State<AddPetPopup> {
   void selectPetScreenResponse(String response) {
     if (true)
       setState(() {
-        currentScreen = Screens.PET_INFO_PAGE;
+        currentScreen = PetPopupScreens.PET_INFO_PAGE;
         heightProp = petInfoHeight;
       });
   }
@@ -37,7 +40,7 @@ class _AddPetPopupState extends State<AddPetPopup> {
   void petInfoScreenResponse(String response) {
     if (response == kPopupAddedPetList) {
       setState(() {
-        currentScreen = Screens.ADDED_PET_PAGE;
+        currentScreen = PetPopupScreens.ADDED_PET_PAGE;
         heightProp = addedPetHeight;
       });
     }
@@ -46,7 +49,7 @@ class _AddPetPopupState extends State<AddPetPopup> {
   void addedPetScreenResponse(String response) {
     if (response == kPopupSelectPetType) {
       setState(() {
-        currentScreen = Screens.SELECT_PET_SCREEN;
+        currentScreen = PetPopupScreens.SELECT_PET_CATEGORY_SCREEN;
         heightProp = selectPetHeight;
       });
     }
@@ -54,35 +57,48 @@ class _AddPetPopupState extends State<AddPetPopup> {
 
   @override
   Widget build(BuildContext context) {
-    switch (currentScreen) {
-      case Screens.SELECT_PET_SCREEN:
-        body = PetSelectModal(
-          selectPetScreenResponse: selectPetScreenResponse,
-        );
-        break;
-      case Screens.PET_INFO_PAGE:
-        body = PetInfoModal(
-          petInfoScreenResponse: petInfoScreenResponse,
-        );
-        break;
-      case Screens.ADDED_PET_PAGE:
-        body = AddedPetModal(addedPetScreenResponse: addedPetScreenResponse);
-        break;
-    }
     SizeConfig().init(context);
     return Scaffold(
+      //scaffold because the content is taking up all the space without Scaffold. Have to check why
       body: Column(
+        // to bottom align the Container
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          AnimatedContainer(
-              duration: Duration(milliseconds: 250),
-              height: heightProp,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(22),
-                      topRight: Radius.circular(22))),
-              child: body),
+          BlocProvider(
+            create: (_) => PetProfileBloc(PetProfileState()),
+            child: BlocListener<PetProfileBloc, PetProfileState>(
+              listener: (blocContext, state) {
+                if (state.error) {
+                  showSnackbar(context: context);
+                }
+              },
+              child: BlocBuilder<PetProfileBloc, PetProfileState>(
+                builder: (blocContext, state) {
+                  print(state.currentScreen);
+                  switch (state.currentScreen) {
+                    case PetPopupScreens.SELECT_PET_CATEGORY_SCREEN:
+                      body = PetSelectModal();
+                      break;
+                    case PetPopupScreens.PET_INFO_PAGE:
+                      body = PetInfoModal();
+                      break;
+                    case PetPopupScreens.ADDED_PET_PAGE:
+                      body = AddedPetModal();
+                      break;
+                  }
+                  return AnimatedContainer(
+                      duration: Duration(milliseconds: 250),
+                      height: state.modalHeight,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(22),
+                              topRight: Radius.circular(22))),
+                      child: body);
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );

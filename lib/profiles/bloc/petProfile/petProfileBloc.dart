@@ -1,7 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/konstants/endpoints.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileEvent.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
 import 'package:the_pet_nest/profiles/model/createPetModel.dart';
@@ -10,16 +12,26 @@ import 'package:the_pet_nest/profiles/model/petBreedModel.dart';
 import 'package:the_pet_nest/utils/ApiCaller.dart';
 
 class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
+  late PetBreeds petBreeds;
+  PetDataStore _petList = PetDataStore();
+  PetDetailForUpload _petDetail = PetDetailForUpload();
+  late String _version;
+  int _id = -1;
+  late SharedPreferences prefs;
+
   PetProfileBloc(PetProfileState initialState) : super(initialState) {
+    getAppVersion();
     initSharedPreferences();
     getPetData();
     getPetBreed();
   }
 
-  late PetBreeds petBreeds;
-  PetList _petList = PetList();
-  PetDetail _petDetail = PetDetail();
-  late SharedPreferences prefs;
+  void getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    _version = packageInfo.version;
+    add(PetProfileEvent.APP_VERSION_UPDATED);
+  }
+
   void initSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
   }
@@ -35,8 +47,8 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
 
   void getPetData() async {
     var value = await ApiCaller.get(kUrlGetPetData, withToken: true);
-    print(value);
-    _petList = PetList.fromJson(value);
+    _petList.getList(ResponseGetPet.fromJson(value));
+    add(PetProfileEvent.PET_DETAILS_LOADED);
   }
 
   void petNameChanged(String name) {
@@ -78,21 +90,56 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
     add(PetProfileEvent.PET_DETAILS_CHANGED);
   }
 
-  void addPetData(RequestPetData request) async {
-    var value = await ApiCaller.post(kUrlGetUserData, request, withToken: true);
+  void petCategoryChanged(PetCategory category) {
+    _petDetail.petCategory = category;
+    add(PetProfileEvent.PET_DETAILS_CHANGED);
+  }
+
+  void setId(id) {
+    _id = id;
+    _petDetail = PetDetailForUpload.fromPetStore(
+        _petList.petDataStore.firstWhere((element) => element.id == id));
+    add(PetProfileEvent.PET_ID_SET);
+  }
+
+  void openPetDetailPopup() {
+    add(PetProfileEvent.SHOW_PET_POPUP);
+  }
+
+  void showPetCategoryScreen() {
+    _petDetail = PetDetailForUpload();
+    add(PetProfileEvent.SHOW_PET_CATEGORY_POPUP);
+  }
+
+  void showPetDetailScreen() {
+    add(PetProfileEvent.SHOW_PET_DETAIL_POPUP);
+  }
+
+  void closePetDetailPopup() {
+    add(PetProfileEvent.CANCEL_PET_POPUP);
+  }
+
+  void updatePetData() async {
+    RequestPetData data = RequestPetData.from(_petDetail);
+    var value = await ApiCaller.put('${kUrlUpdatePet}4', data, withToken: true);
+    PetCURLModel petCreatedResponse = PetCURLModel.fromJson(value);
+    if (petCreatedResponse.data != null) {
+      _petList.petDataStore.removeWhere((element) => element.id == _id);
+      _petList.addToList(petCreatedResponse);
+      add(PetProfileEvent.PET_ADDED);
+    } else
+      add(PetProfileEvent.ERROR_RESPONSE);
   }
 
   void createNewPet() async {
     RequestPetData data = RequestPetData.from(_petDetail);
     var value =
         await ApiCaller.post(kUrlCreatePet, data.toJson(), withToken: true);
-    PetData petCreatedResponse = PetData.fromJson(value);
+    PetCURLModel petCreatedResponse = PetCURLModel.fromJson(value);
     if (petCreatedResponse.data != null) {
-      if (_petList == null) {
-        _petList = PetList();
-      }
-      _petList.add(petCreatedResponse);
+      _petList.addToList(petCreatedResponse);
       add(PetProfileEvent.PET_ADDED);
+      add(PetProfileEvent.SHOW_ADDED_PET_POPUP);
     } else
       add(PetProfileEvent.ERROR_RESPONSE);
   }
@@ -108,6 +155,38 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
           petCreated: true, addingPet: false, petList: _petList);
     } else if (event == PetProfileEvent.ERROR_RESPONSE) {
       yield state.copyWith(error: true, addingPet: false);
+    } else if (event == PetProfileEvent.PET_DETAILS_LOADED) {
+      yield state.copyWith(petList: _petList, fetchingPetData: false);
+    } else if (event == PetProfileEvent.APP_VERSION_UPDATED) {
+      yield state.copyWith(appVersion: _version);
+    } else if (event == PetProfileEvent.PET_ID_SET) {
+      yield state.copyWith(petId: _id, addUpdatePet: _petDetail);
+    } else if (event == PetProfileEvent.UPDATING_PET_DETAIL) {
+      yield state.copyWith(updatingPet: true);
+    } else if (event == PetProfileEvent.PET_UPDATED) {
+      yield state.copyWith(
+          petUpdated: true, updatingPet: false, petList: _petList);
+    } else if (event == PetProfileEvent.SHOW_PET_POPUP) {
+      yield state.copyWith(
+          showPetPopupScreen: true,
+          currentScreen: PetPopupScreens.SELECT_PET_CATEGORY_SCREEN,
+          modalHeight: kHeightPetPopupSelectPet);
+    } else if (event == PetProfileEvent.SHOW_PET_CATEGORY_POPUP) {
+      yield state.copyWith(
+          currentScreen: PetPopupScreens.SELECT_PET_CATEGORY_SCREEN,
+          modalHeight: kHeightPetPopupSelectPet);
+    } else if (event == PetProfileEvent.SHOW_PET_DETAIL_POPUP) {
+      yield state.copyWith(
+          currentScreen: PetPopupScreens.PET_INFO_PAGE,
+          modalHeight: kHeightPetPopupPetInfo);
+    } else if (event == PetProfileEvent.SHOW_ADDED_PET_POPUP) {
+      yield state.copyWith(
+          currentScreen: PetPopupScreens.ADDED_PET_PAGE,
+          modalHeight: kHeightPetPopupAddedPet);
+    } else if (event == PetProfileEvent.CANCEL_PET_POPUP) {
+      yield state.copyWith(
+          showPetPopupScreen: false,
+          currentScreen: PetPopupScreens.SELECT_PET_CATEGORY_SCREEN);
     }
   }
 }
