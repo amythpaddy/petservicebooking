@@ -231,6 +231,8 @@ class UserProfile extends StatelessWidget {
                         MenuItem(
                           icon: 'assets/images/feedback/location.svg',
                           title: 'Service Address',
+                          onClick: () => Navigator.pushNamed(
+                              context, kNavigationAddressBook),
                         ),
                         Divider(
                           height: 1,

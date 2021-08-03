@@ -1,32 +1,67 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_config (0.0.1):
+    - Flutter
+  - geolocator (6.2.0):
+    - Flutter
+  - google_maps_flutter (0.0.1):
+    - Flutter
+    - GoogleMaps
+  - GoogleMaps (4.1.0):
+    - GoogleMaps/Maps (= 4.1.0)
+  - GoogleMaps/Base (4.1.0)
+  - GoogleMaps/Maps (4.1.0):
+    - GoogleMaps/Base
   - integration_test (0.0.1):
     - Flutter
   - package_info (0.0.1):
+    - Flutter
+  - paytm_allinonesdk (1.1.0):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_config (from `.symlinks/plugins/flutter_config/ios`)
+  - geolocator (from `.symlinks/plugins/geolocator/ios`)
+  - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
+  - paytm_allinonesdk (from `.symlinks/plugins/paytm_allinonesdk/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+
+SPEC REPOS:
+  trunk:
+    - GoogleMaps
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_config:
+    :path: ".symlinks/plugins/flutter_config/ios"
+  geolocator:
+    :path: ".symlinks/plugins/geolocator/ios"
+  google_maps_flutter:
+    :path: ".symlinks/plugins/google_maps_flutter/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
+  paytm_allinonesdk:
+    :path: ".symlinks/plugins/paytm_allinonesdk/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_config: 2226c1df19c78fe34a05eb7f1363445f18e76fc1
+  geolocator: f5e3de65e241caba7ce3e8a618803387bda73384
+  google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
+  GoogleMaps: 008e2c80e38605b56b560e8deb73d4194ff30bef
   integration_test: 6eb66a19f7104200dcfdd62bc0077e1b09686e4f
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
+  paytm_allinonesdk: 6b1819a7bd5d54aea9c89d97754b618705293217
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c

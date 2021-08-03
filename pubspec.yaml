@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.2+9
+version: 1.0.4+12
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
@@ -36,9 +36,15 @@ dependencies:
   http: ^0.13.3
   flutter_bloc: ^7.0.1
   dropdown_search: ^0.6.3
+  paytm_allinonesdk: ^1.0.0
+  flutter_config: ^2.0.0
+  google_maps_flutter: ^2.0.6
+  geolocator: ^7.3.1
+
 
 
 dev_dependencies:
+  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
   integration_test:
@@ -55,6 +61,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/map_style/style.txt
     - assets/the_pet_nest.png
     - assets/login_bg.jpg
     - assets/images/india_icon.png
@@ -118,6 +125,9 @@ flutter:
     - assets/images/funnels/package_cost_bg.png
     - assets/images/funnels/icon_payment_cash.svg
     - assets/images/funnels/icon_payment_online.svg
+    - assets/images/map/map_pin.png
+    - assets/images/address/icon_office.svg
+    - assets/images/address/icon_map_pin.svg
 
   fonts:
     - family: Poppins

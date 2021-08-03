@@ -10,3 +10,7 @@ const kUrlGetPetData = '/customer_pets/user_pets';
 const kUrlGetPetBreed = '/pets/breeds';
 const kUrlCreatePet = '/customer_pets';
 const kUrlUpdatePet = '/customer_pets/';
+const kUrlGetStatesAndCities = '/pets/state_cities';
+const kUrlGetSavedAddresses = '/users/address';
+const kUrlAddSavedAddresses = '/users/address';
+const kUrlDeleteSavedAddresses = '/users/address';

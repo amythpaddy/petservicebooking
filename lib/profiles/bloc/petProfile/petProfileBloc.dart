@@ -38,7 +38,6 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
 
   void getPetBreed() async {
     var value = await ApiCaller.get(kUrlGetPetBreed);
-    print(value.toString());
     ResponsePetBreed petBreedResponse = ResponsePetBreed.fromJson(value);
     petBreeds = new PetBreeds();
     petBreeds.initData(petBreedResponse);

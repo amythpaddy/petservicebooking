@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:the_pet_nest/addressBook/addEditAddress.dart';
+import 'package:the_pet_nest/addressBook/addressList.dart';
 import 'package:the_pet_nest/bookings/feedback/feedback.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
 import 'package:the_pet_nest/funnels/petTraining/petTrarining.dart';
@@ -8,6 +10,7 @@ import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/flavorValues/stagingValues.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
+import 'package:the_pet_nest/messaging/messaging.dart';
 import 'package:the_pet_nest/profiles/petProfile/addPetProfile.dart';
 import 'package:the_pet_nest/profiles/petProfile/editPetProfile.dart';
 import 'package:the_pet_nest/profiles/petProfile/petProfile.dart';
@@ -73,8 +76,12 @@ class MyApp extends StatelessWidget {
           kNavigationEditPetProfile: (context) => EditPetProfile(),
           kNavigationAddPetProfile: (context) => AddPetProfile(),
           kNavigationSupport: (context) => Support(),
-          kNavigationPetTrainingFunnel: (context) => PetTrainingService()
+          kNavigationPetTrainingFunnel: (context) => PetTrainingService(),
+          kNavigationAddressBook: (context) => AddressList(),
+          kNavigationAddEditAddressBook: (context) => AddEditMap(),
+          kNavigationMessaging: (context) => Messaging()
         },
+        // initialRoute: kNavigationMessaging);
         initialRoute: (prefs.getString(kDataToken) ?? '') == ''
             ? kNavigationWelcome
             : kNavigationDashboard);

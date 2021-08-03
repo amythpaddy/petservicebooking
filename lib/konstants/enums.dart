@@ -7,3 +7,4 @@ enum PetPopupScreens {
   PET_INFO_PAGE,
   ADDED_PET_PAGE
 }
+enum AddressType { HOME_ADDRESS, OFFICE_ADDRESS }

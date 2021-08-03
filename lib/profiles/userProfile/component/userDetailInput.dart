@@ -10,6 +10,7 @@ class UserDetailInput extends StatelessWidget {
   final String value;
   final bool disabled;
   late FocusNode _focusNode;
+  TextEditingController _controller = TextEditingController();
 
   UserDetailInput({
     required this.heading,
@@ -35,7 +36,6 @@ class UserDetailInput extends StatelessWidget {
       onDataFilled(_controller.text);
     });
   }
-  TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
