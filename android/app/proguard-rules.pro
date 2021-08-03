@@ -1,0 +1,1 @@
+-keep class com.himalayandevhouse.the_pet_nest.BuildConfig { *; }
