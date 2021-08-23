@@ -1,0 +1,265 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:the_pet_nest/addressBook/bloc/addressBookBloc.dart';
+import 'package:the_pet_nest/addressBook/bloc/addressBookState.dart';
+import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
+import 'package:the_pet_nest/funnels/bloc/couponBloc/couponBloc.dart';
+import 'package:the_pet_nest/funnels/bloc/couponBloc/couponState.dart';
+import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeBloc.dart';
+import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeState.dart';
+import 'package:the_pet_nest/funnels/bloc/funnelState.dart';
+import 'package:the_pet_nest/funnels/bloc/packageBloc/packageBloc.dart';
+import 'package:the_pet_nest/funnels/bloc/packageBloc/packageState.dart';
+import 'package:the_pet_nest/funnels/bloc/paymentSelectionBloc/paymentSelectionBloc.dart';
+import 'package:the_pet_nest/funnels/bloc/paymentSelectionBloc/paymentSelectionState.dart';
+import 'package:the_pet_nest/funnels/bloc/petGroomingBloc.dart';
+import 'package:the_pet_nest/funnels/interfaces/AddressSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/interfaces/bookingDetailReviewInterface.dart';
+import 'package:the_pet_nest/funnels/interfaces/couponSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/interfaces/dateTimeSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/interfaces/packageSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/interfaces/paymentMethodSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/interfaces/petSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/model/couponseApiResponseModel.dart';
+import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
+import 'package:the_pet_nest/funnels/screen/ScreenAddressSelection.dart';
+import 'package:the_pet_nest/funnels/screen/screenCouponSelection.dart';
+import 'package:the_pet_nest/funnels/screen/screenDateSelection.dart';
+import 'package:the_pet_nest/funnels/screen/screenPackageSelection.dart';
+import 'package:the_pet_nest/funnels/screen/screenPaymentMethod.dart';
+import 'package:the_pet_nest/funnels/screen/screenPetSelection.dart';
+import 'package:the_pet_nest/funnels/screen/screenReviewBookingDetail.dart';
+import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/enums.dart';
+import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
+import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
+import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
+import 'package:the_pet_nest/utils/utils.dart';
+
+class PetGroomingService extends StatelessWidget
+    implements
+        AddressSelectionInterface,
+        PetSelectionInterface,
+        PackageSelectionInterface,
+        DateTimeSelectionInterface,
+        BookingDetailReviewInterface,
+        PaymentMethodSelectionInterface,
+        CouponSelectionInterface {
+  const PetGroomingService({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    // String
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+              create: (_) => AddressBookBloc(initialState: AddressBookState())),
+          BlocProvider(create: (_) => PetGroomingBloc(FunnelState())),
+          BlocProvider(create: (_) => PetProfileBloc(PetProfileState())),
+          BlocProvider(create: (_) => PackageBloc(PackageState())),
+          BlocProvider(create: (_) => DateTimeBloc(DateTimeState())),
+          BlocProvider(create: (_) => CouponBloc(CouponState())),
+          BlocProvider(
+              create: (_) => PaymentSelectionBloc(PaymentSelectionState()))
+        ],
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<PetGroomingBloc, FunnelState>(
+                listener: (blocContext, state) {
+              if (state.closeThisFunnel) {
+                Navigator.pop(context);
+              }
+              if (state.showError) {
+                showSnackbar(context: blocContext, message: state.errorMessage);
+              }
+            }),
+            BlocListener<CouponBloc, CouponState>(
+                listener: (blocContext, state) {
+              if (state.hasError) {
+                showSnackbar(context: blocContext, message: state.errorMsg);
+              } else if (state.isCouponApplied) {
+                BlocProvider.of<PetGroomingBloc>(blocContext)
+                    .applyDiscount(state.discountValue);
+              }
+            })
+          ],
+          child: Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: kAppBackgroundAltGray,
+              leading: BlocBuilder<PetGroomingBloc, FunnelState>(
+                builder: (blocContext, state) {
+                  return IconButton(
+                    onPressed: () {
+                      BlocProvider.of<PetGroomingBloc>(blocContext).goBack();
+                    },
+                    icon: Icon(Icons.arrow_back),
+                  );
+                },
+              ),
+            ),
+            backgroundColor: kAppBackgroundAltGray,
+            body: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                BlocBuilder<PetGroomingBloc, FunnelState>(
+                    builder: (blocContext, state) {
+                  late Widget body;
+                  switch (state.currentScreen) {
+                    case FunnelScreens.SCREEN_ADDRESS_SELECTION:
+                      body = ScreenAddressSelection(onAddressSelection: this);
+                      break;
+                    case FunnelScreens.SCREEN_PET_SELECTION:
+                      body = ScreenPetSelection(onPetSelected: this);
+                      break;
+                    case FunnelScreens.SCREEN_PACKAGE_SELECTION:
+                      body = ScreenPackageSelection(
+                        onPackageSelected: this,
+                        petCategory: state.petCategory,
+                        city: state.citySlug,
+                        currentFunnel: FunnelType.PET_GROOMING,
+                      );
+                      break;
+                    case FunnelScreens.SCREEN_REVIEW_BOOKING_DETAILS:
+                      double _totalPrice = 0;
+                      state.packageDetail!.forEach((element) {
+                        _totalPrice += double.parse(element.price!);
+                      });
+                      body = ScreenReviewBookingDetail(
+                        onBookingDetailReviewInterface: this,
+                        totalPrice: _totalPrice,
+                      );
+                      break;
+                    case FunnelScreens.SCREEN_PAYMENT_METHOD:
+                      double _totalPrice = 0;
+                      state.packageDetail!.forEach((element) {
+                        _totalPrice += double.parse(element.price!);
+                      });
+                      body = ScreenPaymentMethod(
+                          onPaymentMethodSelected: this,
+                          totalPrice: _totalPrice);
+                      break;
+                    case FunnelScreens.SCREEN_COUPONS_SELECTION:
+                      double _totalPrice = 0;
+                      state.packageDetail!.forEach((element) {
+                        _totalPrice += double.parse(element.price!);
+                      });
+                      body = ScreenCouponSelection(
+                        onCouponSelection: this,
+                        totalPrice: _totalPrice,
+                      );
+                      break;
+                    case FunnelScreens.SCREEN_DATE_TIME_SELECTION:
+                      body = ScreenDateTimeSelection(
+                        onDateTimeSelected: this,
+                        cityId: state.address!.cityId,
+                      );
+                      break;
+                  }
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        LinearProgressIndicator(
+                          backgroundColor: kAppBackgroundAltGray,
+                          color: kAppIconColor,
+                          value: state.progressIndicator,
+                        ),
+                        body
+                      ],
+                    ),
+                  );
+                }),
+                // Text(textTest)
+              ],
+            ),
+          ),
+        ));
+  }
+
+  @override
+  void onAddressSelected(blocContext, Address? address) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).setAddress(address);
+  }
+
+  @override
+  void onAddressSelectionComplete(blocContext) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).openPetSelectionScreen();
+  }
+
+  @override
+  void onNoteUpdated(blocContext, String note) {
+    // TODO: implement onPetSelectionComplete
+  }
+
+  @override
+  void onPetSelectionComplete(blocContext) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).openPackageSelectionScreen();
+  }
+
+  @override
+  void petSelected(blocContext, CustomerPet petData) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).setPet(petData);
+  }
+
+  @override
+  void onPackageSelectionComplete(blocContext) {
+    BlocProvider.of<PetGroomingBloc>(blocContext)
+        .openBookingDetailsReviewScreen();
+  }
+
+  @override
+  void packageSelected(blocContext, PackageDetailModel packageDetail) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).setPackage(packageDetail);
+  }
+
+  @override
+  void onAddAnotherPetClicked(blocContext) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).addNewService();
+    BlocProvider.of<PetProfileBloc>(blocContext).resetState();
+    BlocProvider.of<PackageBloc>(blocContext).resetState();
+  }
+
+  @override
+  void onBookingDetailReviewComplete(blocContext) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).openDateTimeSelectionScreen();
+  }
+
+  @override
+  void onPaymentMethodChange(blocContext, PAYMENT_METHOD paymentMethod) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).setPayment(paymentMethod);
+  }
+
+  @override
+  void onPaymentMethodSelectionComplete(blocContext) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).processBooking();
+  }
+
+  @override
+  void dateSelected(blocContext, String date) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).setDateTime(date: date);
+  }
+
+  @override
+  void timeSelected(blocContext, String time) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).setDateTime(time: time);
+  }
+
+  @override
+  void onDateTimeSelectionComplete(blocContext) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).openPaymentMethodScreen();
+  }
+
+  @override
+  void onCouponSelectionButtonClicked(blocContext) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).openCouponScreen();
+  }
+
+  @override
+  void onCouponSelected(blocContext, CouponData couponData) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).couponSelected(couponData);
+  }
+
+  @override
+  void onCouponSelectionCompleted(blocContext) {
+    BlocProvider.of<PetGroomingBloc>(blocContext).openDateTimeSelectionScreen();
+  }
+}

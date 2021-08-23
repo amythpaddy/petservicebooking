@@ -27,7 +27,7 @@ class SelectAddedPetCard extends StatelessWidget {
           ),
           padding: EdgeInsets.all(5),
           child: Image.asset(
-            image,
+            image.isEmpty ? 'assets/images/profile/dog_avatar.png' : image,
             fit: BoxFit.fill,
             height: 82,
             width: 82,

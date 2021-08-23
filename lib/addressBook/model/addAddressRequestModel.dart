@@ -1,7 +1,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
 
-class AddAddressModel {
+class AddAddressRequestModel {
   String addressLineOne;
   String addressLineTwo;
   int cityId;
@@ -13,7 +13,7 @@ class AddAddressModel {
   AddressType addressType;
   CameraPosition? mapPosition;
 
-  AddAddressModel({
+  AddAddressRequestModel({
     this.addressLineOne = "",
     this.addressLineTwo = "",
     this.cityId = -1,
@@ -42,7 +42,7 @@ class AddAddressModel {
     return requestBody;
   }
 
-  AddAddressModel update(
+  AddAddressRequestModel update(
       {String? addressLineOne,
       String? addressLineTwo,
       int? cityId,
@@ -52,7 +52,7 @@ class AddAddressModel {
       int? zipCode,
       AddressType? addressType,
       CameraPosition? mapPosition}) {
-    return AddAddressModel(
+    return AddAddressRequestModel(
         addressType: addressType ?? this.addressType,
         addressLineOne: addressLineOne ?? this.addressLineOne,
         addressLineTwo: addressLineTwo ?? this.addressLineTwo,

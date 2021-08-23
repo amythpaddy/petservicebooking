@@ -11,6 +11,13 @@ const kUrlGetPetBreed = '/pets/breeds';
 const kUrlCreatePet = '/customer_pets';
 const kUrlUpdatePet = '/customer_pets/';
 const kUrlGetStatesAndCities = '/pets/state_cities';
-const kUrlGetSavedAddresses = '/users/address';
+const kUrlGetSavedAddresses = '/users/addresses';
 const kUrlAddSavedAddresses = '/users/address';
 const kUrlDeleteSavedAddresses = '/users/address';
+String kUrlGetGroomingPackageInfo(cityName, petType) =>
+    '/leads/grooming_packages?city=$cityName&pet_type=$petType';
+String kUrlGetBookedTimeSlots(date, cityId) =>
+    '/leads/booked_slots?date=$date&city_id=$cityId';
+const kUrlCreateGroomingLead = '/leads/create_grooming_lead';
+String kUrlGetCouponsList(serviceType) => '/coupons?service_type=$serviceType';
+const kUrlApplyCoupons = '/coupons/validate_coupon';

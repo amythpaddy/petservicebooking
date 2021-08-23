@@ -5,6 +5,7 @@ import 'package:the_pet_nest/addressBook/addEditAddress.dart';
 import 'package:the_pet_nest/addressBook/addressList.dart';
 import 'package:the_pet_nest/bookings/feedback/feedback.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
+import 'package:the_pet_nest/funnels/petGrooming/petGrooming.dart';
 import 'package:the_pet_nest/funnels/petTraining/petTrarining.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/dataAccessors.dart';
@@ -77,9 +78,10 @@ class MyApp extends StatelessWidget {
           kNavigationAddPetProfile: (context) => AddPetProfile(),
           kNavigationSupport: (context) => Support(),
           kNavigationPetTrainingFunnel: (context) => PetTrainingService(),
+          kNavigationPetGroomingFunnel: (context) => PetGroomingService(),
           kNavigationAddressBook: (context) => AddressList(),
           kNavigationAddEditAddressBook: (context) => AddEditMap(),
-          kNavigationMessaging: (context) => Messaging()
+          kNavigationMessaging: (context) => Messaging(),
         },
         // initialRoute: kNavigationMessaging);
         initialRoute: (prefs.getString(kDataToken) ?? '') == ''

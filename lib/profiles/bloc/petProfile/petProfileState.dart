@@ -18,6 +18,7 @@ class PetProfileState {
   final PetPopupScreens currentScreen;
   final bool showPetPopupScreens;
   final double modalHeight;
+  final int petSelectedByUserIndex;
 
   PetProfileState(
       {this.petList,
@@ -33,7 +34,8 @@ class PetProfileState {
       this.currentScreen = PetPopupScreens.SELECT_PET_CATEGORY_SCREEN,
       this.showPetPopupScreens = false,
       this.modalHeight = kHeightPetPopupDefault,
-      this.error = false}) {
+      this.error = false,
+      this.petSelectedByUserIndex = -1}) {
     petList = this.petList ?? PetDataStore();
     addUpdatePet = this.addUpdatePet ?? PetDetailForUpload();
     petBreeds = this.petBreeds ?? PetBreeds();
@@ -53,7 +55,8 @@ class PetProfileState {
       PetPopupScreens? currentScreen,
       bool? showPetPopupScreen,
       double? modalHeight,
-      bool? error}) {
+      bool? error,
+      int? petSelectedByUserIndex}) {
     return PetProfileState(
         petList: petList ?? this.petList,
         addUpdatePet: addUpdatePet ?? this.addUpdatePet,
@@ -68,7 +71,17 @@ class PetProfileState {
         currentScreen: currentScreen ?? this.currentScreen,
         showPetPopupScreens: showPetPopupScreen ?? this.showPetPopupScreens,
         modalHeight: modalHeight ?? this.modalHeight,
-        error: error ?? this.error);
+        error: error ?? this.error,
+        petSelectedByUserIndex:
+            petSelectedByUserIndex ?? this.petSelectedByUserIndex);
+  }
+
+  PetProfileState resetValues() {
+    return PetProfileState(
+      petList: petList,
+      fetchingPetData: false,
+      appVersion: appVersion,
+    );
   }
 }
 

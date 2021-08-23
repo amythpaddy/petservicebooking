@@ -1,164 +1,164 @@
 import 'package:flutter/material.dart';
-import 'package:the_pet_nest/funnels/petTraining/model/petTrainingFunnelDataHolder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:the_pet_nest/addressBook/bloc/addressBookBloc.dart';
+import 'package:the_pet_nest/addressBook/bloc/addressBookState.dart';
+import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
+import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeBloc.dart';
+import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeState.dart';
+import 'package:the_pet_nest/funnels/bloc/funnelState.dart';
+import 'package:the_pet_nest/funnels/bloc/packageBloc/packageBloc.dart';
+import 'package:the_pet_nest/funnels/bloc/packageBloc/packageState.dart';
+import 'package:the_pet_nest/funnels/bloc/petTrainingBloc.dart';
+import 'package:the_pet_nest/funnels/interfaces/AddressSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/interfaces/dateTimeSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/interfaces/packageSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/interfaces/petSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/screen/ScreenAddressSelection.dart';
-import 'package:the_pet_nest/funnels/screen/screenBookingDetail.dart';
 import 'package:the_pet_nest/funnels/screen/screenPackageSelection.dart';
-import 'package:the_pet_nest/funnels/screen/screenPaymentMethod.dart';
 import 'package:the_pet_nest/funnels/screen/screenPetSelection.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/enums.dart';
+import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
+import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
+import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
+import 'package:the_pet_nest/utils/utils.dart';
 
-class PetTrainingService extends StatefulWidget {
+class PetTrainingService extends StatelessWidget
+    implements
+        AddressSelectionInterface,
+        PetSelectionInterface,
+        PackageSelectionInterface,
+        DateTimeSelectionInterface {
   const PetTrainingService({Key? key}) : super(key: key);
-
-  @override
-  _PetTrainingServiceState createState() => _PetTrainingServiceState();
-}
-
-enum PetTrainingStep {
-  STEP_SELECT_LOCATION,
-  STEP_SELECT_PET,
-  STEP_CHOOSE_PACKAGE,
-  STEP_SELECT_BOOKING_DETAILS,
-  STEP_SELECT_DATE_TIME,
-  STEP_PAYMENT_METHOD,
-  STEP_BOOKING_CONFIRMED,
-  STEP_BOOKING_CANCELLED,
-  STEP_SHOW_BOOKING_DETAILS
-}
-
-class _PetTrainingServiceState extends State<PetTrainingService> {
-  PetTrainingStep currentStep = PetTrainingStep.STEP_SELECT_LOCATION;
-  PetTrainingFunnelDataHolder dataHolder = PetTrainingFunnelDataHolder();
-  late Widget body;
-
-  double _progressValue = .25;
-  int _totalScreens = 7;
-
-  void screenAddressSelectionResponse(PetTrainingFunnelDataHolder dataHolder) {
-    this.dataHolder = dataHolder;
-    setState(() {
-      currentStep = PetTrainingStep.STEP_SELECT_PET;
-      _progressValue = 2;
-    });
-  }
-
-  void screenPetSelectionResponse(PetTrainingFunnelDataHolder dataHolder) {
-    this.dataHolder = dataHolder;
-    setState(() {
-      currentStep = PetTrainingStep.STEP_CHOOSE_PACKAGE;
-      _progressValue = 3;
-    });
-  }
-
-  void screenPackageSelectionResponse(PetTrainingFunnelDataHolder dataHolder) {
-    this.dataHolder = dataHolder;
-    setState(() {
-      currentStep = PetTrainingStep.STEP_SELECT_BOOKING_DETAILS;
-      _progressValue = 4;
-    });
-  }
-
-  void screenBookingDetailResponse(PetTrainingFunnelDataHolder dataHolder) {
-    this.dataHolder = dataHolder;
-    setState(() {
-      currentStep = PetTrainingStep.STEP_PAYMENT_METHOD;
-      _progressValue = 5;
-    });
-  }
-
-  void screenPaymentMethodResponse(PetTrainingFunnelDataHolder dataHolder) {
-    this.dataHolder = dataHolder;
-    setState(() {
-      currentStep = PetTrainingStep.STEP_BOOKING_CONFIRMED;
-      _progressValue = 6;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    switch (currentStep) {
-      case PetTrainingStep.STEP_SELECT_LOCATION:
-        body = ScreenAddressSelection(
-            dataHolder: dataHolder,
-            screenAddressSelectionResponse: screenAddressSelectionResponse);
-        break;
-      case PetTrainingStep.STEP_SELECT_PET:
-        body = ScreenPetSelection(
-          screenPetSelectionResponse: screenPetSelectionResponse,
-          dataHolder: dataHolder,
-        );
-        break;
-      case PetTrainingStep.STEP_CHOOSE_PACKAGE:
-        body = ScreenPackageSelection(
-          dataHolder: dataHolder,
-          screenPackageSelectionResponse: screenPackageSelectionResponse,
-        );
-        break;
-      case PetTrainingStep.STEP_SELECT_BOOKING_DETAILS:
-        body = ScreenBookingDetail(
-          dataHolder: dataHolder,
-          screenBookingDetailResponse: screenBookingDetailResponse,
-        );
-        break;
-      case PetTrainingStep.STEP_PAYMENT_METHOD:
-        body = ScreenPaymentMethod(
-            screenPaymentMethodResponse: screenPaymentMethodResponse,
-            dataHolder: dataHolder);
-        break;
-    }
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kAppBackgroundAltGray,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            switch (currentStep) {
-              case PetTrainingStep.STEP_SELECT_LOCATION:
-              case PetTrainingStep.STEP_BOOKING_CANCELLED:
-              case PetTrainingStep.STEP_BOOKING_CONFIRMED:
-              case PetTrainingStep.STEP_SHOW_BOOKING_DETAILS:
-                Navigator.pop(context);
-                break;
-              case PetTrainingStep.STEP_SELECT_PET:
-                setState(() {
-                  currentStep = PetTrainingStep.STEP_SELECT_LOCATION;
-                  _progressValue = 1;
-                });
-                break;
-              case PetTrainingStep.STEP_CHOOSE_PACKAGE:
-                setState(() {
-                  currentStep = PetTrainingStep.STEP_SELECT_PET;
-                  _progressValue = 2;
-                });
-                break;
-              case PetTrainingStep.STEP_SELECT_BOOKING_DETAILS:
-                setState(() {
-                  currentStep = PetTrainingStep.STEP_CHOOSE_PACKAGE;
-                  _progressValue = 3;
-                });
-                break;
-              case PetTrainingStep.STEP_PAYMENT_METHOD:
-                setState(() {
-                  currentStep = PetTrainingStep.STEP_SELECT_BOOKING_DETAILS;
-                  _progressValue = 4;
-                });
-                break;
-            }
-          },
-        ),
-      ),
-      backgroundColor: kAppBackgroundAltGray,
-      resizeToAvoidBottomInset: true,
-      body: Column(
-        children: [
-          LinearProgressIndicator(
-            backgroundColor: kAppBackgroundAltGray,
-            color: kAppIconColor,
-            value: _progressValue / _totalScreens,
-          ),
-          body
+    // String
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+              create: (_) => AddressBookBloc(initialState: AddressBookState())),
+          BlocProvider(create: (_) => PetTrainingBloc(FunnelState())),
+          BlocProvider(create: (_) => PetProfileBloc(PetProfileState())),
+          BlocProvider(create: (_) => PackageBloc(PackageState())),
+          BlocProvider(create: (_) => DateTimeBloc(DateTimeState())),
         ],
-      ),
-    );
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<PetTrainingBloc, FunnelState>(
+                listener: (blocContext, state) {
+              if (state.closeThisFunnel) {
+                Navigator.pop(context);
+              } else if (state.showError) {
+                showSnackbar(context: blocContext, message: state.errorMessage);
+              }
+            })
+          ],
+          child: Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: kAppBackgroundAltGray,
+              leading: BlocBuilder<PetTrainingBloc, FunnelState>(
+                builder: (blocContext, state) {
+                  return IconButton(
+                    onPressed: () {
+                      BlocProvider.of<PetTrainingBloc>(blocContext).goBack();
+                    },
+                    icon: Icon(Icons.arrow_back),
+                  );
+                },
+              ),
+            ),
+            backgroundColor: kAppBackgroundAltGray,
+            body: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                BlocBuilder<PetTrainingBloc, FunnelState>(
+                    builder: (blocContext, state) {
+                  late Widget body;
+                  switch (state.currentScreen) {
+                    case FunnelScreens.SCREEN_ADDRESS_SELECTION:
+                      body = ScreenAddressSelection(onAddressSelection: this);
+                      break;
+                    case FunnelScreens.SCREEN_PET_SELECTION:
+                      body = ScreenPetSelection(onPetSelected: this);
+                      break;
+                    case FunnelScreens.SCREEN_PACKAGE_SELECTION:
+                      body = ScreenPackageSelection(
+                        onPackageSelected: this,
+                        petCategory: state.petCategory,
+                        city: state.citySlug,
+                        currentFunnel: FunnelType.PET_TRAINING,
+                      );
+                      break;
+                  }
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        LinearProgressIndicator(
+                          backgroundColor: kAppBackgroundAltGray,
+                          color: kAppIconColor,
+                          value: state.progressIndicator,
+                        ),
+                        body
+                      ],
+                    ),
+                  );
+                }),
+                // Text(textTest)
+              ],
+            ),
+          ),
+        ));
+  }
+
+  @override
+  void onAddressSelected(blocContext, Address? address) {
+    BlocProvider.of<PetTrainingBloc>(blocContext).setAddress(address);
+  }
+
+  @override
+  void onAddressSelectionComplete(blocContext) {
+    BlocProvider.of<PetTrainingBloc>(blocContext).openPetSelectionScreen();
+  }
+
+  @override
+  void onNoteUpdated(blocContext, String note) {
+    // TODO: implement onPetSelectionComplete
+  }
+
+  @override
+  void onPetSelectionComplete(blocContext) {
+    BlocProvider.of<PetTrainingBloc>(blocContext).openPackageSelectionScreen();
+  }
+
+  @override
+  void petSelected(blocContext, CustomerPet petData) {
+    BlocProvider.of<PetTrainingBloc>(blocContext).setPet(petData);
+  }
+
+  @override
+  void dateSelected(blocContext, String date) {
+    // TODO: implement dateSelected
+  }
+
+  @override
+  void onPackageSelectionComplete(blocContext) {
+    // TODO: implement onPackageAndDateTimeSelectionComplete
+  }
+
+  @override
+  void packageSelected(blocContext, PackageDetailModel packageDetail) {
+    // TODO: implement packageSelected
+  }
+
+  @override
+  void timeSelected(blocContext, String time) {
+    // TODO: implement timeSelected
+  }
+
+  @override
+  void onDateTimeSelectionComplete(blocContext) {
+    // TODO: implement onPackageSelectionComplete
   }
 }

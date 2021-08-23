@@ -22,9 +22,14 @@ class UserDetailInput extends StatelessWidget {
     this.disabled = false,
     Key? key,
   }) : super(key: key) {
-    _controller.text = value;
-    _controller.selection = TextSelection.fromPosition(
-        TextPosition(offset: _controller.text.length));
+    // _controller.text = value;
+    // _controller.selection = TextSelection.fromPosition(
+    //     TextPosition(offset: _controller.text.length));
+    // _controller.addListener(() {
+    //   onDataFilled(_controller.text);
+    //   _controller.
+    // });
+
     // _focusNode = FocusNode();
     // // _focusNode.addListener(() {
     // //   if (!_focusNode.hasFocus) {
@@ -32,9 +37,6 @@ class UserDetailInput extends StatelessWidget {
     // //     onDataFilled(_controller.text);
     // //   }
     // });
-    _controller.addListener(() {
-      onDataFilled(_controller.text);
-    });
   }
 
   @override
@@ -55,12 +57,14 @@ class UserDetailInput extends StatelessWidget {
               color: disabled ? Colors.grey[300] : Colors.white),
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-          child: TextField(
+          child: TextFormField(
             readOnly: disabled,
-            controller: _controller,
+            initialValue: value,
+            // controller: TextEditingController()..text = value,
             // focusNode: _focusNode,
             // initialValue: value,
-            // onChanged: (data) => onDataFilled(data),
+
+            onChanged: (data) => onDataFilled(data),
             style: TextStyle(height: .75),
             decoration: InputDecoration(
                 focusColor: Color(0x331A202E),

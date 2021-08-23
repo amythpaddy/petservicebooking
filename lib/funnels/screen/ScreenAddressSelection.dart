@@ -1,155 +1,144 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:the_pet_nest/addressBook/bloc/addressBookBloc.dart';
+import 'package:the_pet_nest/addressBook/bloc/addressBookState.dart';
+import 'package:the_pet_nest/addressBook/components/noSavedAddressComponent.dart';
+import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
 import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/funnels/component/selectLocationComponent.dart';
-import 'package:the_pet_nest/funnels/petTraining/model/petTrainingFunnelDataHolder.dart';
-import 'package:the_pet_nest/funnels/petTraining/model/savedAddressModel.dart';
+import 'package:the_pet_nest/funnels/interfaces/AddressSelectionInterface.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 
 import '../component/addLocationComponent.dart';
 
-class ScreenAddressSelection extends StatefulWidget {
-  const ScreenAddressSelection(
-      {Key? key,
-      required this.screenAddressSelectionResponse,
-      required this.dataHolder})
+class ScreenAddressSelection extends StatelessWidget {
+  const ScreenAddressSelection({Key? key, required this.onAddressSelection})
       : super(key: key);
-  final Function screenAddressSelectionResponse;
-  final PetTrainingFunnelDataHolder dataHolder;
-
-  @override
-  _ScreenAddressSelectionState createState() =>
-      _ScreenAddressSelectionState(dataHolder, screenAddressSelectionResponse);
-}
-
-class _ScreenAddressSelectionState extends State<ScreenAddressSelection> {
-  final Function screenAddressSelectionResponse;
-  final PetTrainingFunnelDataHolder dataHolder;
-  int selectedAddressIndex = -1;
-  String? _chosenValue;
-
-  _ScreenAddressSelectionState(
-      this.dataHolder, this.screenAddressSelectionResponse);
+  final AddressSelectionInterface onAddressSelection;
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 18.46),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 60.89,
-            ),
-            Text(
-              'Select City',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400, fontSize: 16, height: 1.5),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Container(
-              width: SizeConfig.blockSizeHorizontal! * 90,
-              height: 50,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12), color: Colors.white),
-              child: DropdownButton<String>(
-                value: _chosenValue,
-                underline: SizedBox(),
-                style: TextStyle(color: Colors.black),
-                items: <String>[
-                  'Delhi',
-                  'Gurgaon',
-                  'Mumbai',
-                  'Ghaziabad',
-                  'Noida',
-                  'Kolkata'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Container(
-                      padding: EdgeInsets.only(left: 17),
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  );
-                }).toList(),
-                hint: Container(
-                  padding: EdgeInsets.only(left: 17),
-                  width: SizeConfig.blockSizeHorizontal! * 80,
-                  child: Text(
-                    "Choose your city",
-                    style: TextStyle(
-                        color: Colors.black26,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
+          margin: EdgeInsets.symmetric(horizontal: 18.46),
+          child: BlocBuilder<AddressBookBloc, AddressBookState>(
+            builder: (blocContext, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 60.89,
                   ),
-                ),
-                onChanged: (value) => {
-                  setState(() {
-                    _chosenValue = value!;
-                  })
-                },
-              ),
-            ),
-            SizedBox(
-              height: 27.1,
-            ),
-            Text(
-              'Address',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400, fontSize: 16, height: 1.5),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: SavedAddress.length,
-                  itemBuilder: (context, index) => TextButton(
-                      onPressed: () {
-                        setState(() {
-                          selectedAddressIndex = index;
-                        });
-                      },
-                      child: SelectLocationComponent(
-                        city: SavedAddress[index]['city']!,
-                        address: SavedAddress[index]['address']!,
-                        selected: index == selectedAddressIndex,
-                      ))),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            AddLocationComponent(),
-            SizedBox(
-              height: 8,
-            ),
-            TextButton(
-              child: Container(
-                  alignment: Alignment.center,
-                  decoration: kActiveButtonContainerStyle,
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
-                    'Next',
-                    style: kActiveButtonTextStyle,
-                  )),
-              onPressed: () {
-                dataHolder.location =
-                    SavedAddress[selectedAddressIndex]['address']!;
-                screenAddressSelectionResponse(dataHolder);
-              },
-            ),
-            SizedBox(
-              height: 63,
-            )
-          ],
-        ),
-      ),
+                  Text(
+                    'Select City',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 16, height: 1.5),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  state.cityList == null
+                      ? CircularProgressIndicator()
+                      : Container(
+                          width: SizeConfig.blockSizeHorizontal! * 90,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white),
+                          child: DropdownSearch<CityDetail>(
+                            mode: Mode.DIALOG,
+                            showSelectedItem: true,
+                            items: state.cityList!.cityList,
+                            itemAsString: (cityData) => cityData.cityName,
+                            hint: "Select a city",
+                            onChanged: (cityDetail) {
+                              onAddressSelection.onAddressSelected(
+                                  blocContext, null);
+                              BlocProvider.of<AddressBookBloc>(blocContext)
+                                  .addressSelectedByUser(-1);
+                              if (cityDetail == null) {
+                                BlocProvider.of<AddressBookBloc>(blocContext)
+                                    .getSavedAddress();
+                              } else {
+                                BlocProvider.of<AddressBookBloc>(blocContext)
+                                    .filterAddress(cityDetail!);
+                              }
+                            },
+                            compareFn: (i, s) {
+                              return true;
+                            },
+                            showSearchBox: true,
+                            showClearButton: true,
+                          )),
+                  SizedBox(
+                    height: 27.1,
+                  ),
+                  Text(
+                    state.addressBook!.address.length == 0 ? '' : 'Address',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 16, height: 1.5),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Expanded(
+                    child: state.fetchingAddressBook
+                        ? Center(
+                            child: Container(
+                                width: 50,
+                                height: 50,
+                                child: CircularProgressIndicator()))
+                        : state.addressBook!.address.length == 0
+                            ? Center(child: NoSavedAddress())
+                            : ListView.builder(
+                                itemCount: state.addressBook!.address.length,
+                                itemBuilder: (context, index) => TextButton(
+                                    onPressed: () {
+                                      onAddressSelection.onAddressSelected(
+                                          blocContext,
+                                          state.addressBook!.address[index]);
+                                      BlocProvider.of<AddressBookBloc>(
+                                              blocContext)
+                                          .addressSelectedByUser(index);
+                                    },
+                                    child: SelectLocationComponent(
+                                      city: state
+                                          .addressBook!.address[index].city,
+                                      address: state.addressBook!.address[index]
+                                          .addressLineOne,
+                                      selected:
+                                          index == state.selectedAddressIndex,
+                                    ))),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  AddLocationComponent(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextButton(
+                    child: Container(
+                        alignment: Alignment.center,
+                        decoration: kActiveButtonContainerStyle,
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          'Next',
+                          style: kActiveButtonTextStyle,
+                        )),
+                    onPressed: () {
+                      onAddressSelection
+                          .onAddressSelectionComplete(blocContext);
+                    },
+                  ),
+                  SizedBox(
+                    height: 63,
+                  )
+                ],
+              );
+            },
+          )),
     );
   }
 }

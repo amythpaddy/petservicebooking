@@ -12,12 +12,13 @@ import 'package:the_pet_nest/profiles/model/petBreedModel.dart';
 import 'package:the_pet_nest/utils/ApiCaller.dart';
 
 class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
-  late PetBreeds petBreeds;
+  late PetBreeds _petBreeds;
   PetDataStore _petList = PetDataStore();
   PetDetailForUpload _petDetail = PetDetailForUpload();
   late String _version;
   int _id = -1;
-  late SharedPreferences prefs;
+  late SharedPreferences _prefs;
+  int _selectedPetIndex = -1;
 
   PetProfileBloc(PetProfileState initialState) : super(initialState) {
     getAppVersion();
@@ -33,14 +34,14 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
   }
 
   void initSharedPreferences() async {
-    prefs = await SharedPreferences.getInstance();
+    _prefs = await SharedPreferences.getInstance();
   }
 
   void getPetBreed() async {
     var value = await ApiCaller.get(kUrlGetPetBreed);
     ResponsePetBreed petBreedResponse = ResponsePetBreed.fromJson(value);
-    petBreeds = new PetBreeds();
-    petBreeds.initData(petBreedResponse);
+    _petBreeds = new PetBreeds();
+    _petBreeds.initData(petBreedResponse);
     add(PetProfileEvent.PETS_BREED_FETCHED);
   }
 
@@ -143,12 +144,21 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
       add(PetProfileEvent.ERROR_RESPONSE);
   }
 
+  void petSelectedByUser(int index) {
+    _selectedPetIndex = index;
+    add(PetProfileEvent.PET_SELECTED_BY_USER);
+  }
+
+  void resetState() {
+    add(PetProfileEvent.RESET_STATE_VALUE);
+  }
+
   @override
   Stream<PetProfileState> mapEventToState(PetProfileEvent event) async* {
     if (event == PetProfileEvent.PET_DETAILS_CHANGED) {
       yield state.copyWith(addUpdatePet: _petDetail);
     } else if (event == PetProfileEvent.PETS_BREED_FETCHED) {
-      yield state.copyWith(petBreeds: petBreeds);
+      yield state.copyWith(petBreeds: _petBreeds);
     } else if (event == PetProfileEvent.PET_ADDED) {
       yield state.copyWith(
           petCreated: true, addingPet: false, petList: _petList);
@@ -186,6 +196,10 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
       yield state.copyWith(
           showPetPopupScreen: false,
           currentScreen: PetPopupScreens.SELECT_PET_CATEGORY_SCREEN);
+    } else if (event == PetProfileEvent.PET_SELECTED_BY_USER) {
+      yield state.copyWith(petSelectedByUserIndex: _selectedPetIndex);
+    } else if (event == PetProfileEvent.RESET_STATE_VALUE) {
+      yield state.resetValues();
     }
   }
 }

@@ -4,8 +4,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:the_pet_nest/addressBook/bloc/addressBookEvent.dart';
 import 'package:the_pet_nest/addressBook/bloc/addressBookState.dart';
-import 'package:the_pet_nest/addressBook/model/StatesAndCityModel.dart';
-import 'package:the_pet_nest/addressBook/model/addAddressModel.dart';
+import 'package:the_pet_nest/addressBook/model/addAddressRequestModel.dart';
+import 'package:the_pet_nest/addressBook/model/addAddressResponseModel.dart';
+import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
+import 'package:the_pet_nest/addressBook/model/savedAddressesAPIModel.dart';
+import 'package:the_pet_nest/addressBook/model/statesAndCityApiModel.dart';
 import 'package:the_pet_nest/konstants/endpoints.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/utils/ApiCaller.dart';
@@ -22,12 +25,17 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
   double _currentBottomSheetHeight = 232;
   int _blackScreenAlpha = 0;
   bool _showCollapsedUI = true;
-  AddAddressModel _addAddressModel = AddAddressModel();
+  AddAddressRequestModel _addAddressModel = AddAddressRequestModel();
   late StatesAndCitiesResponse _statesAndCitiesResponse;
+  late AddressBookModel _addressBook = AddressBookModel();
+  late CityList _cityList;
+  late CityDetail _selectedCity;
+  int _addressSelectedIndex = -1;
 
   AddressBookBloc(
       {required AddressBookState initialState, BuildContext? context})
       : super(initialState) {
+    getSavedAddress();
     getCurrentPosition();
     getCityAndState();
     if (context != null) {
@@ -146,17 +154,44 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
   void getCityAndState() async {
     var response = await ApiCaller.get(kUrlGetStatesAndCities);
     _statesAndCitiesResponse = StatesAndCitiesResponse.fromJson(response);
+    _cityList = CityList();
+    _cityList.createCityListFromCityStateList(_statesAndCitiesResponse);
     add(AddressBookEvent.STATES_N_CITIES_LIST_FETCHED);
   }
 
+  void getSavedAddress() async {
+    add(AddressBookEvent.FETCHING_ADDRESS_BOOK);
+    var response = await ApiCaller.get(kUrlGetSavedAddresses, withToken: true);
+    _addressBook.addAddressFromSavedAddressList(
+        SavedAddressResponse.fromJson(response));
+    add(AddressBookEvent.ADDRESS_BOOK_UPDATED);
+  }
+
   void addNewAddress() async {
-    print('adding new address');
     add(AddressBookEvent.ADDING_NEW_ADDRESS);
     var response = await ApiCaller.post(
         kUrlAddSavedAddresses, _addAddressModel.toJson(),
         withToken: true);
-    print(response);
+    _addressBook.addAddressFromAddedAddressResponse(
+        AddEditAddressResponse.fromJson(response));
+    add(AddressBookEvent.NEW_ADDRESS_ADDED);
+  }
+
+  void filterAddress(CityDetail cityDetail) async {
+    _selectedCity = cityDetail;
+    add(AddressBookEvent.CITY_SELECTED_FROM_DROPDOWN);
+    add(AddressBookEvent.FETCHING_ADDRESS_BOOK);
+    var response = await ApiCaller.get(
+        '$kUrlGetSavedAddresses?city_id=${cityDetail.cityId}',
+        withToken: true);
+    _addressBook.addAddressFromSavedAddressList(
+        SavedAddressResponse.fromJson(response));
     add(AddressBookEvent.ADDRESS_BOOK_UPDATED);
+  }
+
+  void addressSelectedByUser(int index) {
+    _addressSelectedIndex = index;
+    add(AddressBookEvent.ADDRESS_SELECTED_FROM_LIST);
   }
 
   @override
@@ -181,11 +216,37 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
     } else if (event == AddressBookEvent.ADDRESS_FIELDS_UPDATED) {
       yield state.copyWith(addAddressModel: _addAddressModel);
     } else if (event == AddressBookEvent.STATES_N_CITIES_LIST_FETCHED) {
-      yield state.copyWith(statesAndCitiesList: _statesAndCitiesResponse);
+      yield state.copyWith(
+          statesAndCitiesList: _statesAndCitiesResponse, cityList: _cityList);
     } else if (event == AddressBookEvent.ADDING_NEW_ADDRESS) {
       yield state.copyWith(addingNewAddress: true);
     } else if (event == AddressBookEvent.ADDRESS_BOOK_UPDATED) {
-      yield state.copyWith(addressBookUpdated: true);
+      yield state.copyWith(
+          addressBookUpdated: true,
+          addingNewAddress: false,
+          fetchingAddressBook: false,
+          addressBook: _addressBook);
+    } else if (event == AddressBookEvent.NEW_ADDRESS_ADDED) {
+      state.copyWith(
+          addressAdded: true,
+          addingNewAddress: false,
+          fetchingAddressBook: false,
+          addressBook: _addressBook);
+    } else if (event == AddressBookEvent.FETCHING_ADDRESS_BOOK) {
+      yield state.copyWith(fetchingAddressBook: true);
+    } else if (event == AddressBookEvent.OPEN_ADD_EDIT_ADDRESS_SCREEN) {
+      yield state.copyWith(
+          openAddEditAddressScreen: true,
+          addressBookUpdated: false,
+          addressAdded: false);
+    } else if (event == AddressBookEvent.CITY_SELECTED_FROM_DROPDOWN) {
+      yield state.copyWith(selectedCity: _selectedCity);
+    } else if (event == AddressBookEvent.ADDRESS_SELECTED_FROM_LIST) {
+      yield state.copyWith(selectedAddressIndex: _addressSelectedIndex);
     }
+  }
+
+  void openAddAddress() {
+    add(AddressBookEvent.OPEN_ADD_EDIT_ADDRESS_SCREEN);
   }
 }

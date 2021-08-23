@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 
 void showSnackbar(
     {required BuildContext context,
@@ -8,4 +9,17 @@ void showSnackbar(
     content: Text(message),
     duration: Duration(seconds: duration),
   ));
+}
+
+String getTimeSlot({required String timeSlot}) {
+  if (timeSlot == timeSlots[0])
+    return '09:00:00';
+  else if (timeSlot == timeSlots[1])
+    return '11:00:00';
+  else if (timeSlot == timeSlots[2])
+    return '01:00:00';
+  else if (timeSlot == timeSlots[3])
+    return '03:00:00';
+  else if (timeSlot == timeSlots[4]) return '05:00:00';
+  return '00:00:00';
 }

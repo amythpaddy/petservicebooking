@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_pet_nest/home/component/coloredCardPainter.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 
 class PetGroomingHeroCard extends StatelessWidget {
   const PetGroomingHeroCard({Key? key}) : super(key: key);
@@ -54,7 +55,10 @@ class PetGroomingHeroCard extends StatelessWidget {
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, kNavigationPetGroomingFunnel);
+                    },
                   ),
                 ),
               ],

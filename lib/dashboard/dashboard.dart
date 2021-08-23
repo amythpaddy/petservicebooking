@@ -8,6 +8,7 @@ import 'package:the_pet_nest/home/home.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
+import 'package:the_pet_nest/messaging/messaging.dart';
 import 'package:the_pet_nest/profiles/userProfile/userProfile.dart';
 import 'package:the_pet_nest/sidebar/sidebar.dart';
 
@@ -47,6 +48,10 @@ class _DashboardState extends State<Dashboard> {
         break;
       case BottomNavigationOptions.ME:
         fragment = UserProfile();
+        break;
+      case BottomNavigationOptions.MESSAGE:
+        fragment = Messaging();
+        break;
     }
     return Scaffold(
       key: _scaffoldKey,

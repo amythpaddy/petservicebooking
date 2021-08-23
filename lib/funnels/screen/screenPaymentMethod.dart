@@ -1,31 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:the_pet_nest/funnels/petTraining/model/petTrainingFunnelDataHolder.dart';
+import 'package:the_pet_nest/funnels/bloc/paymentSelectionBloc/paymentSelectionBloc.dart';
+import 'package:the_pet_nest/funnels/bloc/paymentSelectionBloc/paymentSelectionState.dart';
+import 'package:the_pet_nest/funnels/interfaces/paymentMethodSelectionInterface.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 
-class ScreenPaymentMethod extends StatefulWidget {
-  const ScreenPaymentMethod(
-      {Key? key,
-      required this.screenPaymentMethodResponse,
-      required this.dataHolder})
-      : super(key: key);
-  final Function screenPaymentMethodResponse;
-  final PetTrainingFunnelDataHolder dataHolder;
-
-  @override
-  _ScreenPaymentMethodState createState() =>
-      _ScreenPaymentMethodState(screenPaymentMethodResponse, dataHolder);
-}
-
-enum PAYMENT_METHOD { ONLINE, AFTER_SERVICE }
-
-class _ScreenPaymentMethodState extends State<ScreenPaymentMethod> {
-  final Function screenPaymentMethodResponse;
-  final PetTrainingFunnelDataHolder dataHolder;
-  PAYMENT_METHOD _paymentMethod = PAYMENT_METHOD.ONLINE;
-
-  _ScreenPaymentMethodState(this.screenPaymentMethodResponse, this.dataHolder);
+class ScreenPaymentMethod extends StatelessWidget {
+  const ScreenPaymentMethod({
+    Key? key,
+    required this.onPaymentMethodSelected,
+    required this.totalPrice,
+  }) : super(key: key);
+  final double totalPrice;
+  final PaymentMethodSelectionInterface onPaymentMethodSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -53,57 +43,71 @@ class _ScreenPaymentMethodState extends State<ScreenPaymentMethod> {
                         borderRadius: BorderRadius.circular(12),
                         color: Colors.white,
                         boxShadow: [kContainerBoxShadow]),
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading: SvgPicture.asset(
-                            'assets/images/funnels/icon_payment_online.svg',
-                            width: 24,
-                            height: 24,
-                          ),
-                          title: Text('Pay online'),
-                          trailing: Radio<PAYMENT_METHOD>(
-                            value: PAYMENT_METHOD.ONLINE,
-                            groupValue: _paymentMethod,
-                            onChanged: (PAYMENT_METHOD? value) {
-                              setState(() {
-                                _paymentMethod = value!;
-                              });
-                            },
-                          ),
-                          onTap: () {
-                            setState(() {
-                              _paymentMethod = PAYMENT_METHOD.ONLINE;
-                            });
-                          },
-                        ),
-                        Divider(
-                          indent: 50,
-                          endIndent: 50,
-                        ),
-                        ListTile(
-                          leading: SvgPicture.asset(
-                            'assets/images/funnels/icon_payment_cash.svg',
-                            width: 24,
-                            height: 24,
-                          ),
-                          title: Text('Pay online'),
-                          trailing: Radio<PAYMENT_METHOD>(
-                            value: PAYMENT_METHOD.AFTER_SERVICE,
-                            groupValue: _paymentMethod,
-                            onChanged: (PAYMENT_METHOD? value) {
-                              setState(() {
-                                _paymentMethod = value!;
-                              });
-                            },
-                          ),
-                          onTap: () {
-                            setState(() {
-                              _paymentMethod = PAYMENT_METHOD.AFTER_SERVICE;
-                            });
-                          },
-                        ),
-                      ],
+                    child: BlocBuilder<PaymentSelectionBloc,
+                        PaymentSelectionState>(
+                      builder: (blocContext, state) {
+                        return Column(
+                          children: [
+                            ListTile(
+                                leading: SvgPicture.asset(
+                                  'assets/images/funnels/icon_payment_online.svg',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                title: Text('Pay Online'),
+                                trailing: Radio<PAYMENT_METHOD>(
+                                  value: PAYMENT_METHOD.ONLINE,
+                                  groupValue: state.paymentMethod,
+                                  onChanged: (value) {
+                                    onPaymentMethodSelected
+                                        .onPaymentMethodChange(
+                                            blocContext, value!);
+                                    BlocProvider.of<PaymentSelectionBloc>(
+                                            blocContext)
+                                        .setPaymentMethodToOnline();
+                                  },
+                                ),
+                                onTap: () {
+                                  onPaymentMethodSelected.onPaymentMethodChange(
+                                      blocContext, PAYMENT_METHOD.ONLINE);
+                                  BlocProvider.of<PaymentSelectionBloc>(
+                                          blocContext)
+                                      .setPaymentMethodToOnline();
+                                }),
+                            Divider(
+                              indent: 50,
+                              endIndent: 50,
+                            ),
+                            ListTile(
+                                leading: SvgPicture.asset(
+                                  'assets/images/funnels/icon_payment_cash.svg',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                title: Text('Pay After Service'),
+                                trailing: Radio<PAYMENT_METHOD>(
+                                  value: PAYMENT_METHOD.AFTER_SERVICE,
+                                  groupValue: state.paymentMethod,
+                                  onChanged: (value) {
+                                    onPaymentMethodSelected
+                                        .onPaymentMethodChange(
+                                            blocContext, value!);
+                                    BlocProvider.of<PaymentSelectionBloc>(
+                                            blocContext)
+                                        .setPaymentMethodToAfterService();
+                                  },
+                                ),
+                                onTap: () {
+                                  onPaymentMethodSelected.onPaymentMethodChange(
+                                      blocContext,
+                                      PAYMENT_METHOD.AFTER_SERVICE);
+                                  BlocProvider.of<PaymentSelectionBloc>(
+                                          blocContext)
+                                      .setPaymentMethodToAfterService();
+                                }),
+                          ],
+                        );
+                      },
                     ),
                   )
                 ],
@@ -119,7 +123,7 @@ class _ScreenPaymentMethodState extends State<ScreenPaymentMethod> {
               children: [
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(
-                    '\u{20B9} 1800',
+                    '\u{20B9} $totalPrice',
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
@@ -134,17 +138,23 @@ class _ScreenPaymentMethodState extends State<ScreenPaymentMethod> {
                         color: kTextColorBlue),
                   )
                 ]),
-                TextButton(
-                    onPressed: () => screenPaymentMethodResponse(dataHolder),
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      decoration: kActiveButtonContainerStyle,
-                      child: Text(
-                        'Proceed to Pay',
-                        style: kActiveButtonTextStyle,
-                      ),
-                    ))
+                BlocBuilder<PaymentSelectionBloc, PaymentSelectionState>(
+                    builder: (blocContext, state) {
+                  return TextButton(
+                      onPressed: () => onPaymentMethodSelected
+                          .onPaymentMethodSelectionComplete(context),
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        decoration: kActiveButtonContainerStyle,
+                        child: Text(
+                          state.paymentMethod == PAYMENT_METHOD.ONLINE
+                              ? 'Proceed to Pay'
+                              : 'Confirm Booking',
+                          style: kActiveButtonTextStyle,
+                        ),
+                      ));
+                })
               ],
             ),
           )

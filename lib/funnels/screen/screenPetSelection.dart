@@ -1,31 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:the_pet_nest/dashboard/component/addPetPopup/addPetPopup.dart';
 import 'package:the_pet_nest/funnels/component/selectAddedPetComponent.dart';
-import 'package:the_pet_nest/funnels/petTraining/model/petTrainingFunnelDataHolder.dart';
+import 'package:the_pet_nest/funnels/interfaces/petSelectionInterface.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
-import 'package:the_pet_nest/profiles/petProfile/model/petData.dart';
+import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
+import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
 
-class ScreenPetSelection extends StatefulWidget {
-  const ScreenPetSelection(
-      {Key? key,
-      required this.screenPetSelectionResponse,
-      required this.dataHolder})
+class ScreenPetSelection extends StatelessWidget {
+  const ScreenPetSelection({Key? key, required this.onPetSelected})
       : super(key: key);
-  final Function screenPetSelectionResponse;
-  final PetTrainingFunnelDataHolder dataHolder;
-
-  @override
-  _ScreenPetSelectionState createState() =>
-      _ScreenPetSelectionState(screenPetSelectionResponse, dataHolder);
-}
-
-class _ScreenPetSelectionState extends State<ScreenPetSelection> {
-  final Function screenPetSelectionResponse;
-  final PetTrainingFunnelDataHolder dataHolder;
-
-  int _selectedPetIndex = -1;
-
-  _ScreenPetSelectionState(this.screenPetSelectionResponse, this.dataHolder);
+  final PetSelectionInterface onPetSelected;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,27 +28,35 @@ class _ScreenPetSelectionState extends State<ScreenPetSelection> {
           SizedBox(
             height: 33.62,
           ),
-          Container(
-            height: 150,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: PetData.length,
-                itemBuilder: (context, index) {
-                  return TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _selectedPetIndex = index;
-                      });
-                    },
-                    child: SelectAddedPetCard(
-                      name: PetData[index]['name'],
-                      image: PetData[index]['image'],
-                      breed: PetData[index]['breed'],
-                      selected: index == _selectedPetIndex,
-                    ),
-                  );
-                }),
+          BlocBuilder<PetProfileBloc, PetProfileState>(
+            builder: (blocContext, state) {
+              return Container(
+                height: state.petList!.petDataStore!.length == 0 ? 0 : 160,
+                child: Center(
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemCount: state.petList!.petDataStore.length,
+                      itemBuilder: (context, index) {
+                        return TextButton(
+                          onPressed: () {
+                            onPetSelected.petSelected(blocContext,
+                                state.petList!.petDataStore[index]);
+                            BlocProvider.of<PetProfileBloc>(blocContext)
+                                .petSelectedByUser(index);
+                          },
+                          child: SelectAddedPetCard(
+                            name: state.petList!.petDataStore[index].name!,
+                            image: '',
+                            breed: state.petList!.petDataStore[index]!
+                                .subcategory!.name!,
+                            selected: index == state.petSelectedByUserIndex,
+                          ),
+                        );
+                      }),
+                ),
+              );
+            },
           ),
           SizedBox(
             height: 47.14,
@@ -75,7 +69,19 @@ class _ScreenPetSelectionState extends State<ScreenPetSelection> {
                   boxShadow: [kContainerBoxShadow]),
               padding: EdgeInsets.symmetric(horizontal: 18, vertical: 6),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (context) => Theme(
+                      data: ThemeData(canvasColor: Colors.transparent),
+                      child: FractionallySizedBox(
+                        heightFactor: 1,
+                        child: AddPetPopup(),
+                      ),
+                    ),
+                  );
+                },
                 child: Text(
                   'Add another pet',
                   style: TextStyle(
@@ -120,11 +126,11 @@ class _ScreenPetSelectionState extends State<ScreenPetSelection> {
             ),
           ),
           SizedBox(
-            height: 130.82,
+            height: 110,
           ),
           TextButton(
             onPressed: () {
-              screenPetSelectionResponse(dataHolder);
+              onPetSelected.onPetSelectionComplete(context);
             },
             child: Container(
               width: double.infinity,

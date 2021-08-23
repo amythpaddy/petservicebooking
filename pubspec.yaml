@@ -40,6 +40,9 @@ dependencies:
   flutter_config: ^2.0.0
   google_maps_flutter: ^2.0.6
   geolocator: ^7.3.1
+  equatable: ^2.0.0
+  shimmer: ^2.0.0
+
 
 
 
@@ -125,9 +128,13 @@ flutter:
     - assets/images/funnels/package_cost_bg.png
     - assets/images/funnels/icon_payment_cash.svg
     - assets/images/funnels/icon_payment_online.svg
+    - assets/images/funnels/grooming_prep_image.png
+    - assets/images/funnels/booking_page_coupon_icon.svg
+    - assets/images/funnels/bg_image_coupon.png
     - assets/images/map/map_pin.png
     - assets/images/address/icon_office.svg
     - assets/images/address/icon_map_pin.svg
+    - assets/images/messages/img_no_msg.svg
 
   fonts:
     - family: Poppins

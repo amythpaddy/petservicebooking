@@ -54,16 +54,16 @@ class StateData {
 }
 
 class Cities {
-  int? id;
-  String? slug;
-  String? cityName;
+  late int id;
+  late String slug;
+  late String cityName;
 
-  Cities({this.id, this.slug, this.cityName});
+  Cities({required this.id, required this.slug, required this.cityName});
 
   Cities.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    slug = json['slug'];
-    cityName = json['name'];
+    id = json['id'] ?? 0;
+    slug = json['slug'] ?? '';
+    cityName = json['name'] ?? '';
   }
 
   Map<String, dynamic> toJson() {

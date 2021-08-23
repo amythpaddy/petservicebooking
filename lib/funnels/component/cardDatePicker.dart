@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:the_pet_nest/funnels/component/timeSelectionCard.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 
 const Size _calendarPortraitDialogSize = Size(330.0, 518.0);
 const Size _calendarLandscapeDialogSize = Size(496.0, 346.0);
@@ -652,6 +653,10 @@ class _CardDatePickerDialogState extends State<CardDatePickerDialog>
           return TimeSelectionCard(
             selected: false,
             available: true,
+            displayText: timeSlots[index],
+            onPressed: () {
+              //todo update this function
+            },
           );
         });
 
@@ -686,22 +691,22 @@ class _CardDatePickerDialogState extends State<CardDatePickerDialog>
                       // header,
                       picker,
                       Divider(),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20.72),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Select Time',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16),
-                            ),
-                            timeGrid,
-                          ],
-                        ),
-                      ),
+                      // Container(
+                      //   margin: EdgeInsets.symmetric(horizontal: 20.72),
+                      //   // child: Column(
+                      //   //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   //   children: [
+                      // Text(
+                      //   'Select Time',
+                      //   style: TextStyle(
+                      //       color: Colors.black,
+                      //       fontWeight: FontWeight.w400,
+                      //       fontSize: 16),
+                      // ),
+                      // timeGrid,
+                      //     ],
+                      //   ),
+                      // ),
                       SizedBox(
                         height: 30,
                       ),

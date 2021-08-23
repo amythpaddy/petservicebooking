@@ -1,27 +1,33 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:the_pet_nest/addressBook/model/StatesAndCityModel.dart';
-import 'package:the_pet_nest/addressBook/model/addAddressModel.dart';
-import 'package:the_pet_nest/addressBook/model/addressListModel.dart';
+import 'package:the_pet_nest/addressBook/model/addAddressRequestModel.dart';
+import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
+import 'package:the_pet_nest/addressBook/model/statesAndCityApiModel.dart';
 
 class AddressBookState {
-  AddressListResponse? savedAddresses;
+  Marker? mapMarker;
+  AddAddressRequestModel? addAddressModel;
+  StatesAndCitiesResponse? statesAndCitiesList;
+  AddressBookModel? addressBook;
+  CityList? cityList;
+  CityDetail? selectedCity;
   String? errorMessage;
   bool locationError;
   bool locationUpdated;
-  Marker? mapMarker;
   bool showAddressModal;
   double modalHeight;
   double bottomSheetHeight;
   int blackScreenAlpha;
   bool showCollapsedUi;
-  AddAddressModel? addAddressModel;
-  StatesAndCitiesResponse? statesAndCitiesList;
+  bool fetchingAddressBook;
   bool addingNewAddress;
   bool addressBookUpdated;
+  bool openAddEditAddressScreen;
+  bool addressAdded;
+  int filterCityId;
+  int selectedAddressIndex;
 
   AddressBookState(
-      {this.savedAddresses,
-      this.errorMessage,
+      {this.errorMessage,
       this.locationError = false,
       this.locationUpdated = false,
       this.mapMarker,
@@ -33,28 +39,45 @@ class AddressBookState {
       this.addAddressModel,
       this.statesAndCitiesList,
       this.addingNewAddress = false,
-      this.addressBookUpdated = false}) {
-    savedAddresses = this.savedAddresses ?? AddressListResponse();
-    addAddressModel = this.addAddressModel ?? AddAddressModel();
+      this.addressBookUpdated = false,
+      this.fetchingAddressBook = false,
+      this.addressBook,
+      this.openAddEditAddressScreen = false,
+      this.addressAdded = false,
+      this.filterCityId = -1,
+      this.cityList,
+      this.selectedCity,
+      this.selectedAddressIndex = -1}) {
+    addAddressModel = this.addAddressModel ?? AddAddressRequestModel();
     statesAndCitiesList = this.statesAndCitiesList ?? StatesAndCitiesResponse();
+    addressBook = this.addressBook ?? AddressBookModel();
+    cityList = this.cityList;
   }
 
-  AddressBookState copyWith(
-      {AddressListResponse? savedAddresses,
-      String? errorMessage,
-      bool? locationError,
-      bool? locationUpdated,
-      Marker? mapMarker,
-      double? modalHeight,
-      double? bottomSheetHeight,
-      int? blackScreenAlpha,
-      bool? showCollapsedUi,
-      AddAddressModel? addAddressModel,
-      StatesAndCitiesResponse? statesAndCitiesList,
-      bool? addingNewAddress,
-      bool? addressBookUpdated}) {
+  AddressBookState copyWith({
+    AddressBookModel? addressBook,
+    String? errorMessage,
+    bool? locationError,
+    bool? locationUpdated,
+    Marker? mapMarker,
+    double? modalHeight,
+    double? bottomSheetHeight,
+    int? blackScreenAlpha,
+    bool? showCollapsedUi,
+    AddAddressRequestModel? addAddressModel,
+    StatesAndCitiesResponse? statesAndCitiesList,
+    bool? addingNewAddress,
+    bool? addressBookUpdated,
+    bool? fetchingAddressBook,
+    bool? openAddEditAddressScreen,
+    bool? addressAdded,
+    int? filterCityId,
+    CityList? cityList,
+    CityDetail? selectedCity,
+    int? selectedAddressIndex,
+  }) {
     return AddressBookState(
-        savedAddresses: savedAddresses ?? this.savedAddresses,
+        addressBook: addressBook ?? this.addressBook,
         errorMessage: errorMessage ?? this.errorMessage,
         locationError: locationError ?? false,
         locationUpdated: locationUpdated ?? false,
@@ -65,7 +88,15 @@ class AddressBookState {
         showCollapsedUi: showCollapsedUi ?? this.showCollapsedUi,
         addAddressModel: addAddressModel,
         statesAndCitiesList: statesAndCitiesList ?? this.statesAndCitiesList,
-        addingNewAddress: addingNewAddress ?? false,
-        addressBookUpdated: addressBookUpdated ?? false);
+        addingNewAddress: addingNewAddress ?? this.addingNewAddress,
+        addressBookUpdated: addressBookUpdated ?? false,
+        fetchingAddressBook: fetchingAddressBook ?? this.fetchingAddressBook,
+        openAddEditAddressScreen: openAddEditAddressScreen ?? false,
+        addressAdded: addressAdded ?? false,
+        filterCityId: filterCityId ?? this.filterCityId,
+        cityList: cityList ?? this.cityList,
+        selectedCity: selectedCity ?? this.selectedCity,
+        selectedAddressIndex:
+            selectedAddressIndex ?? this.selectedAddressIndex);
   }
 }

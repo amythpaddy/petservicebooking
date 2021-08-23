@@ -19,13 +19,13 @@ class SelectLocationComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 11.58, horizontal: 14.17),
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             color: !selected ? Colors.white : kAppIconColor,
             boxShadow: [kContainerBoxShadow]),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
             SvgPicture.asset(
               'assets/images/funnels/icon_home.svg',
@@ -47,19 +47,16 @@ class SelectLocationComponent extends StatelessWidget {
                       height: 1.5,
                       color: Color(0xFF151724)),
                 ),
-                Container(
-                  width: SizeConfig.blockSizeHorizontal! * 80,
-                  child: Text(
-                    address,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: true,
-                    maxLines: 2,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
-                        height: 1.5,
-                        color: Color(0xFF0C0F15)),
-                  ),
+                Text(
+                  address,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: true,
+                  maxLines: 2,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      height: 1.5,
+                      color: Color(0xFF0C0F15)),
                 )
               ],
             )

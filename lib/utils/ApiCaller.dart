@@ -69,6 +69,7 @@ class ApiCaller {
   static dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
+      case 412:
         var responseJson = json.decode(response.body.toString());
         return responseJson;
       case 400:

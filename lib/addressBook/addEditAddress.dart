@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:the_pet_nest/addressBook/bloc/addressBookBloc.dart';
 import 'package:the_pet_nest/addressBook/bloc/addressBookState.dart';
-import 'package:the_pet_nest/addressBook/model/StatesAndCityModel.dart';
+import 'package:the_pet_nest/addressBook/model/statesAndCityApiModel.dart';
 import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
@@ -42,8 +42,8 @@ class AddEditMap extends StatelessWidget {
         listener: (blocContext, state) {
           if (state.locationUpdated) {
             updateLocationOnMap(state.addAddressModel!.mapPosition!);
-          } else if (state.addressBookUpdated) {
-            Navigator.pop(context);
+          } else if (state.addressAdded) {
+            Navigator.pop(blocContext);
           }
         },
         child: BlocBuilder<AddressBookBloc, AddressBookState>(

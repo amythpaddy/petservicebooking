@@ -13,6 +13,7 @@ const String kNavigationEditPetProfile = '/edit-pet-profile';
 const String kNavigationAddPetProfile = '/add-pet-profile';
 const String kNavigationSupport = '/get-support';
 const String kNavigationPetTrainingFunnel = '/pet-training';
+const String kNavigationPetGroomingFunnel = '/pet-grooming';
 const String kNavigationMessaging = '/messaging';
 const String kNavigationAddressBook = '/address-book';
 const String kNavigationAddEditAddressBook = '/address-book-add-edit';
