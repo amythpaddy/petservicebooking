@@ -66,6 +66,8 @@ class _DashboardState extends State<Dashboard> {
               child: Image.asset(
                 'assets/the_pet_nest.png',
                 height: 32.67,
+                cacheHeight: 32,
+                cacheWidth: 150,
               )),
         ),
         leading: Container(
@@ -95,148 +97,145 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
       drawer: Sidebar(),
-      body: SafeArea(
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            fragment,
-            Positioned(
-                bottom: 0,
-                left: 0,
-                child: Container(
-                  width: size.width,
-                  height: 80,
-                  child: Stack(
-                    children: [
-                      CustomPaint(
-                        size: Size(size.width, 80),
-                        painter: BottomNavigationCustomPainter(),
-                      ),
-                      Center(
-                        heightFactor: 0.15,
-                        child: Container(
-                          height: 80,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: kAppIconColor.withOpacity(.3),
-                                spreadRadius: 4,
-                                blurRadius: 10,
-                                // offset: Offset(3, 3),
-                              ),
-                            ],
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(500),
-                          ),
-                          child: RawMaterialButton(
-                            shape: new CircleBorder(),
-                            fillColor: Colors.white,
-                            onPressed: () {
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (context) => Theme(
-                                  data: ThemeData(
-                                      canvasColor: Colors.transparent),
-                                  child: FractionallySizedBox(
-                                    heightFactor: 1,
-                                    child: AddPetPopup(),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: SvgPicture.asset(
-                                'assets/images/pet_paw_icon.svg'),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: size.width,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          fragment,
+          Positioned(
+              bottom: 0,
+              left: 0,
+              child: Container(
+                width: size.width,
+                height: 80,
+                child: Stack(
+                  children: [
+                    CustomPaint(
+                      size: Size(size.width, 80),
+                      painter: BottomNavigationCustomPainter(),
+                    ),
+                    Center(
+                      heightFactor: 0.15,
+                      child: Container(
                         height: 80,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            BottomNavigationIcons(
-                              onPressed: () {
-                                setState(() {
-                                  navigationOptions =
-                                      BottomNavigationOptions.HOME;
-                                });
-                              },
-                              icon: navigationOptions ==
-                                      BottomNavigationOptions.HOME
-                                  ? 'assets/images/bottomNavigation/home_fill_icon.svg'
-                                  : 'assets/images/bottomNavigation/home_icon.svg',
-                              color: navigationOptions ==
-                                      BottomNavigationOptions.HOME
-                                  ? activeColor
-                                  : inactiveColor,
-                              text: 'Home',
-                            ),
-                            BottomNavigationIcons(
-                              onPressed: () {
-                                setState(() {
-                                  navigationOptions =
-                                      BottomNavigationOptions.BOOKING;
-                                });
-                              },
-                              icon: navigationOptions ==
-                                      BottomNavigationOptions.BOOKING
-                                  ? 'assets/images/bottomNavigation/booking_fill_icon.svg'
-                                  : 'assets/images/bottomNavigation/booking_icon.svg',
-                              color: navigationOptions ==
-                                      BottomNavigationOptions.BOOKING
-                                  ? activeColor
-                                  : inactiveColor,
-                              text: 'Booking',
-                            ),
-                            SizedBox(
-                              width: size.width * .2,
-                            ),
-                            BottomNavigationIcons(
-                              onPressed: () {
-                                setState(() {
-                                  navigationOptions =
-                                      BottomNavigationOptions.MESSAGE;
-                                });
-                              },
-                              icon: navigationOptions ==
-                                      BottomNavigationOptions.MESSAGE
-                                  ? 'assets/images/bottomNavigation/message_fill_icon.svg'
-                                  : 'assets/images/bottomNavigation/message_icon.svg',
-                              color: navigationOptions ==
-                                      BottomNavigationOptions.MESSAGE
-                                  ? activeColor
-                                  : inactiveColor,
-                              text: 'Messages',
-                            ),
-                            BottomNavigationIcons(
-                              onPressed: () {
-                                setState(() {
-                                  navigationOptions =
-                                      BottomNavigationOptions.ME;
-                                });
-                              },
-                              icon: navigationOptions ==
-                                      BottomNavigationOptions.ME
-                                  ? 'assets/images/bottomNavigation/me_fill_icon.svg'
-                                  : 'assets/images/bottomNavigation/me_icon.svg',
-                              color: navigationOptions ==
-                                      BottomNavigationOptions.ME
-                                  ? activeColor
-                                  : inactiveColor,
-                              text: 'Me',
+                        width: 80,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: kAppIconColor.withOpacity(.3),
+                              spreadRadius: 4,
+                              blurRadius: 10,
+                              // offset: Offset(3, 3),
                             ),
                           ],
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(500),
                         ),
-                      )
-                    ],
-                  ),
-                )),
-          ],
-        ),
+                        child: RawMaterialButton(
+                          shape: new CircleBorder(),
+                          fillColor: Colors.white,
+                          onPressed: () {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) => Theme(
+                                data:
+                                    ThemeData(canvasColor: Colors.transparent),
+                                child: FractionallySizedBox(
+                                  heightFactor: 1,
+                                  child: AddPetPopup(),
+                                ),
+                              ),
+                            );
+                          },
+                          child: SvgPicture.asset(
+                              'assets/images/pet_paw_icon.svg'),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: size.width,
+                      height: 80,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          BottomNavigationIcons(
+                            onPressed: () {
+                              setState(() {
+                                navigationOptions =
+                                    BottomNavigationOptions.HOME;
+                              });
+                            },
+                            icon: navigationOptions ==
+                                    BottomNavigationOptions.HOME
+                                ? 'assets/images/bottomNavigation/home_fill_icon.svg'
+                                : 'assets/images/bottomNavigation/home_icon.svg',
+                            color: navigationOptions ==
+                                    BottomNavigationOptions.HOME
+                                ? activeColor
+                                : inactiveColor,
+                            text: 'Home',
+                          ),
+                          BottomNavigationIcons(
+                            onPressed: () {
+                              setState(() {
+                                navigationOptions =
+                                    BottomNavigationOptions.BOOKING;
+                              });
+                            },
+                            icon: navigationOptions ==
+                                    BottomNavigationOptions.BOOKING
+                                ? 'assets/images/bottomNavigation/booking_fill_icon.svg'
+                                : 'assets/images/bottomNavigation/booking_icon.svg',
+                            color: navigationOptions ==
+                                    BottomNavigationOptions.BOOKING
+                                ? activeColor
+                                : inactiveColor,
+                            text: 'Booking',
+                          ),
+                          SizedBox(
+                            width: size.width * .2,
+                          ),
+                          BottomNavigationIcons(
+                            onPressed: () {
+                              setState(() {
+                                navigationOptions =
+                                    BottomNavigationOptions.MESSAGE;
+                              });
+                            },
+                            icon: navigationOptions ==
+                                    BottomNavigationOptions.MESSAGE
+                                ? 'assets/images/bottomNavigation/message_fill_icon.svg'
+                                : 'assets/images/bottomNavigation/message_icon.svg',
+                            color: navigationOptions ==
+                                    BottomNavigationOptions.MESSAGE
+                                ? activeColor
+                                : inactiveColor,
+                            text: 'Messages',
+                          ),
+                          BottomNavigationIcons(
+                            onPressed: () {
+                              setState(() {
+                                navigationOptions = BottomNavigationOptions.ME;
+                              });
+                            },
+                            icon: navigationOptions ==
+                                    BottomNavigationOptions.ME
+                                ? 'assets/images/bottomNavigation/me_fill_icon.svg'
+                                : 'assets/images/bottomNavigation/me_icon.svg',
+                            color:
+                                navigationOptions == BottomNavigationOptions.ME
+                                    ? activeColor
+                                    : inactiveColor,
+                            text: 'Me',
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )),
+        ],
       ),
     );
   }

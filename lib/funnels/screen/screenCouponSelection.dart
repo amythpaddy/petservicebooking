@@ -5,7 +5,6 @@ import 'package:the_pet_nest/funnels/bloc/couponBloc/couponState.dart';
 import 'package:the_pet_nest/funnels/component/bottomPriceDisplayComponent.dart';
 import 'package:the_pet_nest/funnels/component/couponCardComponent.dart';
 import 'package:the_pet_nest/funnels/interfaces/couponSelectionInterface.dart';
-import 'package:the_pet_nest/konstants/styles.dart';
 
 class ScreenCouponSelection extends StatelessWidget {
   const ScreenCouponSelection(
@@ -26,9 +25,8 @@ class ScreenCouponSelection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 24.59,
+                    height: 10,
                   ),
-                  Text('Coupon', style: kFunnelScreenHeadingTextStyle),
                   Text('Apply Code'),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 13),

@@ -24,3 +24,4 @@ enum FunnelScreens {
   SCREEN_DATE_TIME_SELECTION
 }
 enum PAYMENT_METHOD { ONLINE, AFTER_SERVICE }
+enum BookingType { HISTORY, ONGOING }

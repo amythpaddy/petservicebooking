@@ -1,3 +1,3 @@
 const stagingValues = {
-  "baseUrl": "https://plutorum:plutoru*\$*\$@plutorum.com/api/v1"
+  "baseUrl": "https://plutorum:plutoru*\$*\$@plutorum.com/api"
 };

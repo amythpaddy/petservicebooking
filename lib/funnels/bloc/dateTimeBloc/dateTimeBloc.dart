@@ -29,8 +29,8 @@ class DateTimeBloc extends Bloc<DateTimeEvent, DateTimeState> {
     add(DateTimeEvent.HIDE_DATE_TIME_PICKER);
   }
 
-  void setDate(DateTime date) {
-    String compareDate = DateFormat('dd/MM/yyyy').format(date);
+  void setDate(DateTime date, {String? format}) {
+    String compareDate = DateFormat(format ?? 'dd/MM/yyyy').format(date);
     if (compareDate != _date) {
       _date = compareDate;
       getBookedTimeSlots();

@@ -1,10 +1,14 @@
+import 'package:the_pet_nest/bookings/model/bookingDataModel.dart';
+
 class BookingConfirmationResponseModel {
-  Data? data;
+  BookingConfirmationData? data;
 
   BookingConfirmationResponseModel({this.data});
 
   BookingConfirmationResponseModel.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null
+        ? new BookingConfirmationData.fromJson(json['data'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -16,13 +20,13 @@ class BookingConfirmationResponseModel {
   }
 }
 
-class Data {
-  Lead? lead;
+class BookingConfirmationData {
+  _Lead? lead;
 
-  Data({this.lead});
+  BookingConfirmationData({this.lead});
 
-  Data.fromJson(Map<String, dynamic> json) {
-    lead = json['lead'] != null ? new Lead.fromJson(json['lead']) : null;
+  BookingConfirmationData.fromJson(Map<String, dynamic> json) {
+    lead = json['lead'] != null ? new _Lead.fromJson(json['lead']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -34,7 +38,7 @@ class Data {
   }
 }
 
-class Lead {
+class _Lead {
   int? id;
   String? leadType;
   String? status;
@@ -44,12 +48,13 @@ class Lead {
   String? orderUuid;
   int? rating;
   String? feedback;
+  PetHero? petHero;
   String? notes;
-  LeadDetail? leadDetail;
+  _LeadDetail? leadDetail;
   Null userLeadCoupon;
-  List<LeadPetPackages>? leadPetPackages;
+  List<_LeadPetPackages>? leadPetPackages;
 
-  Lead(
+  _Lead(
       {this.id,
       this.leadType,
       this.status,
@@ -59,12 +64,13 @@ class Lead {
       this.orderUuid,
       this.rating,
       this.feedback,
+      this.petHero,
       this.notes,
       this.leadDetail,
       this.userLeadCoupon,
       this.leadPetPackages});
 
-  Lead.fromJson(Map<String, dynamic> json) {
+  _Lead.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     leadType = json['lead_type'];
     status = json['status'];
@@ -74,15 +80,16 @@ class Lead {
     orderUuid = json['order_uuid'];
     rating = json['rating'];
     feedback = json['feedback'];
+    petHero = json['pet_hero'];
     notes = json['notes'];
     leadDetail = json['lead_detail'] != null
-        ? new LeadDetail.fromJson(json['lead_detail'])
+        ? new _LeadDetail.fromJson(json['lead_detail'])
         : null;
     userLeadCoupon = json['user_lead_coupon'];
     if (json['lead_pet_packages'] != null) {
       leadPetPackages = [];
       json['lead_pet_packages'].forEach((v) {
-        leadPetPackages!.add(new LeadPetPackages.fromJson(v));
+        leadPetPackages!.add(new _LeadPetPackages.fromJson(v));
       });
     }
   }
@@ -111,25 +118,25 @@ class Lead {
   }
 }
 
-class LeadDetail {
+class _LeadDetail {
   int? id;
   String? name;
   String? email;
   String? lat;
   String? lng;
-  Address? address;
+  _Address? address;
 
-  LeadDetail(
+  _LeadDetail(
       {this.id, this.name, this.email, this.lat, this.lng, this.address});
 
-  LeadDetail.fromJson(Map<String, dynamic> json) {
+  _LeadDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
     lat = json['lat'];
     lng = json['lng'];
     address =
-        json['address'] != null ? new Address.fromJson(json['address']) : null;
+        json['address'] != null ? new _Address.fromJson(json['address']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -146,7 +153,7 @@ class LeadDetail {
   }
 }
 
-class Address {
+class _Address {
   int? id;
   String? addressableType;
   int? addressableId;
@@ -155,12 +162,12 @@ class Address {
   int? zipcode;
   String? country;
   String? createdAt;
-  City? city;
+  _City? city;
   double? lat;
   double? long;
   String? kind;
 
-  Address(
+  _Address(
       {this.id,
       this.addressableType,
       this.addressableId,
@@ -174,7 +181,7 @@ class Address {
       this.long,
       this.kind});
 
-  Address.fromJson(Map<String, dynamic> json) {
+  _Address.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     addressableType = json['addressable_type'];
     addressableId = json['addressable_id'];
@@ -183,7 +190,7 @@ class Address {
     zipcode = json['zipcode'];
     country = json['country'];
     createdAt = json['created_at'];
-    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    city = json['city'] != null ? new _City.fromJson(json['city']) : null;
     lat = json['lat'];
     long = json['long'];
     kind = json['kind'];
@@ -209,14 +216,14 @@ class Address {
   }
 }
 
-class City {
-  CityState? cityState;
+class _City {
+  _CityState? cityState;
 
-  City({this.cityState});
+  _City({this.cityState});
 
-  City.fromJson(Map<String, dynamic> json) {
+  _City.fromJson(Map<String, dynamic> json) {
     cityState = json['city_state'] != null
-        ? new CityState.fromJson(json['city_state'])
+        ? new _CityState.fromJson(json['city_state'])
         : null;
   }
 
@@ -229,19 +236,19 @@ class City {
   }
 }
 
-class CityState {
+class _CityState {
   int? id;
   String? slug;
   String? name;
-  State? state;
+  _State? state;
 
-  CityState({this.id, this.slug, this.name, this.state});
+  _CityState({this.id, this.slug, this.name, this.state});
 
-  CityState.fromJson(Map<String, dynamic> json) {
+  _CityState.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     slug = json['slug'];
     name = json['name'];
-    state = json['state'] != null ? new State.fromJson(json['state']) : null;
+    state = json['state'] != null ? new _State.fromJson(json['state']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -256,16 +263,16 @@ class CityState {
   }
 }
 
-class State {
+class _State {
   int? id;
   String? name;
   String? slug;
   String? createdAt;
   String? updatedAt;
 
-  State({this.id, this.name, this.slug, this.createdAt, this.updatedAt});
+  _State({this.id, this.name, this.slug, this.createdAt, this.updatedAt});
 
-  State.fromJson(Map<String, dynamic> json) {
+  _State.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     slug = json['slug'];
@@ -284,21 +291,21 @@ class State {
   }
 }
 
-class LeadPetPackages {
+class _LeadPetPackages {
   int? id;
-  int? price;
-  Package? package;
-  CustomerPet? customerPet;
+  double? price;
+  _Package? package;
+  _CustomerPet? customerPet;
 
-  LeadPetPackages({this.id, this.price, this.package, this.customerPet});
+  _LeadPetPackages({this.id, this.price, this.package, this.customerPet});
 
-  LeadPetPackages.fromJson(Map<String, dynamic> json) {
+  _LeadPetPackages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     price = json['price'];
     package =
-        json['package'] != null ? new Package.fromJson(json['package']) : null;
+        json['package'] != null ? new _Package.fromJson(json['package']) : null;
     customerPet = json['customer_pet'] != null
-        ? new CustomerPet.fromJson(json['customer_pet'])
+        ? new _CustomerPet.fromJson(json['customer_pet'])
         : null;
   }
 
@@ -316,14 +323,14 @@ class LeadPetPackages {
   }
 }
 
-class Package {
-  GroomerPackage? groomerPackage;
+class _Package {
+  _GroomerPackage? groomerPackage;
 
-  Package({this.groomerPackage});
+  _Package({this.groomerPackage});
 
-  Package.fromJson(Map<String, dynamic> json) {
+  _Package.fromJson(Map<String, dynamic> json) {
     groomerPackage = json['groomer_package'] != null
-        ? new GroomerPackage.fromJson(json['groomer_package'])
+        ? new _GroomerPackage.fromJson(json['groomer_package'])
         : null;
   }
 
@@ -336,7 +343,7 @@ class Package {
   }
 }
 
-class GroomerPackage {
+class _GroomerPackage {
   int? id;
   int? groomerId;
   String? name;
@@ -346,7 +353,7 @@ class GroomerPackage {
   String? city;
   String? petType;
 
-  GroomerPackage(
+  _GroomerPackage(
       {this.id,
       this.groomerId,
       this.name,
@@ -356,7 +363,7 @@ class GroomerPackage {
       this.city,
       this.petType});
 
-  GroomerPackage.fromJson(Map<String, dynamic> json) {
+  _GroomerPackage.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     groomerId = json['groomer_id'];
     name = json['name'];
@@ -381,7 +388,7 @@ class GroomerPackage {
   }
 }
 
-class CustomerPet {
+class _CustomerPet {
   int? id;
   String? name;
   String? aggression;
@@ -389,13 +396,13 @@ class CustomerPet {
   List<String>? images;
   bool? vaccinations;
   int? age;
-  User? user;
+  _User? user;
   String? createdAt;
   double? weight;
-  Category? category;
-  Subcategory? subcategory;
+  _Category? category;
+  _Subcategory? subcategory;
 
-  CustomerPet(
+  _CustomerPet(
       {this.id,
       this.name,
       this.aggression,
@@ -409,7 +416,7 @@ class CustomerPet {
       this.category,
       this.subcategory});
 
-  CustomerPet.fromJson(Map<String, dynamic> json) {
+  _CustomerPet.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     aggression = json['aggression'];
@@ -417,14 +424,14 @@ class CustomerPet {
     images = json['images'].cast<String>();
     vaccinations = json['vaccinations'];
     age = json['age'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? new _User.fromJson(json['user']) : null;
     createdAt = json['created_at'];
     weight = json['weight'];
     category = json['category'] != null
-        ? new Category.fromJson(json['category'])
+        ? new _Category.fromJson(json['category'])
         : null;
     subcategory = json['subcategory'] != null
-        ? new Subcategory.fromJson(json['subcategory'])
+        ? new _Subcategory.fromJson(json['subcategory'])
         : null;
   }
 
@@ -452,13 +459,13 @@ class CustomerPet {
   }
 }
 
-class User {
+class _User {
   int? id;
   String? firstName;
 
-  User({this.id, this.firstName});
+  _User({this.id, this.firstName});
 
-  User.fromJson(Map<String, dynamic> json) {
+  _User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     firstName = json['first_name'];
   }
@@ -471,12 +478,12 @@ class User {
   }
 }
 
-class Category {
+class _Category {
   String? name;
 
-  Category({this.name});
+  _Category({this.name});
 
-  Category.fromJson(Map<String, dynamic> json) {
+  _Category.fromJson(Map<String, dynamic> json) {
     name = json['name'];
   }
 
@@ -487,13 +494,13 @@ class Category {
   }
 }
 
-class Subcategory {
+class _Subcategory {
   int? id;
   String? name;
 
-  Subcategory({this.id, this.name});
+  _Subcategory({this.id, this.name});
 
-  Subcategory.fromJson(Map<String, dynamic> json) {
+  _Subcategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }

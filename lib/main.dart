@@ -3,6 +3,7 @@ import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/addressBook/addEditAddress.dart';
 import 'package:the_pet_nest/addressBook/addressList.dart';
+import 'package:the_pet_nest/bookings/bookingDetail.dart';
 import 'package:the_pet_nest/bookings/feedback/feedback.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
 import 'package:the_pet_nest/funnels/petGrooming/petGrooming.dart';
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
           kNavigationAddressBook: (context) => AddressList(),
           kNavigationAddEditAddressBook: (context) => AddEditMap(),
           kNavigationMessaging: (context) => Messaging(),
+          kNavigationBookingDetailsPage: (context) => BookingDetail(),
         },
         // initialRoute: kNavigationMessaging);
         initialRoute: (prefs.getString(kDataToken) ?? '') == ''

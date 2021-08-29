@@ -23,7 +23,8 @@ class ScreenPackageSelection extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<PackageBloc>(context).getPackageDetail(city, petCategory);
+    BlocProvider.of<PackageBloc>(context)
+        .getPackageDetail(city, petCategory, currentFunnel);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(

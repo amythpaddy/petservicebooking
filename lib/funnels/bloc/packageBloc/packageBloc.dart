@@ -20,11 +20,11 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
     //todo get online packages via api
   }
 
-  void getPackageDetail(String city, PetCategory petType) async {
+  void getPackageDetail(
+      String city, PetCategory petType, FunnelType currentFunnel) async {
     add(PackageEvent.FETCHING_PACKAGE_LIST);
     var response = await ApiCaller.get(
-        kUrlGetGroomingPackageInfo(
-            city, petType == PetCategory.DOG ? "dog" : "cat"),
+        kUrlGetGroomingPackageInfo(city, petType, currentFunnel),
         withToken: true);
     _packagesListResponse = PackagesListResponse.fromJson(response);
     add(PackageEvent.PACKAGE_LIST_FETCHED);

@@ -21,6 +21,10 @@ const kActiveButtonContainerStyle = BoxDecoration(
     color: kActiveButtonColor,
     borderRadius: BorderRadius.all(Radius.circular(8)),
     boxShadow: [kContainerBoxShadow]);
+const kActiveButtonContainerBlueStyle = BoxDecoration(
+    color: kTextColorBlue,
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+    boxShadow: [kContainerBoxShadow]);
 const kActiveButtonOutlineTextStyle = TextStyle(
     color: kAppIconColor,
     fontWeight: FontWeight.w400,
@@ -50,3 +54,7 @@ const kFunnelScreenHeadingTextStyle = TextStyle(
     fontSize: 24,
     height: 1.5,
     color: kAppIconColor);
+const kDataContainerStyle = BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(12)),
+    color: Colors.white,
+    boxShadow: [kContainerBoxShadow]);

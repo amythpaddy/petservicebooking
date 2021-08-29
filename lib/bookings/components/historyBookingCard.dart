@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:the_pet_nest/bookings/model/bookingDataModel.dart';
 import 'package:the_pet_nest/bookings/model/feedbackDataHolder.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
@@ -8,11 +10,12 @@ import 'package:the_pet_nest/konstants/styles.dart';
 class HistoryBookingCard extends StatelessWidget {
   final String serviceName;
   final String petName;
-  final String petHero;
+  final PetHero? petHero;
   final String dateTime;
   final String orderId;
-  final String petHeroRating;
   final bool cancelled;
+  final String city;
+  final String leadId;
 
   const HistoryBookingCard(
       {Key? key,
@@ -21,8 +24,9 @@ class HistoryBookingCard extends StatelessWidget {
       required this.petHero,
       required this.dateTime,
       required this.orderId,
-      required this.petHeroRating,
-      required this.cancelled})
+      required this.cancelled,
+      required this.city,
+      required this.leadId})
       : super(key: key);
 
   @override
@@ -46,11 +50,12 @@ class HistoryBookingCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        serviceName,
+                        'Pet ${toBeginningOfSentenceCase(serviceName)}  Service',
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
-                            height: 1.5),
+                            height: 1.5,
+                            color: Colors.black),
                       ),
                     ),
                     SizedBox(width: 2),
@@ -67,7 +72,10 @@ class HistoryBookingCard extends StatelessWidget {
                   dateTime,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 12, height: 1.5),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      height: 1.5,
+                      color: Color(0x99151724)),
                 )
               ],
             ),
@@ -95,38 +103,43 @@ class HistoryBookingCard extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
-                          height: 1.5),
+                          height: 1.5,
+                          color: Colors.black),
                     ),
-                    Text.rich(TextSpan(children: [
-                      TextSpan(
-                          text: 'Pet Hero:',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              height: 1.5)),
-                      TextSpan(
-                          text: petHero,
-                          style: TextStyle(
-                              color: kAppIconColor,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              height: 1.5))
-                    ])),
-                    Text.rich(TextSpan(children: [
-                      WidgetSpan(
-                          child: Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                            size: 14,
-                          ),
-                          alignment: PlaceholderAlignment.middle),
-                      TextSpan(
-                          text: petHeroRating,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              height: 1.5)),
-                    ])),
+                    if (petHero != null)
+                      Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: 'Pet Hero:',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                height: 1.5,
+                                color: Colors.black)),
+                        TextSpan(
+                            text: petHero!.name ?? "",
+                            style: TextStyle(
+                                color: kAppIconColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                height: 1.5))
+                      ])),
+                    if (petHero != null)
+                      Text.rich(TextSpan(children: [
+                        WidgetSpan(
+                            child: Icon(
+                              Icons.star,
+                              color: Colors.amber,
+                              size: 14,
+                            ),
+                            alignment: PlaceholderAlignment.middle),
+                        TextSpan(
+                            text: petHero!.rating ?? "",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                height: 1.5,
+                                color: Colors.black)),
+                      ])),
                   ],
                 ),
                 Expanded(
@@ -180,7 +193,9 @@ class HistoryBookingCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, kNavigationSupport);
+                        },
                         child: Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 39, vertical: 9),
@@ -197,7 +212,12 @@ class HistoryBookingCard extends StatelessWidget {
                     TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, kNavigationFeedback,
-                              arguments: FeedbackDataHolder(petHero, 'Delhi'));
+                              arguments: FeedbackDataHolder(
+                                  petHero: petHero != null
+                                      ? petHero!.name! ?? ""
+                                      : "",
+                                  city: city,
+                                  leadId: leadId));
                         },
                         child: Container(
                           padding:

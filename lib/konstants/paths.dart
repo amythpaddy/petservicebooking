@@ -17,3 +17,4 @@ const String kNavigationPetGroomingFunnel = '/pet-grooming';
 const String kNavigationMessaging = '/messaging';
 const String kNavigationAddressBook = '/address-book';
 const String kNavigationAddEditAddressBook = '/address-book-add-edit';
+const String kNavigationBookingDetailsPage = '/bookings-detail-page';

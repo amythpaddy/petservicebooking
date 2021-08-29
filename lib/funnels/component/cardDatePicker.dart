@@ -9,6 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:the_pet_nest/config/sizeConfig.dart';
+import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeBloc.dart';
+import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeState.dart';
 import 'package:the_pet_nest/funnels/component/timeSelectionCard.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/values.dart';
@@ -173,28 +177,28 @@ const double _inputFormLandscapeHeight = 108.0;
 ///  * [CalendarDatePicker], which provides the calendar grid used by the date picker dialog.
 ///  * [InputDatePickerFormField], which provides a text input field for entering dates.
 ///
-Future<DateTime?> showCustomDatePicker({
-  required BuildContext context,
-  required DateTime initialDate,
-  required DateTime firstDate,
-  required DateTime lastDate,
-  DateTime? currentDate,
-  DatePickerEntryMode initialEntryMode = DatePickerEntryMode.calendar,
-  SelectableDayPredicate? selectableDayPredicate,
-  String? helpText,
-  String? cancelText,
-  String? confirmText,
-  Locale? locale,
-  bool useRootNavigator = true,
-  RouteSettings? routeSettings,
-  TextDirection? textDirection,
-  TransitionBuilder? builder,
-  DatePickerMode initialDatePickerMode = DatePickerMode.day,
-  String? errorFormatText,
-  String? errorInvalidText,
-  String? fieldHintText,
-  String? fieldLabelText,
-}) async {
+Future<DateTime?> showCustomDatePicker(
+    {required BuildContext context,
+    required DateTime initialDate,
+    required DateTime firstDate,
+    required DateTime lastDate,
+    DateTime? currentDate,
+    DatePickerEntryMode initialEntryMode = DatePickerEntryMode.calendar,
+    SelectableDayPredicate? selectableDayPredicate,
+    String? helpText,
+    String? cancelText,
+    String? confirmText,
+    Locale? locale,
+    bool useRootNavigator = true,
+    RouteSettings? routeSettings,
+    TextDirection? textDirection,
+    TransitionBuilder? builder,
+    DatePickerMode initialDatePickerMode = DatePickerMode.day,
+    String? errorFormatText,
+    String? errorInvalidText,
+    String? fieldHintText,
+    String? fieldLabelText,
+    bool showCustomTimePicker = false}) async {
   assert(context != null);
   assert(initialDate != null);
   assert(firstDate != null);
@@ -238,6 +242,7 @@ Future<DateTime?> showCustomDatePicker({
     errorInvalidText: errorInvalidText,
     fieldHintText: fieldHintText,
     fieldLabelText: fieldLabelText,
+    showCustomTimePicker: showCustomTimePicker,
   );
 
   if (textDirection != null) {
@@ -276,24 +281,25 @@ Future<DateTime?> showCustomDatePicker({
 ///  * [showCustomDatePicker], which is a way to display the date picker.
 class CardDatePickerDialog extends StatefulWidget {
   /// A Material-style date picker dialog.
-  CardDatePickerDialog({
-    Key? key,
-    required DateTime initialDate,
-    required DateTime firstDate,
-    required DateTime lastDate,
-    DateTime? currentDate,
-    this.initialEntryMode = DatePickerEntryMode.calendar,
-    this.selectableDayPredicate,
-    this.cancelText,
-    this.confirmText,
-    this.helpText,
-    this.initialCalendarMode = DatePickerMode.day,
-    this.errorFormatText,
-    this.errorInvalidText,
-    this.fieldHintText,
-    this.fieldLabelText,
-    this.restorationId,
-  })  : assert(initialDate != null),
+  CardDatePickerDialog(
+      {Key? key,
+      required DateTime initialDate,
+      required DateTime firstDate,
+      required DateTime lastDate,
+      DateTime? currentDate,
+      this.initialEntryMode = DatePickerEntryMode.calendar,
+      this.selectableDayPredicate,
+      this.cancelText,
+      this.confirmText,
+      this.helpText,
+      this.initialCalendarMode = DatePickerMode.day,
+      this.errorFormatText,
+      this.errorInvalidText,
+      this.fieldHintText,
+      this.fieldLabelText,
+      this.restorationId,
+      this.showCustomTimePicker = false})
+      : assert(initialDate != null),
         assert(firstDate != null),
         assert(lastDate != null),
         initialDate = DateUtils.dateOnly(initialDate),
@@ -392,12 +398,16 @@ class CardDatePickerDialog extends StatefulWidget {
   ///    Flutter.
   final String? restorationId;
 
+  final bool showCustomTimePicker;
+
   @override
   _CardDatePickerDialogState createState() => _CardDatePickerDialogState();
 }
 
 class _CardDatePickerDialogState extends State<CardDatePickerDialog>
     with RestorationMixin {
+  String timeSelected = '';
+
   late final RestorableDateTime _selectedDate =
       RestorableDateTime(widget.initialDate);
   late final _RestorableDatePickerEntryMode _entryMode =
@@ -640,25 +650,92 @@ class _CardDatePickerDialogState extends State<CardDatePickerDialog>
         break;
     }
 
-    final Widget timeGrid = GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 3.5,
-            mainAxisSpacing: 11,
-            crossAxisSpacing: 11),
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return TimeSelectionCard(
-            selected: false,
-            available: true,
-            displayText: timeSlots[index],
-            onPressed: () {
-              //todo update this function
-            },
+    final Widget timeGrid = BlocProvider(
+        create: (_) => DateTimeBloc(DateTimeState()),
+        child: BlocBuilder<DateTimeBloc, DateTimeState>(
+            builder: (blocContext, state) {
+          return Column(
+            children: [
+              Row(children: [
+                TimeSelectionCard(
+                  selected: state.selectedTime == timeSlots[0],
+                  available: !state.bookedSlots!.response!.bookedSlots!
+                      .contains(timeSlots[0]),
+                  displayText: timeSlots[0],
+                  onPressed: () {
+                    BlocProvider.of<DateTimeBloc>(blocContext)
+                        .setTime(timeSlots[0]);
+                  },
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                TimeSelectionCard(
+                  selected: state.selectedTime == timeSlots[1],
+                  available: !state.bookedSlots!.response!.bookedSlots!
+                      .contains(timeSlots[1]),
+                  displayText: timeSlots[1],
+                  onPressed: () {
+                    BlocProvider.of<DateTimeBloc>(blocContext)
+                        .setTime(timeSlots[1]);
+                  },
+                ),
+              ]),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  TimeSelectionCard(
+                    selected: state.selectedTime == timeSlots[2],
+                    available: !state.bookedSlots!.response!.bookedSlots!
+                        .contains(timeSlots[2]),
+                    displayText: timeSlots[2],
+                    onPressed: () {
+                      BlocProvider.of<DateTimeBloc>(blocContext)
+                          .setTime(timeSlots[2]);
+                    },
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  TimeSelectionCard(
+                      selected: state.selectedTime == timeSlots[3],
+                      available: !state.bookedSlots!.response!.bookedSlots!
+                          .contains(timeSlots[3]),
+                      displayText: timeSlots[3],
+                      onPressed: () {
+                        BlocProvider.of<DateTimeBloc>(blocContext)
+                            .setTime(timeSlots[3]);
+                      }),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: SizeConfig.screenWidth / 5,
+                  ),
+                  TimeSelectionCard(
+                    selected: state.selectedTime == timeSlots[4],
+                    available: !state.bookedSlots!.response!.bookedSlots!
+                        .contains(timeSlots[4]),
+                    displayText: timeSlots[4],
+                    onPressed: () {
+                      BlocProvider.of<DateTimeBloc>(blocContext)
+                          .setTime(timeSlots[4]);
+                    },
+                  ),
+                  SizedBox(
+                    width: SizeConfig.screenWidth / 5,
+                  ),
+                ],
+              )
+            ],
           );
-        });
+        }));
 
     final Widget header = _DatePickerHeader(
       helpText: widget.helpText ?? localizations.datePickerHelpText,
@@ -691,24 +768,27 @@ class _CardDatePickerDialogState extends State<CardDatePickerDialog>
                       // header,
                       picker,
                       Divider(),
-                      // Container(
-                      //   margin: EdgeInsets.symmetric(horizontal: 20.72),
-                      //   // child: Column(
-                      //   //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   //   children: [
-                      // Text(
-                      //   'Select Time',
-                      //   style: TextStyle(
-                      //       color: Colors.black,
-                      //       fontWeight: FontWeight.w400,
-                      //       fontSize: 16),
-                      // ),
-                      // timeGrid,
-                      //     ],
-                      //   ),
-                      // ),
+                      Visibility(
+                        visible: widget.showCustomTimePicker,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.72),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Select Time',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16),
+                              ),
+                              timeGrid,
+                            ],
+                          ),
+                        ),
+                      ),
                       SizedBox(
-                        height: 30,
+                        height: 10,
                       ),
                       actions,
                     ],
@@ -1096,30 +1176,30 @@ class _DatePickerHeader extends StatelessWidget {
 ///    select a single date.
 ///  * [DateTimeRange], which is used to describe a date range.
 ///
-Future<DateTimeRange?> showDateRangePicker({
-  required BuildContext context,
-  DateTimeRange? initialDateRange,
-  required DateTime firstDate,
-  required DateTime lastDate,
-  DateTime? currentDate,
-  DatePickerEntryMode initialEntryMode = DatePickerEntryMode.calendar,
-  String? helpText,
-  String? cancelText,
-  String? confirmText,
-  String? saveText,
-  String? errorFormatText,
-  String? errorInvalidText,
-  String? errorInvalidRangeText,
-  String? fieldStartHintText,
-  String? fieldEndHintText,
-  String? fieldStartLabelText,
-  String? fieldEndLabelText,
-  Locale? locale,
-  bool useRootNavigator = true,
-  RouteSettings? routeSettings,
-  TextDirection? textDirection,
-  TransitionBuilder? builder,
-}) async {
+Future<DateTimeRange?> showDateRangePicker(
+    {required BuildContext context,
+    DateTimeRange? initialDateRange,
+    required DateTime firstDate,
+    required DateTime lastDate,
+    DateTime? currentDate,
+    DatePickerEntryMode initialEntryMode = DatePickerEntryMode.calendar,
+    String? helpText,
+    String? cancelText,
+    String? confirmText,
+    String? saveText,
+    String? errorFormatText,
+    String? errorInvalidText,
+    String? errorInvalidRangeText,
+    String? fieldStartHintText,
+    String? fieldEndHintText,
+    String? fieldStartLabelText,
+    String? fieldEndLabelText,
+    Locale? locale,
+    bool useRootNavigator = true,
+    RouteSettings? routeSettings,
+    TextDirection? textDirection,
+    TransitionBuilder? builder,
+    bool? showCustomDatePicker}) async {
   assert(context != null);
   assert(
     initialDateRange == null ||

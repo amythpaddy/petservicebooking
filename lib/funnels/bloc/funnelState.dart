@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
+import 'package:the_pet_nest/funnels/model/bookingConfirmationResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
@@ -17,6 +18,7 @@ class FunnelState extends Equatable {
   final List<PackageDetailModel>? packageDetail;
   final double discountPrice;
   final double totalPrice;
+  final BookingConfirmationData? bookingConfirmationData;
 
   FunnelState(
       {this.progressIndicator = 0,
@@ -30,7 +32,8 @@ class FunnelState extends Equatable {
       this.petData,
       this.packageDetail,
       this.discountPrice = 0.0,
-      this.totalPrice = 0.0});
+      this.totalPrice = 0.0,
+      this.bookingConfirmationData});
 
   FunnelState copyWith(
       {double? progressIndicator,
@@ -43,7 +46,9 @@ class FunnelState extends Equatable {
       Address? address,
       List<CustomerPet>? petData,
       List<PackageDetailModel>? packageDetail,
-      double? discountPrice}) {
+      double? discountPrice,
+      double? totalPrice,
+      BookingConfirmationData? bookingConfirmationData}) {
     return FunnelState(
         progressIndicator: progressIndicator ?? this.progressIndicator,
         currentScreen: currentScreen ?? this.currentScreen,
@@ -55,7 +60,10 @@ class FunnelState extends Equatable {
         address: address ?? this.address,
         packageDetail: packageDetail ?? this.packageDetail,
         petData: petData ?? this.petData,
-        discountPrice: discountPrice ?? this.discountPrice);
+        discountPrice: discountPrice ?? this.discountPrice,
+        totalPrice: totalPrice ?? this.totalPrice,
+        bookingConfirmationData:
+            bookingConfirmationData ?? this.bookingConfirmationData);
   }
 
   @override
@@ -64,11 +72,14 @@ class FunnelState extends Equatable {
         currentScreen,
         showError,
         errorMessage,
+        closeThisFunnel,
         citySlug,
         petCategory,
         address,
         petData,
         packageDetail,
-        discountPrice
+        discountPrice,
+        totalPrice,
+        bookingConfirmationData
       ];
 }

@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:the_pet_nest/bookings/model/bookingDataModel.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 
 class OngoingBookingCard extends StatelessWidget {
   final String serviceName;
   final String petName;
-  final String petHero;
+  final PetHero? petHero;
   final String dateTime;
   final String orderId;
-  final String petHeroRating;
+  final bool ongoing;
 
   const OngoingBookingCard(
       {Key? key,
@@ -18,7 +20,7 @@ class OngoingBookingCard extends StatelessWidget {
       required this.petHero,
       required this.dateTime,
       required this.orderId,
-      required this.petHeroRating})
+      required this.ongoing})
       : super(key: key);
 
   @override
@@ -41,11 +43,12 @@ class OngoingBookingCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      serviceName,
+                      'Pet ${toBeginningOfSentenceCase(serviceName)}  Service',
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15,
-                          height: 1.5),
+                          height: 1.5,
+                          color: Colors.black),
                     ),
                     Text('Order id: $orderId',
                         textAlign: TextAlign.end,
@@ -60,7 +63,10 @@ class OngoingBookingCard extends StatelessWidget {
                   dateTime,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 12, height: 1.5),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 12,
+                      height: 1.5,
+                      color: Color(0x99151724)),
                 )
               ],
             ),
@@ -80,55 +86,62 @@ class OngoingBookingCard extends StatelessWidget {
                 SizedBox(
                   width: 5,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      petName,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          height: 1.5),
-                    ),
-                    Text.rich(TextSpan(children: [
-                      TextSpan(
-                          text: 'Pet Hero:',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              height: 1.5)),
-                      TextSpan(
-                          text: petHero,
-                          style: TextStyle(
-                              color: kAppIconColor,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              height: 1.5))
-                    ])),
-                    Text.rich(TextSpan(children: [
-                      WidgetSpan(
-                          child: Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                            size: 14,
-                          ),
-                          alignment: PlaceholderAlignment.middle),
-                      TextSpan(
-                          text: petHeroRating,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              height: 1.5)),
-                    ])),
-                  ],
-                ),
                 Expanded(
-                    child: SizedBox(
-                  height: 1,
-                )),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        petName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            height: 1.5,
+                            color: Colors.black),
+                      ),
+                      if (petHero != null)
+                        Text.rich(TextSpan(children: [
+                          TextSpan(
+                              text: 'Pet Hero:',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  height: 1.5,
+                                  color: Colors.black)),
+                          TextSpan(
+                              text: petHero!.name,
+                              style: TextStyle(
+                                color: kAppIconColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                height: 1.5,
+                              ))
+                        ])),
+                      petHero != null
+                          ? Text.rich(TextSpan(children: [
+                              WidgetSpan(
+                                  child: Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    size: 14,
+                                  ),
+                                  alignment: PlaceholderAlignment.middle),
+                              TextSpan(
+                                  text: petHero!.rating,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      height: 1.5,
+                                      color: Colors.black)),
+                            ]))
+                          : Text(
+                              'A pet hero will be assigned to you soon',
+                            ),
+                    ],
+                  ),
+                ),
                 Container(
                   child: Text(
-                    'On Going',
+                    ongoing ? 'On Going' : "Scheduled",
                     style: TextStyle(
                         color: kAppIconColor,
                         fontWeight: FontWeight.w400,

@@ -44,7 +44,6 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                         ),
                         BlocBuilder<PetGroomingBloc, FunnelState>(
                             builder: (blocBuilder, state) {
-                          print('pet datat ${state.petData}');
                           return ListView.builder(
                               shrinkWrap: true,
                               itemCount: state.petData!.length,
