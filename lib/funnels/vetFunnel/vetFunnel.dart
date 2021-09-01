@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:the_pet_nest/addressBook/bloc/addressBookBloc.dart';
+import 'package:the_pet_nest/addressBook/bloc/addressBookState.dart';
+import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
 import 'package:the_pet_nest/bookings/bloc/bookingBloc.dart';
 import 'package:the_pet_nest/bookings/bloc/bookingStates.dart';
+import 'package:the_pet_nest/funnels/bloc/VetBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/couponBloc/couponBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/couponBloc/couponState.dart';
 import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeBloc.dart';
@@ -12,16 +16,19 @@ import 'package:the_pet_nest/funnels/bloc/packageBloc/packageBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/packageBloc/packageState.dart';
 import 'package:the_pet_nest/funnels/bloc/paymentSelectionBloc/paymentSelectionBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/paymentSelectionBloc/paymentSelectionState.dart';
-import 'package:the_pet_nest/funnels/bloc/vetBloc.dart';
+import 'package:the_pet_nest/funnels/interfaces/AddressSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/BookingConfirmationInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/bookingDetailReviewInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/couponSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/dateTimeSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/packageSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/paymentMethodSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/interfaces/petIssueSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/petSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/model/couponseApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
+import 'package:the_pet_nest/funnels/screen/ScreenAddressSelection.dart';
+import 'package:the_pet_nest/funnels/screen/ScreenIssueList.dart';
 import 'package:the_pet_nest/funnels/screen/screenBookingConfirmation.dart';
 import 'package:the_pet_nest/funnels/screen/screenCouponSelection.dart';
 import 'package:the_pet_nest/funnels/screen/screenDateSelection.dart';
@@ -38,13 +45,15 @@ import 'package:the_pet_nest/utils/utils.dart';
 
 class VetService extends StatelessWidget
     implements
+        AddressSelectionInterface,
         PetSelectionInterface,
         PackageSelectionInterface,
         DateTimeSelectionInterface,
         BookingDetailReviewInterface,
         PaymentMethodSelectionInterface,
         CouponSelectionInterface,
-        BookingConfirmationInterface {
+        BookingConfirmationInterface,
+        PetIssueSelection {
   const VetService({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -52,8 +61,8 @@ class VetService extends StatelessWidget
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (_) => VetBloc(FunnelState(
-                  currentScreen: FunnelScreens.SCREEN_PET_SELECTION))),
+              create: (_) => AddressBookBloc(initialState: AddressBookState())),
+          BlocProvider(create: (_) => VetBloc(FunnelState())),
           BlocProvider(create: (_) => PetProfileBloc(PetProfileState())),
           BlocProvider(create: (_) => PackageBloc(PackageState())),
           BlocProvider(create: (_) => DateTimeBloc(DateTimeState())),
@@ -150,6 +159,9 @@ class VetService extends StatelessWidget
                     builder: (blocContext, state) {
                   late Widget body;
                   switch (state.currentScreen) {
+                    case FunnelScreens.SCREEN_ADDRESS_SELECTION:
+                      body = ScreenAddressSelection(onAddressSelection: this);
+                      break;
                     case FunnelScreens.SCREEN_PET_SELECTION:
                       body = ScreenPetSelection(onPetSelected: this);
                       break;
@@ -158,7 +170,8 @@ class VetService extends StatelessWidget
                         onPackageSelected: this,
                         petCategory: state.petCategory,
                         city: state.citySlug,
-                        currentFunnel: FunnelType.PET_TRAINING,
+                        cityId: state.address!.cityId,
+                        currentFunnel: FunnelType.VET_SERVICE,
                       );
                       break;
                     case FunnelScreens.SCREEN_REVIEW_BOOKING_DETAILS:
@@ -171,7 +184,7 @@ class VetService extends StatelessWidget
                           totalPrice: _totalPrice,
                           petData: state.petData!,
                           packageDetail: state.packageDetail!,
-                          currentFunnel: FunnelType.VET_SERVICE);
+                          currentFunnel: FunnelType.PET_TRAINING);
                       break;
                     case FunnelScreens.SCREEN_PAYMENT_METHOD:
                       double _totalPrice = 0;
@@ -204,6 +217,9 @@ class VetService extends StatelessWidget
                       body = ScreenBookingConfirmation(
                           onBookingConfirmation: this);
                       break;
+                    case FunnelScreens.SCREEN_PET_ISSUE_SELECTION:
+                      body = ScreenPetIssueList(onPetIssueSelection: this);
+                      break;
                   }
                   return Expanded(
                     child: Column(
@@ -223,6 +239,16 @@ class VetService extends StatelessWidget
             ),
           ),
         ));
+  }
+
+  @override
+  void onAddressSelected(blocContext, Address? address) {
+    BlocProvider.of<VetBloc>(blocContext).setAddress(address);
+  }
+
+  @override
+  void onAddressSelectionComplete(blocContext) {
+    BlocProvider.of<VetBloc>(blocContext).openPetIssueSelectionScreen();
   }
 
   @override
@@ -315,5 +341,11 @@ class VetService extends StatelessWidget
   @override
   void onReschedule(blocContext) {
     // TODO: implement onReschedule
+  }
+
+  @override
+  void onPetIssueSelected(blocContext, int category, String? text) {
+    BlocProvider.of<VetBloc>(blocContext).setCategory(category, text);
+    BlocProvider.of<VetBloc>(blocContext).openPetSelectionScreen();
   }
 }

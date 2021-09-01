@@ -49,6 +49,10 @@ const kTabbedHeadingBlue = BoxDecoration(
     color: kTextColorBlue,
     borderRadius: BorderRadius.all(Radius.circular(42)),
     boxShadow: [kContainerBoxShadow]);
+const kTabbedHeadingWhite = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.all(Radius.circular(42)),
+    boxShadow: [kContainerBoxShadow]);
 const kFunnelScreenHeadingTextStyle = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 24,

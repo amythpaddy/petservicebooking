@@ -24,6 +24,7 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
   double _totalPrice = 0.0;
   CouponData? _couponData;
   BookingConfirmationData? _bookingConfirmationData;
+  int _category = 0;
 
   VetBloc(FunnelState initialState) : super(initialState) {
     add(FunnelEvent.UPDATE_PROGRESS_INDICATOR);
@@ -64,9 +65,15 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
       add(FunnelEvent.ADDRESS_NOT_SELECTED);
     } else {
       _currentScreen = FunnelScreens.SCREEN_PET_SELECTION;
-      _progressIndicator = 2 / _TOTAL_SCREENS;
+      _progressIndicator = 3 / _TOTAL_SCREENS;
       add(FunnelEvent.OPEN_SCREEN_PET_SELECTION);
     }
+  }
+
+  void openPetIssueSelectionScreen() {
+    _currentScreen = FunnelScreens.SCREEN_PET_ISSUE_SELECTION;
+    _progressIndicator = 2 / _TOTAL_SCREENS;
+    add(FunnelEvent.OPEN_SCREEN_PET_ISSUE_SELECTION);
   }
 
   void setPet(CustomerPet petData) {
@@ -81,7 +88,7 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
       add(FunnelEvent.PET_NOT_SELECTED);
     } else {
       _currentScreen = FunnelScreens.SCREEN_PACKAGE_SELECTION;
-      _progressIndicator = 3 / _TOTAL_SCREENS;
+      _progressIndicator = 4 / _TOTAL_SCREENS;
       add(FunnelEvent.OPEN_SCREEN_PACKAGE_SELECTION);
     }
   }
@@ -102,7 +109,7 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
       add(FunnelEvent.PACKAGE_NOT_SELECTED);
     } else {
       _currentScreen = FunnelScreens.SCREEN_REVIEW_BOOKING_DETAILS;
-      _progressIndicator = 4 / _TOTAL_SCREENS;
+      _progressIndicator = 5 / _TOTAL_SCREENS;
       add(FunnelEvent.OPEN_SCREEN_REVIEW_BOOKING_DETAIL);
     }
   }
@@ -113,7 +120,7 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
 
   void openDateTimeSelectionScreen() {
     _currentScreen = FunnelScreens.SCREEN_DATE_TIME_SELECTION;
-    _progressIndicator = _progressIndicator = 5 / _TOTAL_SCREENS;
+    _progressIndicator = _progressIndicator = 6 / _TOTAL_SCREENS;
     add(FunnelEvent.OPEN_SCREEN_DATE_TIME_SELECTION);
   }
 
@@ -122,7 +129,7 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
       add(FunnelEvent.SLOT_NOT_SELECTED);
     } else {
       _currentScreen = FunnelScreens.SCREEN_PAYMENT_METHOD;
-      _progressIndicator = 5 / _TOTAL_SCREENS;
+      _progressIndicator = 7 / _TOTAL_SCREENS;
       add(FunnelEvent.OPEN_SCREEN_CHOOSE_PAYMENT_METHOD);
     }
   }
@@ -158,8 +165,11 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
       case FunnelScreens.SCREEN_PACKAGE_SELECTION:
         openPetSelectionScreen();
         break;
-      case FunnelScreens.SCREEN_PET_SELECTION:
+      case FunnelScreens.SCREEN_PET_ISSUE_SELECTION:
         openAddressSelectionScreen();
+        break;
+      case FunnelScreens.SCREEN_PET_SELECTION:
+        openPetIssueSelectionScreen();
         break;
       case FunnelScreens.SCREEN_REVIEW_BOOKING_DETAILS:
         openPackageSelectionScreen();
@@ -175,10 +185,40 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
     }
   }
 
+  void confirmBooking() async {
+    add(FunnelEvent.CONFIRMING_BOOKING);
+    Map<String, dynamic> body = CreateOrderRequestModel.fromUserSelectedData(
+        address: _address,
+        customerPet: _petData,
+        packageDetail: _packageDetail,
+        date: _date,
+        time: _time,
+        couponData: _couponData);
+    var response =
+        await ApiCaller.post(kUrlCreateGroomingLead, body, withToken: true);
+    BookingConfirmationResponseModel responseModel =
+        BookingConfirmationResponseModel.fromJson(response);
+    if (responseModel.data != null) {
+      _bookingConfirmationData = responseModel.data;
+      _progressIndicator = 7 / _TOTAL_SCREENS;
+      _currentScreen = FunnelScreens.SCREEN_BOOKING_CONFIRMED;
+      add(FunnelEvent.OPEN_SCREEN_BOOKING_CONFIRMATION);
+    } else {
+      _progressIndicator = 7 / _TOTAL_SCREENS;
+      _currentScreen = FunnelScreens.SCREEN_BOOKING_CANCELLED;
+      add(FunnelEvent.OPEN_SCREEN_BOOKING_CANCELLATION);
+    }
+  }
+
+  void setCategory(int category, String? msg) {
+    _category = category;
+  }
+
   @override
   Stream<FunnelState> mapEventToState(FunnelEvent event) async* {
     if (event == FunnelEvent.OPEN_SCREEN_ADDRESS_SELECTION ||
-        event == FunnelEvent.OPEN_SCREEN_COUPONS_SELECTION) {
+        event == FunnelEvent.OPEN_SCREEN_COUPONS_SELECTION ||
+        event == FunnelEvent.OPEN_SCREEN_PET_ISSUE_SELECTION) {
       yield state.copyWith(
           progressIndicator: _progressIndicator, currentScreen: _currentScreen);
     }
@@ -229,31 +269,6 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
           progressIndicator: _progressIndicator,
           currentScreen: _currentScreen,
           bookingConfirmationData: _bookingConfirmationData);
-    }
-  }
-
-  void confirmBooking() async {
-    add(FunnelEvent.CONFIRMING_BOOKING);
-    Map<String, dynamic> body = CreateOrderRequestModel.fromUserSelectedData(
-        address: _address,
-        customerPet: _petData,
-        packageDetail: _packageDetail,
-        date: _date,
-        time: _time,
-        couponData: _couponData);
-    var response =
-        await ApiCaller.post(kUrlCreateGroomingLead, body, withToken: true);
-    BookingConfirmationResponseModel responseModel =
-        BookingConfirmationResponseModel.fromJson(response);
-    if (responseModel.data != null) {
-      _bookingConfirmationData = responseModel.data;
-      _progressIndicator = 7 / _TOTAL_SCREENS;
-      _currentScreen = FunnelScreens.SCREEN_BOOKING_CONFIRMED;
-      add(FunnelEvent.OPEN_SCREEN_BOOKING_CONFIRMATION);
-    } else {
-      _progressIndicator = 7 / _TOTAL_SCREENS;
-      _currentScreen = FunnelScreens.SCREEN_BOOKING_CANCELLED;
-      add(FunnelEvent.OPEN_SCREEN_BOOKING_CANCELLATION);
     }
   }
 }

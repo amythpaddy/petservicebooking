@@ -13,11 +13,25 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
 
   PackageBloc(PackageState initialState) : super(initialState);
 
-  void getInHomePackage() async {
-    //todo get in home packages via api
+  void getVetPackages(int cityId, PetCategory petCategory) async {
+    add(PackageEvent.FETCHING_PACKAGE_LIST);
+    add(PackageEvent.VET_PACKAGE_SELECTED);
+    var response = await ApiCaller.get(
+        kUrlGetVetPackageInfo(cityId, petCategory, 'veterinary_service'),
+        withToken: true);
+    _packagesListResponse = PackagesListResponse.fromJson(response);
+    add(PackageEvent.PACKAGE_LIST_FETCHED);
   }
-  void getOnlinePackage() async {
-    //todo get online packages via api
+
+  void getParentingPackages(int cityId, PetCategory petCategory) async {
+    add(PackageEvent.FETCHING_PACKAGE_LIST);
+    add(PackageEvent.PARENTING_PACKAGE_SELECTED);
+
+    var response = await ApiCaller.get(
+        kUrlGetVetPackageInfo(cityId, petCategory, 'parenting'),
+        withToken: true);
+    _packagesListResponse = PackagesListResponse.fromJson(response);
+    add(PackageEvent.PACKAGE_LIST_FETCHED);
   }
 
   void closeValueAdded() {
@@ -36,8 +50,8 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
     add(PackageEvent.OPEN_REQUIREMENTS);
   }
 
-  void getPackageDetail(
-      String city, PetCategory petType, FunnelType currentFunnel) async {
+  void getPackageDetail(String city, PetCategory petType,
+      FunnelType currentFunnel, int? cityId, ServiceType? serviceType) async {
     add(PackageEvent.FETCHING_PACKAGE_LIST);
     if (currentFunnel == FunnelType.PET_GROOMING) {
       var response = await ApiCaller.get(
@@ -48,6 +62,17 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
     } else if (currentFunnel == FunnelType.PET_TRAINING) {
       var response = await ApiCaller.get(
           kUrlGetTrainingPackageInfo(city, petType),
+          withToken: true);
+      _packagesListResponse = PackagesListResponse.fromJson(response);
+      add(PackageEvent.PACKAGE_LIST_FETCHED);
+    } else if (currentFunnel == FunnelType.VET_SERVICE) {
+      var response = await ApiCaller.get(
+          kUrlGetVetPackageInfo(
+              cityId,
+              petType,
+              serviceType == ServiceType.PARENTING
+                  ? 'parenting'
+                  : 'veterinary_service'),
           withToken: true);
       _packagesListResponse = PackagesListResponse.fromJson(response);
       add(PackageEvent.PACKAGE_LIST_FETCHED);
@@ -82,6 +107,10 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
       yield state.copyWith(expandRequirements: false);
     } else if (event == PackageEvent.CLOSE_VALUE_ADDED) {
       yield state.copyWith(expandValueAdded: false);
+    } else if (event == PackageEvent.VET_PACKAGE_SELECTED) {
+      yield state.copyWith(serviceType: ServiceType.VET);
+    } else if (event == PackageEvent.PARENTING_PACKAGE_SELECTED) {
+      yield state.copyWith(serviceType: ServiceType.PARENTING);
     }
   }
 }

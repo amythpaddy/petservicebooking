@@ -15,17 +15,19 @@ class ScreenPackageSelection extends StatelessWidget {
   final PetCategory petCategory;
   final String city;
   final FunnelType currentFunnel;
+  final int? cityId;
   const ScreenPackageSelection(
       {Key? key,
       required this.onPackageSelected,
       required this.petCategory,
       required this.city,
-      required this.currentFunnel})
+      required this.currentFunnel,
+      this.cityId})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<PackageBloc>(context)
-        .getPackageDetail(city, petCategory, currentFunnel);
+    BlocProvider.of<PackageBloc>(context).getPackageDetail(
+        city, petCategory, currentFunnel, cityId, ServiceType.VET);
     return Expanded(
       child: Stack(
         children: [
@@ -48,10 +50,10 @@ class ScreenPackageSelection extends StatelessWidget {
                     height: 16.19,
                   ),
                   Visibility(
-                    visible: currentFunnel == FunnelType.PET_TRAINING,
+                    visible: currentFunnel == FunnelType.VET_SERVICE,
                     child: Center(
                       child: Container(
-                        width: 228,
+                        width: SizeConfig.blockSizeHorizontal * 70,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(68),
@@ -61,32 +63,38 @@ class ScreenPackageSelection extends StatelessWidget {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                PackageTypeSelector(
-                                    boxDecoration:
-                                        state.packageType == PackageType.INHOME
-                                            ? kTabbedHeadingBlue
-                                            : null,
-                                    onPressed: BlocProvider.of<PackageBloc>(
-                                            blocContext)
-                                        .getInHomePackage,
-                                    title: 'In-Home',
-                                    textStyle:
-                                        state.packageType == PackageType.INHOME
-                                            ? kActiveButtonTextStyle
-                                            : kInactiveButtonTextStyle),
-                                PackageTypeSelector(
-                                    boxDecoration:
-                                        state.packageType == PackageType.ONLINE
-                                            ? kTabbedHeadingBlue
-                                            : null,
-                                    onPressed: BlocProvider.of<PackageBloc>(
-                                            blocContext)
-                                        .getOnlinePackage,
-                                    title: 'Online',
-                                    textStyle:
-                                        state.packageType == PackageType.INHOME
-                                            ? kActiveButtonTextStyle
-                                            : kInactiveButtonTextStyle),
+                                Expanded(
+                                  child: PackageTypeSelector(
+                                      boxDecoration:
+                                          state.serviceType == ServiceType.VET
+                                              ? kTabbedHeadingBlue
+                                              : kTabbedHeadingWhite,
+                                      onPressed: () => BlocProvider.of<
+                                              PackageBloc>(blocContext)
+                                          .getVetPackages(cityId!, petCategory),
+                                      title: 'VETERINARY',
+                                      textStyle:
+                                          state.serviceType == ServiceType.VET
+                                              ? kActiveButtonTextStyle
+                                              : kInactiveButtonTextStyle),
+                                ),
+                                Expanded(
+                                  child: PackageTypeSelector(
+                                      boxDecoration: state.serviceType ==
+                                              ServiceType.PARENTING
+                                          ? kTabbedHeadingBlue
+                                          : kTabbedHeadingWhite,
+                                      onPressed: () =>
+                                          BlocProvider.of<PackageBloc>(
+                                                  blocContext)
+                                              .getParentingPackages(
+                                                  cityId!, petCategory),
+                                      title: 'PARENTING',
+                                      textStyle: state.serviceType ==
+                                              ServiceType.PARENTING
+                                          ? kActiveButtonTextStyle
+                                          : kInactiveButtonTextStyle),
+                                ),
                               ],
                             );
                           },

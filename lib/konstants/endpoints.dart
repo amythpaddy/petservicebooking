@@ -26,9 +26,9 @@ String kUrlGetTrainingPackageInfo(cityName, petType) {
   return '/v1/leads/dog_training_packages?city=$cityName';
 }
 
-String kUrlGetVetPackageInfo(cityName, petType) {
-  String pet = petType == PetCategory.DOG ? "dog" : "cat";
-  return '/v1/leads/grooming_packages?city=$cityName&pet_type=$pet';
+String kUrlGetVetPackageInfo(cityId, petType, serviceType) {
+  int pet = petType == PetCategory.DOG ? 1 : 2;
+  return '/v1/leads/vet_packages?city_id=$cityId&service_type=$serviceType&category_id=$pet';
 }
 
 String kUrlGetBookedTimeSlots(date, cityId) =>

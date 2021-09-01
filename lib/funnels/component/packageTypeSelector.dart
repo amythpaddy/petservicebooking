@@ -16,12 +16,11 @@ class PackageTypeSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 114,
         decoration: boxDecoration,
         child: TextButton(
             onPressed: onPressed,
             child: Text(
-              'In-Home',
+              title,
               style: textStyle,
             )));
   }

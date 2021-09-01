@@ -4,6 +4,7 @@ import 'package:the_pet_nest/konstants/enums.dart';
 
 class PackageState extends Equatable {
   final PackageType packageType;
+  final ServiceType serviceType;
   final bool loadingPackagesData;
   PackagesListResponse? packages;
   final int selectedPackageIndex;
@@ -16,7 +17,8 @@ class PackageState extends Equatable {
       this.selectedPackageIndex = -1,
       this.loadingPackagesData = true,
       this.expandValueAdded = false,
-      this.expandRequirements = false}) {
+      this.expandRequirements = false,
+      this.serviceType = ServiceType.VET}) {
     packages = this.packages ?? PackagesListResponse();
   }
 
@@ -26,18 +28,23 @@ class PackageState extends Equatable {
       int? selectedPackageIndex,
       bool? loadingPackagesData,
       bool? expandValueAdded,
-      bool? expandRequirements}) {
+      bool? expandRequirements,
+      ServiceType? serviceType}) {
     return PackageState(
         packageType: packageType ?? this.packageType,
         packages: packages ?? this.packages,
         selectedPackageIndex: selectedPackageIndex ?? this.selectedPackageIndex,
         loadingPackagesData: loadingPackagesData ?? this.loadingPackagesData,
         expandRequirements: expandRequirements ?? this.expandRequirements,
-        expandValueAdded: expandValueAdded ?? this.expandValueAdded);
+        expandValueAdded: expandValueAdded ?? this.expandValueAdded,
+        serviceType: serviceType ?? this.serviceType);
   }
 
   PackageState reset() {
-    return PackageState(packages: packages, loadingPackagesData: false);
+    return PackageState(
+        packages: packages,
+        loadingPackagesData: false,
+        serviceType: ServiceType.VET);
   }
 
   @override
@@ -46,5 +53,6 @@ class PackageState extends Equatable {
         packages,
         loadingPackagesData,
         selectedPackageIndex,
+        serviceType
       ];
 }
