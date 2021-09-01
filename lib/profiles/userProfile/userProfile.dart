@@ -39,7 +39,7 @@ class UserProfile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BlocBuilder<UserProfileBloc, UserProfileState>(
-                      builder: (context, state) {
+                      builder: (blocContext, state) {
                     return Container(
                         margin: EdgeInsets.only(bottom: 6),
                         padding: EdgeInsets.all(12),
@@ -82,7 +82,11 @@ class UserProfile extends StatelessWidget {
                             TextButton(
                                 onPressed: () {
                                   Navigator.pushNamed(
-                                      context, kNavigationEditUserprofile);
+                                          context, kNavigationEditUserprofile)
+                                      .then((value) =>
+                                          BlocProvider.of<UserProfileBloc>(
+                                                  blocContext)
+                                              .checkForUserData());
                                 },
                                 child: SvgPicture.asset(
                                   'assets/images/profile/edit.svg',
@@ -116,7 +120,9 @@ class UserProfile extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(12)),
                             child: Center(
                                 child: SizedBox(
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
                               height: 24,
                               width: 24,
                             )),

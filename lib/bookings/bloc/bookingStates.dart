@@ -24,7 +24,7 @@ class BookingState extends Equatable {
       this.rescheduled = false,
       this.error = false,
       this.showDateTimePicker = false,
-      this.isProcessing = false,
+      this.isProcessing = true,
       this.bookingData,
       this.currentPage = 1,
       this.bookingsList,
@@ -43,7 +43,6 @@ class BookingState extends Equatable {
       int? currentPage,
       BookingsDataResponseModel? bookingsList,
       BookingType? bookingType}) {
-    print('aaaaaa$bookingData');
     return BookingState(
         date: date ?? this.date,
         time: time ?? this.time,

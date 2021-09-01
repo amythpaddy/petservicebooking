@@ -29,7 +29,7 @@ class PetProfile extends StatelessWidget {
         create: (_) => _petProfileBloc,
         child: BlocBuilder<PetProfileBloc, PetProfileState>(
           builder: (blocContext, state) {
-            print(state.addUpdatePet!.toString());
+            print(state.petId);
             String aggression = 'High';
             if (state.addUpdatePet!.aggression == Aggression.LOW)
               aggression = 'Low';

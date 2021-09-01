@@ -177,9 +177,11 @@ class PetGroomingService extends StatelessWidget
                         _totalPrice += double.parse(element.price!);
                       });
                       body = ScreenReviewBookingDetail(
-                        onBookingDetailReviewInterface: this,
-                        totalPrice: _totalPrice,
-                      );
+                          onBookingDetailReviewInterface: this,
+                          totalPrice: _totalPrice,
+                          petData: state.petData!,
+                          packageDetail: state.packageDetail!,
+                          currentFunnel: FunnelType.PET_TRAINING);
                       break;
                     case FunnelScreens.SCREEN_PAYMENT_METHOD:
                       double _totalPrice = 0;

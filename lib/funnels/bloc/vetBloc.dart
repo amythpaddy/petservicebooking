@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
 import 'package:the_pet_nest/funnels/bloc/funnelEvent.dart';
 import 'package:the_pet_nest/funnels/bloc/funnelState.dart';
+import 'package:the_pet_nest/funnels/model/bookingConfirmationResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/couponseApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/createOrderRequestModel.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
@@ -10,7 +11,7 @@ import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
 import 'package:the_pet_nest/utils/ApiCaller.dart';
 
-class PetGroomingBloc extends Bloc<FunnelEvent, FunnelState> {
+class VetBloc extends Bloc<FunnelEvent, FunnelState> {
   FunnelScreens _currentScreen = FunnelScreens.SCREEN_ADDRESS_SELECTION;
   Address? _address;
   List<CustomerPet> _petData = [];
@@ -22,8 +23,9 @@ class PetGroomingBloc extends Bloc<FunnelEvent, FunnelState> {
   double _discountPrice = 0.0;
   double _totalPrice = 0.0;
   CouponData? _couponData;
+  BookingConfirmationData? _bookingConfirmationData;
 
-  PetGroomingBloc(FunnelState initialState) : super(initialState) {
+  VetBloc(FunnelState initialState) : super(initialState) {
     add(FunnelEvent.UPDATE_PROGRESS_INDICATOR);
   }
   static const _TOTAL_SCREENS = 7;
@@ -149,6 +151,8 @@ class PetGroomingBloc extends Bloc<FunnelEvent, FunnelState> {
   void goBack() {
     switch (_currentScreen) {
       case FunnelScreens.SCREEN_ADDRESS_SELECTION:
+      case FunnelScreens.SCREEN_BOOKING_CONFIRMED:
+      case FunnelScreens.SCREEN_BOOKING_CANCELLED:
         add(FunnelEvent.CLOSE_FUNNEL);
         break;
       case FunnelScreens.SCREEN_PACKAGE_SELECTION:
@@ -209,7 +213,8 @@ class PetGroomingBloc extends Bloc<FunnelEvent, FunnelState> {
       yield state.copyWith(
           currentScreen: _currentScreen,
           progressIndicator: _progressIndicator,
-          packageDetail: _packageDetail);
+          packageDetail: _packageDetail,
+          totalPrice: _totalPrice);
     } else if (event == FunnelEvent.OPEN_SCREEN_CHOOSE_PAYMENT_METHOD) {
       yield state.copyWith(
           currentScreen: _currentScreen, progressIndicator: _progressIndicator);
@@ -219,10 +224,16 @@ class PetGroomingBloc extends Bloc<FunnelEvent, FunnelState> {
       yield state.copyWith(discountPrice: _discountPrice);
     } else if (event == FunnelEvent.OPEN_SCREEN_DATE_TIME_SELECTION) {
       yield state.copyWith(currentScreen: _currentScreen);
+    } else if (event == FunnelEvent.OPEN_SCREEN_BOOKING_CONFIRMATION) {
+      yield state.copyWith(
+          progressIndicator: _progressIndicator,
+          currentScreen: _currentScreen,
+          bookingConfirmationData: _bookingConfirmationData);
     }
   }
 
   void confirmBooking() async {
+    add(FunnelEvent.CONFIRMING_BOOKING);
     Map<String, dynamic> body = CreateOrderRequestModel.fromUserSelectedData(
         address: _address,
         customerPet: _petData,
@@ -230,9 +241,19 @@ class PetGroomingBloc extends Bloc<FunnelEvent, FunnelState> {
         date: _date,
         time: _time,
         couponData: _couponData);
-    print(body.toString());
     var response =
         await ApiCaller.post(kUrlCreateGroomingLead, body, withToken: true);
-    print(response);
+    BookingConfirmationResponseModel responseModel =
+        BookingConfirmationResponseModel.fromJson(response);
+    if (responseModel.data != null) {
+      _bookingConfirmationData = responseModel.data;
+      _progressIndicator = 7 / _TOTAL_SCREENS;
+      _currentScreen = FunnelScreens.SCREEN_BOOKING_CONFIRMED;
+      add(FunnelEvent.OPEN_SCREEN_BOOKING_CONFIRMATION);
+    } else {
+      _progressIndicator = 7 / _TOTAL_SCREENS;
+      _currentScreen = FunnelScreens.SCREEN_BOOKING_CANCELLED;
+      add(FunnelEvent.OPEN_SCREEN_BOOKING_CANCELLATION);
+    }
   }
 }

@@ -42,7 +42,9 @@ class AddEditMap extends StatelessWidget {
         listener: (blocContext, state) {
           if (state.locationUpdated) {
             updateLocationOnMap(state.addAddressModel!.mapPosition!);
-          } else if (state.addressAdded) {
+          }
+          if (state.addressAdded) {
+            print('addressAdded');
             Navigator.pop(blocContext);
           }
         },
@@ -55,7 +57,8 @@ class AddEditMap extends StatelessWidget {
                   markers: state.mapMarker == null
                       ? const <Marker>{}
                       : [state.mapMarker!].toSet(),
-                  initialCameraPosition: state.addAddressModel!.mapPosition!,
+                  initialCameraPosition:
+                      CameraPosition(target: LatLng(28.7041, 77.1025)),
                   onMapCreated: (GoogleMapController controller) {
                     controller.setMapStyle(_mapStyle);
                     _controller.complete(controller);
@@ -142,15 +145,15 @@ class AddEditMap extends StatelessWidget {
                               onDataFilled: (data) =>
                                   BlocProvider.of<AddressBookBloc>(blocContext)
                                       .updateAddress(addressLineOne: data),
-                              value: state.addAddressModel!.addressLineOne,
+                              value: state.addAddressModel == null
+                                  ? ""
+                                  : state.addAddressModel!.addressLineOne,
+                              showError: state.addressLineOneMissing,
                             ),
                             state.showCollapsedUi
                                 ? Expanded(child: Container())
                                 : Column(
                                     children: [
-                                      SizedBox(
-                                        height: 30,
-                                      ),
                                       UserDetailInput(
                                         heading: 'House / Flat / Block No.',
                                         onDataFilled: (data) =>
@@ -158,51 +161,71 @@ class AddEditMap extends StatelessWidget {
                                                     blocContext)
                                                 .updateAddress(
                                                     addressLineTwo: data),
-                                        value: state
-                                            .addAddressModel!.addressLineTwo,
+                                        value: state.addAddressModel == null
+                                            ? ""
+                                            : state.addAddressModel!
+                                                .addressLineTwo,
                                         required: false,
                                       ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
                                       Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Expanded(
-                                              child: Column(
-                                            children: [
-                                              Heading(
-                                                  heading: 'State',
-                                                  required: false),
-                                              (state.statesAndCitiesList ==
-                                                          null ||
-                                                      state.statesAndCitiesList!
-                                                              .stateList ==
-                                                          null)
-                                                  ? CircularProgressIndicator()
-                                                  : DropdownSearch<StateData>(
-                                                      mode: Mode.BOTTOM_SHEET,
-                                                      showSelectedItem: true,
-                                                      showSearchBox: true,
-                                                      items: state
-                                                          .statesAndCitiesList!
-                                                          .stateList!,
-                                                      itemAsString: (item) =>
-                                                          item.name!,
-                                                      compareFn: (i, s) => true,
-                                                      hint: "Choose State",
-                                                      onChanged: (value) =>
-                                                          BlocProvider.of<
-                                                                      AddressBookBloc>(
-                                                                  blocContext)
+                                            child: Column(
+                                              children: [
+                                                Heading(
+                                                    heading: 'State',
+                                                    required: false),
+                                                (state.statesAndCitiesList ==
+                                                            null ||
+                                                        state.statesAndCitiesList!
+                                                                .stateList ==
+                                                            null)
+                                                    ? CircularProgressIndicator()
+                                                    : Container(
+                                                        height: 50,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12),
+                                                            border: Border.all(
+                                                                color: state.addressStateMissing
+                                                                    ? Colors
+                                                                        .redAccent
+                                                                    : Colors
+                                                                        .transparent)),
+                                                        child: DropdownSearch<
+                                                            StateData>(
+                                                          mode:
+                                                              Mode.BOTTOM_SHEET,
+                                                          showSelectedItem:
+                                                              true,
+                                                          showSearchBox: true,
+                                                          items: state
+                                                              .statesAndCitiesList!
+                                                              .stateList!,
+                                                          itemAsString:
+                                                              (item) =>
+                                                                  item.name!,
+                                                          compareFn: (i, s) =>
+                                                              true,
+                                                          hint: "Choose State",
+                                                          onChanged: (value) => BlocProvider
+                                                                  .of<AddressBookBloc>(
+                                                                      blocContext)
                                                               .updateAddress(
                                                                   state: value!
                                                                       .name,
                                                                   stateId:
                                                                       value!
                                                                           .id),
-                                                    ),
-                                            ],
-                                          )),
+                                                        ),
+                                                      ),
+                                              ],
+                                            ),
+                                          ),
                                           SizedBox(
                                             width: 25,
                                           ),
@@ -212,18 +235,15 @@ class AddEditMap extends StatelessWidget {
                                             onDataFilled: (data) => BlocProvider
                                                     .of<AddressBookBloc>(
                                                         blocContext)
-                                                .updateAddress(
-                                                    zipCode: int.parse(data,
-                                                        radix: 10)),
+                                                .updateAddress(zipCode: data),
                                             value: state
                                                 .addAddressModel!.zipCode
                                                 .toString(),
                                             required: false,
+                                            showError:
+                                                state.addressZipcodeMissing,
                                           ))
                                         ],
-                                      ),
-                                      SizedBox(
-                                        height: 30,
                                       ),
                                       Heading(heading: 'City', required: false),
                                       (state.statesAndCitiesList == null ||
@@ -231,31 +251,45 @@ class AddEditMap extends StatelessWidget {
                                                       .stateList ==
                                                   null)
                                           ? CircularProgressIndicator()
-                                          : DropdownSearch<Cities>(
-                                              mode: Mode.BOTTOM_SHEET,
-                                              showSearchBox: true,
-                                              showSelectedItem: true,
-                                              items: state.addAddressModel!
-                                                          .stateId ==
-                                                      -1
-                                                  ? []
-                                                  : state
-                                                      .statesAndCitiesList!
-                                                      .stateList![state
-                                                              .addAddressModel!
-                                                              .stateId -
-                                                          1]
-                                                      .cities!,
-                                              itemAsString: (cities) =>
-                                                  cities.cityName!,
-                                              hint: "Choose State",
-                                              onChanged: (value) => BlocProvider
-                                                      .of<AddressBookBloc>(
-                                                          blocContext)
-                                                  .updateAddress(
-                                                      city: value!.cityName,
-                                                      cityId: value!.id),
-                                              compareFn: (i, s) => true,
+                                          : Container(
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  border: Border.all(
+                                                      color: state
+                                                              .addressCityMissing
+                                                          ? Colors.redAccent
+                                                          : Colors
+                                                              .transparent)),
+                                              child: DropdownSearch<Cities>(
+                                                mode: Mode.BOTTOM_SHEET,
+                                                showSearchBox: true,
+                                                showSelectedItem: true,
+                                                items: state.addAddressModel!
+                                                            .stateId ==
+                                                        -1
+                                                    ? []
+                                                    : state
+                                                        .statesAndCitiesList!
+                                                        .stateList![state
+                                                                .addAddressModel!
+                                                                .stateId -
+                                                            1]
+                                                        .cities!,
+                                                itemAsString: (cities) =>
+                                                    cities.cityName!,
+                                                hint: "Choose State",
+                                                onChanged: (value) =>
+                                                    BlocProvider.of<
+                                                                AddressBookBloc>(
+                                                            blocContext)
+                                                        .updateAddress(
+                                                            city:
+                                                                value!.cityName,
+                                                            cityId: value!.id),
+                                                compareFn: (i, s) => true,
+                                              ),
                                             ),
                                       SizedBox(
                                         height: 30,
@@ -328,7 +362,9 @@ class AddEditMap extends StatelessWidget {
                                   width: SizeConfig.screenWidth,
                                   child: Center(
                                     child: state.addingNewAddress
-                                        ? CircularProgressIndicator()
+                                        ? CircularProgressIndicator(
+                                            color: Colors.white,
+                                          )
                                         : Text(
                                             state.showCollapsedUi
                                                 ? 'Next'

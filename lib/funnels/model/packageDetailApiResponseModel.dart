@@ -27,9 +27,10 @@ class PackageDetailModel {
   String? name;
   String? detail;
   String? price;
-  int? active;
   String? city;
   String? petType;
+  String? valueAdded;
+  String? requirements;
 
   PackageDetailModel(
       {this.id,
@@ -37,7 +38,6 @@ class PackageDetailModel {
       this.name,
       this.detail,
       this.price,
-      this.active,
       this.city,
       this.petType});
 
@@ -46,10 +46,11 @@ class PackageDetailModel {
     groomerId = json['groomer_id'];
     name = json['name'];
     detail = json['detail'];
-    price = json['price'];
-    active = json['active'];
+    price = json['price'].toString();
     city = json['city'];
     petType = json['pet_type'];
+    valueAdded = json['value_added'] ?? "";
+    requirements = json['requirements'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -59,7 +60,6 @@ class PackageDetailModel {
     data['name'] = this.name;
     data['detail'] = this.detail;
     data['price'] = this.price;
-    data['active'] = this.active;
     data['city'] = this.city;
     data['pet_type'] = this.petType;
     return data;

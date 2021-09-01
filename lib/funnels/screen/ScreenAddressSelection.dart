@@ -8,6 +8,8 @@ import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
 import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/funnels/component/selectLocationComponent.dart';
 import 'package:the_pet_nest/funnels/interfaces/AddressSelectionInterface.dart';
+import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 
 import '../component/addLocationComponent.dart';
@@ -21,7 +23,14 @@ class ScreenAddressSelection extends StatelessWidget {
     return Expanded(
       child: Container(
           margin: EdgeInsets.symmetric(horizontal: 18.46),
-          child: BlocBuilder<AddressBookBloc, AddressBookState>(
+          child: BlocListener<AddressBookBloc, AddressBookState>(
+              listener: (blocContext, state) {
+            if (state.openAddEditAddressScreen) {
+              Navigator.pushNamed(context, kNavigationAddEditAddressBook).then(
+                  (value) => BlocProvider.of<AddressBookBloc>(blocContext)
+                      .getSavedAddress());
+            }
+          }, child: BlocBuilder<AddressBookBloc, AddressBookState>(
             builder: (blocContext, state) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +83,7 @@ class ScreenAddressSelection extends StatelessWidget {
                     height: 27.1,
                   ),
                   Text(
-                    state.addressBook!.address.length == 0 ? '' : 'Address',
+                    state.addressBook == null ? '' : 'Address',
                     style: TextStyle(
                         fontWeight: FontWeight.w400, fontSize: 16, height: 1.5),
                   ),
@@ -88,7 +97,8 @@ class ScreenAddressSelection extends StatelessWidget {
                                 width: 50,
                                 height: 50,
                                 child: CircularProgressIndicator()))
-                        : state.addressBook!.address.length == 0
+                        : state.addressBook == null ||
+                                state.addressBook!.address.length == 0
                             ? Center(child: NoSavedAddress())
                             : ListView.builder(
                                 itemCount: state.addressBook!.address.length,
@@ -113,7 +123,14 @@ class ScreenAddressSelection extends StatelessWidget {
                   SizedBox(
                     height: 8,
                   ),
-                  AddLocationComponent(),
+                  TextButton(
+                      onPressed: () =>
+                          BlocProvider.of<AddressBookBloc>(blocContext)
+                              .openAddAddress(),
+                      child: AddLocationComponent(
+                        backgroundColor: kAppIconColor,
+                        textColor: Colors.white,
+                      )),
                   SizedBox(
                     height: 8,
                   ),
@@ -138,7 +155,7 @@ class ScreenAddressSelection extends StatelessWidget {
                 ],
               );
             },
-          )),
+          ))),
     );
   }
 }

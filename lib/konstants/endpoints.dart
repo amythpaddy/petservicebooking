@@ -16,17 +16,19 @@ const kUrlGetStatesAndCities = '/v1/pets/state_cities';
 const kUrlGetSavedAddresses = '/v1/users/addresses';
 const kUrlAddSavedAddresses = '/v1/users/address';
 const kUrlDeleteSavedAddresses = '/v1/users/address';
-String kUrlGetGroomingPackageInfo(cityName, petType, FunnelType currentFunnel) {
+String kUrlGetGroomingPackageInfo(cityName, petType) {
   String pet = petType == PetCategory.DOG ? "dog" : "cat";
-  String funnelType = '';
-  switch (currentFunnel) {
-    case FunnelType.PET_GROOMING:
-      funnelType = "grooming_packages";
-      break;
-    case FunnelType.PET_TRAINING:
-    case FunnelType.VET_SERVICE:
-  }
-  return '/v1/leads/$funnelType?city=$cityName&pet_type=$pet';
+  return '/v1/leads/grooming_packages?city=$cityName&pet_type=$pet';
+}
+
+String kUrlGetTrainingPackageInfo(cityName, petType) {
+  String pet = petType == PetCategory.DOG ? "dog" : "cat";
+  return '/v1/leads/dog_training_packages?city=$cityName';
+}
+
+String kUrlGetVetPackageInfo(cityName, petType) {
+  String pet = petType == PetCategory.DOG ? "dog" : "cat";
+  return '/v1/leads/grooming_packages?city=$cityName&pet_type=$pet';
 }
 
 String kUrlGetBookedTimeSlots(date, cityId) =>

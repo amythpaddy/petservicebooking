@@ -20,14 +20,38 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
     //todo get online packages via api
   }
 
+  void closeValueAdded() {
+    add(PackageEvent.CLOSE_VALUE_ADDED);
+  }
+
+  void expandValueAdded() {
+    add(PackageEvent.OPEN_VALUE_ADDED);
+  }
+
+  void closeRequirements() {
+    add(PackageEvent.CLOSE_REQUIREMENTS);
+  }
+
+  void expandRequirements() {
+    add(PackageEvent.OPEN_REQUIREMENTS);
+  }
+
   void getPackageDetail(
       String city, PetCategory petType, FunnelType currentFunnel) async {
     add(PackageEvent.FETCHING_PACKAGE_LIST);
-    var response = await ApiCaller.get(
-        kUrlGetGroomingPackageInfo(city, petType, currentFunnel),
-        withToken: true);
-    _packagesListResponse = PackagesListResponse.fromJson(response);
-    add(PackageEvent.PACKAGE_LIST_FETCHED);
+    if (currentFunnel == FunnelType.PET_GROOMING) {
+      var response = await ApiCaller.get(
+          kUrlGetGroomingPackageInfo(city, petType),
+          withToken: true);
+      _packagesListResponse = PackagesListResponse.fromJson(response);
+      add(PackageEvent.PACKAGE_LIST_FETCHED);
+    } else if (currentFunnel == FunnelType.PET_TRAINING) {
+      var response = await ApiCaller.get(
+          kUrlGetTrainingPackageInfo(city, petType),
+          withToken: true);
+      _packagesListResponse = PackagesListResponse.fromJson(response);
+      add(PackageEvent.PACKAGE_LIST_FETCHED);
+    }
   }
 
   void updatePackageSelectedIndex(int index) {
@@ -50,6 +74,14 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
       yield state.copyWith(selectedPackageIndex: _selectedPackageIndex);
     } else if (event == PackageEvent.RESET_STATE_VALUE) {
       yield state.reset();
+    } else if (event == PackageEvent.OPEN_REQUIREMENTS) {
+      yield state.copyWith(expandRequirements: true);
+    } else if (event == PackageEvent.OPEN_VALUE_ADDED) {
+      yield state.copyWith(expandValueAdded: true);
+    } else if (event == PackageEvent.CLOSE_REQUIREMENTS) {
+      yield state.copyWith(expandRequirements: false);
+    } else if (event == PackageEvent.CLOSE_VALUE_ADDED) {
+      yield state.copyWith(expandValueAdded: false);
     }
   }
 }

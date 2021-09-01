@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 import 'package:the_pet_nest/profiles/bloc/userProfile/userProfileBloc.dart';
 import 'package:the_pet_nest/profiles/bloc/userProfile/userProfileState.dart';
@@ -19,7 +20,11 @@ class EditUserProfile extends StatelessWidget {
       body: BlocProvider(
           create: (_) => UserProfileBloc(UserProfileState()),
           child: BlocListener<UserProfileBloc, UserProfileState>(
-              listener: (context, state) {},
+              listener: (context, state) {
+                if (state.updateState == UpdateState.SUCCESS) {
+                  Navigator.pop(context);
+                }
+              },
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 40, horizontal: 22),
                 child: Column(
@@ -57,15 +62,19 @@ class EditUserProfile extends StatelessWidget {
                         ),
                         BlocBuilder<UserProfileBloc, UserProfileState>(
                             builder: (context, state) {
-                          return Flexible(
-                              child: UserDetailInput(
-                            heading: 'Name',
-                            required: true,
-                            onDataFilled: (name) => context
-                                .read<UserProfileBloc>()
-                                .updateName(name),
-                            value: state.name,
-                          ));
+                          return state.processing
+                              ? CircularProgressIndicator(
+                                  color: kAppIconColor,
+                                )
+                              : Flexible(
+                                  child: UserDetailInput(
+                                  heading: 'Name',
+                                  required: true,
+                                  onDataFilled: (name) => context
+                                      .read<UserProfileBloc>()
+                                      .updateName(name),
+                                  value: state.name,
+                                ));
                         }),
                       ],
                     ),
@@ -74,25 +83,33 @@ class EditUserProfile extends StatelessWidget {
                     ),
                     BlocBuilder<UserProfileBloc, UserProfileState>(
                         builder: (context, state) {
-                      return UserDetailInput(
-                          heading: 'Email',
-                          required: true,
-                          onDataFilled: (email) => context
-                              .read<UserProfileBloc>()
-                              .updateEmail(email),
-                          value: state.email);
+                      return state.processing
+                          ? CircularProgressIndicator(
+                              color: kAppIconColor,
+                            )
+                          : UserDetailInput(
+                              heading: 'Email',
+                              required: true,
+                              onDataFilled: (email) => context
+                                  .read<UserProfileBloc>()
+                                  .updateEmail(email),
+                              value: state.email);
                     }),
                     SizedBox(
                       height: 20.5,
                     ),
                     BlocBuilder<UserProfileBloc, UserProfileState>(
                       builder: (context, state) {
-                        return UserDetailInput(
-                            heading: 'Phone number',
-                            required: true,
-                            disabled: true,
-                            onDataFilled: (String value) {},
-                            value: state.number);
+                        return state.processing
+                            ? CircularProgressIndicator(
+                                color: kAppIconColor,
+                              )
+                            : UserDetailInput(
+                                heading: 'Phone number',
+                                required: true,
+                                disabled: true,
+                                onDataFilled: (String value) {},
+                                value: state.number);
                       },
                     ),
                     SizedBox(
@@ -130,10 +147,15 @@ class EditUserProfile extends StatelessWidget {
                                   padding: EdgeInsets.all(10),
                                   alignment: Alignment.center,
                                   decoration: kActiveButtonContainerStyle,
-                                  child: Text(
-                                    'Submit',
-                                    style: kActiveButtonTextStyle,
-                                  ),
+                                  child:
+                                      state.updateState == UpdateState.UPDATING
+                                          ? CircularProgressIndicator(
+                                              color: Colors.white,
+                                            )
+                                          : Text(
+                                              'Submit',
+                                              style: kActiveButtonTextStyle,
+                                            ),
                                 ),
                               );
                             },

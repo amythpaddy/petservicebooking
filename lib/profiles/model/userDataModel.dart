@@ -29,12 +29,13 @@ class ResponseUserDetail {
 }
 
 class Data {
-  User? user;
+  UserDataModel? user;
 
   Data({this.user});
 
   Data.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user =
+        json['user'] != null ? new UserDataModel.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -46,22 +47,29 @@ class Data {
   }
 }
 
-class User {
+class UserDataModel {
   int? id;
   String? firstName;
   String? lastName;
   String? contactNumber;
   String? email;
+  String? referralCode;
 
-  User(
-      {this.id, this.firstName, this.lastName, this.contactNumber, this.email});
+  UserDataModel(
+      {this.id,
+      this.firstName,
+      this.lastName,
+      this.contactNumber,
+      this.email,
+      this.referralCode});
 
-  User.fromJson(Map<String, dynamic> json) {
+  UserDataModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
     contactNumber = json['contact_number'];
     email = json['email'];
+    referralCode = json['referral_code'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -71,6 +79,7 @@ class User {
     data['last_name'] = this.lastName;
     data['contact_number'] = this.contactNumber;
     data['email'] = this.email;
+    data['referral_code'] = this.referralCode;
     return data;
   }
 }

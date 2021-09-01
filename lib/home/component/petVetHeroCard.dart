@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_pet_nest/home/component/coloredCardPainter.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 
 class PetVetHeroCard extends StatelessWidget {
   const PetVetHeroCard({Key? key}) : super(key: key);
@@ -79,7 +80,9 @@ class PetVetHeroCard extends StatelessWidget {
                     'Talk to Vet',
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, kNavigationVetFunnel);
+                  },
                 ),
               ))
         ],

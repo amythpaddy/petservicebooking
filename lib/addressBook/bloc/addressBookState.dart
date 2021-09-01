@@ -1,58 +1,65 @@
+import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:the_pet_nest/addressBook/model/addAddressRequestModel.dart';
 import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
 import 'package:the_pet_nest/addressBook/model/statesAndCityApiModel.dart';
 
-class AddressBookState {
-  Marker? mapMarker;
-  AddAddressRequestModel? addAddressModel;
-  StatesAndCitiesResponse? statesAndCitiesList;
-  AddressBookModel? addressBook;
-  CityList? cityList;
-  CityDetail? selectedCity;
-  String? errorMessage;
-  bool locationError;
-  bool locationUpdated;
-  bool showAddressModal;
-  double modalHeight;
-  double bottomSheetHeight;
-  int blackScreenAlpha;
-  bool showCollapsedUi;
-  bool fetchingAddressBook;
-  bool addingNewAddress;
-  bool addressBookUpdated;
-  bool openAddEditAddressScreen;
-  bool addressAdded;
-  int filterCityId;
-  int selectedAddressIndex;
+class AddressBookState extends Equatable {
+  final Marker? mapMarker;
+  final AddAddressRequestModel? addAddressModel;
+  final StatesAndCitiesResponse? statesAndCitiesList;
+  final AddressBookModel? addressBook;
+  final CityList? cityList;
+  final CityDetail? selectedCity;
+  final String? errorMessage;
+  final bool locationError;
+  final bool locationUpdated;
+  final bool showAddressModal;
+  final double modalHeight;
+  final double bottomSheetHeight;
+  final int blackScreenAlpha;
+  final bool showCollapsedUi;
+  final bool fetchingAddressBook;
+  final bool addingNewAddress;
+  final bool addressBookUpdated;
+  final bool openAddEditAddressScreen;
+  final bool addressAdded;
+  final int filterCityId;
+  final int selectedAddressIndex;
+  final bool addressLineOneMissing;
+  final bool addressStateMissing;
+  final bool addressLineTwoMissing;
+  final bool addressCityMissing;
+  final bool addressZipcodeMissing;
 
-  AddressBookState(
-      {this.errorMessage,
-      this.locationError = false,
-      this.locationUpdated = false,
-      this.mapMarker,
-      this.showAddressModal = true,
-      this.modalHeight = 0.23,
-      this.bottomSheetHeight = 232,
-      this.blackScreenAlpha = 0,
-      this.showCollapsedUi = true,
-      this.addAddressModel,
-      this.statesAndCitiesList,
-      this.addingNewAddress = false,
-      this.addressBookUpdated = false,
-      this.fetchingAddressBook = false,
-      this.addressBook,
-      this.openAddEditAddressScreen = false,
-      this.addressAdded = false,
-      this.filterCityId = -1,
-      this.cityList,
-      this.selectedCity,
-      this.selectedAddressIndex = -1}) {
-    addAddressModel = this.addAddressModel ?? AddAddressRequestModel();
-    statesAndCitiesList = this.statesAndCitiesList ?? StatesAndCitiesResponse();
-    addressBook = this.addressBook ?? AddressBookModel();
-    cityList = this.cityList;
-  }
+  AddressBookState({
+    this.errorMessage,
+    this.locationError = false,
+    this.locationUpdated = false,
+    this.mapMarker,
+    this.showAddressModal = true,
+    this.modalHeight = 0.23,
+    this.bottomSheetHeight = 232,
+    this.blackScreenAlpha = 0,
+    this.showCollapsedUi = true,
+    this.addAddressModel,
+    this.statesAndCitiesList,
+    this.addingNewAddress = false,
+    this.addressBookUpdated = false,
+    this.fetchingAddressBook = false,
+    this.addressBook,
+    this.openAddEditAddressScreen = false,
+    this.addressAdded = false,
+    this.filterCityId = -1,
+    this.cityList,
+    this.selectedCity,
+    this.selectedAddressIndex = -1,
+    this.addressLineOneMissing = false,
+    this.addressStateMissing = false,
+    this.addressLineTwoMissing = false,
+    this.addressCityMissing = false,
+    this.addressZipcodeMissing = false,
+  });
 
   AddressBookState copyWith({
     AddressBookModel? addressBook,
@@ -75,28 +82,73 @@ class AddressBookState {
     CityList? cityList,
     CityDetail? selectedCity,
     int? selectedAddressIndex,
+    bool? addressLineOneMissing,
+    bool? addressStateMissing,
+    bool? addressLineTwoMissing,
+    bool? addressCityMissing,
+    bool? addressZipcodeMissing,
   }) {
-    return AddressBookState(
-        addressBook: addressBook ?? this.addressBook,
-        errorMessage: errorMessage ?? this.errorMessage,
-        locationError: locationError ?? false,
-        locationUpdated: locationUpdated ?? false,
-        modalHeight: modalHeight ?? this.modalHeight,
-        mapMarker: mapMarker ?? this.mapMarker,
-        bottomSheetHeight: bottomSheetHeight ?? this.bottomSheetHeight,
-        blackScreenAlpha: blackScreenAlpha ?? this.blackScreenAlpha,
-        showCollapsedUi: showCollapsedUi ?? this.showCollapsedUi,
-        addAddressModel: addAddressModel,
-        statesAndCitiesList: statesAndCitiesList ?? this.statesAndCitiesList,
-        addingNewAddress: addingNewAddress ?? this.addingNewAddress,
-        addressBookUpdated: addressBookUpdated ?? false,
-        fetchingAddressBook: fetchingAddressBook ?? this.fetchingAddressBook,
-        openAddEditAddressScreen: openAddEditAddressScreen ?? false,
-        addressAdded: addressAdded ?? false,
-        filterCityId: filterCityId ?? this.filterCityId,
-        cityList: cityList ?? this.cityList,
-        selectedCity: selectedCity ?? this.selectedCity,
-        selectedAddressIndex:
-            selectedAddressIndex ?? this.selectedAddressIndex);
+    AddressBookState state = AddressBookState(
+      addressBook: addressBook ?? this.addressBook,
+      errorMessage: errorMessage ?? this.errorMessage,
+      locationError: locationError ?? false,
+      locationUpdated: locationUpdated ?? false,
+      modalHeight: modalHeight ?? this.modalHeight,
+      mapMarker: mapMarker ?? this.mapMarker,
+      bottomSheetHeight: bottomSheetHeight ?? this.bottomSheetHeight,
+      blackScreenAlpha: blackScreenAlpha ?? this.blackScreenAlpha,
+      showCollapsedUi: showCollapsedUi ?? this.showCollapsedUi,
+      addAddressModel: addAddressModel ?? this.addAddressModel,
+      statesAndCitiesList: statesAndCitiesList ?? this.statesAndCitiesList,
+      addingNewAddress: addingNewAddress ?? this.addingNewAddress,
+      addressBookUpdated: addressBookUpdated ?? false,
+      fetchingAddressBook: fetchingAddressBook ?? this.fetchingAddressBook,
+      openAddEditAddressScreen: openAddEditAddressScreen ?? false,
+      addressAdded: addressAdded ?? false,
+      filterCityId: filterCityId ?? this.filterCityId,
+      cityList: cityList ?? this.cityList,
+      selectedCity: selectedCity ?? this.selectedCity,
+      selectedAddressIndex: selectedAddressIndex ?? this.selectedAddressIndex,
+      addressLineOneMissing:
+          addressLineOneMissing ?? this.addressLineOneMissing,
+      addressLineTwoMissing:
+          addressLineTwoMissing ?? this.addressLineTwoMissing,
+      addressCityMissing: addressCityMissing ?? this.addressCityMissing,
+      addressStateMissing: addressStateMissing ?? this.addressStateMissing,
+      addressZipcodeMissing:
+          addressZipcodeMissing ?? this.addressZipcodeMissing,
+    );
+    print('address added ${this.locationUpdated} ${state.locationUpdated}');
+    return state;
   }
+
+  @override
+  List<Object?> get props => [
+        errorMessage,
+        locationError,
+        locationUpdated,
+        mapMarker,
+        showAddressModal,
+        modalHeight,
+        bottomSheetHeight,
+        blackScreenAlpha,
+        showCollapsedUi,
+        addAddressModel,
+        statesAndCitiesList,
+        addingNewAddress,
+        addressBookUpdated,
+        fetchingAddressBook,
+        addressBook,
+        openAddEditAddressScreen,
+        addressAdded,
+        filterCityId,
+        cityList,
+        selectedCity,
+        selectedAddressIndex,
+        addressLineOneMissing,
+        addressStateMissing,
+        addressLineTwoMissing,
+        addressCityMissing,
+        addressZipcodeMissing
+      ];
 }

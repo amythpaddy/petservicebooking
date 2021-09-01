@@ -6,6 +6,8 @@ import 'package:the_pet_nest/bookings/bloc/bookingStates.dart';
 import 'package:the_pet_nest/bookings/components/noRecentBooking.dart';
 import 'package:the_pet_nest/bookings/components/ongoingBookingCard.dart';
 import 'package:the_pet_nest/bookings/model/bookingDataModel.dart';
+import 'package:the_pet_nest/bookings/model/bookingDetailArguments.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 
 class ScreenOngoingBookings extends StatelessWidget {
   ScreenOngoingBookings({Key? key}) : super(key: key);
@@ -49,11 +51,11 @@ class ScreenOngoingBookings extends StatelessWidget {
                       padding: EdgeInsets.all(0),
                       textStyle: TextStyle(color: Colors.black)),
                   onPressed: () {
-                    // BookingDetailArguments args = BookingDetailArguments(
-                    //     leadId: onGoingBookings[index]!.id!, onGoing: true);
-                    // Navigator.pushNamed(
-                    //     blocContext, kNavigationBookingDetailsPage,
-                    //     arguments: args);
+                    BookingDetailArguments args = BookingDetailArguments(
+                        leadId: onGoingBookings[index]!.id!, onGoing: true);
+                    Navigator.pushNamed(
+                        blocContext, kNavigationBookingDetailsPage,
+                        arguments: args);
                   },
                   child: OngoingBookingCard(
                       petName: onGoingBookings[index]

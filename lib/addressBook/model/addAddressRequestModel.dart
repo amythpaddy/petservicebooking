@@ -8,7 +8,7 @@ class AddAddressRequestModel {
   String city;
   int stateId;
   String state;
-  int zipCode;
+  String zipCode;
   String country = "India";
   AddressType addressType;
   CameraPosition? mapPosition;
@@ -20,7 +20,7 @@ class AddAddressRequestModel {
     this.city = "",
     this.stateId = -1,
     this.state = "",
-    this.zipCode = -1,
+    this.zipCode = "",
     this.addressType = AddressType.HOME_ADDRESS,
     this.mapPosition,
   }) {
@@ -49,7 +49,7 @@ class AddAddressRequestModel {
       String? city,
       int? stateId,
       String? state,
-      int? zipCode,
+      String? zipCode,
       AddressType? addressType,
       CameraPosition? mapPosition}) {
     return AddAddressRequestModel(

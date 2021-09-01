@@ -14,6 +14,8 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
     checkForUserData();
   }
 
+  UserDataModel? _userData;
+
   void initSharedPreferences() async {
     _pref = await SharedPreferences.getInstance();
     _email = _pref.getString(kDataUserEmail) ?? '';
@@ -79,8 +81,10 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
       yield state.copyWith(updateState: UpdateState.FAILED);
     else if (event == UserProfileEvents.UPDATE_SUCCESS)
       yield state.copyWith(updateState: UpdateState.SUCCESS);
-    else if (event == UserProfileEvents.UPDATE_DATA_FROM_STORE)
-      yield state.copyWith(name: _name, email: _email, number: _number);
+    else if (event == UserProfileEvents.UPDATE_DATA_FROM_STORE) {
+      yield state.copyWith(
+          name: _name, email: _email, number: _number, processing: false);
+    }
   }
 
   void updateData(String firstName, String email) async {
@@ -89,11 +93,7 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
         RequestUserDetailUpdate(firstName: firstName, email: email);
     var value = await ApiCaller.post(kUrlUpdateUserData, request.toJson(),
         withToken: true);
-    // CreateUserResponse response = CreateUserResponse.fromJson(value);
-    // if (response.error == null) {
-    //   _loginUser(LoginRequest(phone: request.number, code: request.code));
-    // } else {
-    //   add(OtpEvent.otpVerificationFailed);
-    // }
+    _userData = UserDataModel.fromJson(value);
+    add(UserProfileEvents.UPDATE_SUCCESS);
   }
 }

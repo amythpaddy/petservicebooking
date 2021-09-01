@@ -99,6 +99,7 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
     _id = id;
     _petDetail = PetDetailForUpload.fromPetStore(
         _petList.petDataStore.firstWhere((element) => element.id == id));
+    print(_petDetail.name);
     add(PetProfileEvent.PET_ID_SET);
   }
 

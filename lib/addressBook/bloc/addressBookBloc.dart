@@ -137,7 +137,7 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
     String? city,
     int? stateId,
     String? state,
-    int? zipCode,
+    String? zipCode,
   }) {
     _addAddressModel = _addAddressModel.update(
         addressLineOne: addressLineOne,
@@ -168,13 +168,35 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
   }
 
   void addNewAddress() async {
-    add(AddressBookEvent.ADDING_NEW_ADDRESS);
-    var response = await ApiCaller.post(
-        kUrlAddSavedAddresses, _addAddressModel.toJson(),
-        withToken: true);
-    _addressBook.addAddressFromAddedAddressResponse(
-        AddEditAddressResponse.fromJson(response));
-    add(AddressBookEvent.NEW_ADDRESS_ADDED);
+    bool error = false;
+    add(AddressBookEvent.CHECKING_IF_DATA_FILLED);
+    if (_addAddressModel.addressLineOne.isEmpty) {
+      error = true;
+      add(AddressBookEvent.ERROR_ADDRESS_LINE_ONE_EMPTY);
+    }
+
+    if (_addAddressModel.city.isEmpty) {
+      error = true;
+      add(AddressBookEvent.ERROR_ADDRESS_CITY_EMPTY);
+    }
+    if (_addAddressModel.state.isEmpty) {
+      error = true;
+      add(AddressBookEvent.ERROR_ADDRESS_STATE_EMPTY);
+    }
+    if (_addAddressModel.zipCode.isEmpty) {
+      error = true;
+      add(AddressBookEvent.ERROR_ADDRESS_ZIPCODE_EMPTY);
+    }
+    if (!error) {
+      add(AddressBookEvent.ADDING_NEW_ADDRESS);
+      var response = await ApiCaller.post(
+          kUrlAddSavedAddresses, _addAddressModel.toJson(),
+          withToken: true);
+      _addressBook.addAddressFromAddedAddressResponse(
+          AddEditAddressResponse.fromJson(response));
+
+      add(AddressBookEvent.NEW_ADDRESS_ADDED);
+    }
   }
 
   void filterAddress(CityDetail cityDetail) async {
@@ -218,8 +240,21 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
     } else if (event == AddressBookEvent.STATES_N_CITIES_LIST_FETCHED) {
       yield state.copyWith(
           statesAndCitiesList: _statesAndCitiesResponse, cityList: _cityList);
+    } else if (event == AddressBookEvent.CHECKING_IF_DATA_FILLED) {
+      yield state.copyWith(
+          addressLineOneMissing: false,
+          addressLineTwoMissing: false,
+          addressStateMissing: false,
+          addressCityMissing: false,
+          addressZipcodeMissing: false);
     } else if (event == AddressBookEvent.ADDING_NEW_ADDRESS) {
-      yield state.copyWith(addingNewAddress: true);
+      yield state.copyWith(
+          addingNewAddress: true,
+          addressLineOneMissing: false,
+          addressLineTwoMissing: false,
+          addressStateMissing: false,
+          addressCityMissing: false,
+          addressZipcodeMissing: false);
     } else if (event == AddressBookEvent.ADDRESS_BOOK_UPDATED) {
       yield state.copyWith(
           addressBookUpdated: true,
@@ -227,7 +262,7 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
           fetchingAddressBook: false,
           addressBook: _addressBook);
     } else if (event == AddressBookEvent.NEW_ADDRESS_ADDED) {
-      state.copyWith(
+      yield state.copyWith(
           addressAdded: true,
           addingNewAddress: false,
           fetchingAddressBook: false,
@@ -243,6 +278,16 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
       yield state.copyWith(selectedCity: _selectedCity);
     } else if (event == AddressBookEvent.ADDRESS_SELECTED_FROM_LIST) {
       yield state.copyWith(selectedAddressIndex: _addressSelectedIndex);
+    } else if (event == AddressBookEvent.ERROR_ADDRESS_LINE_ONE_EMPTY) {
+      yield state.copyWith(addressLineOneMissing: true);
+    } else if (event == AddressBookEvent.ERROR_ADDRESS_LINE_TWO_EMPTY) {
+      yield state.copyWith(addressLineTwoMissing: true);
+    } else if (event == AddressBookEvent.ERROR_ADDRESS_STATE_EMPTY) {
+      yield state.copyWith(addressStateMissing: true);
+    } else if (event == AddressBookEvent.ERROR_ADDRESS_CITY_EMPTY) {
+      yield state.copyWith(addressCityMissing: true);
+    } else if (event == AddressBookEvent.ERROR_ADDRESS_ZIPCODE_EMPTY) {
+      yield state.copyWith(addressZipcodeMissing: true);
     }
   }
 

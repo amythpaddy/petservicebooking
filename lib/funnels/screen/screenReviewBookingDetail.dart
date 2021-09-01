@@ -4,21 +4,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/funnels/bloc/couponBloc/couponBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/couponBloc/couponState.dart';
-import 'package:the_pet_nest/funnels/bloc/funnelState.dart';
-import 'package:the_pet_nest/funnels/bloc/petGroomingBloc.dart';
 import 'package:the_pet_nest/funnels/component/bottomPriceDisplayComponent.dart';
 import 'package:the_pet_nest/funnels/component/serviceBookingDetailPetCardComponent.dart';
 import 'package:the_pet_nest/funnels/interfaces/bookingDetailReviewInterface.dart';
+import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
+import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
+import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
 
 class ScreenReviewBookingDetail extends StatelessWidget {
-  const ScreenReviewBookingDetail({
-    Key? key,
-    required this.onBookingDetailReviewInterface,
-    required this.totalPrice,
-  }) : super(key: key);
+  const ScreenReviewBookingDetail(
+      {Key? key,
+      required this.onBookingDetailReviewInterface,
+      required this.totalPrice,
+      required this.petData,
+      required this.packageDetail,
+      required this.currentFunnel})
+      : super(key: key);
   final BookingDetailReviewInterface onBookingDetailReviewInterface;
   final double totalPrice;
+  final List<CustomerPet> petData;
+  final List<PackageDetailModel> packageDetail;
+  final FunnelType currentFunnel;
 
   @override
   Widget build(BuildContext context) {
@@ -42,21 +49,17 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                         SizedBox(
                           height: 8.4,
                         ),
-                        BlocBuilder<PetGroomingBloc, FunnelState>(
-                            builder: (blocBuilder, state) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: state.petData!.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (builder, index) =>
-                                  ServiceBookingDetailPetCardComponent(
-                                      petName: state.petData![index].name!,
-                                      bookingDate: '',
-                                      servicePrice:
-                                          state.packageDetail![index].price!,
-                                      bookingService:
-                                          state.packageDetail![index].name!));
-                        }),
+                        ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: petData.length,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (builder, index) =>
+                                ServiceBookingDetailPetCardComponent(
+                                    petName: petData[index].name!,
+                                    bookingDate: '',
+                                    servicePrice: packageDetail[index].price!,
+                                    bookingService:
+                                        packageDetail[index].name!)),
                         TextButton(
                           style:
                               TextButton.styleFrom(padding: EdgeInsets.all(0)),
@@ -131,25 +134,32 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                         SizedBox(
                           height: 18,
                         ),
-                        Text(
-                          'Appointment Prep',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              height: 1.5),
+                        Visibility(
+                          visible: currentFunnel == FunnelType.PET_GROOMING,
+                          child: Column(
+                            children: [
+                              Text(
+                                'Appointment Prep',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    height: 1.5),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Image.asset(
+                                'assets/images/funnels/grooming_prep_image.png',
+                                height: 160,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                  'We recommend you to have following items on the day of appointment. \n ${String.fromCharCode(0x2022)} A bathing area and Personal towels (If Any) \n ${String.fromCharCode(0x2022)} A well-lit area that has access to outlets for blow drying.'),
+                            ],
+                          ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Image.asset(
-                          'assets/images/funnels/grooming_prep_image.png',
-                          height: 160,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                            'We recommend you to have following items on the day of appointment. \n ${String.fromCharCode(0x2022)} A bathing area and Personal towels (If Any) \n ${String.fromCharCode(0x2022)} A well-lit area that has access to outlets for blow drying.'),
                       ],
                     )),
                 TextButton(
@@ -182,6 +192,9 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                             ),
                             BlocBuilder<CouponBloc, CouponState>(
                                 builder: (blocContext, state) {
+                              if (state.couponsData == null)
+                                BlocProvider.of<CouponBloc>(blocContext)
+                                    .getCoupons(currentFunnel);
                               return Text(
                                 state.fetchingCouponList
                                     ? '...'

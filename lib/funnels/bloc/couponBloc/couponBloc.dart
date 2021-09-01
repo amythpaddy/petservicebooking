@@ -4,6 +4,7 @@ import 'package:the_pet_nest/funnels/bloc/couponBloc/couponState.dart';
 import 'package:the_pet_nest/funnels/model/applyCouponModel.dart';
 import 'package:the_pet_nest/funnels/model/couponseApiResponseModel.dart';
 import 'package:the_pet_nest/konstants/endpoints.dart';
+import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/utils/ApiCaller.dart';
 
 class CouponBloc extends Bloc<CouponEvent, CouponState> {
@@ -14,11 +15,9 @@ class CouponBloc extends Bloc<CouponEvent, CouponState> {
   int _selectedCouponId = 0;
   double _discountValue = 0;
 
-  CouponBloc(CouponState initialState) : super(initialState) {
-    getCoupons();
-  }
+  CouponBloc(CouponState initialState) : super(initialState);
 
-  void getCoupons() async {
+  void getCoupons(FunnelType funnelType) async {
     add(CouponEvent.GETTING_COUPON_LIST);
     var response =
         await ApiCaller.get(kUrlGetCouponsList('grooming'), withToken: true);

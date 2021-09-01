@@ -31,7 +31,9 @@ class AddressList extends StatelessWidget {
         child: BlocListener<AddressBookBloc, AddressBookState>(
           listener: (blocContext, state) {
             if (state.openAddEditAddressScreen) {
-              Navigator.pushNamed(context, kNavigationAddEditAddressBook);
+              Navigator.pushNamed(context, kNavigationAddEditAddressBook).then(
+                  (value) => BlocProvider.of<AddressBookBloc>(blocContext)
+                      .getSavedAddress());
             }
           },
           child: BlocBuilder<AddressBookBloc, AddressBookState>(
@@ -40,7 +42,8 @@ class AddressList extends StatelessWidget {
                 state.fetchingAddressBook
                     ? CircularProgressIndicator()
                     : Expanded(
-                        child: state.addressBook!.address.length == 0
+                        child: state.addressBook == null ||
+                                state.addressBook!.address.length == 0
                             ? NoSavedAddress()
                             : ListView.builder(
                                 itemCount: state.addressBook!.address.length,
@@ -51,7 +54,7 @@ class AddressList extends StatelessWidget {
                                       .address[index].addressLineTwo;
 
                                   return (Dismissible(
-                                    key: Key('$city$address1'),
+                                    key: UniqueKey(),
                                     // direction: DismissDirection.endToStart,
                                     onDismissed: (direction) => showSnackbar(
                                         context: context,

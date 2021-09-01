@@ -24,6 +24,12 @@ class PaymentSelectionBloc
     } else if (event ==
         PaymentSelectionEvent.PAYMENT_METHOD_CHANGED_AFTER_SERVICE) {
       yield state.copyWith(paymentMethod: PAYMENT_METHOD.AFTER_SERVICE);
+    } else if (event == PaymentSelectionEvent.PROCESSING_BOOKING) {
+      yield state.copyWith(confirmingBooking: true);
     }
+  }
+
+  void processingBooking() {
+    add(PaymentSelectionEvent.PROCESSING_BOOKING);
   }
 }

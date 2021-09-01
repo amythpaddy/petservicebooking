@@ -4,8 +4,8 @@ class SizeConfig {
   static MediaQueryData? _mediaQueryData;
   static double screenWidth = 300;
   static double screenHeight = 800;
-  static double? blockSizeHorizontal;
-  static double? blockSizeVertical;
+  static late double blockSizeHorizontal;
+  static late double blockSizeVertical;
 
   void init(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);

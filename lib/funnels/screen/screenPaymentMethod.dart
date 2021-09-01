@@ -141,18 +141,24 @@ class ScreenPaymentMethod extends StatelessWidget {
                 BlocBuilder<PaymentSelectionBloc, PaymentSelectionState>(
                     builder: (blocContext, state) {
                   return TextButton(
-                      onPressed: () => onPaymentMethodSelected
-                          .onPaymentMethodSelectionComplete(context),
+                      onPressed: () {
+                        BlocProvider.of<PaymentSelectionBloc>(blocContext)
+                            .processingBooking();
+                        onPaymentMethodSelected
+                            .onPaymentMethodSelectionComplete(context);
+                      },
                       child: Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                         decoration: kActiveButtonContainerStyle,
-                        child: Text(
-                          state.paymentMethod == PAYMENT_METHOD.ONLINE
-                              ? 'Proceed to Pay'
-                              : 'Confirm Booking',
-                          style: kActiveButtonTextStyle,
-                        ),
+                        child: state.confirmingBooking
+                            ? CircularProgressIndicator()
+                            : Text(
+                                state.paymentMethod == PAYMENT_METHOD.ONLINE
+                                    ? 'Proceed to Pay'
+                                    : 'Confirm Booking',
+                                style: kActiveButtonTextStyle,
+                              ),
                       ));
                 })
               ],

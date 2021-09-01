@@ -8,6 +8,7 @@ import 'package:the_pet_nest/bookings/feedback/feedback.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
 import 'package:the_pet_nest/funnels/petGrooming/petGrooming.dart';
 import 'package:the_pet_nest/funnels/petTraining/petTrarining.dart';
+import 'package:the_pet_nest/funnels/vetFunnel/vetFunnel.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/flavorValues/stagingValues.dart';
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
           kNavigationSupport: (context) => Support(),
           kNavigationPetTrainingFunnel: (context) => PetTrainingService(),
           kNavigationPetGroomingFunnel: (context) => PetGroomingService(),
+          kNavigationVetFunnel: (context) => VetService(),
           kNavigationAddressBook: (context) => AddressList(),
           kNavigationAddEditAddressBook: (context) => AddEditMap(),
           kNavigationMessaging: (context) => Messaging(),

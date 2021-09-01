@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:the_pet_nest/funnels/bloc/packageBloc/packageBloc.dart';
+import 'package:the_pet_nest/funnels/bloc/packageBloc/packageState.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
@@ -10,7 +13,9 @@ class CardPackageInfo extends StatelessWidget {
       required this.name,
       required this.details,
       required this.price,
-      required this.selected})
+      required this.selected,
+      required this.valueAdded,
+      required this.requirements})
       : super(key: key) {
     List<String> detailsList = this.details.split(",");
     detailsList.forEach((element) {
@@ -28,13 +33,14 @@ class CardPackageInfo extends StatelessWidget {
   final String price;
   final List<Widget> detailsPointer = [];
   final bool selected;
+  final String valueAdded;
+  final String requirements;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(right: 16),
       width: 325,
-      height: 169,
       padding: EdgeInsets.symmetric(horizontal: 16.81),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
@@ -43,6 +49,8 @@ class CardPackageInfo extends StatelessWidget {
           boxShadow: [kContainerBoxShadow],
           color: Colors.white),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -50,26 +58,19 @@ class CardPackageInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        this.name,
-                        style: TextStyle(
-                            height: 1.5,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14),
-                      ),
-                      Wrap(
-                        children: detailsPointer,
-                      )
-                    ]),
+                child: Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: Text(
+                    this.name,
+                    style: TextStyle(
+                        height: 1.5, fontWeight: FontWeight.w500, fontSize: 22),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
               Container(
-                height: 100,
                 margin: EdgeInsets.only(bottom: 0, left: 10, right: 10),
-                padding: EdgeInsets.symmetric(horizontal: 9.96),
+                padding: EdgeInsets.symmetric(horizontal: 9.96, vertical: 10),
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(
@@ -99,15 +100,23 @@ class CardPackageInfo extends StatelessWidget {
           ),
           // Text.rich(TextSpan(
           //     children: detailsPointer.sublist(2, detailsPointer.length))),
-          if (currentFunnel != FunnelType.PET_GROOMING)
-            Column(
-              children: [
-                TextButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
+          Wrap(
+            children: detailsPointer,
+          ),
+          Visibility(
+            visible: currentFunnel == FunnelType.PET_TRAINING,
+            child: BlocBuilder<PackageBloc, PackageState>(
+                builder: (blocContext, state) {
+              return ExpansionPanelList(children: [
+                ExpansionPanel(
+                    headerBuilder: (buildContext, isExpanded) {
+                      return TextButton(
+                        onPressed: isExpanded
+                            ? BlocProvider.of<PackageBloc>(blocContext)
+                                .closeValueAdded
+                            : BlocProvider.of<PackageBloc>(blocContext)
+                                .expandValueAdded,
+                        child: Text(
                           'Value Added',
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
@@ -115,42 +124,13 @@ class CardPackageInfo extends StatelessWidget {
                               fontSize: 10,
                               color: kTextColorBlue),
                         ),
-                        Icon(
-                          Icons.keyboard_arrow_right_rounded,
-                          color: kAppIconColor,
-                        )
-                      ],
-                    )),
-                SizedBox(
-                  height: 5,
-                ),
-                Divider(
-                  height: 1,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                TextButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Requirements',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              height: 1.5,
-                              fontSize: 10,
-                              color: kTextColorBlue),
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_right_rounded,
-                          color: kAppIconColor,
-                        )
-                      ],
-                    ))
-              ],
-            )
+                      );
+                    },
+                    body: Text(valueAdded),
+                    isExpanded: state.expandValueAdded),
+              ]);
+            }),
+          )
         ],
       ),
     );

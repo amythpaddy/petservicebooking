@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:the_pet_nest/addressBook/bloc/addressBookBloc.dart';
-import 'package:the_pet_nest/addressBook/bloc/addressBookState.dart';
-import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
 import 'package:the_pet_nest/bookings/bloc/bookingBloc.dart';
 import 'package:the_pet_nest/bookings/bloc/bookingStates.dart';
 import 'package:the_pet_nest/funnels/bloc/couponBloc/couponBloc.dart';
@@ -15,8 +12,7 @@ import 'package:the_pet_nest/funnels/bloc/packageBloc/packageBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/packageBloc/packageState.dart';
 import 'package:the_pet_nest/funnels/bloc/paymentSelectionBloc/paymentSelectionBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/paymentSelectionBloc/paymentSelectionState.dart';
-import 'package:the_pet_nest/funnels/bloc/petTrainingBloc.dart';
-import 'package:the_pet_nest/funnels/interfaces/AddressSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/bloc/vetBloc.dart';
 import 'package:the_pet_nest/funnels/interfaces/BookingConfirmationInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/bookingDetailReviewInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/couponSelectionInterface.dart';
@@ -26,7 +22,6 @@ import 'package:the_pet_nest/funnels/interfaces/paymentMethodSelectionInterface.
 import 'package:the_pet_nest/funnels/interfaces/petSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/model/couponseApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
-import 'package:the_pet_nest/funnels/screen/ScreenAddressSelection.dart';
 import 'package:the_pet_nest/funnels/screen/screenBookingConfirmation.dart';
 import 'package:the_pet_nest/funnels/screen/screenCouponSelection.dart';
 import 'package:the_pet_nest/funnels/screen/screenDateSelection.dart';
@@ -41,9 +36,8 @@ import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
 import 'package:the_pet_nest/utils/utils.dart';
 
-class PetTrainingService extends StatelessWidget
+class VetService extends StatelessWidget
     implements
-        AddressSelectionInterface,
         PetSelectionInterface,
         PackageSelectionInterface,
         DateTimeSelectionInterface,
@@ -51,15 +45,15 @@ class PetTrainingService extends StatelessWidget
         PaymentMethodSelectionInterface,
         CouponSelectionInterface,
         BookingConfirmationInterface {
-  const PetTrainingService({Key? key}) : super(key: key);
+  const VetService({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // String
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (_) => AddressBookBloc(initialState: AddressBookState())),
-          BlocProvider(create: (_) => PetTrainingBloc(FunnelState())),
+              create: (_) => VetBloc(FunnelState(
+                  currentScreen: FunnelScreens.SCREEN_PET_SELECTION))),
           BlocProvider(create: (_) => PetProfileBloc(PetProfileState())),
           BlocProvider(create: (_) => PackageBloc(PackageState())),
           BlocProvider(create: (_) => DateTimeBloc(DateTimeState())),
@@ -70,8 +64,7 @@ class PetTrainingService extends StatelessWidget
         ],
         child: MultiBlocListener(
           listeners: [
-            BlocListener<PetTrainingBloc, FunnelState>(
-                listener: (blocContext, state) {
+            BlocListener<VetBloc, FunnelState>(listener: (blocContext, state) {
               if (state.closeThisFunnel) {
                 Navigator.pop(context);
               }
@@ -84,7 +77,7 @@ class PetTrainingService extends StatelessWidget
               if (state.hasError) {
                 showSnackbar(context: blocContext, message: state.errorMsg);
               } else if (state.isCouponApplied) {
-                BlocProvider.of<PetTrainingBloc>(blocContext)
+                BlocProvider.of<VetBloc>(blocContext)
                     .applyDiscount(state.discountValue);
               }
             })
@@ -93,17 +86,17 @@ class PetTrainingService extends StatelessWidget
             appBar: AppBar(
               elevation: 0,
               backgroundColor: kAppBackgroundAltGray,
-              leading: BlocBuilder<PetTrainingBloc, FunnelState>(
+              leading: BlocBuilder<VetBloc, FunnelState>(
                 builder: (blocContext, state) {
                   return IconButton(
                     onPressed: () {
-                      BlocProvider.of<PetTrainingBloc>(blocContext).goBack();
+                      BlocProvider.of<VetBloc>(blocContext).goBack();
                     },
                     icon: Icon(Icons.arrow_back),
                   );
                 },
               ),
-              title: BlocBuilder<PetTrainingBloc, FunnelState>(
+              title: BlocBuilder<VetBloc, FunnelState>(
                 builder: (blocContext, state) {
                   switch (state.currentScreen) {
                     case FunnelScreens.SCREEN_BOOKING_CONFIRMED:
@@ -153,13 +146,10 @@ class PetTrainingService extends StatelessWidget
             body: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                BlocBuilder<PetTrainingBloc, FunnelState>(
+                BlocBuilder<VetBloc, FunnelState>(
                     builder: (blocContext, state) {
                   late Widget body;
                   switch (state.currentScreen) {
-                    case FunnelScreens.SCREEN_ADDRESS_SELECTION:
-                      body = ScreenAddressSelection(onAddressSelection: this);
-                      break;
                     case FunnelScreens.SCREEN_PET_SELECTION:
                       body = ScreenPetSelection(onPetSelected: this);
                       break;
@@ -177,12 +167,11 @@ class PetTrainingService extends StatelessWidget
                         _totalPrice += double.parse(element.price!);
                       });
                       body = ScreenReviewBookingDetail(
-                        onBookingDetailReviewInterface: this,
-                        totalPrice: _totalPrice,
-                        petData: state.petData!,
-                        packageDetail: state.packageDetail!,
-                          currentFunnel:FunnelType.PET_TRAINING
-                      );
+                          onBookingDetailReviewInterface: this,
+                          totalPrice: _totalPrice,
+                          petData: state.petData!,
+                          packageDetail: state.packageDetail!,
+                          currentFunnel: FunnelType.VET_SERVICE);
                       break;
                     case FunnelScreens.SCREEN_PAYMENT_METHOD:
                       double _totalPrice = 0;
@@ -237,91 +226,80 @@ class PetTrainingService extends StatelessWidget
   }
 
   @override
-  void onAddressSelected(blocContext, Address? address) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).setAddress(address);
-  }
-
-  @override
-  void onAddressSelectionComplete(blocContext) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).openPetSelectionScreen();
-  }
-
-  @override
   void onNoteUpdated(blocContext, String note) {
     // TODO: implement onPetSelectionComplete
   }
 
   @override
   void onPetSelectionComplete(blocContext) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).openPackageSelectionScreen();
+    BlocProvider.of<VetBloc>(blocContext).openPackageSelectionScreen();
   }
 
   @override
   void petSelected(blocContext, CustomerPet petData) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).setPet(petData);
+    BlocProvider.of<VetBloc>(blocContext).setPet(petData);
   }
 
   @override
   void onPackageSelectionComplete(blocContext) {
-    BlocProvider.of<PetTrainingBloc>(blocContext)
-        .openBookingDetailsReviewScreen();
+    BlocProvider.of<VetBloc>(blocContext).openBookingDetailsReviewScreen();
   }
 
   @override
   void packageSelected(blocContext, PackageDetailModel packageDetail) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).setPackage(packageDetail);
+    BlocProvider.of<VetBloc>(blocContext).setPackage(packageDetail);
   }
 
   @override
   void onAddAnotherPetClicked(blocContext) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).addNewService();
+    BlocProvider.of<VetBloc>(blocContext).addNewService();
     BlocProvider.of<PetProfileBloc>(blocContext).resetState();
     BlocProvider.of<PackageBloc>(blocContext).resetState();
   }
 
   @override
   void onBookingDetailReviewComplete(blocContext) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).openDateTimeSelectionScreen();
+    BlocProvider.of<VetBloc>(blocContext).openDateTimeSelectionScreen();
   }
 
   @override
   void onPaymentMethodChange(blocContext, PAYMENT_METHOD paymentMethod) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).setPayment(paymentMethod);
+    BlocProvider.of<VetBloc>(blocContext).setPayment(paymentMethod);
   }
 
   @override
   void onPaymentMethodSelectionComplete(blocContext) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).processBooking();
+    BlocProvider.of<VetBloc>(blocContext).processBooking();
   }
 
   @override
   void dateSelected(blocContext, String date) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).setDateTime(date: date);
+    BlocProvider.of<VetBloc>(blocContext).setDateTime(date: date);
   }
 
   @override
   void timeSelected(blocContext, String time) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).setDateTime(time: time);
+    BlocProvider.of<VetBloc>(blocContext).setDateTime(time: time);
   }
 
   @override
   void onDateTimeSelectionComplete(blocContext) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).openPaymentMethodScreen();
+    BlocProvider.of<VetBloc>(blocContext).openPaymentMethodScreen();
   }
 
   @override
   void onCouponSelectionButtonClicked(blocContext) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).openCouponScreen();
+    BlocProvider.of<VetBloc>(blocContext).openCouponScreen();
   }
 
   @override
   void onCouponSelected(blocContext, CouponData couponData) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).couponSelected(couponData);
+    BlocProvider.of<VetBloc>(blocContext).couponSelected(couponData);
   }
 
   @override
   void onCouponSelectionCompleted(blocContext) {
-    BlocProvider.of<PetTrainingBloc>(blocContext).openDateTimeSelectionScreen();
+    BlocProvider.of<VetBloc>(blocContext).openDateTimeSelectionScreen();
   }
 
   @override
