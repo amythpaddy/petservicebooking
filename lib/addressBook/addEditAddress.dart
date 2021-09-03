@@ -78,7 +78,7 @@ class AddEditMap extends StatelessWidget {
                 ),
                 Positioned(
                     bottom: 240,
-                    left: SizeConfig.blockSizeHorizontal! * 42,
+                    left: SizeConfig.blockSizeHorizontal * 42,
                     child: TextButton(
                       onPressed: () =>
                           BlocProvider.of<AddressBookBloc>(blocContext)
@@ -108,7 +108,7 @@ class AddEditMap extends StatelessWidget {
                     child: Container(
                       alignment: Alignment.center,
                       height: state.bottomSheetHeight,
-                      width: (SizeConfig.blockSizeHorizontal! * 100),
+                      width: (SizeConfig.blockSizeHorizontal * 100),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
@@ -219,8 +219,7 @@ class AddEditMap extends StatelessWidget {
                                                                   state: value!
                                                                       .name,
                                                                   stateId:
-                                                                      value!
-                                                                          .id),
+                                                                      value.id),
                                                         ),
                                                       ),
                                               ],
@@ -278,7 +277,7 @@ class AddEditMap extends StatelessWidget {
                                                             1]
                                                         .cities!,
                                                 itemAsString: (cities) =>
-                                                    cities.cityName!,
+                                                    cities.cityName,
                                                 hint: "Choose State",
                                                 onChanged: (value) =>
                                                     BlocProvider.of<
@@ -287,7 +286,7 @@ class AddEditMap extends StatelessWidget {
                                                         .updateAddress(
                                                             city:
                                                                 value!.cityName,
-                                                            cityId: value!.id),
+                                                            cityId: value.id),
                                                 compareFn: (i, s) => true,
                                               ),
                                             ),

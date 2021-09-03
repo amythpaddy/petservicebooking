@@ -80,11 +80,9 @@ class Bookings extends StatelessWidget {
                             scrollDirection: Axis.vertical,
                             child: Column(
                               children: [
-                                Visibility(
-                                    child:
-                                        state.bookingType == BookingType.ONGOING
-                                            ? ScreenOngoingBookings()
-                                            : ScreenBookingsHistory()),
+                                state.bookingType == BookingType.ONGOING
+                                    ? ScreenOngoingBookings()
+                                    : ScreenBookingsHistory(),
                                 SizedBox(
                                   height: 100,
                                 )

@@ -1,5 +1,5 @@
 import 'package:the_pet_nest/konstants/enums.dart';
-import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
+import 'package:the_pet_nest/profiles/model/petDetailForUpload.dart';
 
 class RequestPetData {
   final String name;

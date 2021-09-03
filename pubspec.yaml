@@ -107,6 +107,7 @@ flutter:
     - assets/images/sidebar/shop.svg
     - assets/images/sidebar/support.svg
     - assets/images/sidebar/tnc.svg
+    - assets/images/sidebar/icon_no_coupon.svg
     - assets/images/bookings/no_bookings.svg
     - assets/images/bookings/dog_placeholder.svg
     - assets/images/bookings/cat_placeholder.svg
@@ -116,6 +117,12 @@ flutter:
     - assets/images/feedback/placeholder.png
     - assets/images/profile/edit.svg
     - assets/images/profile/coupons.svg
+    - assets/images/profile/icon_invitation.svg
+    - assets/images/profile/icon_signup.svg
+    - assets/images/profile/icon_reward.svg
+    - assets/images/profile/icon_share_link.svg
+    - assets/images/profile/icon_facebook.png
+    - assets/images/profile/icon_whatsapp.png
     - assets/images/profile/dog_avatar.png
     - assets/images/support/support_banner.svg
     - assets/images/support/mail.svg

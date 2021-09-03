@@ -58,6 +58,8 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
       yield state.copyWith(bookingType: BookingType.ONGOING);
     } else if (event == BookingEvents.GET_HISTORY_BOOKINGS) {
       yield state.copyWith(bookingType: BookingType.HISTORY);
+    } else if (event == BookingEvents.BOOKING_CANCELLED) {
+      yield state.copyWith(bookingCancelled: true);
     }
   }
 
@@ -89,5 +91,13 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
     _bookingData = _bookingRescheduledData.data;
 
     add(BookingEvents.UPDATE_BOOKING_DATA);
+  }
+
+  void cancelBooking(int leadId) async {
+    print('cancelling $leadId');
+    var response = await ApiCaller.post(
+        kUrlCancelBooking(leadId), {"lead_id": leadId},
+        withToken: true);
+    if (response["data"]["success"]) add(BookingEvents.BOOKING_CANCELLED);
   }
 }

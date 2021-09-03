@@ -6,6 +6,8 @@ import 'package:the_pet_nest/bookings/bloc/bookingStates.dart';
 import 'package:the_pet_nest/bookings/components/historyBookingCard.dart';
 import 'package:the_pet_nest/bookings/components/noRecentBooking.dart';
 import 'package:the_pet_nest/bookings/model/bookingDataModel.dart';
+import 'package:the_pet_nest/bookings/model/bookingDetailArguments.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 
 class ScreenBookingsHistory extends StatelessWidget {
   const ScreenBookingsHistory({Key? key}) : super(key: key);
@@ -32,8 +34,19 @@ class ScreenBookingsHistory extends StatelessWidget {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return TextButton(
-                  style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
-                  onPressed: () {},
+                  style: TextButton.styleFrom(
+                      padding: EdgeInsets.all(0),
+                      textStyle: TextStyle(color: Colors.black)),
+                  onPressed: () {
+                    BookingDetailArguments args = BookingDetailArguments(
+                        leadId: historyBookings[index].id!, onGoing: false);
+                    Navigator.pushNamed(
+                            blocContext, kNavigationBookingDetailsPage,
+                            arguments: args)
+                        .then((value) =>
+                            BlocProvider.of<BookingBloc>(blocContext)
+                                .getBookings(page: 1));
+                  },
                   child: HistoryBookingCard(
                     petName: historyBookings[index]
                         .leadPetPackages![0]
@@ -47,7 +60,7 @@ class ScreenBookingsHistory extends StatelessWidget {
                     petHero: historyBookings[index].petHero,
                     cancelled: historyBookings[index].status == 'cancelled',
                     city: '', //todo: city name to be fetched,
-                    leadId: historyBookings[index].id.toString(),
+                    leadId: historyBookings[index].id!,
                   ),
                 );
               },

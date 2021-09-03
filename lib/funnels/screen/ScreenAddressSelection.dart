@@ -49,7 +49,7 @@ class ScreenAddressSelection extends StatelessWidget {
                   state.cityList == null
                       ? CircularProgressIndicator()
                       : Container(
-                          width: SizeConfig.blockSizeHorizontal! * 90,
+                          width: SizeConfig.blockSizeHorizontal * 90,
                           height: 50,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -70,7 +70,7 @@ class ScreenAddressSelection extends StatelessWidget {
                                     .getSavedAddress();
                               } else {
                                 BlocProvider.of<AddressBookBloc>(blocContext)
-                                    .filterAddress(cityDetail!);
+                                    .filterAddress(cityDetail);
                               }
                             },
                             compareFn: (i, s) {

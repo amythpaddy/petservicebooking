@@ -9,6 +9,7 @@ import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
 import 'package:the_pet_nest/profiles/bloc/userProfile/userProfileBloc.dart';
 import 'package:the_pet_nest/profiles/bloc/userProfile/userProfileState.dart';
+import 'package:the_pet_nest/profiles/petProfile/model/editPetArguments.dart';
 import 'package:the_pet_nest/profiles/userProfile/component/menu.dart';
 
 class UserProfile extends StatelessWidget {
@@ -172,7 +173,10 @@ class UserProfile extends StatelessWidget {
                                 )),
                               ),
                             );
-                          else
+                          else {
+                            EditPetArguments args = EditPetArguments(
+                                petId: state.petList!.petDataStore[index].id
+                                    .toString());
                             return Container(
                               decoration: BoxDecoration(
                                   boxShadow: [kContainerBoxShadow],
@@ -185,9 +189,7 @@ class UserProfile extends StatelessWidget {
                                           .petList!.petDataStore[index].id);
                                   Navigator.pushNamed(
                                       context, kNavigationPetProfile,
-                                      arguments:
-                                          BlocProvider.of<PetProfileBloc>(
-                                              blocContext));
+                                      arguments: args);
                                 },
                                 child: (Row(
                                   mainAxisAlignment:
@@ -220,6 +222,7 @@ class UserProfile extends StatelessWidget {
                                 )),
                               ),
                             );
+                          }
                         }
                       },
                       itemCount: length + 1,
@@ -260,6 +263,8 @@ class UserProfile extends StatelessWidget {
                         MenuItem(
                           icon: 'assets/images/profile/coupons.svg',
                           title: 'Coupons',
+                          onClick: () => Navigator.pushNamed(
+                              context, kNavigationViewCoupons),
                         ),
                         Divider(
                           height: 1,
@@ -267,6 +272,8 @@ class UserProfile extends StatelessWidget {
                         MenuItem(
                           icon: 'assets/images/sidebar/referNearn.svg',
                           title: 'Refer and Earn',
+                          onClick: () => Navigator.pushNamed(
+                              context, kNavigationReferAndEarn),
                         ),
                       ],
                     ),

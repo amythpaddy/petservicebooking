@@ -88,7 +88,7 @@ class CouponCard extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: Color(0x33FF7717),
                               borderRadius: BorderRadius.circular(31)),
-                          child: Text(discountCode!),
+                          child: Text(discountCode),
                         ),
                       ),
                       TextButton(

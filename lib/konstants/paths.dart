@@ -19,3 +19,5 @@ const String kNavigationMessaging = '/messaging';
 const String kNavigationAddressBook = '/address-book';
 const String kNavigationAddEditAddressBook = '/address-book-add-edit';
 const String kNavigationBookingDetailsPage = '/bookings-detail-page';
+const String kNavigationReferAndEarn = '/refer-n-earn';
+const String kNavigationViewCoupons = '/viewCoupons';

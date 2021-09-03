@@ -88,7 +88,7 @@ class AddressBookState extends Equatable {
     bool? addressCityMissing,
     bool? addressZipcodeMissing,
   }) {
-    AddressBookState state = AddressBookState(
+    return AddressBookState(
       addressBook: addressBook ?? this.addressBook,
       errorMessage: errorMessage ?? this.errorMessage,
       locationError: locationError ?? false,
@@ -118,8 +118,6 @@ class AddressBookState extends Equatable {
       addressZipcodeMissing:
           addressZipcodeMissing ?? this.addressZipcodeMissing,
     );
-    print('address added ${this.locationUpdated} ${state.locationUpdated}');
-    return state;
   }
 
   @override

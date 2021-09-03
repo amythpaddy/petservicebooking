@@ -243,7 +243,7 @@ class ScreenDateTimeSelection extends StatelessWidget {
             child: TextButton(
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 10),
-                width: SizeConfig.blockSizeHorizontal! * 95,
+                width: SizeConfig.blockSizeHorizontal * 95,
                 decoration: kActiveButtonContainerStyle,
                 child: Text(
                   'Proceed To Payment',
@@ -260,8 +260,8 @@ class ScreenDateTimeSelection extends StatelessWidget {
             return Visibility(
               visible: state.showDateTimePicker,
               child: Container(
-                width: SizeConfig.screenWidth!,
-                height: SizeConfig.screenHeight!,
+                width: SizeConfig.screenWidth,
+                height: SizeConfig.screenHeight,
                 color: Color(0x77000000),
               ),
             );

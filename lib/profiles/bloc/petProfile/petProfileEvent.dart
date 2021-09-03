@@ -18,5 +18,5 @@ enum PetProfileEvent {
   //these are used in funnels
   PET_SELECTED_BY_USER,
   NO_PET_SELECTED_ERROR,
-  RESET_STATE_VALUE
+  RESET_STATE_VALUE,
 }

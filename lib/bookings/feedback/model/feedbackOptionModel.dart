@@ -1,11 +1,10 @@
 class FeedbackOptionResponseModel {
-  FeedbackData? data;
+  _Data? data;
 
   FeedbackOptionResponseModel({this.data});
 
   FeedbackOptionResponseModel.fromJson(Map<String, dynamic> json) {
-    data =
-        json['data'] != null ? new FeedbackData.fromJson(json['data']) : null;
+    data = json['data'] != null ? new _Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -17,12 +16,12 @@ class FeedbackOptionResponseModel {
   }
 }
 
-class FeedbackData {
+class _Data {
   _OrderFeedback? orderFeedback;
 
-  FeedbackData({this.orderFeedback});
+  _Data({this.orderFeedback});
 
-  FeedbackData.fromJson(Map<String, dynamic> json) {
+  _Data.fromJson(Map<String, dynamic> json) {
     orderFeedback = json['order_feedback'] != null
         ? new _OrderFeedback.fromJson(json['order_feedback'])
         : null;

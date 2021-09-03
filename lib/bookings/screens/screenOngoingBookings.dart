@@ -52,10 +52,13 @@ class ScreenOngoingBookings extends StatelessWidget {
                       textStyle: TextStyle(color: Colors.black)),
                   onPressed: () {
                     BookingDetailArguments args = BookingDetailArguments(
-                        leadId: onGoingBookings[index]!.id!, onGoing: true);
+                        leadId: onGoingBookings[index].id!, onGoing: true);
                     Navigator.pushNamed(
-                        blocContext, kNavigationBookingDetailsPage,
-                        arguments: args);
+                            blocContext, kNavigationBookingDetailsPage,
+                            arguments: args)
+                        .then((value) =>
+                            BlocProvider.of<BookingBloc>(blocContext)
+                                .getBookings(page: 1));
                   },
                   child: OngoingBookingCard(
                       petName: onGoingBookings[index]

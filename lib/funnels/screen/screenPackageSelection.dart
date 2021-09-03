@@ -167,7 +167,7 @@ class ScreenPackageSelection extends StatelessWidget {
             child: TextButton(
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 10),
-                width: SizeConfig.blockSizeHorizontal! * 95,
+                width: SizeConfig.blockSizeHorizontal * 95,
                 decoration: kActiveButtonContainerStyle,
                 child: Text(
                   'Next',

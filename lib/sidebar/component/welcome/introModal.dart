@@ -24,8 +24,8 @@ class IntroModal extends StatelessWidget {
         Flexible(
             child: SvgPicture.asset(
           'assets/images/welcome/hero_image.svg',
-          width: SizeConfig.blockSizeHorizontal! * 72.2,
-          height: SizeConfig.blockSizeVertical! * 22.2,
+          width: SizeConfig.blockSizeHorizontal * 72.2,
+          height: SizeConfig.blockSizeVertical * 22.2,
         )),
         SizedBox(
           height: 67.55,

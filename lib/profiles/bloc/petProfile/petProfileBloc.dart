@@ -9,6 +9,7 @@ import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
 import 'package:the_pet_nest/profiles/model/createPetModel.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
 import 'package:the_pet_nest/profiles/model/petBreedModel.dart';
+import 'package:the_pet_nest/profiles/model/petDetailForUpload.dart';
 import 'package:the_pet_nest/utils/ApiCaller.dart';
 
 class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
@@ -120,14 +121,25 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
     add(PetProfileEvent.CANCEL_PET_POPUP);
   }
 
-  void updatePetData() async {
+  void getSinglePetData(String petId) async {
+    add(PetProfileEvent.FETCHING_PET_DETAIL);
+    var response =
+        await ApiCaller.get(kUrlGetSinglePetData(petId), withToken: true);
+    CustomerPet petData = CustomerPet.fromJson(response);
+    _petDetail = PetDetailForUpload.fromPetStore(petData);
+    add(PetProfileEvent.PET_DETAILS_LOADED);
+  }
+
+  void updatePetData(String petId) async {
+    add(PetProfileEvent.UPDATING_PET_DETAIL);
     RequestPetData data = RequestPetData.from(_petDetail);
-    var value = await ApiCaller.put('${kUrlUpdatePet}4', data, withToken: true);
+    var value =
+        await ApiCaller.put('${kUrlUpdatePet(petId)}', data, withToken: true);
     PetCURLModel petCreatedResponse = PetCURLModel.fromJson(value);
     if (petCreatedResponse.data != null) {
       _petList.petDataStore.removeWhere((element) => element.id == _id);
       _petList.addToList(petCreatedResponse);
-      add(PetProfileEvent.PET_ADDED);
+      add(PetProfileEvent.PET_UPDATED);
     } else
       add(PetProfileEvent.ERROR_RESPONSE);
   }
@@ -166,7 +178,8 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
     } else if (event == PetProfileEvent.ERROR_RESPONSE) {
       yield state.copyWith(error: true, addingPet: false);
     } else if (event == PetProfileEvent.PET_DETAILS_LOADED) {
-      yield state.copyWith(petList: _petList, fetchingPetData: false);
+      yield state.copyWith(
+          petList: _petList, fetchingPetData: false, addUpdatePet: _petDetail);
     } else if (event == PetProfileEvent.APP_VERSION_UPDATED) {
       yield state.copyWith(appVersion: _version);
     } else if (event == PetProfileEvent.PET_ID_SET) {
@@ -201,6 +214,8 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
       yield state.copyWith(petSelectedByUserIndex: _selectedPetIndex);
     } else if (event == PetProfileEvent.RESET_STATE_VALUE) {
       yield state.resetValues();
+    } else if (event == PetProfileEvent.FETCHING_PET_DETAIL) {
+      yield state.copyWith(fetchingPetData: true);
     }
   }
 }

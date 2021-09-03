@@ -2,37 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 
 class FeedbackOptions extends StatelessWidget {
-  final int selected;
-  final int optionNumber;
+  final bool selected;
   final String text;
-  final Function onClick;
 
-  const FeedbackOptions(
-      {Key? key,
-      required this.selected,
-      required this.optionNumber,
-      required this.text,
-      required this.onClick})
+  const FeedbackOptions({Key? key, required this.selected, required this.text})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8.62, horizontal: 38.5),
-        decoration: BoxDecoration(
-            color: selected == optionNumber ? kAppIconColor : Colors.white,
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: kAppIconColor)),
-        child: Text(
-          text,
-          style: TextStyle(
-              color: this.optionNumber == this.selected
-                  ? Colors.white
-                  : kAppIconColor),
-        ),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 8.62, horizontal: 38.5),
+      decoration: BoxDecoration(
+          color: selected ? kAppIconColor : Colors.white,
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: kAppIconColor)),
+      child: Text(
+        text,
+        style: TextStyle(color: this.selected ? Colors.white : kAppIconColor),
       ),
-      onPressed: () => onClick(this.optionNumber),
     );
   }
 }

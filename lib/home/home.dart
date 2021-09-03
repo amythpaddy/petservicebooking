@@ -174,7 +174,7 @@ class _HomeState extends State<Home> {
                               ),
                               Visibility(
                                   visible:
-                                      state.homeData!.partners!.length! > 3 &&
+                                      state.homeData!.partners!.length > 3 &&
                                           !state.showAllPetHeroes,
                                   child: Center(
                                       child: TextButton(

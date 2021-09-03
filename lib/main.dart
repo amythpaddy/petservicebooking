@@ -19,6 +19,8 @@ import 'package:the_pet_nest/profiles/petProfile/editPetProfile.dart';
 import 'package:the_pet_nest/profiles/petProfile/petProfile.dart';
 import 'package:the_pet_nest/profiles/userProfile/editProfile.dart';
 import 'package:the_pet_nest/profiles/userProfile/userProfile.dart';
+import 'package:the_pet_nest/sidebar/coupons.dart';
+import 'package:the_pet_nest/sidebar/referAndEarn.dart';
 import 'package:the_pet_nest/support/support.dart';
 import 'package:the_pet_nest/welcome/login/login.dart';
 import 'package:the_pet_nest/welcome/otp/otp.dart';
@@ -72,7 +74,7 @@ class MyApp extends StatelessWidget {
           kNavigationWelcome: (context) => Welcome(),
           kNavigationOtp: (context) => OtpEntry(),
           kNavigationRegister: (context) => Register(),
-          kNavigationFeedback: (context) => PetheroFeedback(),
+          kNavigationFeedback: (context) => PetHeroFeedback(),
           kNavigationUserprofile: (context) => UserProfile(),
           kNavigationEditUserprofile: (context) => EditUserProfile(),
           kNavigationPetProfile: (context) => PetProfile(),
@@ -86,6 +88,8 @@ class MyApp extends StatelessWidget {
           kNavigationAddEditAddressBook: (context) => AddEditMap(),
           kNavigationMessaging: (context) => Messaging(),
           kNavigationBookingDetailsPage: (context) => BookingDetail(),
+          kNavigationReferAndEarn: (context) => ReferAndEarn(),
+          kNavigationViewCoupons: (context) => Coupons()
         },
         // initialRoute: kNavigationMessaging);
         initialRoute: (prefs.getString(kDataToken) ?? '') == ''

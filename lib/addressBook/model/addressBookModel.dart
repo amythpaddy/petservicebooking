@@ -6,7 +6,7 @@ import 'package:the_pet_nest/konstants/enums.dart';
 class AddressBookModel {
   List<Address> _addresses = [];
   List<Address> get address {
-    return _addresses ?? [];
+    return _addresses;
   }
 
   void addAddressFromSavedAddressList(
@@ -14,23 +14,23 @@ class AddressBookModel {
     this._addresses = [];
     savedAddressResponse.data!.forEach((savedAddressData) {
       Address address = Address(
-          id: savedAddressData!.id!,
-          addressableType: savedAddressData!.addressableType!,
-          addressLineOne: savedAddressData!.addressLineOne!,
-          addressLineTwo: savedAddressData!.addressLineTwo!,
-          zipCode: savedAddressData!.zipcode!,
-          country: savedAddressData!.country!,
-          lat: savedAddressData!.lat!,
-          long: savedAddressData!.long!,
+          id: savedAddressData.id!,
+          addressableType: savedAddressData.addressableType!,
+          addressLineOne: savedAddressData.addressLineOne!,
+          addressLineTwo: savedAddressData.addressLineTwo!,
+          zipCode: savedAddressData.zipcode!,
+          country: savedAddressData.country!,
+          lat: savedAddressData.lat!,
+          long: savedAddressData.long!,
           addressType: savedAddressData.kind == "home"
               ? AddressType.HOME_ADDRESS
               : AddressType.OFFICE_ADDRESS,
-          cityId: savedAddressData!.city!.cityState!.id!,
-          city: savedAddressData!.city!.cityState!.name!,
-          citySlug: savedAddressData!.city!.cityState!.slug!,
-          stateId: savedAddressData!.city!.cityState!.state!.id!,
-          state: savedAddressData!.city!.cityState!.state!.name!,
-          stateSlug: savedAddressData!.city!.cityState!.state!.slug!);
+          cityId: savedAddressData.city!.cityState!.id!,
+          city: savedAddressData.city!.cityState!.name!,
+          citySlug: savedAddressData.city!.cityState!.slug!,
+          stateId: savedAddressData.city!.cityState!.state!.id!,
+          state: savedAddressData.city!.cityState!.state!.name!,
+          stateSlug: savedAddressData.city!.cityState!.state!.slug!);
       this._addresses.add(address);
     });
   }
@@ -107,7 +107,7 @@ class CityList {
     response.stateList!.forEach((stateData) {
       stateData.cities!.forEach((cityData) {
         CityDetail cityDetail =
-            CityDetail(cityId: cityData!.id!, cityName: cityData!.cityName!);
+            CityDetail(cityId: cityData.id, cityName: cityData.cityName);
         cityList.add(cityDetail);
       });
     });

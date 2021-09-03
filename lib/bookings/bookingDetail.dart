@@ -6,6 +6,7 @@ import 'package:the_pet_nest/bookings/model/bookingDetailArguments.dart';
 import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeState.dart';
 import 'package:the_pet_nest/funnels/interfaces/BookingConfirmationInterface.dart';
+import 'package:the_pet_nest/funnels/screen/screenBookingCancelled.dart';
 import 'package:the_pet_nest/funnels/screen/screenBookingConfirmation.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 
@@ -42,12 +43,18 @@ class BookingDetail extends StatelessWidget
           ],
           child: BlocBuilder<BookingBloc, BookingState>(
             builder: (blocContext, state) {
+              print(state.bookingCancelled);
               if (state.initialLoad)
                 BlocProvider.of<BookingBloc>(blocContext)
                     .getBookingDetails(args.leadId);
               return state.isProcessing
-                  ? CircularProgressIndicator()
-                  : ScreenBookingConfirmation(onBookingConfirmation: this);
+                  ? Center(
+                      child: CircularProgressIndicator(
+                      color: kAppIconColor,
+                    ))
+                  : state.bookingCancelled || !args.onGoing
+                      ? ScreenBookingCancelled()
+                      : ScreenBookingConfirmation(onBookingConfirmation: this);
             },
           ),
         ),

@@ -22,7 +22,7 @@ class PetParentReviewCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(right: 8.05),
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      width: SizeConfig.blockSizeHorizontal! * 90,
+      width: SizeConfig.blockSizeHorizontal * 90,
       constraints: BoxConstraints(maxHeight: 101),
       decoration: BoxDecoration(
           color: Colors.white,

@@ -1,12 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
 import 'package:the_pet_nest/profiles/model/petBreedModel.dart';
+import 'package:the_pet_nest/profiles/model/petDetailForUpload.dart';
 
-class PetProfileState {
-  PetDataStore? petList;
-  PetDetailForUpload? addUpdatePet;
-  PetBreeds? petBreeds;
+class PetProfileState extends Equatable {
+  late final PetDataStore? petList;
+  late final PetDetailForUpload? addUpdatePet;
+  late final PetBreeds? petBreeds;
   final bool petCreated;
   final bool petUpdated;
   final bool error;
@@ -35,11 +37,7 @@ class PetProfileState {
       this.showPetPopupScreens = false,
       this.modalHeight = kHeightPetPopupDefault,
       this.error = false,
-      this.petSelectedByUserIndex = -1}) {
-    petList = this.petList ?? PetDataStore();
-    addUpdatePet = this.addUpdatePet ?? PetDetailForUpload();
-    petBreeds = this.petBreeds ?? PetBreeds();
-  }
+      this.petSelectedByUserIndex = -1});
 
   PetProfileState copyWith(
       {PetDataStore? petList,
@@ -83,69 +81,23 @@ class PetProfileState {
       appVersion: appVersion,
     );
   }
-}
 
-class PetDetailForUpload {
-  String name;
-  Aggression aggression;
-  Gender gender;
-  int age;
-  double weight;
-  int vaccine;
-  BreedDetail? subCategory;
-  PetCategory petCategory;
-  PetDetailForUpload(
-      {this.name = '',
-      this.aggression = Aggression.HIGH,
-      this.gender = Gender.FEMALE,
-      this.age = 0,
-      this.weight = 0,
-      this.vaccine = 0,
-      this.petCategory = PetCategory.DOG,
-      this.subCategory});
-
-  static PetDetailForUpload fromPetStore(CustomerPet petDetail) {
-    Aggression agg = Aggression.HIGH;
-    switch (petDetail.aggression) {
-      case "high":
-        agg = Aggression.HIGH;
-        break;
-      case "medium":
-        agg = Aggression.MEDIUM;
-        break;
-      case "low":
-        agg = Aggression.LOW;
-        break;
-    }
-
-    Gender gender;
-    switch (petDetail.gender) {
-      case "male":
-        gender = Gender.MALE;
-        break;
-      case "female":
-        gender = Gender.FEMALE;
-        break;
-    }
-    late BreedDetail breedDetail;
-    if (petDetail.category!.name == 'dog') {
-      breedDetail = DogBreed(
-          id: petDetail.subcategory!.id!, name: petDetail.subcategory!.name!);
-    } else {
-      breedDetail = CatBreed(
-          id: petDetail.subcategory!.id!, name: petDetail.subcategory!.name!);
-    }
-
-    return PetDetailForUpload(
-        name: petDetail.name!,
-        aggression: agg,
-        age: petDetail.age!,
-        gender: petDetail.gender == "male" ? Gender.MALE : Gender.FEMALE,
-        weight: petDetail.weight!,
-        vaccine: petDetail.vaccinations == true ? 1 : 0,
-        petCategory: petDetail.category!.name == 'dog'
-            ? PetCategory.DOG
-            : PetCategory.CAT,
-        subCategory: breedDetail);
-  }
+  @override
+  List<Object?> get props => [
+        petList,
+        addUpdatePet,
+        petBreeds,
+        petCreated,
+        petUpdated,
+        error,
+        addingPet,
+        updatingPet,
+        fetchingPetData,
+        appVersion,
+        petId,
+        currentScreen,
+        showPetPopupScreens,
+        modalHeight,
+        petSelectedByUserIndex
+      ];
 }

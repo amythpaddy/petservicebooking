@@ -31,7 +31,7 @@ class ScreenPetSelection extends StatelessWidget {
           BlocBuilder<PetProfileBloc, PetProfileState>(
             builder: (blocContext, state) {
               return Container(
-                height: state.petList!.petDataStore!.length == 0 ? 0 : 160,
+                height: state.petList!.petDataStore.length == 0 ? 0 : 160,
                 child: Center(
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -48,7 +48,7 @@ class ScreenPetSelection extends StatelessWidget {
                           child: SelectAddedPetCard(
                             name: state.petList!.petDataStore[index].name!,
                             image: '',
-                            breed: state.petList!.petDataStore[index]!
+                            breed: state.petList!.petDataStore[index]
                                 .subcategory!.name!,
                             selected: index == state.petSelectedByUserIndex,
                           ),

@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:the_pet_nest/bookings/bloc/bookingBloc.dart';
 import 'package:the_pet_nest/bookings/model/bookingDataModel.dart';
+import 'package:the_pet_nest/bookings/model/bookingDetailArguments.dart';
 import 'package:the_pet_nest/bookings/model/feedbackDataHolder.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
@@ -15,7 +18,7 @@ class HistoryBookingCard extends StatelessWidget {
   final String orderId;
   final bool cancelled;
   final String city;
-  final String leadId;
+  final int leadId;
 
   const HistoryBookingCard(
       {Key? key,
@@ -173,7 +176,16 @@ class HistoryBookingCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          BookingDetailArguments args = BookingDetailArguments(
+                              leadId: leadId, onGoing: false);
+                          Navigator.pushNamed(
+                                  context, kNavigationBookingDetailsPage,
+                                  arguments: args)
+                              .then((value) =>
+                                  BlocProvider.of<BookingBloc>(context)
+                                      .getBookings(page: 1));
+                        },
                         child: Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 39, vertical: 9),
@@ -214,10 +226,10 @@ class HistoryBookingCard extends StatelessWidget {
                           Navigator.pushNamed(context, kNavigationFeedback,
                               arguments: FeedbackDataHolder(
                                   petHero: petHero != null
-                                      ? petHero!.name! ?? ""
+                                      ? petHero!.name ?? ""
                                       : "",
                                   city: city,
-                                  leadId: leadId));
+                                  leadId: leadId.toString()));
                         },
                         child: Container(
                           padding:

@@ -57,8 +57,7 @@ class _SidebarState extends State<Sidebar> {
                     fontSize: 14,
                     height: 1.5)),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.pushNamed(context, kNavigationReferAndEarn);
             },
           ),
           ListTile(

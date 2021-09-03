@@ -16,6 +16,9 @@ class BookingState extends Equatable {
   final int currentPage;
   final BookingsDataResponseModel? bookingsList;
   final BookingType bookingType;
+  final bool cancellingBooking;
+  final bool bookingCancelled;
+  final FunnelScreens bookingDetailScreen;
 
   BookingState(
       {this.date = '',
@@ -29,7 +32,10 @@ class BookingState extends Equatable {
       this.currentPage = 1,
       this.bookingsList,
       this.bookingType = BookingType.ONGOING,
-      this.initialLoad = true});
+      this.initialLoad = true,
+      this.cancellingBooking = false,
+      this.bookingCancelled = false,
+      this.bookingDetailScreen = FunnelScreens.SCREEN_BOOKING_CONFIRMED});
 
   BookingState copyWith(
       {String? date,
@@ -42,7 +48,10 @@ class BookingState extends Equatable {
       BookingConfirmationData? bookingData,
       int? currentPage,
       BookingsDataResponseModel? bookingsList,
-      BookingType? bookingType}) {
+      BookingType? bookingType,
+      bool? cancellingBooking,
+      bool? bookingCancelled,
+      FunnelScreens? bookingDetailScreen}) {
     return BookingState(
         date: date ?? this.date,
         time: time ?? this.time,
@@ -55,7 +64,10 @@ class BookingState extends Equatable {
         currentPage: currentPage ?? this.currentPage,
         bookingsList: bookingsList ?? this.bookingsList,
         bookingType: bookingType ?? this.bookingType,
-        initialLoad: false);
+        initialLoad: false,
+        cancellingBooking: cancellingBooking ?? this.cancellingBooking,
+        bookingCancelled: bookingCancelled ?? this.bookingCancelled,
+        bookingDetailScreen: bookingDetailScreen ?? this.bookingDetailScreen);
   }
 
   @override
@@ -71,6 +83,9 @@ class BookingState extends Equatable {
         currentPage,
         bookingsList,
         bookingType,
-        initialLoad
+        initialLoad,
+        cancellingBooking,
+        bookingCancelled,
+        bookingDetailScreen
       ];
 }
