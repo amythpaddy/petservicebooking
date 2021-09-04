@@ -44,7 +44,6 @@ class AddEditMap extends StatelessWidget {
             updateLocationOnMap(state.addAddressModel!.mapPosition!);
           }
           if (state.addressAdded) {
-            print('addressAdded');
             Navigator.pop(blocContext);
           }
         },

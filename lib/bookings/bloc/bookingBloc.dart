@@ -94,7 +94,6 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
   }
 
   void cancelBooking(int leadId) async {
-    print('cancelling $leadId');
     var response = await ApiCaller.post(
         kUrlCancelBooking(leadId), {"lead_id": leadId},
         withToken: true);

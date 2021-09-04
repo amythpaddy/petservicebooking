@@ -45,7 +45,6 @@ class ScreenOngoingBookings extends StatelessWidget {
               shrinkWrap: true,
               controller: _controller,
               itemBuilder: (context, index) {
-                print('${onGoingBookings[index].status}');
                 return TextButton(
                   style: TextButton.styleFrom(
                       padding: EdgeInsets.all(0),

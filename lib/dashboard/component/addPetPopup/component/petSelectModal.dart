@@ -16,6 +16,14 @@ class PetSelectModal extends StatelessWidget {
         color: Colors.transparent,
         child: BlocBuilder<PetProfileBloc, PetProfileState>(
           builder: (blocContext, state) {
+            if (state.addUpdatePet == null) {
+              BlocProvider.of<PetProfileBloc>(blocContext).initAddPet();
+              return Center(
+                child: CircularProgressIndicator(
+                  color: kAppIconColor,
+                ),
+              );
+            }
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

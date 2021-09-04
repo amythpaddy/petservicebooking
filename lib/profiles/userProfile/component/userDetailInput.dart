@@ -37,7 +37,6 @@ class UserDetailInput extends StatelessWidget {
     // _focusNode = FocusNode();
     // // _focusNode.addListener(() {
     // //   if (!_focusNode.hasFocus) {
-    // //     print('focus lost');
     // //     onDataFilled(_controller.text);
     // //   }
     // });

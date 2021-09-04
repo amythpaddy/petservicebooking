@@ -2,12 +2,12 @@ import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/profiles/model/petDetailForUpload.dart';
 
 class RequestPetData {
-  final String name;
-  final int categoryId;
-  final int subCategoryId;
-  final String gender;
-  final int vaccination;
-  final int aggression;
+  final String? name;
+  final int? categoryId;
+  final int? subCategoryId;
+  final String? gender;
+  final int? vaccination;
+  final int? aggression;
   final int? age;
   final double? weight;
 
@@ -48,7 +48,8 @@ class RequestPetData {
     return RequestPetData(
         name: detail.name,
         categoryId: detail.petCategory == PetCategory.DOG ? 1 : 2,
-        subCategoryId: detail.subCategory!.id,
+        subCategoryId:
+            detail.subCategory == null ? null : detail.subCategory!.id,
         gender: detail.gender == Gender.MALE ? 'male' : 'female',
         vaccination: detail.vaccine,
         age: detail.age,

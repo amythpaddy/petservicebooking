@@ -38,9 +38,12 @@ class EditPetProfile extends StatelessWidget {
           create: (_) => PetProfileBloc(PetProfileState()),
           child: BlocListener<PetProfileBloc, PetProfileState>(
             listener: (listenerContext, state) {
-              if (state.addUpdatePet == null) {
+              if (state.addUpdatePet == null && !state.fetchingPetData) {
                 BlocProvider.of<PetProfileBloc>(listenerContext)
                     .getSinglePetData(args.petId);
+              }
+              if (state.petBreeds == null) {
+                BlocProvider.of<PetProfileBloc>(listenerContext).getPetBreed();
               }
               if (state.petUpdated) {
                 Navigator.pop(context);
@@ -50,7 +53,7 @@ class EditPetProfile extends StatelessWidget {
             },
             child: BlocBuilder<PetProfileBloc, PetProfileState>(
               builder: (blocContext, state) {
-                return state.fetchingPetData
+                return state.fetchingPetData || state.addUpdatePet == null
                     ? CircularProgressIndicator(
                         color: kAppIconColor,
                       )
@@ -145,22 +148,29 @@ class EditPetProfile extends StatelessWidget {
                             heading: 'Breed',
                             required: true,
                           ),
-                          DropdownSearch<BreedDetail>(
-                            mode: Mode.BOTTOM_SHEET,
-                            showSelectedItem: true,
-                            items: state.petBreeds!.listOfDogBreed,
-                            itemAsString: (breed) => breed.name,
-                            selectedItem: state.addUpdatePet!.subCategory,
-                            hint: "Choose Pet's Breed",
-                            onChanged: (value) =>
-                                BlocProvider.of<PetProfileBloc>(blocContext)
-                                    .petBreedChanged(value!),
-                            compareFn: (i, s) {
-                              return true;
-                            },
-                            showSearchBox: true,
-                            showClearButton: true,
-                          ),
+                          state.petBreeds == null
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: kAppIconColor,
+                                  ),
+                                )
+                              : DropdownSearch<BreedDetail>(
+                                  mode: Mode.BOTTOM_SHEET,
+                                  showSelectedItem: true,
+                                  items: state.petBreeds!.listOfDogBreed,
+                                  itemAsString: (breed) => breed.name,
+                                  selectedItem: state.addUpdatePet!.subCategory,
+                                  hint: "Choose Pet's Breed",
+                                  onChanged: (value) =>
+                                      BlocProvider.of<PetProfileBloc>(
+                                              blocContext)
+                                          .petBreedChanged(value!),
+                                  compareFn: (i, s) {
+                                    return true;
+                                  },
+                                  showSearchBox: true,
+                                  showClearButton: true,
+                                ),
                           SizedBox(
                             height: 19,
                           ),
@@ -287,12 +297,15 @@ class EditPetProfile extends StatelessWidget {
                                   decoration: kActiveButtonContainerStyle,
                                   child: TextButton(
                                     onPressed: () {
-                                      BlocProvider.of<PetProfileBloc>(
-                                              blocContext)
-                                          .updatePetData(args.petId);
+                                      if (!state.updatingPet)
+                                        BlocProvider.of<PetProfileBloc>(
+                                                blocContext)
+                                            .updatePetData(args.petId);
                                     },
                                     child: state.updatingPet
-                                        ? CircularProgressIndicator()
+                                        ? CircularProgressIndicator(
+                                            color: Colors.white,
+                                          )
                                         : Text(
                                             'Submit',
                                             style: kActiveButtonTextStyle,

@@ -101,132 +101,139 @@ class UserProfile extends StatelessWidget {
                   ),
                   BlocBuilder<PetProfileBloc, PetProfileState>(
                       builder: (blocContext, state) {
-                    int length = 0;
-                    if (state.petList != null)
-                      length = state.petList!.petDataStore.length;
-                    return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: state.fetchingPetData ? 1 : 2,
-                          childAspectRatio: 3,
-                          mainAxisSpacing: 11,
-                          crossAxisSpacing: 11),
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        if (state.fetchingPetData) {
-                          return Container(
-                            decoration: BoxDecoration(
-                                boxShadow: [kContainerBoxShadow],
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Center(
-                                child: SizedBox(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                              height: 24,
-                              width: 24,
-                            )),
-                          );
-                        } else {
-                          if (index == length)
+                    if (state.petList == null) {
+                      BlocProvider.of<PetProfileBloc>(blocContext).getPetData();
+                      return Center(
+                          child:
+                              CircularProgressIndicator(color: kAppIconColor));
+                    } else {
+                      int length = 0;
+                      if (state.petList != null)
+                        length = state.petList!.petDataStore.length;
+                      return GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: state.fetchingPetData ? 1 : 2,
+                            childAspectRatio: 3,
+                            mainAxisSpacing: 11,
+                            crossAxisSpacing: 11),
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          if (state.fetchingPetData) {
                             return Container(
                               decoration: BoxDecoration(
                                   boxShadow: [kContainerBoxShadow],
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(12)),
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, kNavigationAddPetProfile,
-                                      arguments:
-                                          BlocProvider.of<PetProfileBloc>(
-                                              blocContext));
-                                },
-                                child: (Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Icon(
-                                      Icons.add_circle,
-                                      color: kAppIconColor,
-                                      size: 36,
-                                    ),
-                                    SizedBox(
-                                      width: 11.45,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        'Add Pet',
-                                        style: TextStyle(
-                                            color: kTextColorBlue,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5),
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.keyboard_arrow_right,
-                                      color: kAppIconColor,
-                                    )
-                                  ],
-                                )),
-                              ),
-                            );
-                          else {
-                            EditPetArguments args = EditPetArguments(
-                                petId: state.petList!.petDataStore[index].id
-                                    .toString());
-                            return Container(
-                              decoration: BoxDecoration(
-                                  boxShadow: [kContainerBoxShadow],
+                              child: Center(
+                                  child: SizedBox(
+                                child: CircularProgressIndicator(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: TextButton(
-                                onPressed: () {
-                                  BlocProvider.of<PetProfileBloc>(blocContext)
-                                      .setId(state
-                                          .petList!.petDataStore[index].id);
-                                  Navigator.pushNamed(
-                                      context, kNavigationPetProfile,
-                                      arguments: args);
-                                },
-                                child: (Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/profile/dog_avatar.png',
-                                      height: 46.16,
-                                      width: 46.16,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        state
-                                            .petList!.petDataStore[index].name!,
-                                        style: TextStyle(
-                                            color: kTextColorBlue,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.5),
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.keyboard_arrow_right,
-                                      color: kAppIconColor,
-                                    )
-                                  ],
-                                )),
-                              ),
+                                ),
+                                height: 24,
+                                width: 24,
+                              )),
                             );
+                          } else {
+                            if (index == length)
+                              return Container(
+                                decoration: BoxDecoration(
+                                    boxShadow: [kContainerBoxShadow],
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, kNavigationAddPetProfile,
+                                        arguments:
+                                            BlocProvider.of<PetProfileBloc>(
+                                                blocContext));
+                                  },
+                                  child: (Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Icon(
+                                        Icons.add_circle,
+                                        color: kAppIconColor,
+                                        size: 36,
+                                      ),
+                                      SizedBox(
+                                        width: 11.45,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          'Add Pet',
+                                          style: TextStyle(
+                                              color: kTextColorBlue,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.5),
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.keyboard_arrow_right,
+                                        color: kAppIconColor,
+                                      )
+                                    ],
+                                  )),
+                                ),
+                              );
+                            else {
+                              EditPetArguments args = EditPetArguments(
+                                  petId: state.petList!.petDataStore[index].id
+                                      .toString());
+                              return Container(
+                                decoration: BoxDecoration(
+                                    boxShadow: [kContainerBoxShadow],
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: TextButton(
+                                  onPressed: () {
+                                    BlocProvider.of<PetProfileBloc>(blocContext)
+                                        .setId(state
+                                            .petList!.petDataStore[index].id);
+                                    Navigator.pushNamed(
+                                        context, kNavigationPetProfile,
+                                        arguments: args);
+                                  },
+                                  child: (Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/profile/dog_avatar.png',
+                                        height: 46.16,
+                                        width: 46.16,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          state.petList!.petDataStore[index]
+                                              .name!,
+                                          style: TextStyle(
+                                              color: kTextColorBlue,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.5),
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.keyboard_arrow_right,
+                                        color: kAppIconColor,
+                                      )
+                                    ],
+                                  )),
+                                ),
+                              );
+                            }
                           }
-                        }
-                      },
-                      itemCount: length + 1,
-                    );
+                        },
+                        itemCount: length + 1,
+                      );
+                    }
                   }),
                   Container(
                     decoration: BoxDecoration(

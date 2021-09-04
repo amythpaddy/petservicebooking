@@ -21,6 +21,9 @@ class PetInfoModal extends StatelessWidget {
       color: Colors.transparent,
       child: BlocBuilder<PetProfileBloc, PetProfileState>(
         builder: (blocContext, state) {
+          if (state.petBreeds == null) {
+            BlocProvider.of<PetProfileBloc>(blocContext).getPetBreed();
+          }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -71,6 +74,7 @@ class PetInfoModal extends StatelessWidget {
                         BlocProvider.of<PetProfileBloc>(blocContext)
                             .petNameChanged(value),
                     value: state.addUpdatePet!.name,
+                    showError: state.errorNameIsMissing,
                   )),
                 ],
               ),
@@ -106,23 +110,48 @@ class PetInfoModal extends StatelessWidget {
                 height: 12,
               ),
               Heading(
-                heading: 'Breed',
+                heading: 'Category',
                 required: true,
               ),
-              DropdownSearch<BreedDetail>(
-                mode: Mode.DIALOG,
-                showSelectedItem: true,
-                items: state.petBreeds!.listOfDogBreed,
-                itemAsString: (breed) => breed.name,
-                hint: "Choose Pet's Breed",
-                onChanged: (value) => BlocProvider.of<PetProfileBloc>(context)
-                    .petBreedChanged(value!),
-                compareFn: (i, s) {
-                  return true;
-                },
-                showSearchBox: true,
-                showClearButton: true,
+              SizedBox(
+                height: 12,
               ),
+              state.petBreeds == null
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: kAppIconColor,
+                      ),
+                    )
+                  : Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              color: state.errorBreedIsMissing
+                                  ? Colors.redAccent
+                                  : Colors.transparent)),
+                      child: DropdownSearch<BreedDetail>(
+                        mode: Mode.DIALOG,
+                        showSelectedItem: true,
+                        items:
+                            state.addUpdatePet!.petCategory == PetCategory.DOG
+                                ? state.petBreeds!.listOfDogBreed
+                                : state.petBreeds!.listOfCatBreed,
+                        itemAsString: (breed) => breed.name,
+                        hint: "Choose Pet's Breed",
+                        selectedItem: state.addUpdatePet!.subCategory == null
+                            ? null
+                            : state.addUpdatePet!.subCategory,
+                        onChanged: (value) {
+                          BlocProvider.of<PetProfileBloc>(context)
+                              .petBreedChanged(value);
+                        },
+                        compareFn: (i, s) {
+                          return true;
+                        },
+                        showSearchBox: true,
+                      ),
+                    ),
               SizedBox(
                 height: 12,
               ),
@@ -130,13 +159,15 @@ class PetInfoModal extends StatelessWidget {
                 children: [
                   Expanded(
                       child: UserDetailInput(
-                          heading: 'Age',
-                          required: true,
-                          onDataFilled: (value) =>
-                              BlocProvider.of<PetProfileBloc>(blocContext)
-                                  .petAgeChanged(value),
-                          inputType: TextInputType.number,
-                          value: state.addUpdatePet!.age.toString())),
+                    heading: 'Age',
+                    required: true,
+                    inputType: TextInputType.number,
+                    value: (state.addUpdatePet!.age ?? "").toString(),
+                    onDataFilled: (data) =>
+                        BlocProvider.of<PetProfileBloc>(context)
+                            .petAgeChanged(data),
+                    showError: state.errorAgeIsMissing,
+                  )),
                   SizedBox(
                     width: 7,
                   ),
@@ -144,12 +175,13 @@ class PetInfoModal extends StatelessWidget {
                       child: UserDetailInput(
                     heading: 'Weight',
                     required: true,
-                    onDataFilled: (value) =>
-                        BlocProvider.of<PetProfileBloc>(blocContext)
-                            .petWeightChanged(value),
                     inputType: TextInputType.number,
-                    value: state.addUpdatePet!.weight.toString(),
-                  ))
+                    value: (state.addUpdatePet!.weight ?? "").toString(),
+                    onDataFilled: (data) =>
+                        BlocProvider.of<PetProfileBloc>(context)
+                            .petWeightChanged(data),
+                    showError: state.errorWeightIsMissing,
+                  )),
                 ],
               ),
               SizedBox(
@@ -230,7 +262,7 @@ class PetInfoModal extends StatelessWidget {
                       onPressed: () {
                         if (!state.addingPet)
                           BlocProvider.of<PetProfileBloc>(context)
-                              .createNewPet();
+                              .createNewPet(fromPopup: true);
                       },
                       child: state.addingPet
                           ? CircularProgressIndicator()

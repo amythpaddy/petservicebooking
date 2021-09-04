@@ -30,147 +30,154 @@ class PetProfile extends StatelessWidget {
         create: (_) => PetProfileBloc(PetProfileState()),
         child: BlocListener<PetProfileBloc, PetProfileState>(
           listener: (blocListenerContext, state) {
-            if (state.addUpdatePet == null) {
+            if (state.addUpdatePet == null && !state.fetchingPetData) {
               BlocProvider.of<PetProfileBloc>(blocListenerContext)
                   .getSinglePetData(args.petId);
             }
           },
           child: BlocBuilder<PetProfileBloc, PetProfileState>(
             builder: (blocContext, state) {
-              if (state.fetchingPetData) {
-                return CircularProgressIndicator(
-                  color: kAppIconColor,
+              if (state.fetchingPetData || state.addUpdatePet == null) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: kAppIconColor,
+                  ),
+                );
+              } else {
+                String aggression = 'High';
+                if (state.addUpdatePet!.aggression == Aggression.LOW)
+                  aggression = 'Low';
+                else if (state.addUpdatePet!.aggression == Aggression.MEDIUM)
+                  aggression = 'Medium';
+                return Container(
+                  margin: EdgeInsets.all(20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              boxShadow: [kContainerBoxShadow],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12)),
+                          padding: EdgeInsets.all(12),
+                          child: Row(
+                            children: [
+                              Image.asset(state.addUpdatePet!.petCategory ==
+                                      PetCategory.DOG
+                                  ? 'assets/images/profile/dog_avatar.png'
+                                  : 'assets/images/profile/dog_avatar.png'),
+                              SizedBox(
+                                width: 9,
+                              ),
+                              Expanded(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    state.addUpdatePet!.name,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        height: 1.5),
+                                  ),
+                                  Text(
+                                    state.addUpdatePet!.subCategory!.name,
+                                    style: TextStyle(
+                                        color: kTextColorBlue,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                        height: 1.5),
+                                  )
+                                ],
+                              )),
+                              SizedBox(
+                                width: 9,
+                              ),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                            context, kNavigationEditPetProfile,
+                                            arguments: args)
+                                        .whenComplete(() =>
+                                            BlocProvider.of<PetProfileBloc>(
+                                                    blocContext)
+                                                .getSinglePetData(args.petId));
+                                  },
+                                  child: SvgPicture.asset(
+                                    'assets/images/profile/edit.svg',
+                                  ))
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 9.25,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              boxShadow: [kContainerBoxShadow],
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white),
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              PetInfo(
+                                heading: 'Gender',
+                                value: state.addUpdatePet!.gender == Gender.MALE
+                                    ? 'Male'
+                                    : 'Female',
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                              PetInfo(
+                                heading: 'Age',
+                                value: '${state.addUpdatePet!.age} years',
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                              PetInfo(
+                                heading: 'Weight',
+                                value: '${state.addUpdatePet!.weight} Kg',
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                              PetInfo(
+                                heading: 'Aggression',
+                                value: aggression,
+                              ),
+                              Divider(
+                                height: 1,
+                              ),
+                              PetInfo(
+                                heading: 'Vaccinated',
+                                value: state.addUpdatePet!.vaccine == 1
+                                    ? 'Yes'
+                                    : 'No',
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 250,
+                        ),
+                        Center(
+                          child: Text(
+                            'Version ${state.appVersion}',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                height: 1.5),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 );
               }
-              String aggression = 'High';
-              if (state.addUpdatePet!.aggression == Aggression.LOW)
-                aggression = 'Low';
-              else if (state.addUpdatePet!.aggression == Aggression.MEDIUM)
-                aggression = 'Medium';
-              return Container(
-                margin: EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            boxShadow: [kContainerBoxShadow],
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12)),
-                        padding: EdgeInsets.all(12),
-                        child: Row(
-                          children: [
-                            Image.asset(state.addUpdatePet!.petCategory ==
-                                    PetCategory.DOG
-                                ? 'assets/images/profile/dog_avatar.png'
-                                : 'assets/images/profile/dog_avatar.png'),
-                            SizedBox(
-                              width: 9,
-                            ),
-                            Expanded(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  state.addUpdatePet!.name,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                      height: 1.5),
-                                ),
-                                Text(
-                                  state.addUpdatePet!.subCategory!.name,
-                                  style: TextStyle(
-                                      color: kTextColorBlue,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      height: 1.5),
-                                )
-                              ],
-                            )),
-                            SizedBox(
-                              width: 9,
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, kNavigationEditPetProfile,
-                                      arguments: args);
-                                },
-                                child: SvgPicture.asset(
-                                  'assets/images/profile/edit.svg',
-                                ))
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 9.25,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            boxShadow: [kContainerBoxShadow],
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white),
-                        padding: EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            PetInfo(
-                              heading: 'Gender',
-                              value: state.addUpdatePet!.gender == Gender.MALE
-                                  ? 'Male'
-                                  : 'Female',
-                            ),
-                            Divider(
-                              height: 1,
-                            ),
-                            PetInfo(
-                              heading: 'Age',
-                              value: '${state.addUpdatePet!.age} years',
-                            ),
-                            Divider(
-                              height: 1,
-                            ),
-                            PetInfo(
-                              heading: 'Weight',
-                              value: '${state.addUpdatePet!.weight} Kg',
-                            ),
-                            Divider(
-                              height: 1,
-                            ),
-                            PetInfo(
-                              heading: 'Aggression',
-                              value: aggression,
-                            ),
-                            Divider(
-                              height: 1,
-                            ),
-                            PetInfo(
-                              heading: 'Vaccinated',
-                              value: state.addUpdatePet!.vaccine == 1
-                                  ? 'Yes'
-                                  : 'No',
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 250,
-                      ),
-                      Center(
-                        child: Text(
-                          'Version ${state.appVersion}',
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              height: 1.5),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
             },
           ),
         ),

@@ -1,14 +1,15 @@
+import 'package:equatable/equatable.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/profiles/model/petBreedModel.dart';
 
 import 'getPetListModel.dart';
 
-class PetDetailForUpload {
+class PetDetailForUpload extends Equatable {
   String name;
   Aggression aggression;
   Gender gender;
-  int age;
-  double weight;
+  int? age;
+  double? weight;
   int vaccine;
   BreedDetail? subCategory;
   PetCategory petCategory;
@@ -16,8 +17,8 @@ class PetDetailForUpload {
       {this.name = '',
       this.aggression = Aggression.HIGH,
       this.gender = Gender.FEMALE,
-      this.age = 0,
-      this.weight = 0,
+      this.age,
+      this.weight,
       this.vaccine = 0,
       this.petCategory = PetCategory.DOG,
       this.subCategory});
@@ -66,4 +67,17 @@ class PetDetailForUpload {
             : PetCategory.CAT,
         subCategory: breedDetail);
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        name,
+        aggression,
+        gender,
+        age,
+        weight,
+        vaccine,
+        subCategory,
+        petCategory
+      ];
 }
