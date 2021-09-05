@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
@@ -68,27 +71,38 @@ class AddPetProfile extends StatelessWidget {
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Container(
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      height: 92,
-                                      width: 92,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        border: Border.all(
-                                            color: Color(0x77000000)),
-                                      ),
+                              TextButton(
+                                  style: TextButton.styleFrom(
+                                      padding: EdgeInsets.all(0)),
+                                  onPressed: () =>
+                                      BlocProvider.of<PetProfileBloc>(context)
+                                          .selectPetImage(),
+                                  child: Container(
+                                    height: 82,
+                                    width: 82,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      border:
+                                          Border.all(color: Color(0x77000000)),
                                     ),
-                                    Icon(
-                                      Icons.camera_alt_outlined,
-                                      color: kAppIconColor,
-                                      size: 30,
-                                    )
-                                  ],
-                                ),
-                              ),
+                                    child: state.image == null
+                                        ? Icon(
+                                            Icons.camera_alt_outlined,
+                                            color: kAppIconColor,
+                                            size: 30,
+                                          )
+                                        : kIsWeb
+                                            ? Image.network(state.image!.path)
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(82),
+                                                child: Image.file(
+                                                  File(state.image!.path),
+                                                  height: 82,
+                                                  width: 82,
+                                                ),
+                                              ),
+                                  )),
                               SizedBox(
                                 width: 13,
                               ),

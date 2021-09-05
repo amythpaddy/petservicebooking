@@ -61,6 +61,8 @@ class PetParentReviewCard extends StatelessWidget {
             margin: EdgeInsets.only(right: 9),
             child: Text(
               review,
+              maxLines: 5,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
             ),
           )

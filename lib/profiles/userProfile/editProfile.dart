@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
@@ -34,28 +37,50 @@ class EditUserProfile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/images/avatar.png',
-                                width: 82,
-                                height: 82,
-                              ),
-                              Container(
-                                height: 82,
-                                width: 82,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: Color(0x77000000)),
-                              ),
-                              Icon(
-                                Icons.camera_alt_outlined,
-                                color: Color(0x77FFFFFF),
-                                size: 20,
-                              )
-                            ],
-                          ),
+                          child: BlocBuilder<UserProfileBloc, UserProfileState>(
+                              builder: (blocContext, state) {
+                            print(state.image);
+                            return TextButton(
+                                onPressed: () =>
+                                    BlocProvider.of<UserProfileBloc>(
+                                            blocContext)
+                                        .selectUserImage(),
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    state.image == null
+                                        ? Image.asset(
+                                            'assets/images/avatar.png',
+                                            width: 82,
+                                            height: 82,
+                                          )
+                                        : kIsWeb
+                                            ? Image.network(state.image!.path)
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(82),
+                                                child: Image.file(
+                                                  File(state.image!.path),
+                                                  height: 82,
+                                                  width: 82,
+                                                ),
+                                              ),
+                                    Container(
+                                      height: 82,
+                                      width: 82,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Color(0x77000000)),
+                                    ),
+                                    Icon(
+                                      Icons.camera_alt_outlined,
+                                      color: Color(0x77FFFFFF),
+                                      size: 20,
+                                    )
+                                  ],
+                                ));
+                          }),
                         ),
                         SizedBox(
                           width: 13,

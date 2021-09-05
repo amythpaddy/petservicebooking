@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
@@ -25,6 +26,7 @@ class PetProfileState {
   final bool errorBreedIsMissing;
   final bool errorAgeIsMissing;
   final bool errorWeightIsMissing;
+  final XFile? image;
 
   PetProfileState(
       {this.petList,
@@ -46,7 +48,8 @@ class PetProfileState {
       this.errorCategoryIsMissing = false,
       this.errorBreedIsMissing = false,
       this.errorAgeIsMissing = false,
-      this.errorWeightIsMissing = false});
+      this.errorWeightIsMissing = false,
+      this.image});
 
   PetProfileState copyWith({
     PetDataStore? petList,
@@ -69,6 +72,7 @@ class PetProfileState {
     bool? errorBreedIsMissing,
     bool? errorAgeIsMissing,
     bool? errorWeightIsMissing,
+    XFile? image,
   }) {
     return PetProfileState(
       petList: petList ?? this.petList,
@@ -93,6 +97,7 @@ class PetProfileState {
       errorCategoryIsMissing:
           errorCategoryIsMissing ?? this.errorCategoryIsMissing,
       errorWeightIsMissing: errorWeightIsMissing ?? this.errorWeightIsMissing,
+      image: image ?? this.image,
     );
   }
 
@@ -119,6 +124,7 @@ class PetProfileState {
         currentScreen,
         showPetPopupScreens,
         modalHeight,
-        petSelectedByUserIndex
+        petSelectedByUserIndex,
+        image
       ];
 }

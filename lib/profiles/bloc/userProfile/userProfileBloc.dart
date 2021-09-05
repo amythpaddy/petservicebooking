@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/endpoints.dart';
@@ -15,6 +16,7 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
   }
 
   UserDataModel? _userData;
+  XFile? _image;
 
   void initSharedPreferences() async {
     _pref = await SharedPreferences.getInstance();
@@ -22,6 +24,12 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
     _name = _pref.getString(kDataUserFirstName) ?? '';
     _number = _pref.getString(kDataUserPhone) ?? '';
     add(UserProfileEvents.UPDATE_DATA_FROM_STORE);
+  }
+
+  void selectUserImage() async {
+    final ImagePicker _picker = ImagePicker();
+    _image = await _picker.pickImage(source: ImageSource.gallery);
+    add(UserProfileEvents.IMAGE_SELECTED);
   }
 
   void checkForUserData() async {
@@ -84,6 +92,8 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
     else if (event == UserProfileEvents.UPDATE_DATA_FROM_STORE) {
       yield state.copyWith(
           name: _name, email: _email, number: _number, processing: false);
+    } else if (event == UserProfileEvents.IMAGE_SELECTED) {
+      yield state.copyWith(image: _image);
     }
   }
 

@@ -121,40 +121,40 @@ class ScreenPackageSelection extends StatelessWidget {
                         ),
                       );
                     } else {
-                      return Flexible(
-                        child: Container(
-                          height: SizeConfig.screenHeight,
-                          child: ListView.builder(
-                              shrinkWrap: false,
-                              itemCount: state.packages!.data!.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) => TextButton(
-                                    style: TextButton.styleFrom(
-                                      padding: EdgeInsets.all(0),
-                                    ),
-                                    onPressed: () {
-                                      onPackageSelected.packageSelected(
-                                          blocContext,
-                                          state.packages!.data![index]);
-                                      BlocProvider.of<PackageBloc>(blocContext)
-                                          .updatePackageSelectedIndex(index);
-                                    },
-                                    child: CardPackageInfo(
-                                        currentFunnel: currentFunnel,
-                                        name:
-                                            state.packages!.data![index].name!,
-                                        details: state
-                                            .packages!.data![index].detail!,
-                                        price:
-                                            state.packages!.data![index].price!,
-                                        selected:
-                                            state.selectedPackageIndex == index,
-                                        valueAdded: state
-                                            .packages!.data![index].valueAdded!,
-                                        requirements: state.packages!
-                                            .data![index].requirements!),
-                                  )),
+                      return Container(
+                        alignment: Alignment.topCenter,
+                        constraints: BoxConstraints(
+                          maxHeight: SizeConfig.screenHeight,
                         ),
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.packages!.data!.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) => TextButton(
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.all(0),
+                                  ),
+                                  onPressed: () {
+                                    onPackageSelected.packageSelected(
+                                        blocContext,
+                                        state.packages!.data![index]);
+                                    BlocProvider.of<PackageBloc>(blocContext)
+                                        .updatePackageSelectedIndex(index);
+                                  },
+                                  child: CardPackageInfo(
+                                      currentFunnel: currentFunnel,
+                                      name: state.packages!.data![index].name!,
+                                      details:
+                                          state.packages!.data![index].detail!,
+                                      price:
+                                          state.packages!.data![index].price!,
+                                      selected:
+                                          state.selectedPackageIndex == index,
+                                      valueAdded: state
+                                          .packages!.data![index].valueAdded!,
+                                      requirements: state.packages!.data![index]
+                                          .requirements!),
+                                )),
                       );
                     }
                   }),

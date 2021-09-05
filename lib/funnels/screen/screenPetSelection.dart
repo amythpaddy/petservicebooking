@@ -30,32 +30,43 @@ class ScreenPetSelection extends StatelessWidget {
           ),
           BlocBuilder<PetProfileBloc, PetProfileState>(
             builder: (blocContext, state) {
-              return Container(
-                height: state.petList!.petDataStore.length == 0 ? 0 : 160,
-                child: Center(
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: state.petList!.petDataStore.length,
-                      itemBuilder: (context, index) {
-                        return TextButton(
-                          onPressed: () {
-                            onPetSelected.petSelected(blocContext,
-                                state.petList!.petDataStore[index]);
-                            BlocProvider.of<PetProfileBloc>(blocContext)
-                                .petSelectedByUser(index);
-                          },
-                          child: SelectAddedPetCard(
-                            name: state.petList!.petDataStore[index].name!,
-                            image: '',
-                            breed: state.petList!.petDataStore[index]
-                                .subcategory!.name!,
-                            selected: index == state.petSelectedByUserIndex,
-                          ),
-                        );
-                      }),
-                ),
-              );
+              if (state.petList == null) {
+                BlocProvider.of<PetProfileBloc>(blocContext).getPetData();
+              }
+              return state.petList == null
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: kAppIconColor,
+                      ),
+                    )
+                  : Container(
+                      height: state.petList!.petDataStore.length == 0 ? 0 : 160,
+                      child: Center(
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: state.petList!.petDataStore.length,
+                            itemBuilder: (context, index) {
+                              return TextButton(
+                                onPressed: () {
+                                  onPetSelected.petSelected(blocContext,
+                                      state.petList!.petDataStore[index]);
+                                  BlocProvider.of<PetProfileBloc>(blocContext)
+                                      .petSelectedByUser(index);
+                                },
+                                child: SelectAddedPetCard(
+                                  name:
+                                      state.petList!.petDataStore[index].name!,
+                                  image: '',
+                                  breed: state.petList!.petDataStore[index]
+                                      .subcategory!.name!,
+                                  selected:
+                                      index == state.petSelectedByUserIndex,
+                                ),
+                              );
+                            }),
+                      ),
+                    );
             },
           ),
           SizedBox(

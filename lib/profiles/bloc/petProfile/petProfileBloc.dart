@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/konstants/endpoints.dart';
@@ -20,6 +21,7 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
   int _id = -1;
   late SharedPreferences _prefs;
   int _selectedPetIndex = -1;
+  XFile? _image;
 
   PetProfileBloc(PetProfileState initialState) : super(initialState) {
     getAppVersion();
@@ -127,10 +129,8 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
 
   void getSinglePetData(String petId) async {
     add(PetProfileEvent.FETCHING_PET_DETAIL);
-    print('Getting pet data');
     var response =
         await ApiCaller.get(kUrlGetSinglePetData(petId), withToken: true);
-    print(response);
     PetCURLModel petData = PetCURLModel.fromJson(response);
     _petDetail = PetDetailForUpload.fromPetStore(petData.data!.customerPet!);
     add(PetProfileEvent.PET_DETAILS_LOADED);
@@ -138,6 +138,13 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
 
   void initAddPet() {
     add(PetProfileEvent.INIT_ADD_PET);
+  }
+
+  void selectPetImage() async {
+    print('Get image');
+    final ImagePicker _picker = ImagePicker();
+    _image = await _picker.pickImage(source: ImageSource.gallery);
+    add(PetProfileEvent.IMAGE_SELECTED);
   }
 
   void updatePetData(String petId) async {
@@ -298,6 +305,8 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
       yield state.copyWith(errorCategoryIsMissing: true);
     } else if (event == PetProfileEvent.ERROR_BREED_NOT_SELECTED) {
       yield state.copyWith(errorBreedIsMissing: true);
+    } else if (event == PetProfileEvent.IMAGE_SELECTED) {
+      yield state.copyWith(image: _image);
     }
   }
 }

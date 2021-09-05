@@ -6,21 +6,19 @@ class PackageState extends Equatable {
   final PackageType packageType;
   final ServiceType serviceType;
   final bool loadingPackagesData;
-  PackagesListResponse? packages;
+  final PackagesListResponse? packages;
   final int selectedPackageIndex;
-  final bool expandValueAdded;
-  final bool expandRequirements;
+  final bool valueAddedExpanded;
+  final bool requirementsExpanded;
 
   PackageState(
       {this.packageType = PackageType.INHOME,
       this.packages,
       this.selectedPackageIndex = -1,
       this.loadingPackagesData = true,
-      this.expandValueAdded = false,
-      this.expandRequirements = false,
-      this.serviceType = ServiceType.VET}) {
-    packages = this.packages ?? PackagesListResponse();
-  }
+      this.valueAddedExpanded = false,
+      this.requirementsExpanded = false,
+      this.serviceType = ServiceType.VET});
 
   PackageState copyWith(
       {PackageType? packageType,
@@ -35,8 +33,8 @@ class PackageState extends Equatable {
         packages: packages ?? this.packages,
         selectedPackageIndex: selectedPackageIndex ?? this.selectedPackageIndex,
         loadingPackagesData: loadingPackagesData ?? this.loadingPackagesData,
-        expandRequirements: expandRequirements ?? this.expandRequirements,
-        expandValueAdded: expandValueAdded ?? this.expandValueAdded,
+        requirementsExpanded: expandRequirements ?? this.requirementsExpanded,
+        valueAddedExpanded: expandValueAdded ?? this.valueAddedExpanded,
         serviceType: serviceType ?? this.serviceType);
   }
 
@@ -53,6 +51,8 @@ class PackageState extends Equatable {
         packages,
         loadingPackagesData,
         selectedPackageIndex,
-        serviceType
+        serviceType,
+        valueAddedExpanded,
+        requirementsExpanded
       ];
 }

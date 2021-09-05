@@ -22,6 +22,7 @@ enum PetProfileEvent {
   ERROR_AGE_MISSING,
   ERROR_WEIGHT_MISSING,
   RESET_ALL_WARNINGS,
+  IMAGE_SELECTED,
   //these are used in funnels
   PET_SELECTED_BY_USER,
   NO_PET_SELECTED_ERROR,

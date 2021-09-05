@@ -103,32 +103,74 @@ class CardPackageInfo extends StatelessWidget {
           Wrap(
             children: detailsPointer,
           ),
+          Divider(),
           Visibility(
             visible: currentFunnel == FunnelType.PET_TRAINING,
             child: BlocBuilder<PackageBloc, PackageState>(
                 builder: (blocContext, state) {
-              return ExpansionPanelList(children: [
-                ExpansionPanel(
-                    headerBuilder: (buildContext, isExpanded) {
-                      return TextButton(
-                        onPressed: isExpanded
-                            ? BlocProvider.of<PackageBloc>(blocContext)
-                                .closeValueAdded
-                            : BlocProvider.of<PackageBloc>(blocContext)
-                                .expandValueAdded,
-                        child: Text(
-                          'Value Added',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              height: 1.5,
-                              fontSize: 10,
-                              color: kTextColorBlue),
-                        ),
-                      );
-                    },
-                    body: Text(valueAdded),
-                    isExpanded: state.expandValueAdded),
-              ]);
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextButton(
+                      onPressed: state.valueAddedExpanded
+                          ? BlocProvider.of<PackageBloc>(blocContext)
+                              .closeValueAdded
+                          : BlocProvider.of<PackageBloc>(blocContext)
+                              .expandValueAdded,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Value Added',
+                            style: TextStyle(color: kTextColorBlue),
+                          ),
+                          Icon(state.valueAddedExpanded
+                              ? Icons.arrow_drop_down_rounded
+                              : Icons.arrow_right_rounded)
+                        ],
+                      )),
+                  Visibility(
+                    child: Text(
+                      valueAdded,
+                      style: TextStyle(
+                          color: kTextColorBlue,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 10,
+                          height: 2.7),
+                    ),
+                    visible: state.valueAddedExpanded,
+                  ),
+                  TextButton(
+                      onPressed: state.requirementsExpanded
+                          ? BlocProvider.of<PackageBloc>(blocContext)
+                              .closeRequirements
+                          : BlocProvider.of<PackageBloc>(blocContext)
+                              .expandRequirements,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Requirements',
+                            style: TextStyle(color: kTextColorBlue),
+                          ),
+                          Icon(state.requirementsExpanded
+                              ? Icons.arrow_drop_down_rounded
+                              : Icons.arrow_right_rounded)
+                        ],
+                      )),
+                  Visibility(
+                    child: Text(
+                      requirements,
+                      style: TextStyle(
+                          color: kTextColorBlue,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 10,
+                          height: 2.7),
+                    ),
+                    visible: state.requirementsExpanded,
+                  )
+                ],
+              );
             }),
           )
         ],

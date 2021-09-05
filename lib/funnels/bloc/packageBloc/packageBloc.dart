@@ -35,10 +35,12 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
   }
 
   void closeValueAdded() {
+    print('close value added');
     add(PackageEvent.CLOSE_VALUE_ADDED);
   }
 
   void expandValueAdded() {
+    print('Open value added');
     add(PackageEvent.OPEN_VALUE_ADDED);
   }
 

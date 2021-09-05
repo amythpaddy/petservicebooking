@@ -24,8 +24,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
+    <key>NSLocationWhenInUseUsageDescription</key>
 	<string>This application requires location services to work</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+	<string>This application requires access to Gallery to update profile Images</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+	<string>This application requires location services to work</string>
+    <key>NSCameraUsageDescription</key>
+	<string>This application requires camera access to update proile Images</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
