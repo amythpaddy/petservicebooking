@@ -9,6 +9,7 @@ import 'package:the_pet_nest/funnels/component/bookingStatusHeaderIcons.dart';
 import 'package:the_pet_nest/funnels/component/customDateTimeSelectorComponent.dart';
 import 'package:the_pet_nest/funnels/interfaces/BookingConfirmationInterface.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 import 'package:the_pet_nest/utils/utils.dart';
 
@@ -43,39 +44,56 @@ class ScreenBookingConfirmation extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              BookingHeaderIcons(
-                                title: "Details",
-                                icon:
-                                    "assets/images/funnels/icon_booking_detail.svg",
-                                iconColor: kAppIconColor,
+                              Expanded(
+                                child: BookingHeaderIcons(
+                                  title: "Details",
+                                  icon:
+                                      "assets/images/funnels/icon_booking_detail.svg",
+                                  iconColor: kAppIconColor,
+                                ),
                               ),
-                              BookingHeaderIcons(
-                                title: "Reschedule",
-                                icon:
-                                    "assets/images/funnels/icon_booking_reschedule.svg",
-                                onPressed: () {
-                                  BlocProvider.of<BookingBloc>(context)
-                                      .showDateTimePicker();
-                                },
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: BookingHeaderIcons(
+                                  title: "Reschedule",
+                                  icon:
+                                      "assets/images/funnels/icon_booking_reschedule.svg",
+                                  onPressed: () {
+                                    BlocProvider.of<BookingBloc>(context)
+                                        .showDateTimePicker();
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
                               ),
                               BlocBuilder<BookingBloc, BookingState>(
                                   builder: (blocBuilder, state) {
-                                return BookingHeaderIcons(
-                                  title: "Cancel",
-                                  icon:
-                                      "assets/images/funnels/icon_booking_cancel.svg",
-                                  onPressed: () {
-                                    BlocProvider.of<BookingBloc>(context)
-                                        .cancelBooking(
-                                            state.bookingData!.lead!.id!);
-                                  },
+                                return Expanded(
+                                  child: BookingHeaderIcons(
+                                    title: "Cancel",
+                                    icon:
+                                        "assets/images/funnels/icon_booking_cancel.svg",
+                                    onPressed: () {
+                                      BlocProvider.of<BookingBloc>(context)
+                                          .cancelBooking(
+                                              state.bookingData!.lead!.id!);
+                                    },
+                                  ),
                                 );
                               }),
-                              BookingHeaderIcons(
-                                title: "Done",
-                                icon:
-                                    "assets/images/funnels/icon_booking_done.svg",
-                                iconColor: kAppIconColor,
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: BookingHeaderIcons(
+                                  title: "Done",
+                                  icon:
+                                      "assets/images/funnels/icon_booking_done.svg",
+                                  iconColor: kAppIconColor,
+                                ),
                               ),
                             ],
                           ),
@@ -122,7 +140,7 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                 BookingConfirmationDataComponent(
                                     title: 'Booking Id:',
                                     value:
-                                        '${state.bookingData!.lead!.orderUuid!.toUpperCase()}'),
+                                        '${state.bookingData!.lead!.leadUuid!.toUpperCase()}'),
                                 BookingConfirmationDataComponent(
                                     title: 'Time Slot:',
                                     value: DateFormat("hh:mm a").format(
@@ -198,42 +216,51 @@ class ScreenBookingConfirmation extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 18, vertical: 15),
-                              decoration: kDataContainerStyle,
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/images/home/refer_n_earn.svg',
-                                    height: 36,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Refer and Earn',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            height: 1.5),
-                                      ),
-                                      Text(
-                                        'Guaranteed reward for every referral',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            height: 1.5,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xFFB6B7B9)),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              )),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                                padding: EdgeInsets.all(0)),
+                            onPressed: () {
+                              print('asd');
+                              Navigator.pushNamed(
+                                  context, kNavigationReferAndEarn);
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 18, vertical: 15),
+                                decoration: kDataContainerStyle,
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/images/home/refer_n_earn.svg',
+                                      height: 36,
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Refer and Earn',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              height: 1.5),
+                                        ),
+                                        Text(
+                                          'Guaranteed reward for every referral',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              height: 1.5,
+                                              fontWeight: FontWeight.w400,
+                                              color: Color(0xFFB6B7B9)),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                )),
+                          ),
                           SizedBox(
                             height: 10,
                           ),

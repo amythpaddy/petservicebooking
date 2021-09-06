@@ -66,13 +66,13 @@ class UserDetailInput extends StatelessWidget {
             child: TextFormField(
               readOnly: disabled,
               initialValue: value,
-
+              // cursorHeight: 20,
               // controller: TextEditingController()..text = value,
               // focusNode: _focusNode,
               // initialValue: value,
 
               onChanged: (data) => onDataFilled(data),
-              style: TextStyle(height: .75),
+              style: TextStyle(height: 1.5),
               decoration: InputDecoration(
                 focusColor: Color(0x331A202E),
                 hintText: hint,

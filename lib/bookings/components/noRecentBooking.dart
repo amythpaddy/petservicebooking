@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class NoRecentBookings extends StatelessWidget {
+class NoDataAvailableComponent extends StatelessWidget {
   final String mainText;
   final String subText;
 
-  const NoRecentBookings({required this.mainText, this.subText = ''});
+  const NoDataAvailableComponent({required this.mainText, this.subText = ''});
   @override
   Widget build(BuildContext context) {
     return Container(

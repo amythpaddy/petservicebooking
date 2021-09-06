@@ -7,11 +7,13 @@ class PetIssueComponent extends StatelessWidget {
       {Key? key,
       required this.value,
       required this.icon,
-      this.color = kTextColorBlue})
+      this.color = kTextColorBlue,
+      this.size = 20})
       : super(key: key);
   final String value;
   final String icon;
   final Color color;
+  final double size;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,8 +34,8 @@ class PetIssueComponent extends StatelessWidget {
           ),
           SvgPicture.asset(
             icon,
-            height: 20,
-            width: 20,
+            height: size,
+            width: size,
           )
         ],
       ),

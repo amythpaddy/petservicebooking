@@ -40,7 +40,7 @@ class PetProfileState {
       this.appVersion = '...',
       this.petId = -1,
       this.currentScreen = PetPopupScreens.SELECT_PET_CATEGORY_SCREEN,
-      this.showPetPopupScreens = false,
+      this.showPetPopupScreens = true,
       this.modalHeight = kHeightPetPopupDefault,
       this.error = false,
       this.petSelectedByUserIndex = -1,

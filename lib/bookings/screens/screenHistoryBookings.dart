@@ -22,7 +22,7 @@ class ScreenBookingsHistory extends StatelessWidget {
           .toList();
 
       return historyBookings.length == 0
-          ? NoRecentBookings(
+          ? NoDataAvailableComponent(
               mainText: 'No Recent Bookings',
               subText:
                   'Book an appointment and your booking\nDetails will show up here',

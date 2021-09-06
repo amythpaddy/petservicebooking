@@ -17,7 +17,7 @@ class SelectAddedPetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 33),
+      margin: EdgeInsets.symmetric(horizontal: 30),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Container(
           decoration: BoxDecoration(

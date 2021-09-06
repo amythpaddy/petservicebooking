@@ -63,6 +63,7 @@ class ServiceBookingDetailPetCardComponent extends StatelessWidget {
                       fontSize: 16,
                       height: 1.5,
                     ),
+                    textAlign: TextAlign.end,
                   ),
                   Text(
                     '\u{20B9} $servicePrice',

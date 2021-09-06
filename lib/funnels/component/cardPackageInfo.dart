@@ -45,7 +45,8 @@ class CardPackageInfo extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-              color: selected ? kTextColorBlue : kAppBackgroundAltGray),
+              color: selected ? kTextColorBlue : kAppBackgroundAltGray,
+              width: 2),
           boxShadow: [kContainerBoxShadow],
           color: Colors.white),
       child: Column(
@@ -102,6 +103,7 @@ class CardPackageInfo extends StatelessWidget {
           //     children: detailsPointer.sublist(2, detailsPointer.length))),
           Wrap(
             children: detailsPointer,
+            direction: Axis.horizontal,
           ),
           Divider(),
           Visibility(

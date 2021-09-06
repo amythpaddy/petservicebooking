@@ -27,6 +27,7 @@ import 'package:the_pet_nest/funnels/interfaces/petSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/model/couponseApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/screen/ScreenAddressSelection.dart';
+import 'package:the_pet_nest/funnels/screen/sceenPayment.dart';
 import 'package:the_pet_nest/funnels/screen/screenBookingConfirmation.dart';
 import 'package:the_pet_nest/funnels/screen/screenCouponSelection.dart';
 import 'package:the_pet_nest/funnels/screen/screenDateSelection.dart';
@@ -72,8 +73,23 @@ class PetGroomingService extends StatelessWidget
           listeners: [
             BlocListener<PetGroomingBloc, FunnelState>(
                 listener: (blocContext, state) {
+              print(state.openPaymentScreen);
               if (state.closeThisFunnel) {
                 Navigator.pop(context);
+              }
+              if (state.openPaymentScreen) {
+                print('Opening payment page');
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => PaymentScreen(
+                        bookingConfirmationData:
+                            state.bookingConfirmationData!)));
+              } else if (state.openPaymentScreen &&
+                  state.bookingConfirmationData == null) {
+                print(state.openPaymentScreen);
+                print(state.bookingConfirmationData!.lead?.leadType);
+                showSnackbar(
+                    context: blocContext,
+                    message: 'Error with payment try again from bookings list');
               }
               if (state.showError) {
                 showSnackbar(context: blocContext, message: state.errorMessage);

@@ -18,45 +18,43 @@ class BookingDetail extends StatelessWidget
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)!.settings.arguments as BookingDetailArguments;
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: kAppBackgroundColor,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-          ),
-          title: Text(
-            'Booking Details',
-            style: TextStyle(color: kAppIconColor),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: kAppBackgroundColor,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
           ),
         ),
-        body: MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => BookingBloc(BookingState())),
-            BlocProvider(create: (_) => DateTimeBloc(DateTimeState()))
-          ],
-          child: BlocBuilder<BookingBloc, BookingState>(
-            builder: (blocContext, state) {
-              print(state.bookingCancelled);
-              if (state.initialLoad)
-                BlocProvider.of<BookingBloc>(blocContext)
-                    .getBookingDetails(args.leadId);
-              return state.isProcessing
-                  ? Center(
-                      child: CircularProgressIndicator(
-                      color: kAppIconColor,
-                    ))
-                  : state.bookingCancelled || !args.onGoing
-                      ? ScreenBookingCancelled()
-                      : ScreenBookingConfirmation(onBookingConfirmation: this);
-            },
-          ),
+        title: Text(
+          'Booking Details',
+          style: TextStyle(color: kAppIconColor),
+        ),
+      ),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => BookingBloc(BookingState())),
+          BlocProvider(create: (_) => DateTimeBloc(DateTimeState()))
+        ],
+        child: BlocBuilder<BookingBloc, BookingState>(
+          builder: (blocContext, state) {
+            print(state.bookingCancelled);
+            if (state.initialLoad)
+              BlocProvider.of<BookingBloc>(blocContext)
+                  .getBookingDetails(args.leadId);
+            return state.isProcessing
+                ? Center(
+                    child: CircularProgressIndicator(
+                    color: kAppIconColor,
+                  ))
+                : state.bookingCancelled || !args.onGoing
+                    ? ScreenBookingCancelled()
+                    : ScreenBookingConfirmation(onBookingConfirmation: this);
+          },
         ),
       ),
     );

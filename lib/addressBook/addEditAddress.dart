@@ -211,6 +211,11 @@ class AddEditMap extends StatelessWidget {
                                                           compareFn: (i, s) =>
                                                               true,
                                                           hint: "Choose State",
+                                                          emptyBuilder:
+                                                              (context, data) {
+                                                            return Text(
+                                                                'No Data Found');
+                                                          },
                                                           onChanged: (value) => BlocProvider
                                                                   .of<AddressBookBloc>(
                                                                       blocContext)
@@ -277,7 +282,14 @@ class AddEditMap extends StatelessWidget {
                                                         .cities!,
                                                 itemAsString: (cities) =>
                                                     cities.cityName,
-                                                hint: "Choose State",
+                                                hint: "Choose City",
+                                                emptyBuilder: (context, data) {
+                                                  return Text(
+                                                    'No City Found',
+                                                    style:
+                                                        TextStyle(fontSize: 10),
+                                                  );
+                                                },
                                                 onChanged: (value) =>
                                                     BlocProvider.of<
                                                                 AddressBookBloc>(
@@ -301,44 +313,59 @@ class AddEditMap extends StatelessWidget {
                                               SvgPicture.asset(
                                                   'assets/images/funnels/icon_home.svg'),
                                               Text('Home'),
-                                              Radio<AddressType>(
-                                                value: AddressType.HOME_ADDRESS,
-                                                groupValue: state
-                                                    .addAddressModel!
-                                                    .addressType,
-                                                onChanged:
-                                                    (AddressType? value) {
-                                                  BlocProvider.of<
-                                                              AddressBookBloc>(
-                                                          blocContext)
-                                                      .updateAddress(
-                                                          addressType:
-                                                              AddressType
-                                                                  .HOME_ADDRESS);
-                                                },
+                                              SizedBox(
+                                                width: 26,
+                                                child: Radio<AddressType>(
+                                                  activeColor: kTextColorBlue,
+                                                  value:
+                                                      AddressType.HOME_ADDRESS,
+                                                  materialTapTargetSize:
+                                                      MaterialTapTargetSize
+                                                          .shrinkWrap,
+                                                  groupValue: state
+                                                      .addAddressModel!
+                                                      .addressType,
+                                                  onChanged:
+                                                      (AddressType? value) {
+                                                    BlocProvider.of<
+                                                                AddressBookBloc>(
+                                                            blocContext)
+                                                        .updateAddress(
+                                                            addressType:
+                                                                AddressType
+                                                                    .HOME_ADDRESS);
+                                                  },
+                                                ),
                                               ),
                                             ],
+                                          ),
+                                          SizedBox(
+                                            width: 30,
                                           ),
                                           Row(
                                             children: [
                                               SvgPicture.asset(
                                                   'assets/images/address/icon_office.svg'),
                                               Text('Office'),
-                                              Radio<AddressType>(
-                                                value:
-                                                    AddressType.OFFICE_ADDRESS,
-                                                groupValue: state
-                                                    .addAddressModel!
-                                                    .addressType,
-                                                onChanged:
-                                                    (AddressType? value) {
-                                                  BlocProvider.of<
-                                                              AddressBookBloc>(
-                                                          blocContext)
-                                                      .updateAddress(
-                                                          addressType: AddressType
-                                                              .OFFICE_ADDRESS);
-                                                },
+                                              SizedBox(
+                                                width: 26,
+                                                child: Radio<AddressType>(
+                                                  activeColor: kTextColorBlue,
+                                                  value: AddressType
+                                                      .OFFICE_ADDRESS,
+                                                  groupValue: state
+                                                      .addAddressModel!
+                                                      .addressType,
+                                                  onChanged:
+                                                      (AddressType? value) {
+                                                    BlocProvider.of<
+                                                                AddressBookBloc>(
+                                                            blocContext)
+                                                        .updateAddress(
+                                                            addressType: AddressType
+                                                                .OFFICE_ADDRESS);
+                                                  },
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -347,7 +374,7 @@ class AddEditMap extends StatelessWidget {
                                     ],
                                   ),
                             SizedBox(
-                              height: 30,
+                              height: state.showCollapsedUi ? 50 : 60,
                             ),
                             TextButton(
                                 onPressed: () =>

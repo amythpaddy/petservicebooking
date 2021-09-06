@@ -74,7 +74,9 @@ class _AddPetPopupState extends State<AddPetPopup> {
               },
               child: BlocBuilder<PetProfileBloc, PetProfileState>(
                 builder: (blocContext, state) {
-                  print(state.currentScreen);
+                  if (!state.showPetPopupScreens) {
+                    Navigator.pop(context);
+                  }
                   switch (state.currentScreen) {
                     case PetPopupScreens.SELECT_PET_CATEGORY_SCREEN:
                       body = PetSelectModal();

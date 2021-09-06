@@ -33,7 +33,7 @@ class ScreenOngoingBookings extends StatelessWidget {
           .toList();
 
       return onGoingBookings.length == 0
-          ? NoRecentBookings(
+          ? NoDataAvailableComponent(
               mainText: 'No Recent Bookings',
               subText:
                   'Book an appointment and your booking\nDetails will show up here',
