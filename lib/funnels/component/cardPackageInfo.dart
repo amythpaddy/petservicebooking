@@ -14,8 +14,9 @@ class CardPackageInfo extends StatelessWidget {
       required this.details,
       required this.price,
       required this.selected,
-      required this.valueAdded,
-      required this.requirements})
+      this.expand = false,
+      this.valueAdded = "",
+      this.requirements = ""})
       : super(key: key) {
     List<String> detailsList = this.details.split(",");
     detailsList.forEach((element) {
@@ -35,6 +36,7 @@ class CardPackageInfo extends StatelessWidget {
   final bool selected;
   final String valueAdded;
   final String requirements;
+  final bool expand;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,7 @@ class CardPackageInfo extends StatelessWidget {
           boxShadow: [kContainerBoxShadow],
           color: Colors.white),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

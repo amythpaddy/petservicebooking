@@ -5,18 +5,22 @@ import 'package:the_pet_nest/konstants/styles.dart';
 class ServicesCard extends StatelessWidget {
   final String text;
   final String svgPath;
+  final void Function() onClick;
 
-  const ServicesCard({required this.text, required this.svgPath});
+  const ServicesCard(
+      {required this.text, required this.svgPath, required this.onClick});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 9),
-      width: 140,
+    return TextButton(
+      style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
+      onPressed: onClick,
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [kContainerBoxShadow],
             borderRadius: BorderRadius.circular(18)),
+        margin: EdgeInsets.only(right: 9),
+        padding: EdgeInsets.only(bottom: 10),
         child: Column(
           children: [
             Container(
@@ -30,13 +34,12 @@ class ServicesCard extends StatelessWidget {
               child: SvgPicture.asset(svgPath),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(12, 0, 12, 12),
               child: Text(
                 text,
                 style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                ),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: Color(0xFF151724)),
               ),
             )
           ],

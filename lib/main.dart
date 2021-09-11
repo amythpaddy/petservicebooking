@@ -7,6 +7,8 @@ import 'package:the_pet_nest/bookings/bookingDetail.dart';
 import 'package:the_pet_nest/bookings/feedback/feedback.dart';
 import 'package:the_pet_nest/dashboard/dashboard.dart';
 import 'package:the_pet_nest/funnels/petGrooming/petGrooming.dart';
+import 'package:the_pet_nest/funnels/petGrooming/petGroomingDetail.dart';
+import 'package:the_pet_nest/funnels/petTraining/petTrainingDetail.dart';
 import 'package:the_pet_nest/funnels/petTraining/petTrarining.dart';
 import 'package:the_pet_nest/funnels/vetFunnel/vetFunnel.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
@@ -26,6 +28,8 @@ import 'package:the_pet_nest/welcome/login/login.dart';
 import 'package:the_pet_nest/welcome/otp/otp.dart';
 import 'package:the_pet_nest/welcome/register/register.dart';
 import 'package:the_pet_nest/welcome/welcome.dart';
+
+import 'funnels/vetFunnel/vetDetail.dart';
 
 late SharedPreferences prefs;
 void main() async {
@@ -82,8 +86,11 @@ class MyApp extends StatelessWidget {
           kNavigationAddPetProfile: (context) => AddPetProfile(),
           kNavigationSupport: (context) => Support(),
           kNavigationPetTrainingFunnel: (context) => PetTrainingService(),
+          kNavigationPetTrainingDetail: (context) => PetTrainingDetail(),
           kNavigationPetGroomingFunnel: (context) => PetGroomingService(),
+          kNavigationPetGroomingDetail: (context) => PetGroomingDetail(),
           kNavigationVetFunnel: (context) => VetService(),
+          kNavigationVetDetail: (context) => VetDetail(),
           kNavigationAddressBook: (context) => AddressList(),
           kNavigationAddEditAddressBook: (context) => AddEditMap(),
           kNavigationMessaging: (context) => Messaging(),

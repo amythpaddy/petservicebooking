@@ -157,6 +157,23 @@ flutter:
     - assets/images/funnels/vet_service/icon_injury.svg
     - assets/images/funnels/vet_service/icon_dental.svg
     - assets/images/funnels/vet_service/icon_other.svg
+    - assets/images/funnels/vet_service/icon_question.svg
+    - assets/images/funnels/vet_service/icon_tell_more.svg
+    - assets/images/funnels/vet_service/icon_vet_expert.svg
+    - assets/images/funnels/vet_service/vet_service_hero.png
+    - assets/images/funnels/vet_service/icon_talk_to_behaviorist.svg
+    - assets/images/funnels/vet_service/talk_to_nutritionist.svg
+    - assets/images/funnels/pet_training/pet_training_hero.png
+    - assets/images/funnels/pet_training/management_techniques.svg
+    - assets/images/funnels/pet_training/mental_stimulation.svg
+    - assets/images/funnels/pet_training/socialization.svg
+    - assets/images/funnels/pet_training/city_list.svg
+    - assets/images/funnels/pet_training/strengten_bond.svg
+    - assets/images/funnels/pet_grooming/pet_grooming_hero.png
+    - assets/images/funnels/pet_grooming/how_it_works_1.svg
+    - assets/images/funnels/pet_grooming/how_it_works_2.svg
+    - assets/images/funnels/pet_grooming/how_it_works_3.svg
+    - assets/images/funnels/pet_grooming/how_it_works_4.svg
     - assets/images/map/map_pin.png
     - assets/images/address/icon_office.svg
     - assets/images/address/icon_map_pin.svg

@@ -10,6 +10,7 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
   late PackagesListResponse _packagesListResponse;
 
   int _selectedPackageIndex = 0;
+  List<String?> _prices = [];
 
   PackageBloc(PackageState initialState) : super(initialState);
 
@@ -111,6 +112,84 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
       yield state.copyWith(serviceType: ServiceType.VET);
     } else if (event == PackageEvent.PARENTING_PACKAGE_SELECTED) {
       yield state.copyWith(serviceType: ServiceType.PARENTING);
+    } else if (event == PackageEvent.CAT_SELECTED) {
+      yield state.copyWith(selectedPet: PetCategory.CAT);
+    } else if (event == PackageEvent.DOG_SELECTED) {
+      yield state.copyWith(selectedPet: PetCategory.DOG);
+    } else if (event ==
+        PackageEvent.VET_PACKAGE_PRICE_FETCHED_FOR_DETAIL_PAGE) {
+      yield state.copyWith(loadingPackagesData: false, prices: _prices);
     }
+  }
+
+  void getCatGroomingPackagesForDetailPage() async {
+    add(PackageEvent.CAT_SELECTED);
+    add(PackageEvent.FETCHING_PACKAGE_LIST);
+    var response = await ApiCaller.get(
+        kUrlGetGroomingPackageInfo('deli', PetCategory.CAT),
+        withToken: true);
+    _packagesListResponse = PackagesListResponse.fromJson(response);
+    add(PackageEvent.PACKAGE_LIST_FETCHED);
+  }
+
+  void getDogGroomingPackagesForDetailPage() async {
+    add(PackageEvent.DOG_SELECTED);
+    add(PackageEvent.FETCHING_PACKAGE_LIST);
+    var response = await ApiCaller.get(
+        kUrlGetGroomingPackageInfo('delhi', PetCategory.DOG),
+        withToken: true);
+    _packagesListResponse = PackagesListResponse.fromJson(response);
+    add(PackageEvent.PACKAGE_LIST_FETCHED);
+  }
+
+  void getCatTrainingPackagesForDetailPage() async {
+    add(PackageEvent.CAT_SELECTED);
+    add(PackageEvent.FETCHING_PACKAGE_LIST);
+    var response = await ApiCaller.get(
+        kUrlGetTrainingPackageInfo('delhi', PetCategory.CAT),
+        withToken: true);
+    _packagesListResponse = PackagesListResponse.fromJson(response);
+    add(PackageEvent.PACKAGE_LIST_FETCHED);
+  }
+
+  void getDogTrainingPackagesForDetailPage() async {
+    add(PackageEvent.DOG_SELECTED);
+    add(PackageEvent.FETCHING_PACKAGE_LIST);
+    var response = await ApiCaller.get(
+        kUrlGetTrainingPackageInfo('delhi', PetCategory.DOG),
+        withToken: true);
+    _packagesListResponse = PackagesListResponse.fromJson(response);
+    add(PackageEvent.PACKAGE_LIST_FETCHED);
+  }
+
+  void getVetScreedDetailPackages(int cityId) async {
+    print('getting detail');
+    add(PackageEvent.FETCHING_PACKAGE_LIST);
+    var response = await ApiCaller.get(
+        kUrlGetVetPackageInfo(cityId, PetCategory.DOG, 'veterinary_service'),
+        withToken: true);
+    _packagesListResponse = PackagesListResponse.fromJson(response);
+    if (_packagesListResponse.data!.length >= 1)
+      _prices.add(_packagesListResponse.data![0].price!);
+    else
+      _prices.add(null);
+    if (_packagesListResponse.data!.length >= 2)
+      _prices.add(_packagesListResponse.data![1].price!);
+    else
+      _prices.add(null);
+
+    response = await ApiCaller.get(
+        kUrlGetVetPackageInfo(cityId, PetCategory.DOG, 'parenting'),
+        withToken: true);
+    _packagesListResponse = PackagesListResponse.fromJson(response);
+    if (_packagesListResponse.data!.length >= 1)
+      _prices.add(_packagesListResponse.data![0].price!);
+    else
+      _prices.add(null);
+    if (_packagesListResponse.data!.length >= 2)
+      _prices.add(_packagesListResponse.data![1].price!);
+    else
+      _prices.add(null);
+    add(PackageEvent.VET_PACKAGE_PRICE_FETCHED_FOR_DETAIL_PAGE);
   }
 }

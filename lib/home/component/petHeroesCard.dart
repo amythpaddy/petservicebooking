@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 
 class PetHeroesCard extends StatelessWidget {
@@ -66,7 +67,9 @@ class PetHeroesCard extends StatelessWidget {
                   children: [
                     Text('Appointment Completed - ',
                         style: TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 12)),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color: kTextColorBlue)),
                     Text(
                       appointmentCompleted.toString(),
                       style:

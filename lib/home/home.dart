@@ -12,7 +12,7 @@ import 'package:the_pet_nest/home/component/petTrainingHeroCard.dart';
 import 'package:the_pet_nest/home/component/petVetHeroCard.dart';
 import 'package:the_pet_nest/home/component/servicesCard.dart';
 import 'package:the_pet_nest/home/model/services_model.dart';
-import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 
 class Home extends StatefulWidget {
@@ -55,19 +55,33 @@ class _HomeState extends State<Home> {
                     style: TextStyle(
                         fontWeight: FontWeight.w700, fontSize: 17, height: 1.5),
                   ),
-                  Container(
-                    height: 160,
-                    color: kAppBackgroundColor,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: ServiceList.length,
-                      itemBuilder: (context, index) {
-                        return ServicesCard(
-                            text: ServiceList[index]['name']!,
-                            svgPath: ServiceList[index]['image']!);
-                      },
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ServicesCard(
+                          text: ServiceList[0]['name']!,
+                          svgPath: ServiceList[0]['image']!,
+                          onClick: () => Navigator.pushNamed(
+                              context, kNavigationPetGroomingDetail),
+                        ),
+                      ),
+                      Expanded(
+                        child: ServicesCard(
+                          text: ServiceList[1]['name']!,
+                          svgPath: ServiceList[1]['image']!,
+                          onClick: () => Navigator.pushNamed(
+                              context, kNavigationPetTrainingDetail),
+                        ),
+                      ),
+                      Expanded(
+                        child: ServicesCard(
+                          text: ServiceList[2]['name']!,
+                          svgPath: ServiceList[2]['image']!,
+                          onClick: () => Navigator.pushNamed(
+                              context, kNavigationVetDetail),
+                        ),
+                      )
+                    ],
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 13, bottom: 10),
@@ -141,6 +155,7 @@ class _HomeState extends State<Home> {
                         : Column(
                             children: [
                               ListView.builder(
+                                padding: EdgeInsets.all(0),
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: state.showAllPetHeroes
@@ -256,23 +271,37 @@ class _HomeState extends State<Home> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          PetServicesListDisplay(
-                            text: 'Sanitized Kits and Tools',
-                            image: 'assets/images/home/sanatise_icon.svg',
+                          SizedBox(
+                            width: 20,
                           ),
-                          PetServicesListDisplay(
-                            text: 'Temperature Record',
-                            image: 'assets/images/home/temp_icon.svg',
+                          Expanded(
+                            child: PetServicesListDisplay(
+                              text: 'Sanitized Kits and Tools',
+                              image: 'assets/images/home/sanatise_icon.svg',
+                            ),
                           ),
-                          PetServicesListDisplay(
-                            text: 'Updated Status on Arogya Setu App',
-                            image: 'assets/images/home/arogya_setu_icon.svg',
+                          Expanded(
+                            child: PetServicesListDisplay(
+                              text: 'Temperature Record',
+                              image: 'assets/images/home/temp_icon.svg',
+                            ),
                           ),
-                          PetServicesListDisplay(
-                            text: 'One Time Usable Products',
-                            image:
-                                'assets/images/home/one_time_product_icon.svg',
-                          )
+                          Expanded(
+                            child: PetServicesListDisplay(
+                              text: 'Updated Status on Arogya Setu App',
+                              image: 'assets/images/home/arogya_setu_icon.svg',
+                            ),
+                          ),
+                          Expanded(
+                            child: PetServicesListDisplay(
+                              text: 'One Time Usable Products',
+                              image:
+                                  'assets/images/home/one_time_product_icon.svg',
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
                         ],
                       )
                     ],

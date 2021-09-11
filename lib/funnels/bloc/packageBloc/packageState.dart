@@ -10,6 +10,8 @@ class PackageState extends Equatable {
   final int selectedPackageIndex;
   final bool valueAddedExpanded;
   final bool requirementsExpanded;
+  final PetCategory selectedPet;
+  final List<String?>? prices;
 
   PackageState(
       {this.packageType = PackageType.INHOME,
@@ -18,7 +20,9 @@ class PackageState extends Equatable {
       this.loadingPackagesData = true,
       this.valueAddedExpanded = false,
       this.requirementsExpanded = false,
-      this.serviceType = ServiceType.VET});
+      this.serviceType = ServiceType.VET,
+      this.selectedPet = PetCategory.DOG,
+      this.prices});
 
   PackageState copyWith(
       {PackageType? packageType,
@@ -27,7 +31,9 @@ class PackageState extends Equatable {
       bool? loadingPackagesData,
       bool? expandValueAdded,
       bool? expandRequirements,
-      ServiceType? serviceType}) {
+      ServiceType? serviceType,
+      PetCategory? selectedPet,
+      List<String?>? prices}) {
     return PackageState(
         packageType: packageType ?? this.packageType,
         packages: packages ?? this.packages,
@@ -35,7 +41,9 @@ class PackageState extends Equatable {
         loadingPackagesData: loadingPackagesData ?? this.loadingPackagesData,
         requirementsExpanded: expandRequirements ?? this.requirementsExpanded,
         valueAddedExpanded: expandValueAdded ?? this.valueAddedExpanded,
-        serviceType: serviceType ?? this.serviceType);
+        serviceType: serviceType ?? this.serviceType,
+        selectedPet: selectedPet ?? this.selectedPet,
+        prices: prices ?? this.prices);
   }
 
   PackageState reset() {
@@ -53,6 +61,8 @@ class PackageState extends Equatable {
         selectedPackageIndex,
         serviceType,
         valueAddedExpanded,
-        requirementsExpanded
+        requirementsExpanded,
+        selectedPet,
+        prices
       ];
 }

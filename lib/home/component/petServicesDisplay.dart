@@ -8,9 +8,7 @@ class PetServicesListDisplay extends StatelessWidget {
   const PetServicesListDisplay({required this.text, required this.image});
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
-      width: (size.width / 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -18,8 +16,8 @@ class PetServicesListDisplay extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(50)),
-                color: Color.fromARGB(50, 255, 191, 76)),
+              borderRadius: BorderRadius.all(Radius.circular(50)),
+            ),
             child: SvgPicture.asset(image),
           ),
           SizedBox(
