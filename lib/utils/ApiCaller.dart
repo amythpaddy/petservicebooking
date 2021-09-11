@@ -13,6 +13,7 @@ class ApiCaller {
     var responseJson;
     try {
       if (withToken) {
+
         SharedPreferences pref = await SharedPreferences.getInstance();
         final Map<String, String> header = {
           "Authorization": pref.getString(kDataToken) ?? ''
