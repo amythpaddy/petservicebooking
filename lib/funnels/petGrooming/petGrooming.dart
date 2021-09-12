@@ -24,6 +24,7 @@ import 'package:the_pet_nest/funnels/interfaces/dateTimeSelectionInterface.dart'
 import 'package:the_pet_nest/funnels/interfaces/packageSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/paymentMethodSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/petSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/model/bookingConfirmationResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/couponseApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/screen/ScreenAddressSelection.dart';
@@ -73,20 +74,13 @@ class PetGroomingService extends StatelessWidget
           listeners: [
             BlocListener<PetGroomingBloc, FunnelState>(
                 listener: (blocContext, state) {
-              print(state.openPaymentScreen);
               if (state.closeThisFunnel) {
                 Navigator.pop(context);
               }
-              if (state.openPaymentScreen) {
-                print('Opening payment page');
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => PaymentScreen(
-                        bookingConfirmationData:
-                            state.bookingConfirmationData!)));
+              if (state.openPaymentScreen && !state.paymentStarted) {
+                openPaymentScreen(blocContext, state.bookingConfirmationData!);
               } else if (state.openPaymentScreen &&
                   state.bookingConfirmationData == null) {
-                print(state.openPaymentScreen);
-                print(state.bookingConfirmationData!.lead?.leadType);
                 showSnackbar(
                     context: blocContext,
                     message: 'Error with payment try again from bookings list');
@@ -225,10 +219,15 @@ class PetGroomingService extends StatelessWidget
                       );
                       break;
                     case FunnelScreens.SCREEN_BOOKING_CONFIRMED:
+                      // BlocProvider.of<BookingBloc>(blocContext)
+                      //     .updateBookingData(state.bookingConfirmationData!);
                       BlocProvider.of<BookingBloc>(blocContext)
-                          .updateBookingData(state.bookingConfirmationData!);
+                          .getBookingDetails(
+                              state.bookingConfirmationData!.lead!.id!);
                       body = ScreenBookingConfirmation(
-                          onBookingConfirmation: this);
+                        onBookingConfirmation: this,
+                        currentFunnel: FunnelType.PET_GROOMING,
+                      );
                       break;
                   }
                   return Expanded(
@@ -352,5 +351,15 @@ class PetGroomingService extends StatelessWidget
   @override
   void onReschedule(blocContext) {
     // TODO: implement onReschedule
+  }
+
+  void openPaymentScreen(
+      blocContext, BookingConfirmationData bookingConfirmationData) async {
+    BlocProvider.of<PetGroomingBloc>(blocContext).paymentPageOpen();
+    bool result = await Navigator.of(blocContext).push(MaterialPageRoute(
+            builder: (context) => PaymentScreen(
+                bookingConfirmationData: bookingConfirmationData))) ??
+        false;
+    BlocProvider.of<PetGroomingBloc>(blocContext).openBookingConfirmation();
   }
 }

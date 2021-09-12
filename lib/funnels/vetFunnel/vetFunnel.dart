@@ -25,10 +25,12 @@ import 'package:the_pet_nest/funnels/interfaces/packageSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/paymentMethodSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/petIssueSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/petSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/model/bookingConfirmationResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/couponseApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/screen/ScreenAddressSelection.dart';
 import 'package:the_pet_nest/funnels/screen/ScreenIssueList.dart';
+import 'package:the_pet_nest/funnels/screen/sceenPayment.dart';
 import 'package:the_pet_nest/funnels/screen/screenBookingConfirmation.dart';
 import 'package:the_pet_nest/funnels/screen/screenCouponSelection.dart';
 import 'package:the_pet_nest/funnels/screen/screenDateSelection.dart';
@@ -76,6 +78,14 @@ class VetService extends StatelessWidget
             BlocListener<VetBloc, FunnelState>(listener: (blocContext, state) {
               if (state.closeThisFunnel) {
                 Navigator.pop(context);
+              }
+              if (state.openPaymentScreen && !state.paymentStarted) {
+                openPaymentScreen(blocContext, state.bookingConfirmationData!);
+              } else if (state.openPaymentScreen &&
+                  state.bookingConfirmationData == null) {
+                showSnackbar(
+                    context: blocContext,
+                    message: 'Error with payment try again from bookings list');
               }
               if (state.showError) {
                 showSnackbar(context: blocContext, message: state.errorMessage);
@@ -215,7 +225,9 @@ class VetService extends StatelessWidget
                       BlocProvider.of<BookingBloc>(blocContext)
                           .updateBookingData(state.bookingConfirmationData!);
                       body = ScreenBookingConfirmation(
-                          onBookingConfirmation: this);
+                        onBookingConfirmation: this,
+                        currentFunnel: FunnelType.VET_SERVICE,
+                      );
                       break;
                     case FunnelScreens.SCREEN_PET_ISSUE_SELECTION:
                       body = ScreenPetIssueList(onPetIssueSelection: this);
@@ -347,5 +359,15 @@ class VetService extends StatelessWidget
   void onPetIssueSelected(blocContext, int category, String? text) {
     BlocProvider.of<VetBloc>(blocContext).setCategory(category, text);
     BlocProvider.of<VetBloc>(blocContext).openPetSelectionScreen();
+  }
+
+  void openPaymentScreen(
+      blocContext, BookingConfirmationData bookingConfirmationData) async {
+    BlocProvider.of<VetBloc>(blocContext).paymentPageOpen();
+    bool result = await Navigator.of(blocContext).push(MaterialPageRoute(
+            builder: (context) => PaymentScreen(
+                bookingConfirmationData: bookingConfirmationData))) ??
+        false;
+    BlocProvider.of<VetBloc>(blocContext).openBookingConfirmation();
   }
 }

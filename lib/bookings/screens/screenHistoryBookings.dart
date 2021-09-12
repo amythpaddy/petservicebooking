@@ -52,7 +52,7 @@ class ScreenBookingsHistory extends StatelessWidget {
                         .leadPetPackages![0]
                         .customerPet!
                         .name!,
-                    orderId: historyBookings[index].orderUuid!,
+                    leadUUID: historyBookings[index].leadUuid!,
                     dateTime: DateFormat("EEEE, dd MMM,yy - hh:mm a").format(
                         DateTime.parse(
                             historyBookings[index].appointmentDatetime!)),

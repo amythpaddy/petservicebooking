@@ -64,7 +64,7 @@ class ScreenOngoingBookings extends StatelessWidget {
                           .leadPetPackages![0]
                           .customerPet!
                           .name!,
-                      orderId: onGoingBookings[index].orderUuid!,
+                      leadUUID: onGoingBookings[index].leadUuid!,
                       dateTime: DateFormat("EEEE, dd MMM,yy - hh:mm a").format(
                           DateTime.parse(
                               onGoingBookings[index].appointmentDatetime!)),

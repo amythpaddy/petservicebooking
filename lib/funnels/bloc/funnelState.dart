@@ -20,6 +20,7 @@ class FunnelState extends Equatable {
   final double totalPrice;
   final BookingConfirmationData? bookingConfirmationData;
   final bool openPaymentScreen;
+  final bool paymentStarted;
 
   FunnelState(
       {this.progressIndicator = 0,
@@ -35,7 +36,8 @@ class FunnelState extends Equatable {
       this.discountPrice = 0.0,
       this.totalPrice = 0.0,
       this.bookingConfirmationData,
-      this.openPaymentScreen = false});
+      this.openPaymentScreen = false,
+      this.paymentStarted = false});
 
   FunnelState copyWith(
       {double? progressIndicator,
@@ -51,7 +53,8 @@ class FunnelState extends Equatable {
       double? discountPrice,
       double? totalPrice,
       BookingConfirmationData? bookingConfirmationData,
-      bool? openPaymentScreen}) {
+      bool? openPaymentScreen,
+      bool? paymentStarted}) {
     return FunnelState(
         progressIndicator: progressIndicator ?? this.progressIndicator,
         currentScreen: currentScreen ?? this.currentScreen,
@@ -67,7 +70,8 @@ class FunnelState extends Equatable {
         totalPrice: totalPrice ?? this.totalPrice,
         bookingConfirmationData:
             bookingConfirmationData ?? this.bookingConfirmationData,
-        openPaymentScreen: openPaymentScreen ?? this.openPaymentScreen);
+        openPaymentScreen: openPaymentScreen ?? this.openPaymentScreen,
+        paymentStarted: paymentStarted ?? this.paymentStarted);
   }
 
   @override
@@ -85,6 +89,7 @@ class FunnelState extends Equatable {
         discountPrice,
         totalPrice,
         bookingConfirmationData,
-        openPaymentScreen
+        openPaymentScreen,
+        paymentStarted
       ];
 }

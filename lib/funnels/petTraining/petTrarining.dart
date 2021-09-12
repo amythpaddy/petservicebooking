@@ -24,9 +24,11 @@ import 'package:the_pet_nest/funnels/interfaces/dateTimeSelectionInterface.dart'
 import 'package:the_pet_nest/funnels/interfaces/packageSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/paymentMethodSelectionInterface.dart';
 import 'package:the_pet_nest/funnels/interfaces/petSelectionInterface.dart';
+import 'package:the_pet_nest/funnels/model/bookingConfirmationResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/couponseApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/screen/ScreenAddressSelection.dart';
+import 'package:the_pet_nest/funnels/screen/sceenPayment.dart';
 import 'package:the_pet_nest/funnels/screen/screenBookingConfirmation.dart';
 import 'package:the_pet_nest/funnels/screen/screenCouponSelection.dart';
 import 'package:the_pet_nest/funnels/screen/screenDateSelection.dart';
@@ -74,6 +76,14 @@ class PetTrainingService extends StatelessWidget
                 listener: (blocContext, state) {
               if (state.closeThisFunnel) {
                 Navigator.pop(context);
+              }
+              if (state.openPaymentScreen && !state.paymentStarted) {
+                openPaymentScreen(blocContext, state.bookingConfirmationData!);
+              } else if (state.openPaymentScreen &&
+                  state.bookingConfirmationData == null) {
+                showSnackbar(
+                    context: blocContext,
+                    message: 'Error with payment try again from bookings list');
               }
               if (state.showError) {
                 showSnackbar(context: blocContext, message: state.errorMessage);
@@ -177,12 +187,11 @@ class PetTrainingService extends StatelessWidget
                         _totalPrice += double.parse(element.price!);
                       });
                       body = ScreenReviewBookingDetail(
-                        onBookingDetailReviewInterface: this,
-                        totalPrice: _totalPrice,
-                        petData: state.petData!,
-                        packageDetail: state.packageDetail!,
-                          currentFunnel:FunnelType.PET_TRAINING
-                      );
+                          onBookingDetailReviewInterface: this,
+                          totalPrice: _totalPrice,
+                          petData: state.petData!,
+                          packageDetail: state.packageDetail!,
+                          currentFunnel: FunnelType.PET_TRAINING);
                       break;
                     case FunnelScreens.SCREEN_PAYMENT_METHOD:
                       double _totalPrice = 0;
@@ -213,7 +222,9 @@ class PetTrainingService extends StatelessWidget
                       BlocProvider.of<BookingBloc>(blocContext)
                           .updateBookingData(state.bookingConfirmationData!);
                       body = ScreenBookingConfirmation(
-                          onBookingConfirmation: this);
+                        onBookingConfirmation: this,
+                        currentFunnel: FunnelType.PET_TRAINING,
+                      );
                       break;
                   }
                   return Expanded(
@@ -337,5 +348,15 @@ class PetTrainingService extends StatelessWidget
   @override
   void onReschedule(blocContext) {
     // TODO: implement onReschedule
+  }
+
+  void openPaymentScreen(
+      blocContext, BookingConfirmationData bookingConfirmationData) async {
+    BlocProvider.of<PetTrainingBloc>(blocContext).paymentPageOpen();
+    bool result = await Navigator.of(blocContext).push(MaterialPageRoute(
+            builder: (context) => PaymentScreen(
+                bookingConfirmationData: bookingConfirmationData))) ??
+        false;
+    BlocProvider.of<PetTrainingBloc>(blocContext).openBookingConfirmation();
   }
 }

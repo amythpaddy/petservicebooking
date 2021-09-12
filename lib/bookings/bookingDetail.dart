@@ -9,6 +9,7 @@ import 'package:the_pet_nest/funnels/interfaces/BookingConfirmationInterface.dar
 import 'package:the_pet_nest/funnels/screen/screenBookingCancelled.dart';
 import 'package:the_pet_nest/funnels/screen/screenBookingConfirmation.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/enums.dart';
 
 class BookingDetail extends StatelessWidget
     implements BookingConfirmationInterface {
@@ -53,7 +54,11 @@ class BookingDetail extends StatelessWidget
                   ))
                 : state.bookingCancelled || !args.onGoing
                     ? ScreenBookingCancelled()
-                    : ScreenBookingConfirmation(onBookingConfirmation: this);
+                    : ScreenBookingConfirmation(
+                        onBookingConfirmation: this,
+                        currentFunnel: getCurrentFunnel(
+                            state.bookingData!.lead!.leadType!),
+                      );
           },
         ),
       ),
@@ -73,5 +78,14 @@ class BookingDetail extends StatelessWidget
   @override
   void onReschedule(blocContext) {
     // TODO: implement onReschedule
+  }
+
+  FunnelType getCurrentFunnel(String leadType) {
+    if (leadType == 'grooming') {
+      return FunnelType.PET_GROOMING;
+    } else if (leadType == 'training') {
+      return FunnelType.PET_TRAINING;
+    } else
+      return FunnelType.VET_SERVICE;
   }
 }

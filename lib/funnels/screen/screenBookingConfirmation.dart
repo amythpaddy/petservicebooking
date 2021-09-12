@@ -9,15 +9,19 @@ import 'package:the_pet_nest/funnels/component/bookingStatusHeaderIcons.dart';
 import 'package:the_pet_nest/funnels/component/customDateTimeSelectorComponent.dart';
 import 'package:the_pet_nest/funnels/interfaces/BookingConfirmationInterface.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 import 'package:the_pet_nest/utils/utils.dart';
 
 class ScreenBookingConfirmation extends StatelessWidget {
   final BookingConfirmationInterface onBookingConfirmation;
+  final FunnelType currentFunnel;
 
   const ScreenBookingConfirmation(
-      {Key? key, required this.onBookingConfirmation})
+      {Key? key,
+      required this.onBookingConfirmation,
+      required this.currentFunnel})
       : super(key: key);
 
   @override
@@ -42,9 +46,12 @@ class ScreenBookingConfirmation extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Expanded(
+                              Visibility(
+                                visible: currentFunnel == FunnelType.VET_SERVICE
+                                    ? false
+                                    : true,
                                 child: BookingHeaderIcons(
                                   title: "Details",
                                   icon:
@@ -55,7 +62,10 @@ class ScreenBookingConfirmation extends StatelessWidget {
                               SizedBox(
                                 width: 10,
                               ),
-                              Expanded(
+                              Visibility(
+                                visible: currentFunnel == FunnelType.VET_SERVICE
+                                    ? false
+                                    : true,
                                 child: BookingHeaderIcons(
                                   title: "Reschedule",
                                   icon:
@@ -71,29 +81,25 @@ class ScreenBookingConfirmation extends StatelessWidget {
                               ),
                               BlocBuilder<BookingBloc, BookingState>(
                                   builder: (blocBuilder, state) {
-                                return Expanded(
-                                  child: BookingHeaderIcons(
-                                    title: "Cancel",
-                                    icon:
-                                        "assets/images/funnels/icon_booking_cancel.svg",
-                                    onPressed: () {
-                                      BlocProvider.of<BookingBloc>(context)
-                                          .cancelBooking(
-                                              state.bookingData!.lead!.id!);
-                                    },
-                                  ),
+                                return BookingHeaderIcons(
+                                  title: "Cancel",
+                                  icon:
+                                      "assets/images/funnels/icon_booking_cancel.svg",
+                                  onPressed: () {
+                                    BlocProvider.of<BookingBloc>(context)
+                                        .cancelBooking(
+                                            state.bookingData!.lead!.id!);
+                                  },
                                 );
                               }),
                               SizedBox(
                                 width: 10,
                               ),
-                              Expanded(
-                                child: BookingHeaderIcons(
-                                  title: "Done",
-                                  icon:
-                                      "assets/images/funnels/icon_booking_done.svg",
-                                  iconColor: kAppIconColor,
-                                ),
+                              BookingHeaderIcons(
+                                title: "Done",
+                                icon:
+                                    "assets/images/funnels/icon_booking_done.svg",
+                                iconColor: kAppIconColor,
                               ),
                             ],
                           ),
@@ -125,7 +131,7 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                                 height: 1.5),
                                           ),
                                           Text(
-                                            'Your pet grooming appointment is successfully booked.',
+                                            getCongratulatoryMsg(),
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: 12,
@@ -170,8 +176,7 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                       width: 10,
                                     ),
                                     Expanded(
-                                      child: Text(
-                                          'A professional groomer will be assigned 30 minutes before your appointment.'),
+                                      child: Text(getShortlyAssignMsg()),
                                     )
                                   ],
                                 ),
@@ -429,5 +434,23 @@ class ScreenBookingConfirmation extends StatelessWidget {
         })
       ],
     );
+  }
+
+  String getCongratulatoryMsg() {
+    if (currentFunnel == FunnelType.PET_GROOMING)
+      return 'Your pet grooming appointment is successfully booked.';
+    else if (currentFunnel == FunnelType.PET_TRAINING)
+      return 'Your pet training appointment is successfully booked.';
+    else
+      return 'Your vet consultation appointment is successfully booked.';
+  }
+
+  String getShortlyAssignMsg() {
+    if (currentFunnel == FunnelType.PET_GROOMING)
+      return 'A professional groomer will be assigned 30 minutes before your appointment.';
+    else if (currentFunnel == FunnelType.PET_TRAINING)
+      return 'A professional trainer will be assigned 30 minutes before your appointment.';
+    else
+      return 'A professional vet expert will be assigned 30 minutes before your appointment.';
   }
 }

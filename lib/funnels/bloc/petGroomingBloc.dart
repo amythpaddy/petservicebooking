@@ -144,6 +144,12 @@ class PetGroomingBloc extends Bloc<FunnelEvent, FunnelState> {
     }
   }
 
+  void openBookingConfirmation() {
+    _progressIndicator = 7 / _TOTAL_SCREENS;
+    _currentScreen = FunnelScreens.SCREEN_BOOKING_CONFIRMED;
+    add(FunnelEvent.OPEN_SCREEN_BOOKING_CONFIRMATION);
+  }
+
   void openCouponScreen() {
     _currentScreen = FunnelScreens.SCREEN_COUPONS_SELECTION;
     _progressIndicator = 0;
@@ -241,6 +247,8 @@ class PetGroomingBloc extends Bloc<FunnelEvent, FunnelState> {
       yield state.copyWith(
           bookingConfirmationData: _bookingConfirmationData,
           openPaymentScreen: true);
+    } else if (event == FunnelEvent.PAYMENT_STARTED) {
+      yield state.copyWith(paymentStarted: true);
     }
   }
 
@@ -263,5 +271,9 @@ class PetGroomingBloc extends Bloc<FunnelEvent, FunnelState> {
     } else {
       return false;
     }
+  }
+
+  void paymentPageOpen() {
+    add(FunnelEvent.PAYMENT_STARTED);
   }
 }

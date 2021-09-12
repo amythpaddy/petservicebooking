@@ -15,7 +15,7 @@ class HistoryBookingCard extends StatelessWidget {
   final String petName;
   final PetHero? petHero;
   final String dateTime;
-  final String orderId;
+  final String leadUUID;
   final bool cancelled;
   final String city;
   final int leadId;
@@ -26,7 +26,7 @@ class HistoryBookingCard extends StatelessWidget {
       required this.petName,
       required this.petHero,
       required this.dateTime,
-      required this.orderId,
+      required this.leadUUID,
       required this.cancelled,
       required this.city,
       required this.leadId})
@@ -62,7 +62,7 @@ class HistoryBookingCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 2),
-                    Text('Order id: $orderId',
+                    Text('Booking id: $leadUUID',
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             fontWeight: FontWeight.w400,

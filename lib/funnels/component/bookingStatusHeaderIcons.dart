@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 
 class BookingHeaderIcons extends StatelessWidget {
@@ -18,6 +19,9 @@ class BookingHeaderIcons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(
+          maxWidth: SizeConfig.screenWidth / 4,
+          minWidth: SizeConfig.screenWidth / 5),
       decoration: kDataContainerStyle,
       child: TextButton(
           onPressed: onPressed ?? () {},

@@ -128,12 +128,26 @@ class PetTrainingBloc extends Bloc<FunnelEvent, FunnelState> {
   }
 
   void processBooking() async {
-    if (_paymentMethod == PAYMENT_METHOD.ONLINE) {
-      //todo make transaction first and then confirm
+    bool result = await confirmBooking();
+    if (result) {
+      if (_paymentMethod == PAYMENT_METHOD.ONLINE) {
+        add(FunnelEvent.OPEN_PAYMENT_SCREEN);
+      } else {
+        _progressIndicator = 7 / _TOTAL_SCREENS;
+        _currentScreen = FunnelScreens.SCREEN_BOOKING_CONFIRMED;
+        add(FunnelEvent.OPEN_SCREEN_BOOKING_CONFIRMATION);
+      }
     } else {
-      confirmBooking();
+      _progressIndicator = 7 / _TOTAL_SCREENS;
+      _currentScreen = FunnelScreens.SCREEN_BOOKING_CANCELLED;
+      add(FunnelEvent.OPEN_SCREEN_BOOKING_CANCELLATION);
     }
-    // var value = Api.
+  }
+
+  void openBookingConfirmation() {
+    _progressIndicator = 7 / _TOTAL_SCREENS;
+    _currentScreen = FunnelScreens.SCREEN_BOOKING_CONFIRMED;
+    add(FunnelEvent.OPEN_SCREEN_BOOKING_CONFIRMATION);
   }
 
   void openCouponScreen() {
@@ -229,10 +243,16 @@ class PetTrainingBloc extends Bloc<FunnelEvent, FunnelState> {
           progressIndicator: _progressIndicator,
           currentScreen: _currentScreen,
           bookingConfirmationData: _bookingConfirmationData);
+    } else if (event == FunnelEvent.OPEN_PAYMENT_SCREEN) {
+      yield state.copyWith(
+          bookingConfirmationData: _bookingConfirmationData,
+          openPaymentScreen: true);
+    } else if (event == FunnelEvent.PAYMENT_STARTED) {
+      yield state.copyWith(paymentStarted: true);
     }
   }
 
-  void confirmBooking() async {
+  Future<bool> confirmBooking() async {
     add(FunnelEvent.CONFIRMING_BOOKING);
     Map<String, dynamic> body = CreateOrderRequestModel.fromUserSelectedData(
         address: _address,
@@ -247,13 +267,13 @@ class PetTrainingBloc extends Bloc<FunnelEvent, FunnelState> {
         BookingConfirmationResponseModel.fromJson(response);
     if (responseModel.data != null) {
       _bookingConfirmationData = responseModel.data;
-      _progressIndicator = 7 / _TOTAL_SCREENS;
-      _currentScreen = FunnelScreens.SCREEN_BOOKING_CONFIRMED;
-      add(FunnelEvent.OPEN_SCREEN_BOOKING_CONFIRMATION);
+      return true;
     } else {
-      _progressIndicator = 7 / _TOTAL_SCREENS;
-      _currentScreen = FunnelScreens.SCREEN_BOOKING_CANCELLED;
-      add(FunnelEvent.OPEN_SCREEN_BOOKING_CANCELLATION);
+      return false;
     }
+  }
+
+  void paymentPageOpen() {
+    add(FunnelEvent.PAYMENT_STARTED);
   }
 }

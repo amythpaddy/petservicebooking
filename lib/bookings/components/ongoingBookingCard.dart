@@ -10,7 +10,7 @@ class OngoingBookingCard extends StatelessWidget {
   final String petName;
   final PetHero? petHero;
   final String dateTime;
-  final String orderId;
+  final String leadUUID;
   final bool ongoing;
 
   const OngoingBookingCard(
@@ -19,7 +19,7 @@ class OngoingBookingCard extends StatelessWidget {
       required this.petName,
       required this.petHero,
       required this.dateTime,
-      required this.orderId,
+      required this.leadUUID,
       required this.ongoing})
       : super(key: key);
 
@@ -50,7 +50,7 @@ class OngoingBookingCard extends StatelessWidget {
                           height: 1.5,
                           color: Colors.black),
                     ),
-                    Text('Order id: $orderId',
+                    Text('Booking id: $leadUUID',
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             fontWeight: FontWeight.w400,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:the_pet_nest/funnels/bloc/packageBloc/packageBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/packageBloc/packageState.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
@@ -66,7 +67,7 @@ class CardPackageInfo extends StatelessWidget {
                   child: Text(
                     this.name,
                     style: TextStyle(
-                        height: 1.5, fontWeight: FontWeight.w500, fontSize: 22),
+                        height: 1.5, fontWeight: FontWeight.w500, fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -101,11 +102,18 @@ class CardPackageInfo extends StatelessWidget {
               )
             ],
           ),
-          // Text.rich(TextSpan(
-          //     children: detailsPointer.sublist(2, detailsPointer.length))),
-          Wrap(
-            children: detailsPointer,
-            direction: Axis.horizontal,
+          // Wrap(
+          //   children: detailsPointer,
+          //   direction: Axis.horizontal,
+          // ),
+          Html(
+            data: details,
+            style: {
+              "body": Style(
+                  color: kTextColorBlue,
+                  fontSize: FontSize.medium,
+                  fontWeight: FontWeight.w300)
+            },
           ),
           Divider(),
           Visibility(
