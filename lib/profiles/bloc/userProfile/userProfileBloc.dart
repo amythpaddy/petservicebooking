@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +32,17 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
   void selectUserImage() async {
     final ImagePicker _picker = ImagePicker();
     _image = await _picker.pickImage(source: ImageSource.gallery);
+    Map<String, dynamic> image = Map();
+    Uint8List imageByte = await _image!.readAsBytes();
+    image["base64_string"] = base64Encode(imageByte);
+    Map<String, dynamic> user = Map();
+    user["image"] = image;
+    Map<String, dynamic> data = Map();
+    data["user"] = user;
+    print(data.toString());
+    var response = await ApiCaller.post(kUrlUploadUserImage, data.toString(),
+        withToken: true);
+    print(response);
     add(UserProfileEvents.IMAGE_SELECTED);
   }
 

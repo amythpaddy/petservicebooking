@@ -181,7 +181,12 @@ class EditPetProfile extends StatelessWidget {
                               : DropdownSearch<BreedDetail>(
                                   mode: Mode.BOTTOM_SHEET,
                                   showSelectedItem: true,
-                                  items: state.petBreeds!.listOfDogBreed,
+                                  searchBoxDecoration:
+                                      InputDecoration(fillColor: Colors.green),
+                                  items: state.addUpdatePet!.petCategory ==
+                                          PetCategory.DOG
+                                      ? state.petBreeds!.listOfDogBreed
+                                      : state.petBreeds!.listOfCatBreed,
                                   itemAsString: (breed) => breed.name,
                                   selectedItem: state.addUpdatePet!.subCategory,
                                   hint: "Choose Pet's Breed",

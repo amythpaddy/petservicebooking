@@ -5,56 +5,13 @@ import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/dashboard/component/addPetPopup/component/petInfoModal.dart';
 import 'package:the_pet_nest/dashboard/component/addPetPopup/component/petSelectModal.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
-import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
 import 'package:the_pet_nest/utils/utils.dart';
 
 import 'component/addedPetModal.dart';
 
-class AddPetPopup extends StatefulWidget {
-  @override
-  _AddPetPopupState createState() => _AddPetPopupState();
-}
-
-class _AddPetPopupState extends State<AddPetPopup> {
-  PetPopupScreens currentScreen = PetPopupScreens.SELECT_PET_CATEGORY_SCREEN;
-  late Widget body;
-  String phoneNumber = '';
-  final double selectPetHeight = 445;
-  final double petInfoHeight = 672;
-  final double addedPetHeight = 436;
-
-  double heightProp = 445;
-
-  void switchScreen() {}
-
-  void selectPetScreenResponse(String response) {
-    if (true)
-      setState(() {
-        currentScreen = PetPopupScreens.PET_INFO_PAGE;
-        heightProp = petInfoHeight;
-      });
-  }
-
-  void petInfoScreenResponse(String response) {
-    if (response == kPopupAddedPetList) {
-      setState(() {
-        currentScreen = PetPopupScreens.ADDED_PET_PAGE;
-        heightProp = addedPetHeight;
-      });
-    }
-  }
-
-  void addedPetScreenResponse(String response) {
-    if (response == kPopupSelectPetType) {
-      setState(() {
-        currentScreen = PetPopupScreens.SELECT_PET_CATEGORY_SCREEN;
-        heightProp = selectPetHeight;
-      });
-    }
-  }
-
+class AddPetPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -74,6 +31,7 @@ class _AddPetPopupState extends State<AddPetPopup> {
               },
               child: BlocBuilder<PetProfileBloc, PetProfileState>(
                 builder: (blocContext, state) {
+                  late Widget body;
                   if (!state.showPetPopupScreens) {
                     Navigator.pop(context);
                   }

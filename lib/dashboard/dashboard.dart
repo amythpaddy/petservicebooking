@@ -66,8 +66,8 @@ class _DashboardState extends State<Dashboard> {
               child: Image.asset(
                 'assets/the_pet_nest.png',
                 height: 32.67,
-                cacheHeight: 32,
-                cacheWidth: 150,
+                cacheHeight: 100,
+                cacheWidth: 400,
               )),
         ),
         leading: Container(

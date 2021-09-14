@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 
@@ -31,9 +32,8 @@ class PetHeroesCard extends StatelessWidget {
             Container(
               width: 56,
               height: 78,
-              child: Icon(
-                Icons.person_outline,
-              ),
+              child: SvgPicture.asset(
+                  'assets/images/home/pet_hero_placeholder.svg'),
             ),
             Column(
               // mainAxisAlignment: MainAxisAlignment.start,

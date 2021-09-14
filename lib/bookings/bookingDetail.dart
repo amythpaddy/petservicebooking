@@ -35,6 +35,7 @@ class BookingDetail extends StatelessWidget
           'Booking Details',
           style: TextStyle(color: kAppIconColor),
         ),
+        centerTitle: true,
       ),
       body: MultiBlocProvider(
         providers: [

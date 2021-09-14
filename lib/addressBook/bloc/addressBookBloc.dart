@@ -33,10 +33,16 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
   int _addressSelectedIndex = -1;
 
   AddressBookBloc(
-      {required AddressBookState initialState, BuildContext? context})
+      {required AddressBookState initialState,
+      BuildContext? context,
+      Address? editAddress})
       : super(initialState) {
-    getSavedAddress();
-    getCurrentPosition();
+    if (editAddress != null) {
+      setEditingInfo(editAddress);
+    } else {
+      getSavedAddress();
+      getCurrentPosition();
+    }
     getCityAndState();
     if (context != null) {
       this._mContext = context;
@@ -249,7 +255,15 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
           addressZipcodeMissing: false);
     } else if (event == AddressBookEvent.ADDING_NEW_ADDRESS) {
       yield state.copyWith(
-          addingNewAddress: true,
+          savingAddress: true,
+          addressLineOneMissing: false,
+          addressLineTwoMissing: false,
+          addressStateMissing: false,
+          addressCityMissing: false,
+          addressZipcodeMissing: false);
+    } else if (event == AddressBookEvent.UPDATING_SAVED_ADDRESS) {
+      yield state.copyWith(
+          savingAddress: true,
           addressLineOneMissing: false,
           addressLineTwoMissing: false,
           addressStateMissing: false,
@@ -258,13 +272,19 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
     } else if (event == AddressBookEvent.ADDRESS_BOOK_UPDATED) {
       yield state.copyWith(
           addressBookUpdated: true,
-          addingNewAddress: false,
+          savingAddress: false,
           fetchingAddressBook: false,
           addressBook: _addressBook);
     } else if (event == AddressBookEvent.NEW_ADDRESS_ADDED) {
       yield state.copyWith(
           addressAdded: true,
-          addingNewAddress: false,
+          savingAddress: false,
+          fetchingAddressBook: false,
+          addressBook: _addressBook);
+    } else if (event == AddressBookEvent.SAVED_ADDRESS_UPDATED) {
+      yield state.copyWith(
+          savedAddressUpdated: true,
+          savingAddress: false,
           fetchingAddressBook: false,
           addressBook: _addressBook);
     } else if (event == AddressBookEvent.FETCHING_ADDRESS_BOOK) {
@@ -288,10 +308,63 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
       yield state.copyWith(addressCityMissing: true);
     } else if (event == AddressBookEvent.ERROR_ADDRESS_ZIPCODE_EMPTY) {
       yield state.copyWith(addressZipcodeMissing: true);
+    } else if (event == AddressBookEvent.EDITING_SAVED_ADDRESS) {
+      yield state.copyWith(editingSavedAddress: true);
     }
   }
 
   void openAddAddress() {
     add(AddressBookEvent.OPEN_ADD_EDIT_ADDRESS_SCREEN);
+  }
+
+  void setEditingInfo(Address editAddress) {
+    add(AddressBookEvent.EDITING_SAVED_ADDRESS);
+    updateAddress(
+        addressLineOne: editAddress.addressLineOne,
+        addressLineTwo: editAddress.addressLineTwo,
+        city: editAddress.city,
+        cityId: editAddress.cityId,
+        state: editAddress.state,
+        stateId: editAddress.stateId,
+        zipCode: editAddress.zipCode.toString(),
+        addressType: editAddress.addressType);
+  }
+
+  void editAddress(addressId) async {
+    bool error = false;
+    add(AddressBookEvent.CHECKING_IF_DATA_FILLED);
+    if (_addAddressModel.addressLineOne.isEmpty) {
+      error = true;
+      add(AddressBookEvent.ERROR_ADDRESS_LINE_ONE_EMPTY);
+    }
+
+    if (_addAddressModel.city.isEmpty) {
+      error = true;
+      add(AddressBookEvent.ERROR_ADDRESS_CITY_EMPTY);
+    }
+    if (_addAddressModel.state.isEmpty) {
+      error = true;
+      add(AddressBookEvent.ERROR_ADDRESS_STATE_EMPTY);
+    }
+    if (_addAddressModel.zipCode.isEmpty) {
+      error = true;
+      add(AddressBookEvent.ERROR_ADDRESS_ZIPCODE_EMPTY);
+    }
+    if (!error) {
+      add(AddressBookEvent.UPDATING_SAVED_ADDRESS);
+      var response = await ApiCaller.post(
+          kUrlEditSavedAddresses(addressId), _addAddressModel.toJson(),
+          withToken: true);
+      _addressBook.addAddressFromAddedAddressResponse(
+          AddEditAddressResponse.fromJson(response));
+
+      add(AddressBookEvent.SAVED_ADDRESS_UPDATED);
+    }
+  }
+
+  void deleteAddress(int id) {
+    ApiCaller.post(
+        kUrlDeleteSavedAddresses(id), '{"address": {"is_active": false}}',
+        withToken: true);
   }
 }

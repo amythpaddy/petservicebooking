@@ -20,7 +20,7 @@ class AddressBookState extends Equatable {
   final int blackScreenAlpha;
   final bool showCollapsedUi;
   final bool fetchingAddressBook;
-  final bool addingNewAddress;
+  final bool savingAddress;
   final bool addressBookUpdated;
   final bool openAddEditAddressScreen;
   final bool addressAdded;
@@ -31,6 +31,8 @@ class AddressBookState extends Equatable {
   final bool addressLineTwoMissing;
   final bool addressCityMissing;
   final bool addressZipcodeMissing;
+  final bool editingSavedAddress;
+  final bool savedAddressUpdated;
 
   AddressBookState({
     this.errorMessage,
@@ -44,7 +46,7 @@ class AddressBookState extends Equatable {
     this.showCollapsedUi = true,
     this.addAddressModel,
     this.statesAndCitiesList,
-    this.addingNewAddress = false,
+    this.savingAddress = false,
     this.addressBookUpdated = false,
     this.fetchingAddressBook = false,
     this.addressBook,
@@ -59,6 +61,8 @@ class AddressBookState extends Equatable {
     this.addressLineTwoMissing = false,
     this.addressCityMissing = false,
     this.addressZipcodeMissing = false,
+    this.editingSavedAddress = false,
+    this.savedAddressUpdated = false,
   });
 
   AddressBookState copyWith({
@@ -73,7 +77,7 @@ class AddressBookState extends Equatable {
     bool? showCollapsedUi,
     AddAddressRequestModel? addAddressModel,
     StatesAndCitiesResponse? statesAndCitiesList,
-    bool? addingNewAddress,
+    bool? savingAddress,
     bool? addressBookUpdated,
     bool? fetchingAddressBook,
     bool? openAddEditAddressScreen,
@@ -87,37 +91,40 @@ class AddressBookState extends Equatable {
     bool? addressLineTwoMissing,
     bool? addressCityMissing,
     bool? addressZipcodeMissing,
+    bool? editingSavedAddress,
+    bool? savedAddressUpdated,
   }) {
     return AddressBookState(
-      addressBook: addressBook ?? this.addressBook,
-      errorMessage: errorMessage ?? this.errorMessage,
-      locationError: locationError ?? false,
-      locationUpdated: locationUpdated ?? false,
-      modalHeight: modalHeight ?? this.modalHeight,
-      mapMarker: mapMarker ?? this.mapMarker,
-      bottomSheetHeight: bottomSheetHeight ?? this.bottomSheetHeight,
-      blackScreenAlpha: blackScreenAlpha ?? this.blackScreenAlpha,
-      showCollapsedUi: showCollapsedUi ?? this.showCollapsedUi,
-      addAddressModel: addAddressModel ?? this.addAddressModel,
-      statesAndCitiesList: statesAndCitiesList ?? this.statesAndCitiesList,
-      addingNewAddress: addingNewAddress ?? this.addingNewAddress,
-      addressBookUpdated: addressBookUpdated ?? false,
-      fetchingAddressBook: fetchingAddressBook ?? this.fetchingAddressBook,
-      openAddEditAddressScreen: openAddEditAddressScreen ?? false,
-      addressAdded: addressAdded ?? false,
-      filterCityId: filterCityId ?? this.filterCityId,
-      cityList: cityList ?? this.cityList,
-      selectedCity: selectedCity ?? this.selectedCity,
-      selectedAddressIndex: selectedAddressIndex ?? this.selectedAddressIndex,
-      addressLineOneMissing:
-          addressLineOneMissing ?? this.addressLineOneMissing,
-      addressLineTwoMissing:
-          addressLineTwoMissing ?? this.addressLineTwoMissing,
-      addressCityMissing: addressCityMissing ?? this.addressCityMissing,
-      addressStateMissing: addressStateMissing ?? this.addressStateMissing,
-      addressZipcodeMissing:
-          addressZipcodeMissing ?? this.addressZipcodeMissing,
-    );
+        addressBook: addressBook ?? this.addressBook,
+        errorMessage: errorMessage ?? this.errorMessage,
+        locationError: locationError ?? false,
+        locationUpdated: locationUpdated ?? false,
+        modalHeight: modalHeight ?? this.modalHeight,
+        mapMarker: mapMarker ?? this.mapMarker,
+        bottomSheetHeight: bottomSheetHeight ?? this.bottomSheetHeight,
+        blackScreenAlpha: blackScreenAlpha ?? this.blackScreenAlpha,
+        showCollapsedUi: showCollapsedUi ?? this.showCollapsedUi,
+        addAddressModel: addAddressModel ?? this.addAddressModel,
+        statesAndCitiesList: statesAndCitiesList ?? this.statesAndCitiesList,
+        savingAddress: savingAddress ?? this.savingAddress,
+        addressBookUpdated: addressBookUpdated ?? false,
+        fetchingAddressBook: fetchingAddressBook ?? this.fetchingAddressBook,
+        openAddEditAddressScreen: openAddEditAddressScreen ?? false,
+        addressAdded: addressAdded ?? false,
+        filterCityId: filterCityId ?? this.filterCityId,
+        cityList: cityList ?? this.cityList,
+        selectedCity: selectedCity ?? this.selectedCity,
+        selectedAddressIndex: selectedAddressIndex ?? this.selectedAddressIndex,
+        addressLineOneMissing:
+            addressLineOneMissing ?? this.addressLineOneMissing,
+        addressLineTwoMissing:
+            addressLineTwoMissing ?? this.addressLineTwoMissing,
+        addressCityMissing: addressCityMissing ?? this.addressCityMissing,
+        addressStateMissing: addressStateMissing ?? this.addressStateMissing,
+        addressZipcodeMissing:
+            addressZipcodeMissing ?? this.addressZipcodeMissing,
+        editingSavedAddress: editingSavedAddress ?? this.editingSavedAddress,
+        savedAddressUpdated: savedAddressUpdated ?? this.savedAddressUpdated);
   }
 
   @override
@@ -133,7 +140,7 @@ class AddressBookState extends Equatable {
         showCollapsedUi,
         addAddressModel,
         statesAndCitiesList,
-        addingNewAddress,
+        savingAddress,
         addressBookUpdated,
         fetchingAddressBook,
         addressBook,
@@ -147,6 +154,8 @@ class AddressBookState extends Equatable {
         addressStateMissing,
         addressLineTwoMissing,
         addressCityMissing,
-        addressZipcodeMissing
+        addressZipcodeMissing,
+        editingSavedAddress,
+        savedAddressUpdated
       ];
 }

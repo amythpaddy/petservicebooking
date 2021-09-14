@@ -16,7 +16,10 @@ String kUrlGetSinglePetData(petId) => '/v1/customer_pets/$petId';
 const kUrlGetStatesAndCities = '/v1/pets/state_cities';
 const kUrlGetSavedAddresses = '/v1/users/addresses';
 const kUrlAddSavedAddresses = '/v1/users/address';
-const kUrlDeleteSavedAddresses = '/v1/users/address';
+String kUrlEditSavedAddresses(addressId) =>
+    '/v1/users/update_address?address_id=$addressId';
+String kUrlDeleteSavedAddresses(addressId) =>
+    '/v1/users/update_address?address_id=$addressId';
 String kUrlGetGroomingPackageInfo(cityName, petType) {
   String pet = petType == PetCategory.DOG ? "dog" : "cat";
   return '/v1/leads/grooming_packages?city=$cityName&pet_type=$pet';
@@ -49,3 +52,4 @@ String kUrlPostFeedbackContent(leadId) =>
     '/v1/feedbacks/order_feedback/$leadId';
 String kUrlGetFeedbackQuestions(leadId) => '/v1/feedbacks/qna/$leadId';
 const kUrlGetHomeData = '/v2/home/details';
+const kUrlUploadUserImage = '/v1/users/upload_photo';

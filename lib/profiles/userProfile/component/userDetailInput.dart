@@ -62,7 +62,7 @@ class UserDetailInput extends StatelessWidget {
                     color: showError ? Colors.redAccent : Color(0x331A202E)),
                 color: disabled ? Colors.grey[300] : Colors.white),
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+            padding: EdgeInsets.only(top: 4, bottom: 2, left: 10, right: 10),
             child: TextFormField(
               readOnly: disabled,
               initialValue: value,
@@ -72,7 +72,7 @@ class UserDetailInput extends StatelessWidget {
               // initialValue: value,
 
               onChanged: (data) => onDataFilled(data),
-              style: TextStyle(height: 1.5),
+              style: TextStyle(height: 1),
               decoration: InputDecoration(
                 focusColor: Color(0x331A202E),
                 hintText: hint,

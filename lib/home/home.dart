@@ -151,7 +151,9 @@ class _HomeState extends State<Home> {
                   BlocBuilder<HomeBloc, HomeState>(
                       builder: (blocContext, state) {
                     return state.loading
-                        ? CircularProgressIndicator()
+                        ? Center(
+                            child: Container(
+                                width: 40, child: CircularProgressIndicator()))
                         : Column(
                             children: [
                               ListView.builder(
@@ -316,7 +318,7 @@ class _HomeState extends State<Home> {
                 ),
                 BlocBuilder<HomeBloc, HomeState>(builder: (blocBuilder, state) {
                   return state.loading
-                      ? CircularProgressIndicator()
+                      ? Center(child: CircularProgressIndicator())
                       : Container(
                           margin: EdgeInsets.only(left: 20, top: 13),
                           height: 175,

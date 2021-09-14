@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:the_pet_nest/addressBook/bloc/addressBookBloc.dart';
 import 'package:the_pet_nest/addressBook/bloc/addressBookState.dart';
+import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
 import 'package:the_pet_nest/addressBook/model/statesAndCityApiModel.dart';
 import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
@@ -33,17 +34,20 @@ class AddEditMap extends StatelessWidget {
   Completer<GoogleMapController> _controller = Completer();
   @override
   Widget build(BuildContext context) {
+    Address address = ModalRoute.of(context)!.settings.arguments as Address;
     SizeConfig().init(context);
     return new Scaffold(
         body: BlocProvider(
-      create: (_) =>
-          AddressBookBloc(initialState: AddressBookState(), context: context),
+      create: (_) => AddressBookBloc(
+          initialState: AddressBookState(),
+          context: context,
+          editAddress: address),
       child: BlocListener<AddressBookBloc, AddressBookState>(
         listener: (blocContext, state) {
           if (state.locationUpdated) {
             updateLocationOnMap(state.addAddressModel!.mapPosition!);
           }
-          if (state.addressAdded) {
+          if (state.addressAdded || state.savedAddressUpdated) {
             Navigator.pop(blocContext);
           }
         },
@@ -377,16 +381,25 @@ class AddEditMap extends StatelessWidget {
                               height: state.showCollapsedUi ? 50 : 60,
                             ),
                             TextButton(
-                                onPressed: () =>
-                                    BlocProvider.of<AddressBookBloc>(
-                                            blocContext)
-                                        .addNewAddress(),
+                                onPressed: () {
+                                  if (!state.savingAddress) {
+                                    if (state.editingSavedAddress) {
+                                      BlocProvider.of<AddressBookBloc>(
+                                              blocContext)
+                                          .editAddress(address.id);
+                                    } else {
+                                      BlocProvider.of<AddressBookBloc>(
+                                              blocContext)
+                                          .addNewAddress();
+                                    }
+                                  }
+                                },
                                 child: Container(
                                   padding: EdgeInsets.symmetric(vertical: 10),
                                   decoration: kActiveButtonContainerStyle,
                                   width: SizeConfig.screenWidth,
                                   child: Center(
-                                    child: state.addingNewAddress
+                                    child: state.savingAddress
                                         ? CircularProgressIndicator(
                                             color: Colors.white,
                                           )

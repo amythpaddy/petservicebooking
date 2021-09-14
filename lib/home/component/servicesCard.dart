@@ -20,7 +20,7 @@ class ServicesCard extends StatelessWidget {
             boxShadow: [kContainerBoxShadow],
             borderRadius: BorderRadius.circular(18)),
         margin: EdgeInsets.only(right: 9),
-        padding: EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
         child: Column(
           children: [
             Container(

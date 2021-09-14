@@ -51,14 +51,20 @@ class AddressList extends StatelessWidget {
                                   String city =
                                       state.addressBook!.address[index].city;
                                   String address1 = state.addressBook!
-                                      .address[index].addressLineTwo;
+                                      .address[index].addressLineOne;
 
                                   return (Dismissible(
                                     key: UniqueKey(),
                                     // direction: DismissDirection.endToStart,
-                                    onDismissed: (direction) => showSnackbar(
-                                        context: context,
-                                        message: 'Content Deleted'),
+                                    onDismissed: (direction) {
+                                      BlocProvider.of<AddressBookBloc>(
+                                              blocContext)
+                                          .deleteAddress(state
+                                              .addressBook!.address[index].id);
+                                      showSnackbar(
+                                          context: context,
+                                          message: 'Content Deleted');
+                                    },
                                     background: Container(
                                       padding: EdgeInsets.only(right: 36),
                                       color: kAppBackgroundAltGray,
@@ -69,9 +75,23 @@ class AddressList extends StatelessWidget {
                                             color: kAppIconColor,
                                           )),
                                     ),
-                                    child: SelectLocationComponent(
-                                      city: city,
-                                      address: address1,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(context,
+                                                kNavigationAddEditAddressBook,
+                                                arguments: state.addressBook!
+                                                    .address[index])
+                                            .then((value) => BlocProvider.of<
+                                                        AddressBookBloc>(
+                                                    blocContext)
+                                                .getSavedAddress());
+                                      },
+                                      style: TextButton.styleFrom(
+                                          padding: EdgeInsets.all(0)),
+                                      child: SelectLocationComponent(
+                                        city: city,
+                                        address: address1,
+                                      ),
                                     ),
                                   ));
                                 })),
