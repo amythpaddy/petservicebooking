@@ -40,8 +40,13 @@ class AddressList extends StatelessWidget {
             builder: (blocContext, state) {
               return Column(children: [
                 state.fetchingAddressBook
-                    ? CircularProgressIndicator()
-                    : Expanded(
+                    ? Expanded(child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                      ],
+                    ))
+                    :Expanded(
                         child: state.addressBook == null ||
                                 state.addressBook!.address.length == 0
                             ? NoSavedAddress()

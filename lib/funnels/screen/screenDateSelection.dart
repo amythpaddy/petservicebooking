@@ -242,7 +242,7 @@ class ScreenDateTimeSelection extends StatelessWidget {
             bottom: 10,
             child: TextButton(
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(vertical: 8),
                 width: SizeConfig.blockSizeHorizontal * 95,
                 decoration: kActiveButtonContainerStyle,
                 child: Text(

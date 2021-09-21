@@ -394,25 +394,29 @@ class ScreenBookingConfirmation extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          Container(
-                              decoration: kDataContainerStyle,
-                              padding: EdgeInsets.all(10),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/images/funnels/icon_payment_online.svg'),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    'Pay Online',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15,
-                                        height: 1.5),
-                                  )
-                                ],
-                              ))
+                          TextButton(
+                            onPressed: () => onBookingConfirmation.payOnline(
+                                blocContext, state.bookingData!),
+                            child: Container(
+                                decoration: kDataContainerStyle,
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/images/funnels/icon_payment_online.svg'),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      'Pay Online',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15,
+                                          height: 1.5),
+                                    )
+                                  ],
+                                )),
+                          )
                         ],
                       );
               },

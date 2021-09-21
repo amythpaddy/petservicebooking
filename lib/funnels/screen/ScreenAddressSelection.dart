@@ -139,7 +139,7 @@ class ScreenAddressSelection extends StatelessWidget {
                         alignment: Alignment.center,
                         decoration: kActiveButtonContainerStyle,
                         width: double.infinity,
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                        padding: EdgeInsets.symmetric(vertical: 8),
                         child: Text(
                           'Next',
                           style: kActiveButtonTextStyle,

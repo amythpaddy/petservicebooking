@@ -359,4 +359,9 @@ class PetTrainingService extends StatelessWidget
         false;
     BlocProvider.of<PetTrainingBloc>(blocContext).openBookingConfirmation();
   }
+
+  @override
+  void payOnline(blocContext, BookingConfirmationData bookingConfirmationData) {
+    openPaymentScreen(blocContext, bookingConfirmationData);
+  }
 }

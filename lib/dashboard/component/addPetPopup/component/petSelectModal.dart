@@ -82,7 +82,7 @@ class PetSelectModal extends StatelessWidget {
                   ),
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(vertical: 8),
                     decoration: kActiveButtonContainerStyle,
                     child: TextButton(
                       onPressed: () =>

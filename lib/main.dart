@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_flavor/flutter_flavor.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/addressBook/addEditAddress.dart';
 import 'package:the_pet_nest/addressBook/addressList.dart';
@@ -39,12 +41,20 @@ void main() async {
       color: Colors.red,
       location: BannerLocation.bottomStart,
       variables: stagingValues);
+  await FlutterConfig.loadEnvVariables();
   prefs = await SharedPreferences.getInstance();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  MyApp(){
+// OneSignal.shared.setLogLevel(OSLogLevel.info, OSLogLevel.info);
+OneSignal.shared.setAppId(FlutterConfig.get('ONE_SIGNAL_KEY'));
+// The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+    print("Accepted permission: $accepted");
+});
+  }
   @override
   Widget build(BuildContext context) {
     print('token, ${prefs.getString(kDataToken)}');

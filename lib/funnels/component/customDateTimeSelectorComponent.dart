@@ -163,7 +163,7 @@ class CustomDateTimeSelectorComponent extends StatelessWidget {
                         child: Container(
                             width: 106,
                             alignment: Alignment.center,
-                            padding: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(8),
                             decoration: kActiveButtonContainerStyle,
                             child: Text(
                               'Submit',

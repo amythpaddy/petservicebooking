@@ -34,14 +34,15 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
     _image = await _picker.pickImage(source: ImageSource.gallery);
     Map<String, dynamic> image = Map();
     Uint8List imageByte = await _image!.readAsBytes();
-    image["base64_string"] = base64Encode(imageByte);
+    image["base64_string"] =
+        'data:image/jpeg;base64,${base64Encode(imageByte)}';
     Map<String, dynamic> user = Map();
     user["image"] = image;
     Map<String, dynamic> data = Map();
     data["user"] = user;
     print(data.toString());
-    var response = await ApiCaller.post(kUrlUploadUserImage, data.toString(),
-        withToken: true);
+    var response =
+        await ApiCaller.post(kUrlUploadUserImage, data, withToken: true);
     print(response);
     add(UserProfileEvents.IMAGE_SELECTED);
   }

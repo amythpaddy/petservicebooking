@@ -38,6 +38,7 @@ class AddressBookBloc extends Bloc<AddressBookEvent, AddressBookState> {
       Address? editAddress})
       : super(initialState) {
     if (editAddress != null) {
+      expandBottomSheet();
       setEditingInfo(editAddress);
     } else {
       getSavedAddress();

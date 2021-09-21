@@ -169,7 +169,7 @@ class EditUserProfile extends StatelessWidget {
                                     .read<UserProfileBloc>()
                                     .updateData(state.name, state.email),
                                 child: Container(
-                                  padding: EdgeInsets.all(10),
+                                  padding: EdgeInsets.all(8),
                                   alignment: Alignment.center,
                                   decoration: kActiveButtonContainerStyle,
                                   child:

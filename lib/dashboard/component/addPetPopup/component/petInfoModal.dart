@@ -279,7 +279,7 @@ class PetInfoModal extends StatelessWidget {
                       Container(
                           width: double.infinity,
                           decoration: kActiveButtonContainerStyle,
-                          padding: EdgeInsets.symmetric(vertical: 10),
+                          padding: EdgeInsets.symmetric(vertical: 8),
                           child: TextButton(
                               onPressed: () {
                                 if (!state.addingPet)

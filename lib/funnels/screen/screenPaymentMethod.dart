@@ -151,7 +151,7 @@ class ScreenPaymentMethod extends StatelessWidget {
                       },
                       child: Container(
                         padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                         decoration: kActiveButtonContainerStyle,
                         child: state.confirmingBooking
                             ? CircularProgressIndicator(

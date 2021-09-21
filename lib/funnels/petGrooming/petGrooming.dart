@@ -362,4 +362,9 @@ class PetGroomingService extends StatelessWidget
         false;
     BlocProvider.of<PetGroomingBloc>(blocContext).openBookingConfirmation();
   }
+
+  @override
+  void payOnline(blocContext, BookingConfirmationData bookingConfirmationData) {
+    openPaymentScreen(blocContext, bookingConfirmationData);
+  }
 }

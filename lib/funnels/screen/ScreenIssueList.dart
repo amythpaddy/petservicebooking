@@ -154,7 +154,7 @@ class ScreenPetIssueList extends StatelessWidget {
             onPressed: () {},
             child: Container(
               width: SizeConfig.screenWidth,
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(8),
               alignment: Alignment.center,
               child: Text(
                 'Next',

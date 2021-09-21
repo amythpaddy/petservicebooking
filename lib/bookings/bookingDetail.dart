@@ -6,6 +6,8 @@ import 'package:the_pet_nest/bookings/model/bookingDetailArguments.dart';
 import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeState.dart';
 import 'package:the_pet_nest/funnels/interfaces/BookingConfirmationInterface.dart';
+import 'package:the_pet_nest/funnels/model/bookingConfirmationResponseModel.dart';
+import 'package:the_pet_nest/funnels/screen/sceenPayment.dart';
 import 'package:the_pet_nest/funnels/screen/screenBookingCancelled.dart';
 import 'package:the_pet_nest/funnels/screen/screenBookingConfirmation.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
@@ -88,5 +90,17 @@ class BookingDetail extends StatelessWidget
       return FunnelType.PET_TRAINING;
     } else
       return FunnelType.VET_SERVICE;
+  }
+
+  @override
+  void payOnline(
+      blocContext, BookingConfirmationData bookingConfirmationData) async {
+    bool result = await Navigator.of(blocContext).push(MaterialPageRoute(
+            builder: (context) => PaymentScreen(
+                bookingConfirmationData: bookingConfirmationData))) ??
+        false;
+    if (result)
+      BlocProvider.of<BookingBloc>(blocContext)
+          .getBookingDetails(bookingConfirmationData.lead!.id!);
   }
 }

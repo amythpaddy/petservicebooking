@@ -218,31 +218,33 @@ class _HomeState extends State<Home> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white, boxShadow: [kContainerBoxShadow]),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        SvgPicture.asset('assets/images/home/refer_n_earn.svg'),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Refer and Earn',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 15),
-                            ),
-                            Text(
-                              'Guaranteed reward for every referral',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400, fontSize: 12),
-                            )
-                          ],
-                        )
-                      ],
+                TextButton(onPressed: ()=>Navigator.pushNamed(context, kNavigationReferAndEarn),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white, boxShadow: [kContainerBoxShadow]),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SvgPicture.asset('assets/images/home/refer_n_earn.svg'),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Refer and Earn',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 15,color:Colors.black),
+                              ),
+                              Text(
+                                'Guaranteed reward for every referral',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400, fontSize: 12,color:Colors.black),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

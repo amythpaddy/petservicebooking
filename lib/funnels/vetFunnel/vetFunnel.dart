@@ -370,4 +370,9 @@ class VetService extends StatelessWidget
         false;
     BlocProvider.of<VetBloc>(blocContext).openBookingConfirmation();
   }
+
+  @override
+  void payOnline(blocContext, BookingConfirmationData bookingConfirmationData) {
+    openPaymentScreen(blocContext, bookingConfirmationData);
+  }
 }

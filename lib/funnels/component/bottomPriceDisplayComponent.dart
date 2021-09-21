@@ -61,7 +61,7 @@ class BottomPriceDisplayComponent extends StatelessWidget {
             TextButton(
                 onPressed: onPressed,
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                   decoration: kActiveButtonContainerStyle,
                   child: Text(
                     proceedText,

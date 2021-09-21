@@ -18,7 +18,7 @@ import 'package:the_pet_nest/profiles/petProfile/component/heading.dart';
 import 'package:the_pet_nest/profiles/userProfile/component/userDetailInput.dart';
 
 class AddEditMap extends StatelessWidget {
-  String? _mapStyle;
+  late final String? _mapStyle;
 
   AddEditMap({Key? key}) : super(key: key) {
     rootBundle.loadString('assets/map_style/style.txt').then((string) {
@@ -34,7 +34,8 @@ class AddEditMap extends StatelessWidget {
   Completer<GoogleMapController> _controller = Completer();
   @override
   Widget build(BuildContext context) {
-    Address address = ModalRoute.of(context)!.settings.arguments as Address;
+    // Address? address
+    Address? address = ModalRoute.of(context)!.settings.arguments as Address?;
     SizeConfig().init(context);
     return new Scaffold(
         body: BlocProvider(
@@ -386,7 +387,7 @@ class AddEditMap extends StatelessWidget {
                                     if (state.editingSavedAddress) {
                                       BlocProvider.of<AddressBookBloc>(
                                               blocContext)
-                                          .editAddress(address.id);
+                                          .editAddress(address!.id);
                                     } else {
                                       BlocProvider.of<AddressBookBloc>(
                                               blocContext)
@@ -395,7 +396,7 @@ class AddEditMap extends StatelessWidget {
                                   }
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  padding: EdgeInsets.symmetric(vertical: 8),
                                   decoration: kActiveButtonContainerStyle,
                                   width: SizeConfig.screenWidth,
                                   child: Center(

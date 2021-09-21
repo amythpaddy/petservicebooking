@@ -160,7 +160,7 @@ class ScreenPetSelection extends StatelessWidget {
                   },
                   child: Container(
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(vertical: 8),
                     decoration: kActiveButtonContainerStyle,
                     child: Text(
                       'Next',
