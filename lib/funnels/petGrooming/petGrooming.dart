@@ -38,6 +38,7 @@ import 'package:the_pet_nest/funnels/screen/screenPetSelection.dart';
 import 'package:the_pet_nest/funnels/screen/screenReviewBookingDetail.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
@@ -216,6 +217,7 @@ class PetGroomingService extends StatelessWidget
                       body = ScreenDateTimeSelection(
                         onDateTimeSelected: this,
                         cityId: state.address!.cityId,
+                        leadType: kLeadTypeGrooming,
                       );
                       break;
                     case FunnelScreens.SCREEN_BOOKING_CONFIRMED:
@@ -223,7 +225,7 @@ class PetGroomingService extends StatelessWidget
                       //     .updateBookingData(state.bookingConfirmationData!);
                       BlocProvider.of<BookingBloc>(blocContext)
                           .getBookingDetails(
-                              state.bookingConfirmationData!.lead!.id!);
+                              state.bookingConfirmationData!.lead!.id!,state.bookingConfirmationData!.lead!.leadType!);
                       body = ScreenBookingConfirmation(
                         onBookingConfirmation: this,
                         currentFunnel: FunnelType.PET_GROOMING,

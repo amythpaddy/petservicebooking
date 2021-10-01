@@ -49,7 +49,7 @@ class BookingDetail extends StatelessWidget
             print(state.bookingCancelled);
             if (state.initialLoad)
               BlocProvider.of<BookingBloc>(blocContext)
-                  .getBookingDetails(args.leadId);
+                  .getBookingDetails(args.leadId,args.leadType);
             return state.isProcessing
                 ? Center(
                     child: CircularProgressIndicator(

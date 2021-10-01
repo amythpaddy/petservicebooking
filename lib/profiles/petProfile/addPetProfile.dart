@@ -76,7 +76,7 @@ class AddPetProfile extends StatelessWidget {
                                       padding: EdgeInsets.all(0)),
                                   onPressed: () =>
                                       BlocProvider.of<PetProfileBloc>(context)
-                                          .selectPetImage(),
+                                          .selectPetImage("1"),
                                   child: Container(
                                     height: 82,
                                     width: 82,

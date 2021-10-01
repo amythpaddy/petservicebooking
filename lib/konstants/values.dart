@@ -31,3 +31,12 @@ const timeSlots = [
   '03:00 - 05:00 PM',
   '05:00 - 07:00 PM'
 ];
+
+//-----------------Lead Types----------------------------------------//
+const String kLeadTypeGrooming="grooming";
+const String kLeadTypeTraining="training";
+const String kLeadTypeVet="vet";
+
+const String kLeadValueForGrooming="grooming_leads";
+const String kLeadValueForTraining="dog_training_leads";
+const String kLeadValueForVet="vet_leads";

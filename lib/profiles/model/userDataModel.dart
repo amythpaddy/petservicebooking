@@ -54,6 +54,7 @@ class UserDataModel {
   String? contactNumber;
   String? email;
   String? referralCode;
+  Image? image;
 
   UserDataModel(
       {this.id,
@@ -61,7 +62,8 @@ class UserDataModel {
       this.lastName,
       this.contactNumber,
       this.email,
-      this.referralCode});
+      this.referralCode,
+      this.image});
 
   UserDataModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -70,6 +72,7 @@ class UserDataModel {
     contactNumber = json['contact_number'];
     email = json['email'];
     referralCode = json['referral_code'] ?? "";
+    image = json['image'] != null ? new Image.fromJson(json['image']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +83,47 @@ class UserDataModel {
     data['contact_number'] = this.contactNumber;
     data['email'] = this.email;
     data['referral_code'] = this.referralCode;
+    if (this.image != null) {
+      data['image'] = this.image!.toJson();
+    }
+    return data;
+  }
+}
+
+class Image {
+  ImageData? imageData;
+
+  Image({this.imageData});
+
+  Image.fromJson(Map<String, dynamic> json) {
+    imageData =
+        json['image'] != null ? new ImageData.fromJson(json['image']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.imageData != null) {
+      data['image'] = this.imageData!.toJson();
+    }
+    return data;
+  }
+}
+
+class ImageData {
+  String? signedId;
+  String? url;
+
+  ImageData({this.signedId, this.url});
+
+  ImageData.fromJson(Map<String, dynamic> json) {
+    signedId = json['signed_id'];
+    url = json['url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['signed_id'] = this.signedId;
+    data['url'] = this.url;
     return data;
   }
 }

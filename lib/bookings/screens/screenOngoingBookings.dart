@@ -51,7 +51,7 @@ class ScreenOngoingBookings extends StatelessWidget {
                       textStyle: TextStyle(color: Colors.black)),
                   onPressed: () {
                     BookingDetailArguments args = BookingDetailArguments(
-                        leadId: onGoingBookings[index].id!, onGoing: true);
+                        leadId: onGoingBookings[index].id!, onGoing: true,leadType: onGoingBookings[index].leadType!);
                     Navigator.pushNamed(
                             blocContext, kNavigationBookingDetailsPage,
                             arguments: args)

@@ -50,12 +50,21 @@ class UserProfile extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12)),
                         child: Row(
                           children: [
-                            Image.asset(
-                              'assets/images/avatar.png',
-                              height: 72,
-                              width: 72,
-                              fit: BoxFit.fill,
-                            ),
+                            state.imageAddress.isEmpty
+                                ? Image.asset(
+                                    'assets/images/avatar.png',
+                                    height: 72,
+                                    width: 72,
+                                    fit: BoxFit.fill,
+                                  )
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(36),
+                                    child: Image.network(
+                                      state.imageAddress,
+                                      height: 72,
+                                      width: 72,
+                                      fit: BoxFit.fitWidth,
+                                    )),
                             SizedBox(
                               width: 8,
                             ),
@@ -201,11 +210,27 @@ class UserProfile extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Image.asset(
-                                        'assets/images/profile/dog_avatar.png',
-                                        height: 46.16,
-                                        width: 46.16,
-                                      ),
+                                      state.petList!.petDataStore[index]
+                                                  .images ==
+                                              null
+                                          ? Image.asset(
+                                              'assets/images/profile/dog_avatar.png',
+                                              height: 46.16,
+                                              width: 46.16,
+                                            )
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(46),
+                                              child: Image.network(
+                                                state
+                                                    .petList!
+                                                    .petDataStore[index]
+                                                    .images!,
+                                                height: 46.16,
+                                                width: 46.16,
+                                                fit: BoxFit.fitWidth,
+                                              ),
+                                            ),
                                       SizedBox(
                                         width: 5,
                                       ),

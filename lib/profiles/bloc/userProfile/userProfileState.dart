@@ -11,6 +11,7 @@ class UserProfileState extends Equatable {
   final String number;
   final bool processing;
   final XFile? image;
+  final String imageAddress;
 
   UserProfileState(
       {this.updateState = UpdateState.IDLE,
@@ -20,7 +21,8 @@ class UserProfileState extends Equatable {
       this.name = '',
       this.number = '',
       this.processing = true,
-      this.image});
+      this.image,
+      this.imageAddress = ''});
 
   UserProfileState copyWith(
       {UpdateState? updateState,
@@ -30,7 +32,8 @@ class UserProfileState extends Equatable {
       String? email,
       String? number,
       bool? processing,
-      XFile? image}) {
+      XFile? image,
+      String? imageAddress}) {
     return UserProfileState(
         updateState: updateState ?? this.updateState,
         emailValid: emailValid ?? this.emailValid,
@@ -39,7 +42,8 @@ class UserProfileState extends Equatable {
         name: name ?? this.name,
         number: number ?? this.number,
         processing: processing ?? this.processing,
-        image: image ?? this.image);
+        image: image ?? this.image,
+        imageAddress: imageAddress ?? this.imageAddress);
   }
 
   @override
@@ -51,6 +55,7 @@ class UserProfileState extends Equatable {
         name,
         number,
         processing,
-        image
+        image,
+        imageAddress
       ];
 }

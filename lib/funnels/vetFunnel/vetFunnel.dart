@@ -40,6 +40,7 @@ import 'package:the_pet_nest/funnels/screen/screenPetSelection.dart';
 import 'package:the_pet_nest/funnels/screen/screenReviewBookingDetail.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
@@ -219,6 +220,7 @@ class VetService extends StatelessWidget
                       body = ScreenDateTimeSelection(
                         onDateTimeSelected: this,
                         cityId: state.address!.cityId,
+                        leadType: kLeadTypeVet,
                       );
                       break;
                     case FunnelScreens.SCREEN_BOOKING_CONFIRMED:

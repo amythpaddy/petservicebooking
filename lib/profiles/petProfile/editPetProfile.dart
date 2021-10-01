@@ -72,7 +72,7 @@ class EditPetProfile extends StatelessWidget {
                                   onPressed: () =>
                                       BlocProvider.of<PetProfileBloc>(
                                               blocContext)
-                                          .selectPetImage(),
+                                          .selectPetImage(args.petId),
                                   child: Container(
                                     child: Stack(
                                       alignment: Alignment.center,

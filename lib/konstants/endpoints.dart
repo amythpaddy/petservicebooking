@@ -1,4 +1,5 @@
 import 'package:the_pet_nest/konstants/enums.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 
 const kUrlLogin = '/v1/customer_registrations/verify_customer';
 const kUrlRegisterSendOTP = '/v1/customer_registrations/send_direct_otp';
@@ -35,21 +36,71 @@ String kUrlGetVetPackageInfo(cityId, petType, serviceType) {
   return '/v1/leads/vet_packages?city_id=$cityId&service_type=$serviceType&category_id=$pet';
 }
 
-String kUrlGetBookedTimeSlots(date, cityId) =>
-    '/v1/leads/booked_slots?date=$date&city_id=$cityId';
-const kUrlCreateGroomingLead = '/v1/leads/create_grooming_lead';
-const kUrlCreateTrainingLead = '/v1/leads/create_training_lead';
+String kUrlGetBookedTimeSlots(date, cityId,leadType){
+  String leadCategory='';
+  switch(leadType){
+    case kLeadTypeGrooming:
+      leadCategory=kLeadValueForGrooming;
+      break;
+    case kLeadTypeTraining:
+      leadCategory=kLeadValueForTraining;
+      break;
+    default:
+      leadCategory=kLeadValueForVet;
+  }
+    return '/v1/$leadCategory/booked_slots?date=$date&city_id=$cityId';
+}
+const kUrlCreateGroomingLead = '/v1/grooming_leads';
+const kUrlCreateTrainingLead = '/v1/dog_training_leads';
+const kUrlCreateVetLead = '/v1/vet_leads';
 String kUrlGetCouponsList(serviceType) =>
     '/v1/coupons?service_type=$serviceType';
 const kUrlApplyCoupons = '/v1/coupons/validate_coupon';
-String kUrlUpdateBookingDetail(leadId) => '/v1/leads/$leadId';
-String kUrlGetBookingDetail(leadId) => '/v1/leads/$leadId';
-String kUrlCancelBookingDetail(leadId) => '/v1/leads/$leadId/cancel_lead';
+String kUrlUpdateBookingDetail(leadId,leadType){
+  String leadCategory='';
+  switch(leadType){
+    case kLeadTypeGrooming:
+      leadCategory=kLeadValueForGrooming;
+      break;
+    case kLeadTypeTraining:
+      leadCategory=kLeadValueForTraining;
+      break;
+    default:
+      leadCategory=kLeadValueForVet;
+  }
+  return '/v1/$leadCategory/$leadId';}
+String kUrlGetBookingDetail(leadId,leadType){
+  String leadCategory='';
+  switch(leadType){
+    case kLeadTypeGrooming:
+      leadCategory=kLeadValueForGrooming;
+      break;
+    case kLeadTypeTraining:
+      leadCategory=kLeadValueForTraining;
+      break;
+    default:
+      leadCategory=kLeadValueForVet;
+  }
+  return '/v1/$leadCategory/$leadId';}
 String kUrlGetBookings(pageNumber) => '/v1/leads/orders?page=$pageNumber';
-String kUrlCancelBooking(leadId) => '/v1/leads/$leadId/cancel_lead';
+String kUrlCancelBooking(leadId,leadType){
+  String leadCategory='';
+  switch(leadType){
+    case kLeadTypeGrooming:
+      leadCategory=kLeadValueForGrooming;
+      break;
+    case kLeadTypeTraining:
+      leadCategory=kLeadValueForTraining;
+      break;
+    default:
+      leadCategory=kLeadValueForVet;
+  }
+  return '/v1/$leadCategory/$leadId/cancel_lead';
+  }
 String kUrlGetFeedbackContent(leadId) => '/v1/feedbacks/order_feedback/$leadId';
 String kUrlPostFeedbackContent(leadId) =>
     '/v1/feedbacks/order_feedback/$leadId';
 String kUrlGetFeedbackQuestions(leadId) => '/v1/feedbacks/qna/$leadId';
 const kUrlGetHomeData = '/v2/home/details';
 const kUrlUploadUserImage = '/v1/users/upload_photo';
+String kUrlUploadPetImage(petId)=>'/v1/customer_pets/$petId/upload_photo';

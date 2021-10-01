@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:package_info/package_info.dart';
@@ -130,7 +133,7 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
   void getSinglePetData(String petId) async {
     add(PetProfileEvent.FETCHING_PET_DETAIL);
     var response =
-        await ApiCaller.get(kUrlGetSinglePetData(petId), withToken: true);
+          await ApiCaller.get(kUrlGetSinglePetData(petId), withToken: true);
     PetCURLModel petData = PetCURLModel.fromJson(response);
     _petDetail = PetDetailForUpload.fromPetStore(petData.data!.customerPet!);
     add(PetProfileEvent.PET_DETAILS_LOADED);
@@ -140,12 +143,22 @@ class PetProfileBloc extends Bloc<PetProfileEvent, PetProfileState> {
     add(PetProfileEvent.INIT_ADD_PET);
   }
 
-  void selectPetImage() async {
-    print('Get image');
+  void selectPetImage(String petId) async {
     final ImagePicker _picker = ImagePicker();
     _image = await _picker.pickImage(source: ImageSource.gallery);
+    Map<String, dynamic> image = Map();
+    Uint8List imageByte = await _image!.readAsBytes();
+    image["base64_string"] =
+        'data:image/jpeg;base64,${base64Encode(imageByte)}';
+    Map<String, dynamic> customerPet = Map();
+    customerPet["image"] = image;
+    Map<String, dynamic> data = Map();
+    data["customer_pet"] = customerPet;
+   
+    await ApiCaller.post(kUrlUploadPetImage(petId), data, withToken: true);
     add(PetProfileEvent.IMAGE_SELECTED);
   }
+ 
 
   void updatePetData(String petId) async {
     bool _error = false;

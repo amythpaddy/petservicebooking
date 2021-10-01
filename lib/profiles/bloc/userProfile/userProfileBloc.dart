@@ -53,10 +53,16 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
 
     _email = userDetail.data!.user!.email!;
     _name = userDetail.data!.user!.firstName!;
+    _referralCode = userDetail.data!.user!.referralCode ?? "";
+    _imageAddress = userDetail!.data!.user!.image == null
+        ? ""
+        : userDetail!.data!.user!.image!.imageData!.url!;
 
     _pref.setString(kDataUserEmail, _email);
     _pref.setString(kDataUserFirstName, _name);
     _pref.setString(kDataUserLastName, userDetail.data!.user!.lastName!);
+    _pref.setString(kDataUserReferral, _referralCode);
+    _pref.setString(kDataUserImage, _imageAddress);
 
     add(UserProfileEvents.UPDATE_DATA_FROM_STORE);
   }
@@ -65,6 +71,8 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
   late String _email;
   late String _name;
   late String _number;
+  late String _referralCode;
+  late String _imageAddress;
 
   void updateEmail(String email) {
     this._email = email;
@@ -106,7 +114,11 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
       yield state.copyWith(updateState: UpdateState.SUCCESS);
     else if (event == UserProfileEvents.UPDATE_DATA_FROM_STORE) {
       yield state.copyWith(
-          name: _name, email: _email, number: _number, processing: false);
+          name: _name,
+          email: _email,
+          number: _number,
+          processing: false,
+          imageAddress: _imageAddress);
     } else if (event == UserProfileEvents.IMAGE_SELECTED) {
       yield state.copyWith(image: _image);
     }

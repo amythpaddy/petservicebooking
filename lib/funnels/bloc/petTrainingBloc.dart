@@ -262,7 +262,7 @@ class PetTrainingBloc extends Bloc<FunnelEvent, FunnelState> {
         time: _time,
         couponData: _couponData);
     var response =
-        await ApiCaller.post(kUrlCreateGroomingLead, body, withToken: true);
+        await ApiCaller.post(kUrlCreateTrainingLead, body, withToken: true);
     BookingConfirmationResponseModel responseModel =
         BookingConfirmationResponseModel.fromJson(response);
     if (responseModel.data != null) {

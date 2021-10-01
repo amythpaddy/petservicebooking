@@ -1,6 +1,7 @@
 import 'package:the_pet_nest/addressBook/model/addressBookModel.dart';
 import 'package:the_pet_nest/funnels/model/couponseApiResponseModel.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
 
 class CreateOrderRequestModel {
@@ -14,7 +15,8 @@ class CreateOrderRequestModel {
       required List<PackageDetailModel>? packageDetail,
       required String date,
       required String time,
-      required CouponData? couponData}) {
+      required CouponData? couponData,
+       required String leadType}) {
     List<LeadPetPackagesAttributes> leadPetPackagesAttributes = [];
     for (int i = 0; i < customerPet!.length; i++) {
       LeadPetPackagesAttributes lppa = LeadPetPackagesAttributes(
@@ -34,8 +36,14 @@ class CreateOrderRequestModel {
         lng: address.long.toString(),
         addressId: address.id);
     Map<String, dynamic> request = Map<String, dynamic>();
+    if(leadType==kLeadTypeGrooming)
     request["lead"] = lead.toJson();
+    if(leadType==kLeadTypeVet)
+    request["vet_lead"] = lead.toJson();
+    if(leadType==kLeadTypeTraining)
+    request["dog_training_lead"] = lead.toJson();
     request["lead_details"] = leadDetails.toJson();
+    request["address_id"]=address.id;
     return request;
   }
 
@@ -68,6 +76,7 @@ class Lead {
     data['location'] = this.location;
     data['appointment_datetime'] = this.appointmentDatetime;
     data['additional_note'] = this.additionalNote;
+    data['additional_info'] = this.additionalNote;
     if (this.leadPetPackagesAttributes != null) {
       data['lead_pet_packages_attributes'] =
           this.leadPetPackagesAttributes.map((v) => v.toJson()).toList();

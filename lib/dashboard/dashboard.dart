@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_pet_nest/bookings/bookings.dart';
@@ -9,6 +10,8 @@ import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/messaging/messaging.dart';
+import 'package:the_pet_nest/profiles/bloc/userProfile/userProfileBloc.dart';
+import 'package:the_pet_nest/profiles/bloc/userProfile/userProfileState.dart';
 import 'package:the_pet_nest/profiles/userProfile/userProfile.dart';
 import 'package:the_pet_nest/sidebar/sidebar.dart';
 
@@ -88,12 +91,29 @@ class _DashboardState extends State<Dashboard> {
               if (token.isNotEmpty)
                 Navigator.pushNamed(context, kNavigationUserprofile);
             },
-            child: Container(
-              width: 50,
-              height: 50,
-              child: Image.asset('assets/images/avatar.png'),
+            child: BlocProvider(
+              create: (_) => UserProfileBloc(UserProfileState()),
+              child: BlocBuilder<UserProfileBloc, UserProfileState>(
+                builder: (blocContext, state) {
+                  if (state.imageAddress.isEmpty) {
+                    return Container(
+                        width: 50,
+                        height: 50,
+                        child: Image.asset('assets/images/avatar.png'));
+                  } else {
+                    return ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Image.network(
+                          state.imageAddress,
+                          height: 50,
+                          width: 50,
+                          fit: BoxFit.fitWidth,
+                        ));
+                  }
+                },
+              ),
             ),
-          )
+          ),
         ],
       ),
       drawer: Sidebar(),

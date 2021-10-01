@@ -19,6 +19,7 @@ class HistoryBookingCard extends StatelessWidget {
   final bool cancelled;
   final String city;
   final int leadId;
+  final String leadType;
 
   const HistoryBookingCard(
       {Key? key,
@@ -29,7 +30,8 @@ class HistoryBookingCard extends StatelessWidget {
       required this.leadUUID,
       required this.cancelled,
       required this.city,
-      required this.leadId})
+      required this.leadId,
+      required this.leadType})
       : super(key: key);
 
   @override
@@ -178,7 +180,7 @@ class HistoryBookingCard extends StatelessWidget {
                     TextButton(
                         onPressed: () {
                           BookingDetailArguments args = BookingDetailArguments(
-                              leadId: leadId, onGoing: false);
+                              leadId: leadId, onGoing: false,leadType:leadType );
                           Navigator.pushNamed(
                                   context, kNavigationBookingDetailsPage,
                                   arguments: args)

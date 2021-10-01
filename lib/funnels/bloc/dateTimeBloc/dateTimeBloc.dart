@@ -4,6 +4,7 @@ import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeEvent.dart';
 import 'package:the_pet_nest/funnels/bloc/dateTimeBloc/dateTimeState.dart';
 import 'package:the_pet_nest/funnels/model/bookedSlotsResponseModel.dart';
 import 'package:the_pet_nest/konstants/endpoints.dart';
+import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/utils/ApiCaller.dart';
 
 class DateTimeBloc extends Bloc<DateTimeEvent, DateTimeState> {
@@ -14,9 +15,9 @@ class DateTimeBloc extends Bloc<DateTimeEvent, DateTimeState> {
 
   var _response;
 
-  void getBookedTimeSlots() async {
+  void getBookedTimeSlots(leadType) async {
     add(DateTimeEvent.FETCHING_BOOKED_TIME_LIST);
-    _response = await ApiCaller.get(kUrlGetBookedTimeSlots(_date, _cityId),
+    _response = await ApiCaller.get(kUrlGetBookedTimeSlots(_date, _cityId,leadType),
         withToken: true);
     add(DateTimeEvent.BOOKED_TIME_LIST_FETCHED);
   }
@@ -29,11 +30,11 @@ class DateTimeBloc extends Bloc<DateTimeEvent, DateTimeState> {
     add(DateTimeEvent.HIDE_DATE_TIME_PICKER);
   }
 
-  void setDate(DateTime date, {String? format}) {
+  void setDate(DateTime date, {required String leadType, String? format}) {
     String compareDate = DateFormat(format ?? 'dd/MM/yyyy').format(date);
     if (compareDate != _date) {
       _date = compareDate;
-      getBookedTimeSlots();
+      getBookedTimeSlots(leadType);
       add(DateTimeEvent.DATE_SELECTED_BY_USER);
     }
     add(DateTimeEvent.HIDE_DATE_TIME_PICKER);

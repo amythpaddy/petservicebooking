@@ -34,7 +34,6 @@ class AddEditMap extends StatelessWidget {
   Completer<GoogleMapController> _controller = Completer();
   @override
   Widget build(BuildContext context) {
-    // Address? address
     Address? address = ModalRoute.of(context)!.settings.arguments as Address?;
     SizeConfig().init(context);
     return new Scaffold(

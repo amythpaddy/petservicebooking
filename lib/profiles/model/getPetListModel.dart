@@ -77,7 +77,7 @@ class CustomerPet {
   String? name;
   String? aggression;
   String? gender;
-  List<String>? images;
+  String? images;
   bool? vaccinations;
   int? age;
   User? user;
@@ -105,7 +105,7 @@ class CustomerPet {
     name = json['name'];
     aggression = json['aggression'];
     gender = json['gender'];
-    if (json['images'] != null) json['images'].forEach((v) => images!.add(v));
+    if (json['images'].length == 1) images = json['images'][0]['url'];
     vaccinations = json['vaccinations'];
     age = json['age'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;

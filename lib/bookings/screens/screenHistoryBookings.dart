@@ -39,7 +39,7 @@ class ScreenBookingsHistory extends StatelessWidget {
                       textStyle: TextStyle(color: Colors.black)),
                   onPressed: () {
                     BookingDetailArguments args = BookingDetailArguments(
-                        leadId: historyBookings[index].id!, onGoing: false);
+                        leadId: historyBookings[index].id!, onGoing: false,leadType: historyBookings[index].leadType!);
                     Navigator.pushNamed(
                             blocContext, kNavigationBookingDetailsPage,
                             arguments: args)
@@ -61,6 +61,7 @@ class ScreenBookingsHistory extends StatelessWidget {
                     cancelled: historyBookings[index].status == 'cancelled',
                     city: '', //todo: city name to be fetched,
                     leadId: historyBookings[index].id!,
+                    leadType: historyBookings[index].leadType!,
                   ),
                 );
               },

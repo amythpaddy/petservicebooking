@@ -277,7 +277,7 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
         time: _time,
         couponData: _couponData);
     var response =
-        await ApiCaller.post(kUrlCreateGroomingLead, body, withToken: true);
+        await ApiCaller.post(kUrlCreateVetLead, body, withToken: true);
     BookingConfirmationResponseModel responseModel =
         BookingConfirmationResponseModel.fromJson(response);
     if (responseModel.data != null) {

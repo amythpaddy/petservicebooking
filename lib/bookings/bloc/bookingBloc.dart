@@ -64,16 +64,25 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
   }
 
   void reschedule(
-      String leadId, String selectedDate, String selectedTime) async {
+      String leadId, String selectedDate, String selectedTime,String leadType) async {
     add(BookingEvents.PROCESSING);
     add(BookingEvents.HIDE_DATE_PICKER);
     Map<String, dynamic> leadDateTime = Map();
     leadDateTime["appointment_datetime"] = '$selectedDate $selectedTime';
     Map<String, dynamic> data = Map();
-    data["lead"] = leadDateTime;
-    print(leadId);
-    print(data);
-    var response = await ApiCaller.put(kUrlUpdateBookingDetail(leadId), data,
+    
+  switch(leadType){
+    case 'grooming':
+      data["lead"] = leadDateTime;
+      break;
+    case 'training':
+      data["dog_training_lead"] = leadDateTime;
+      break;
+    default:
+      data["vet_lead"] = leadDateTime;
+  }
+    
+    var response = await ApiCaller.put(kUrlUpdateBookingDetail(leadId,leadType), data,
         withToken: true);
     BookingConfirmationResponseModel _bookingRescheduledData =
         BookingConfirmationResponseModel.fromJson(response);
@@ -81,10 +90,10 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
     add(BookingEvents.UPDATE_BOOKING_DATA);
   }
 
-  void getBookingDetails(int leadId) async {
+  void getBookingDetails(int leadId, String leadType) async {
     add(BookingEvents.PROCESSING);
     var response =
-        await ApiCaller.get(kUrlGetBookingDetail(leadId), withToken: true);
+        await ApiCaller.get(kUrlGetBookingDetail(leadId,leadType), withToken: true);
 
     BookingConfirmationResponseModel _bookingRescheduledData =
         BookingConfirmationResponseModel.fromJson(response);
@@ -93,9 +102,9 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
     add(BookingEvents.UPDATE_BOOKING_DATA);
   }
 
-  void cancelBooking(int leadId) async {
+  void cancelBooking(int leadId, String leadType, String appointmentDateTime) async {
     var response = await ApiCaller.post(
-        kUrlCancelBooking(leadId), {"lead_id": leadId},
+        kUrlCancelBooking(leadId, leadType), {"appointment_datetime": appointmentDateTime},
         withToken: true);
     if (response["data"]["success"]) add(BookingEvents.BOOKING_CANCELLED);
   }
