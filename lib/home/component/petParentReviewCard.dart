@@ -50,10 +50,10 @@ class PetParentReviewCard extends StatelessWidget {
           RatingBarIndicator(
             itemBuilder: (context, index) => Icon(
               Icons.star,
-              color: Colors.amber,
-              size: 8.0,
+              color: Color(0xFFFFC107),
+              size: 10.0,
             ),
-            itemSize: 8,
+            itemSize: 12,
             itemCount: 5,
             rating: rating,
           ),

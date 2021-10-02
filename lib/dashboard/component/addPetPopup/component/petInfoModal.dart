@@ -149,6 +149,10 @@ class PetInfoModal extends StatelessWidget {
                                           ? Colors.redAccent
                                           : Colors.transparent)),
                               child: DropdownSearch<BreedDetail>(
+                                searchBoxDecoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.green))),
                                 mode: Mode.DIALOG,
                                 showSelectedItem: true,
                                 items: state.addUpdatePet!.petCategory ==
@@ -180,6 +184,7 @@ class PetInfoModal extends StatelessWidget {
                               child: UserDetailInput(
                             heading: 'Age',
                             required: true,
+                            hint: 'Years',
                             inputType: TextInputType.number,
                             value: (state.addUpdatePet!.age ?? "").toString(),
                             onDataFilled: (data) =>
@@ -194,6 +199,7 @@ class PetInfoModal extends StatelessWidget {
                               child: UserDetailInput(
                             heading: 'Weight',
                             required: true,
+                            hint: 'Kg',
                             inputType: TextInputType.number,
                             value:
                                 (state.addUpdatePet!.weight ?? "").toString(),

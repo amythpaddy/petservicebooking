@@ -69,11 +69,13 @@ class PetHeroesCard extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
-                            color: kTextColorBlue)),
+                            color: Color(0xFF666666))),
                     Text(
                       appointmentCompleted.toString(),
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                          color: kTextColorBlue),
                     )
                   ],
                 )

@@ -45,6 +45,7 @@ class PetGroomingHeroCard extends StatelessWidget {
                   height: 17.84,
                 ),
                 Container(
+                  height: 29,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       color: Colors.white),

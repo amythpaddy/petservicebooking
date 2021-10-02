@@ -128,8 +128,8 @@ class ScreenAddressSelection extends StatelessWidget {
                           BlocProvider.of<AddressBookBloc>(blocContext)
                               .openAddAddress(),
                       child: AddLocationComponent(
-                        backgroundColor: kAppIconColor,
-                        textColor: Colors.white,
+                        backgroundColor: Colors.white,
+                        textColor: kAppIconColor,
                       )),
                   SizedBox(
                     height: 8,

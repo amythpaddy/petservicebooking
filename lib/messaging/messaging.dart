@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
-import 'package:the_pet_nest/konstants/styles.dart';
 
 class Messaging extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('Messages', style: kAppBarTitleStyle),
-          backgroundColor: kAppBackgroundAltGray,
-          elevation: 0,
-        ),
         backgroundColor: kAppBackgroundAltGray,
         body: Container(
           margin: EdgeInsets.symmetric(horizontal: 20),

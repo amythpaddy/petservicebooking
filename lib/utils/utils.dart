@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/values.dart';
 
 void showSnackbar(
@@ -22,4 +24,12 @@ String getTimeSlot({required String timeSlot}) {
     return '03:00:00';
   else if (timeSlot == timeSlots[4]) return '05:00:00';
   return '00:00:00';
+}
+
+Future<bool> isLoggedIn() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  if (pref.getString(kDataToken) == null)
+    return false;
+  else
+    return true;
 }

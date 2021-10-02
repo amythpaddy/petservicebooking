@@ -15,6 +15,7 @@ class OptionsChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 35,
       margin: EdgeInsets.only(right: 16),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(51),

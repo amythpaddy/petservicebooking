@@ -29,11 +29,12 @@ class ServicesCard extends StatelessWidget {
               margin: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Color.fromARGB(50, 255, 119, 23),
+                color: Color(0xFFFFF5EF),
               ),
               child: SvgPicture.asset(svgPath),
             ),
             Container(
+              margin: EdgeInsets.only(bottom: 15),
               child: Text(
                 text,
                 style: TextStyle(

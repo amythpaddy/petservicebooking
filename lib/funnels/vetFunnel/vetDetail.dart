@@ -314,7 +314,8 @@ class VetDetail extends StatelessWidget {
                               children: [
                                 SvgPicture.asset(
                                   'assets/images/home/refer_n_earn.svg',
-                                  height: 36,
+                                  height: 56,
+                                  width: 56,
                                 ),
                                 SizedBox(
                                   width: 20,

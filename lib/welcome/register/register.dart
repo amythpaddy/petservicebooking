@@ -128,6 +128,11 @@ class _RegisterState extends State<Register> {
                           decoration: InputDecoration(
                             focusColor: Color(0x331A202E),
                             hintText: 'Enter name',
+                            hintStyle: TextStyle(
+                                color: Color(0xFFF9F9F9),
+                                fontSize: 14,
+                                height: 1.5,
+                                fontWeight: FontWeight.w400),
                             border: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Color(0x331A202E)),

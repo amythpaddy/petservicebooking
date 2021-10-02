@@ -38,9 +38,10 @@ class PetTrainingHeroCard extends StatelessWidget {
                 ),
               )),
           Positioned(
-              top: 92,
+              top: 105,
               right: 18,
               child: Container(
+                height: 29,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                     color: Colors.white),

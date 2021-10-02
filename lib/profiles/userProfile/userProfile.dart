@@ -25,12 +25,6 @@ class UserProfile extends StatelessWidget {
           )
         ],
         child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text('My Profile', style: kAppBarTitleStyle),
-            backgroundColor: kAppBackgroundAltGray,
-            elevation: 0,
-          ),
           backgroundColor: kAppBackgroundAltGray,
           body: SingleChildScrollView(
             child: Container(

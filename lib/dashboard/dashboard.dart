@@ -9,10 +9,12 @@ import 'package:the_pet_nest/home/home.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
+import 'package:the_pet_nest/konstants/styles.dart';
 import 'package:the_pet_nest/messaging/messaging.dart';
 import 'package:the_pet_nest/profiles/bloc/userProfile/userProfileBloc.dart';
 import 'package:the_pet_nest/profiles/bloc/userProfile/userProfileState.dart';
 import 'package:the_pet_nest/profiles/userProfile/userProfile.dart';
+import 'package:the_pet_nest/sidebar/component/welcome/welcomeModal.dart';
 import 'package:the_pet_nest/sidebar/sidebar.dart';
 
 class Dashboard extends StatefulWidget {
@@ -39,39 +41,78 @@ class _DashboardState extends State<Dashboard> {
     prefs = await SharedPreferences.getInstance();
   }
 
+  Widget appBarTitle = Text('ThePetNest', style: kAppBarTitleStyle);
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     switch (navigationOptions) {
       case BottomNavigationOptions.HOME:
         fragment = Home();
+        appBarTitle = Container(
+            width: 150,
+            child: Image.asset(
+              'assets/the_pet_nest.png',
+              height: 32.67,
+              cacheHeight: 100,
+              cacheWidth: 400,
+            ));
         break;
       case BottomNavigationOptions.BOOKING:
         fragment = Bookings();
+        appBarTitle = Container(
+            width: 150,
+            child: Image.asset(
+              'assets/the_pet_nest.png',
+              height: 32.67,
+              cacheHeight: 100,
+              cacheWidth: 400,
+            ));
         break;
       case BottomNavigationOptions.ME:
-        fragment = UserProfile();
+        if (prefs.getString(kDataToken) != null) {
+          fragment = UserProfile();
+          appBarTitle = Text('My Profile', style: kAppBarTitleStyle);
+        } else {
+          appBarTitle = Text('My Profile', style: kAppBarTitleStyle);
+          showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            builder: (context) => Theme(
+              data: ThemeData(canvasColor: Colors.transparent),
+              child: FractionallySizedBox(
+                heightFactor: 1,
+                child: WelcomeModal(),
+              ),
+            ),
+          );
+        }
         break;
       case BottomNavigationOptions.MESSAGE:
         fragment = Messaging();
+        appBarTitle = Text('Messages', style: kAppBarTitleStyle);
         break;
+      default:
+        appBarTitle = Container(
+            width: 150,
+            child: Image.asset(
+              'assets/the_pet_nest.png',
+              height: 32.67,
+              cacheHeight: 100,
+              cacheWidth: 400,
+            ));
     }
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: kAppBackgroundColor,
       appBar: AppBar(
         toolbarHeight: 60,
-        backgroundColor: kAppBackgroundColor,
+        backgroundColor: navigationOptions == BottomNavigationOptions.MESSAGE ||
+                navigationOptions == BottomNavigationOptions.ME
+            ? kAppBackgroundAltGray
+            : kAppBackgroundColor,
         elevation: 0,
         title: Center(
-          child: Container(
-              width: 150,
-              child: Image.asset(
-                'assets/the_pet_nest.png',
-                height: 32.67,
-                cacheHeight: 100,
-                cacheWidth: 400,
-              )),
+          child: appBarTitle,
         ),
         leading: Container(
           child: TextButton(
@@ -85,35 +126,38 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () {
-              String token = prefs.getString(kDataToken) ?? '';
-              if (token.isNotEmpty)
-                Navigator.pushNamed(context, kNavigationUserprofile);
-            },
-            child: BlocProvider(
-              create: (_) => UserProfileBloc(UserProfileState()),
-              child: BlocBuilder<UserProfileBloc, UserProfileState>(
-                builder: (blocContext, state) {
-                  if (state.imageAddress.isEmpty) {
-                    return Container(
-                        width: 50,
-                        height: 50,
-                        child: Image.asset('assets/images/avatar.png'));
-                  } else {
-                    return ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Image.network(
-                          state.imageAddress,
-                          height: 50,
-                          width: 50,
-                          fit: BoxFit.fitWidth,
-                        ));
-                  }
-                },
-              ),
-            ),
-          ),
+          navigationOptions == BottomNavigationOptions.MESSAGE ||
+                  navigationOptions == BottomNavigationOptions.ME
+              ? Text('')
+              : TextButton(
+                  onPressed: () {
+                    String token = prefs.getString(kDataToken) ?? '';
+                    if (token.isNotEmpty)
+                      Navigator.pushNamed(context, kNavigationUserprofile);
+                  },
+                  child: BlocProvider(
+                    create: (_) => UserProfileBloc(UserProfileState()),
+                    child: BlocBuilder<UserProfileBloc, UserProfileState>(
+                      builder: (blocContext, state) {
+                        if (state.imageAddress.isEmpty) {
+                          return Container(
+                              width: 50,
+                              height: 50,
+                              child: Image.asset('assets/images/avatar.png'));
+                        } else {
+                          return ClipRRect(
+                              borderRadius: BorderRadius.circular(25),
+                              child: Image.network(
+                                state.imageAddress,
+                                height: 50,
+                                width: 50,
+                                fit: BoxFit.fitWidth,
+                              ));
+                        }
+                      },
+                    ),
+                  ),
+                ),
         ],
       ),
       drawer: Sidebar(),
@@ -141,7 +185,7 @@ class _DashboardState extends State<Dashboard> {
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: kAppIconColor.withOpacity(.3),
+                              color: kAppIconColor.withOpacity(.1),
                               spreadRadius: 4,
                               blurRadius: 10,
                               // offset: Offset(3, 3),

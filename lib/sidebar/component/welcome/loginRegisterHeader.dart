@@ -16,7 +16,7 @@ class LoginRegisterHeader extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20),
             constraints: BoxConstraints(
               minWidth: 72,
-              minHeight: 23,
+              maxHeight: 32,
             ),
             decoration: BoxDecoration(
                 border: Border.all(
@@ -54,7 +54,7 @@ class LoginRegisterHeader extends StatelessWidget {
         ),
         Container(
             padding: EdgeInsets.symmetric(horizontal: 14),
-            constraints: BoxConstraints(minHeight: 23, minWidth: 76),
+            constraints: BoxConstraints(maxHeight: 32, minWidth: 76),
             decoration: BoxDecoration(
                 color: Color(0xFF232C63),
                 border: Border.all(

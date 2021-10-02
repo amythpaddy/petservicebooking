@@ -20,9 +20,11 @@ class PetVetHeroCard extends StatelessWidget {
           Positioned(
             top: 0,
             right: 0,
-            child: Image.asset('assets/vetimage.png',fit: BoxFit.fill,
+            child: Image.asset(
+              'assets/vetimage.png',
+              fit: BoxFit.fill,
               height: 162,
-              ),
+            ),
           ),
           Positioned(
               child: CustomPaint(
@@ -70,9 +72,10 @@ class PetVetHeroCard extends StatelessWidget {
             ),
           ),
           Positioned(
-              top: 92,
+              top: 105,
               left: 18,
               child: Container(
+                height: 29,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                     color: Colors.white),

@@ -83,61 +83,68 @@ class _HomeState extends State<Home> {
                       )
                     ],
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 13, bottom: 10),
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Text(
-                          'How it work?',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                              color: Color(0xFF232C63)),
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        SvgPicture.asset('assets/images/home/how_it_work.svg'),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Search pet cares\nheroes by location\nand service',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  height: 1.5,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            Text('Schedule your\nappointment at\nhome',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    height: 1.5,
-                                    fontWeight: FontWeight.w400)),
-                            Text(
-                                'Sit back and relax!\nYour pet hero is on\nhis way',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    height: 1.5,
-                                    fontWeight: FontWeight.w400))
-                          ],
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                      ],
-                    ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 13, bottom: 10),
+              color: Colors.white,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 12,
                   ),
+                  Text(
+                    'How it work?',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        color: Color(0xFF232C63)),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  SvgPicture.asset('assets/images/home/how_it_work.svg'),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Search pet cares\nheroes by location\nand service',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 10,
+                            height: 1.5,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Text('Schedule your\nappointment at\nhome',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 10,
+                              height: 1.5,
+                              fontWeight: FontWeight.w400)),
+                      Text('Sit back and relax!\nYour pet hero is on\nhis way',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 10,
+                              height: 1.5,
+                              fontWeight: FontWeight.w400))
+                    ],
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Container(
                     margin: EdgeInsets.only(top: 13, bottom: 10),
                     child: Text(
@@ -218,7 +225,9 @@ class _HomeState extends State<Home> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextButton(onPressed: ()=>Navigator.pushNamed(context, kNavigationReferAndEarn),
+                TextButton(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, kNavigationReferAndEarn),
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white, boxShadow: [kContainerBoxShadow]),
@@ -227,19 +236,24 @@ class _HomeState extends State<Home> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          SvgPicture.asset('assets/images/home/refer_n_earn.svg'),
+                          SvgPicture.asset(
+                              'assets/images/home/refer_n_earn.svg'),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'Refer and Earn',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 15,color:Colors.black),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 15,
+                                    color: Colors.black),
                               ),
                               Text(
                                 'Guaranteed reward for every referral',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 12,color:Colors.black),
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                    color: Colors.black),
                               )
                             ],
                           )
@@ -349,7 +363,12 @@ class _HomeState extends State<Home> {
                   padding: EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
                       color: Colors.white, boxShadow: [kContainerBoxShadow]),
-                  child: Center(child: Image.asset('assets/skillindia.png')),
+                  child: Center(
+                      child: Image.asset(
+                    'assets/skillindia.png',
+                    width: 128.85,
+                    height: 91.04,
+                  )),
                 )
               ],
             ),

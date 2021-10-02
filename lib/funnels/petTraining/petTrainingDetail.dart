@@ -329,7 +329,8 @@ class PetTrainingDetail extends StatelessWidget {
                             children: [
                               SvgPicture.asset(
                                 'assets/images/home/refer_n_earn.svg',
-                                height: 36,
+                                height: 56,
+                                width: 56,
                               ),
                               SizedBox(
                                 width: 20,
@@ -509,11 +510,6 @@ class PetTrainingDetail extends StatelessWidget {
                           }),
                         ],
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10.75),
-                      child: SvgPicture.asset(
-                          'assets/images/funnels/pet_training/city_list.svg'),
                     ),
                     SizedBox(
                       height: 100,

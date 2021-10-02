@@ -103,7 +103,7 @@ class PetGroomingService extends StatelessWidget
           child: Scaffold(
             appBar: AppBar(
               elevation: 0,
-              backgroundColor: kAppBackgroundAltGray,
+              backgroundColor: kAppBackgroundColor,
               leading: BlocBuilder<PetGroomingBloc, FunnelState>(
                 builder: (blocContext, state) {
                   return IconButton(
@@ -160,7 +160,7 @@ class PetGroomingService extends StatelessWidget
                 },
               ),
             ),
-            backgroundColor: kAppBackgroundAltGray,
+            backgroundColor: kAppBackgroundColor,
             body: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -225,7 +225,8 @@ class PetGroomingService extends StatelessWidget
                       //     .updateBookingData(state.bookingConfirmationData!);
                       BlocProvider.of<BookingBloc>(blocContext)
                           .getBookingDetails(
-                              state.bookingConfirmationData!.lead!.id!,state.bookingConfirmationData!.lead!.leadType!);
+                              state.bookingConfirmationData!.lead!.id!,
+                              state.bookingConfirmationData!.lead!.leadType!);
                       body = ScreenBookingConfirmation(
                         onBookingConfirmation: this,
                         currentFunnel: FunnelType.PET_GROOMING,

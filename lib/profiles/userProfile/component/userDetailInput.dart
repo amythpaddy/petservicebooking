@@ -60,7 +60,7 @@ class UserDetailInput extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                     color: showError ? Colors.redAccent : Color(0x331A202E)),
-                color: disabled ? Colors.grey[300] : Colors.white),
+                color: disabled ? Colors.grey[100] : Colors.white),
             alignment: Alignment.center,
             padding: EdgeInsets.only(top: 4, bottom: 2, left: 10, right: 10),
             child: TextFormField(

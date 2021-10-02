@@ -63,7 +63,7 @@ class _SidebarState extends State<Sidebar> {
           ListTile(
             leading: SvgPicture.asset(
                 'assets/images/sidebar/registerAsPetPartner.svg'),
-            title: Text('Register as Pet Partner',
+            title: Text('Register as Partner',
                 style: TextStyle(
                     color: Color(0xFF232C63),
                     fontWeight: FontWeight.w400,

@@ -156,6 +156,9 @@ class PetGroomingDetail extends StatelessWidget {
                                 height: 1.5,
                                 color: kTextColorBlue),
                           ),
+                          SizedBox(
+                            height: 16.13,
+                          ),
                           BlocBuilder<PackageBloc, PackageState>(
                               builder: (blocContext, state) {
                             return Container(
@@ -255,6 +258,7 @@ class PetGroomingDetail extends StatelessWidget {
                                   : SingleChildScrollView(
                                       child: Container(
                                         alignment: Alignment.topCenter,
+                                        margin: EdgeInsets.only(left: 5),
                                         constraints: BoxConstraints(
                                           maxHeight: 200,
                                         ),
@@ -309,7 +313,8 @@ class PetGroomingDetail extends StatelessWidget {
                             children: [
                               SvgPicture.asset(
                                 'assets/images/home/refer_n_earn.svg',
-                                height: 36,
+                                height: 56,
+                                width: 56,
                               ),
                               SizedBox(
                                 width: 20,
@@ -402,7 +407,7 @@ class PetGroomingDetail extends StatelessWidget {
                               Text(
                                 'Pet Services at Home with Safety',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 16),
+                                    fontWeight: FontWeight.w700, fontSize: 16),
                               )
                             ]),
                           ),
@@ -491,9 +496,13 @@ class PetGroomingDetail extends StatelessWidget {
                       ),
                     ),
                     Container(
+                      color: Colors.white,
                       margin: EdgeInsets.only(top: 10.75),
                       child: SvgPicture.asset(
-                          'assets/images/funnels/pet_training/city_list.svg'),
+                        'assets/images/funnels/pet_training/city_list.svg',
+                        width: SizeConfig.screenWidth,
+                        fit: BoxFit.fitWidth,
+                      ),
                     ),
                     SizedBox(
                       height: 100,
