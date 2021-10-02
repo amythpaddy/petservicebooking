@@ -49,7 +49,7 @@ class BookingDetail extends StatelessWidget
             print(state.bookingCancelled);
             if (state.initialLoad)
               BlocProvider.of<BookingBloc>(blocContext)
-                  .getBookingDetails(args.leadId,args.leadType);
+                  .getBookingDetails(args.leadId, args.leadType);
             return state.isProcessing
                 ? Center(
                     child: CircularProgressIndicator(
@@ -100,7 +100,8 @@ class BookingDetail extends StatelessWidget
                 bookingConfirmationData: bookingConfirmationData))) ??
         false;
     if (result)
-      BlocProvider.of<BookingBloc>(blocContext)
-          .getBookingDetails(bookingConfirmationData.lead!.id!);
+      BlocProvider.of<BookingBloc>(blocContext).getBookingDetails(
+          bookingConfirmationData.lead!.id!,
+          bookingConfirmationData.lead!.leadType!);
   }
 }

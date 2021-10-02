@@ -10,10 +10,14 @@ import 'package:the_pet_nest/konstants/values.dart';
 
 class CustomDateTimeSelectorComponent extends StatelessWidget {
   const CustomDateTimeSelectorComponent(
-      {Key? key, this.showTimeSlots = false, required this.onConfirm})
+      {Key? key,
+      this.showTimeSlots = false,
+      required this.onConfirm,
+      required this.leadType})
       : super(key: key);
   final bool showTimeSlots;
   final void Function(String, String) onConfirm;
+  final String leadType;
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +42,8 @@ class CustomDateTimeSelectorComponent extends StatelessWidget {
                       lastDate: DateTime(
                           DateTime.now().year + 1, DateTime.now().month),
                       onDateChanged: (date) {
-                        BlocProvider.of<DateTimeBloc>(blocContext)
-                            .setDate(date, format: "dd-MM-yyyy");
+                        BlocProvider.of<DateTimeBloc>(blocContext).setDate(date,
+                            format: "dd-MM-yyyy", leadType: leadType);
                       }),
                   Visibility(
                       visible: showTimeSlots,

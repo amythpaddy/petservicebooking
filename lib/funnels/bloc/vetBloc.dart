@@ -8,6 +8,7 @@ import 'package:the_pet_nest/funnels/model/createOrderRequestModel.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
 import 'package:the_pet_nest/konstants/endpoints.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
 import 'package:the_pet_nest/utils/ApiCaller.dart';
 
@@ -275,7 +276,8 @@ class VetBloc extends Bloc<FunnelEvent, FunnelState> {
         packageDetail: _packageDetail,
         date: _date,
         time: _time,
-        couponData: _couponData);
+        couponData: _couponData,
+        leadType: kLeadTypeVet);
     var response =
         await ApiCaller.post(kUrlCreateVetLead, body, withToken: true);
     BookingConfirmationResponseModel responseModel =

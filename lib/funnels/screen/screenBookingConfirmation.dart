@@ -88,7 +88,10 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                   onPressed: () {
                                     BlocProvider.of<BookingBloc>(context)
                                         .cancelBooking(
-                                            state.bookingData!.lead!.id!,state.bookingData!.lead!.leadType!,state.bookingData!.lead!.appointmentDatetime!);
+                                            state.bookingData!.lead!.id!,
+                                            state.bookingData!.lead!.leadType!,
+                                            state.bookingData!.lead!
+                                                .appointmentDatetime!);
                                   },
                                 );
                               }),
@@ -432,8 +435,10 @@ class ScreenBookingConfirmation extends StatelessWidget {
                   BlocProvider.of<BookingBloc>(blocContext).reschedule(
                       state.bookingData!.lead!.id.toString(),
                       selectedDate,
-                      getTimeSlot(timeSlot: selectedTime),state.bookingData!.lead!.leadType!);
+                      getTimeSlot(timeSlot: selectedTime),
+                      state.bookingData!.lead!.leadType!);
                 },
+                leadType: state.bookingData!.lead!.leadType!,
               ));
         })
       ],

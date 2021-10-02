@@ -14,7 +14,10 @@ import 'package:the_pet_nest/utils/utils.dart';
 
 class ScreenDateTimeSelection extends StatelessWidget {
   const ScreenDateTimeSelection(
-      {Key? key, required this.onDateTimeSelected, required this.cityId, required this.leadType})
+      {Key? key,
+      required this.onDateTimeSelected,
+      required this.cityId,
+      required this.leadType})
       : super(key: key);
   final DateTimeSelectionInterface onDateTimeSelected;
   final int cityId;
@@ -22,7 +25,8 @@ class ScreenDateTimeSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<DateTimeBloc>(context).setDate(DateTime.now(),leadType: leadType);
+    BlocProvider.of<DateTimeBloc>(context)
+        .setDate(DateTime.now(), leadType: leadType);
     BlocProvider.of<DateTimeBloc>(context).getBookedTimeSlots(leadType);
     onDateTimeSelected.dateSelected(
         context, DateFormat('dd/MM/yyyy').format(DateTime.now()));
@@ -61,7 +65,7 @@ class ScreenDateTimeSelection extends StatelessWidget {
                                 .then((data) {
                               if (data != null) {
                                 BlocProvider.of<DateTimeBloc>(blocContext)
-                                    .setDate(data,leadType: );
+                                    .setDate(data, leadType: leadType);
                                 onDateTimeSelected.dateSelected(blocContext,
                                     DateFormat('dd/MM/yyyy').format(data));
                               } else {

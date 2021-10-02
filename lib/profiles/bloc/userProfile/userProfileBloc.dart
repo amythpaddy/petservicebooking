@@ -26,6 +26,8 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
     _email = _pref.getString(kDataUserEmail) ?? '';
     _name = _pref.getString(kDataUserFirstName) ?? '';
     _number = _pref.getString(kDataUserPhone) ?? '';
+    _referralCode = _pref.getString(kDataUserReferral) ?? '';
+    _imageAddress = _pref.getString(kDataUserImage) ?? '';
     add(UserProfileEvents.UPDATE_DATA_FROM_STORE);
   }
 
@@ -54,9 +56,9 @@ class UserProfileBloc extends Bloc<UserProfileEvents, UserProfileState> {
     _email = userDetail.data!.user!.email!;
     _name = userDetail.data!.user!.firstName!;
     _referralCode = userDetail.data!.user!.referralCode ?? "";
-    _imageAddress = userDetail!.data!.user!.image == null
+    _imageAddress = userDetail.data!.user!.image == null
         ? ""
-        : userDetail!.data!.user!.image!.imageData!.url!;
+        : userDetail.data!.user!.image!.imageData!.url!;
 
     _pref.setString(kDataUserEmail, _email);
     _pref.setString(kDataUserFirstName, _name);
