@@ -55,6 +55,14 @@ class ScreenAddressSelection extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                               color: Colors.white),
                           child: DropdownSearch<CityDetail>(
+                            dropdownSearchDecoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(12, 2, 0, 0),
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0x331A202E)),
+                                  borderRadius: BorderRadius.circular(12),
+                                )),
                             mode: Mode.DIALOG,
                             showSelectedItem: true,
                             items: state.cityList!.cityList,

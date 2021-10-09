@@ -179,10 +179,24 @@ class EditPetProfile extends StatelessWidget {
                                   ),
                                 )
                               : DropdownSearch<BreedDetail>(
+                                  dropdownSearchDecoration: InputDecoration(
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(12, 2, 0, 0),
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0x331A202E)),
+                                        borderRadius: BorderRadius.circular(12),
+                                      )),
+                                  emptyBuilder: (context, searchText) =>
+                                      Scaffold(
+                                          body: Center(
+                                    child: Text(
+                                      'No Data Found',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  )),
                                   mode: Mode.BOTTOM_SHEET,
                                   showSelectedItem: true,
-                                  searchBoxDecoration:
-                                      InputDecoration(fillColor: Colors.green),
                                   items: state.addUpdatePet!.petCategory ==
                                           PetCategory.DOG
                                       ? state.petBreeds!.listOfDogBreed

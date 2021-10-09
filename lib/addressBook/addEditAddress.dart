@@ -201,6 +201,25 @@ class AddEditMap extends StatelessWidget {
                                                                         .transparent)),
                                                         child: DropdownSearch<
                                                             StateData>(
+                                                          dropdownSearchDecoration:
+                                                              InputDecoration(
+                                                                  contentPadding:
+                                                                      EdgeInsets
+                                                                          .fromLTRB(
+                                                                              12,
+                                                                              2,
+                                                                              0,
+                                                                              0),
+                                                                  border:
+                                                                      OutlineInputBorder(
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                            color:
+                                                                                Color(0x331A202E)),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12),
+                                                                  )),
                                                           mode:
                                                               Mode.BOTTOM_SHEET,
                                                           showSelectedItem:
@@ -270,6 +289,20 @@ class AddEditMap extends StatelessWidget {
                                                           : Colors
                                                               .transparent)),
                                               child: DropdownSearch<Cities>(
+                                                dropdownSearchDecoration:
+                                                    InputDecoration(
+                                                        contentPadding:
+                                                            EdgeInsets.fromLTRB(
+                                                                12, 2, 0, 0),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                              color: Color(
+                                                                  0x331A202E)),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                        )),
                                                 mode: Mode.BOTTOM_SHEET,
                                                 showSearchBox: true,
                                                 showSelectedItem: true,

@@ -172,6 +172,14 @@ class AddPetProfile extends StatelessWidget {
                                         ? Colors.redAccent
                                         : Colors.transparent)),
                             child: DropdownSearch<String>(
+                              dropdownSearchDecoration: InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(12, 2, 0, 0),
+                                  border: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0x331A202E)),
+                                    borderRadius: BorderRadius.circular(12),
+                                  )),
                               mode: Mode.BOTTOM_SHEET,
                               showSelectedItem: true,
                               items: ['Dog', 'Cat'],
@@ -204,12 +212,33 @@ class AddPetProfile extends StatelessWidget {
                               : Container(
                                   height: 50,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(14),
                                       border: Border.all(
+                                          width: 1,
                                           color: state.errorBreedIsMissing
                                               ? Colors.redAccent
                                               : Colors.transparent)),
                                   child: DropdownSearch<BreedDetail>(
+                                    dropdownSearchDecoration: InputDecoration(
+                                        contentPadding:
+                                            EdgeInsets.fromLTRB(12, 2, 0, 0),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 1,
+                                              color: state.errorBreedIsMissing
+                                                  ? Colors.redAccent
+                                                  : Color(0x331A202E)),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        )),
+                                    emptyBuilder: (context, searchText) =>
+                                        Scaffold(
+                                            body: Center(
+                                      child: Text(
+                                        'No Data Found',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    )),
                                     mode: Mode.BOTTOM_SHEET,
                                     showSelectedItem: true,
                                     items: state.addUpdatePet!.petCategory ==
