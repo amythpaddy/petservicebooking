@@ -15,12 +15,12 @@ import 'package:the_pet_nest/konstants/enums.dart';
 
 class BookingDetail extends StatelessWidget
     implements BookingConfirmationInterface {
-  const BookingDetail({Key? key}) : super(key: key);
+  BookingDetail({Key? key}) : super(key: key);
+  late final BookingDetailArguments? args;
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as BookingDetailArguments;
+    args = ModalRoute.of(context)!.settings.arguments as BookingDetailArguments;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kAppBackgroundColor,
@@ -49,18 +49,17 @@ class BookingDetail extends StatelessWidget
             print(state.bookingCancelled);
             if (state.initialLoad)
               BlocProvider.of<BookingBloc>(blocContext)
-                  .getBookingDetails(args.leadId, args.leadType);
+                  .getBookingDetails(args!.leadId, args!.leadType);
             return state.isProcessing
                 ? Center(
                     child: CircularProgressIndicator(
                     color: kAppIconColor,
                   ))
-                : state.bookingCancelled || !args.onGoing
+                : state.bookingCancelled || !args!.onGoing
                     ? ScreenBookingCancelled()
                     : ScreenBookingConfirmation(
                         onBookingConfirmation: this,
-                        currentFunnel: getCurrentFunnel(
-                            state.bookingData!.lead!.leadType!),
+                        currentFunnel: getCurrentFunnel(args!.leadType),
                       );
           },
         ),
@@ -97,7 +96,9 @@ class BookingDetail extends StatelessWidget
       blocContext, BookingConfirmationData bookingConfirmationData) async {
     bool result = await Navigator.of(blocContext).push(MaterialPageRoute(
             builder: (context) => PaymentScreen(
-                bookingConfirmationData: bookingConfirmationData))) ??
+                  bookingConfirmationData: bookingConfirmationData,
+                  leadType: args!.leadType,
+                ))) ??
         false;
     if (result)
       BlocProvider.of<BookingBloc>(blocContext).getBookingDetails(

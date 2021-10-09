@@ -9,6 +9,7 @@ class CreateOrderRequestModel {
   LeadDetails leadDetails;
 
   CreateOrderRequestModel({required this.lead, required this.leadDetails});
+
   static Map<String, dynamic> fromUserSelectedData(
       {required Address? address,
       required List<CustomerPet>? customerPet,
@@ -16,34 +17,48 @@ class CreateOrderRequestModel {
       required String date,
       required String time,
       required CouponData? couponData,
-       required String leadType}) {
+      required String leadType}) {
+    String packageType;
+    switch (leadType) {
+      case kLeadTypeVet:
+        packageType = 'VetPackage';
+        break;
+      case kLeadTypeTraining:
+        packageType = 'DogTrainingPackage';
+        break;
+      default:
+        packageType = 'GroomingPackage';
+    }
     List<LeadPetPackagesAttributes> leadPetPackagesAttributes = [];
     for (int i = 0; i < customerPet!.length; i++) {
       LeadPetPackagesAttributes lppa = LeadPetPackagesAttributes(
-          customerPetId: customerPet[i].id!,
-          packageId: packageDetail![i].id!,
-          packageType: 'GroomingPackage');
+        customerPetId: customerPet[i].id!,
+        packageId: packageDetail![i].id!,
+        packageType: packageType,
+      );
       leadPetPackagesAttributes.add(lppa);
     }
     Lead lead = Lead(
         location: address!.citySlug,
         appointmentDatetime: '$date $time',
         additionalNote: "",
-        leadPetPackagesAttributes: leadPetPackagesAttributes);
+        leadPetPackagesAttributes: leadPetPackagesAttributes,
+        addressId: address.id,
+        leadType: leadType);
 
     LeadDetails leadDetails = LeadDetails(
         lat: address.lat.toString(),
         lng: address.long.toString(),
         addressId: address.id);
     Map<String, dynamic> request = Map<String, dynamic>();
-    if(leadType==kLeadTypeGrooming)
-    request["lead"] = lead.toJson();
-    if(leadType==kLeadTypeVet)
-    request["vet_lead"] = lead.toJson();
-    if(leadType==kLeadTypeTraining)
-    request["dog_training_lead"] = lead.toJson();
-    request["lead_details"] = leadDetails.toJson();
-    request["address_id"]=address.id;
+    if (leadType == kLeadTypeGrooming) request["lead"] = lead.toJson();
+    if (leadType == kLeadTypeVet) request["vet_lead"] = lead.toJson();
+    if (leadType == kLeadTypeTraining)
+      request["dog_training_lead"] = lead.toJson();
+    if (leadType == kLeadTypeGrooming)
+      request["lead_details"] = leadDetails.toJson();
+    else if (leadType == kLeadTypeTraining || leadType == kLeadTypeVet)
+      request["address_id"] = address.id;
     return request;
   }
 
@@ -64,22 +79,31 @@ class Lead {
   String appointmentDatetime;
   String additionalNote;
   List<LeadPetPackagesAttributes> leadPetPackagesAttributes;
+  int? addressId;
+  String leadType;
 
   Lead(
       {required this.location,
       required this.appointmentDatetime,
       required this.additionalNote,
-      required this.leadPetPackagesAttributes});
+      required this.leadPetPackagesAttributes,
+      this.addressId,
+      required this.leadType});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['location'] = this.location;
+    if (leadType == kLeadTypeGrooming) data['location'] = this.location;
     data['appointment_datetime'] = this.appointmentDatetime;
-    data['additional_note'] = this.additionalNote;
-    data['additional_info'] = this.additionalNote;
+    if (leadType == kLeadTypeGrooming || leadType == kLeadTypeVet)
+      data['additional_note'] = this.additionalNote;
+    else if (leadType == kLeadTypeTraining)
+      data['additional_info'] = this.additionalNote;
     if (this.leadPetPackagesAttributes != null) {
       data['lead_pet_packages_attributes'] =
           this.leadPetPackagesAttributes.map((v) => v.toJson()).toList();
+    }
+    if (addressId != null) {
+      data['address_id'] = addressId;
     }
     return data;
   }

@@ -51,7 +51,9 @@ class ScreenOngoingBookings extends StatelessWidget {
                       textStyle: TextStyle(color: Colors.black)),
                   onPressed: () {
                     BookingDetailArguments args = BookingDetailArguments(
-                        leadId: onGoingBookings[index].id!, onGoing: true,leadType: onGoingBookings[index].leadType!);
+                        leadId: onGoingBookings[index].id!,
+                        onGoing: true,
+                        leadType: onGoingBookings[index].leadType!);
                     Navigator.pushNamed(
                             blocContext, kNavigationBookingDetailsPage,
                             arguments: args)
@@ -60,15 +62,21 @@ class ScreenOngoingBookings extends StatelessWidget {
                                 .getBookings(page: 1));
                   },
                   child: OngoingBookingCard(
-                      petName: onGoingBookings[index]
-                          .leadPetPackages![0]
-                          .customerPet!
-                          .name!,
+                      petName:
+                          onGoingBookings[index].leadPetPackages!.length > 0
+                              ? onGoingBookings[index]
+                                  .leadPetPackages![0]
+                                  .customerPet!
+                                  .name!
+                              : '',
                       leadUUID: onGoingBookings[index].leadUuid!,
-                      dateTime: DateFormat("EEEE, dd MMM,yy - hh:mm a").format(
-                          DateTime.parse(
-                              onGoingBookings[index].appointmentDatetime!)),
-                      serviceName: onGoingBookings[index].leadType!,
+                      dateTime: onGoingBookings[index].appointmentDatetime !=
+                              null
+                          ? DateFormat("EEEE, dd MMM,yy - hh:mm a").format(
+                              DateTime.parse(
+                                  onGoingBookings[index].appointmentDatetime!))
+                          : '',
+                      serviceName: onGoingBookings[index].leadType ?? '',
                       petHero: onGoingBookings[index].petHero,
                       ongoing: onGoingBookings[index].status == "in_progress"),
                 );

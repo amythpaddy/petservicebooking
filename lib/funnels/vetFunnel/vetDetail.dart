@@ -6,6 +6,8 @@ import 'package:the_pet_nest/addressBook/bloc/addressBookState.dart';
 import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/funnels/bloc/packageBloc/packageBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/packageBloc/packageState.dart';
+import 'package:the_pet_nest/funnels/bloc/serviceDetailBloc/serviceDetailBloc.dart';
+import 'package:the_pet_nest/funnels/bloc/serviceDetailBloc/serviceDetailState.dart';
 import 'package:the_pet_nest/funnels/petGrooming/component/howItWorksCard.dart';
 import 'package:the_pet_nest/funnels/vetFunnel/components/VetConsultationDetailComponent.dart';
 import 'package:the_pet_nest/funnels/vetFunnel/components/nutritionistConsultationDetailComponent.dart';
@@ -16,6 +18,7 @@ import 'package:the_pet_nest/home/component/petServicesDisplay.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/petHero/components/petHeroForDetailPage.dart';
 
 class VetDetail extends StatelessWidget {
@@ -35,6 +38,9 @@ class VetDetail extends StatelessWidget {
         BlocProvider(
             create: (_) => AddressBookBloc(initialState: AddressBookState())),
         BlocProvider(create: (_) => HomeBloc(HomeState())),
+        BlocProvider(
+            create: (_) =>
+                ServiceDetailBloc(ServiceDetailState(), leadType: kLeadTypeVet))
       ],
       child: MultiBlocListener(
         listeners: [
@@ -43,7 +49,6 @@ class VetDetail extends StatelessWidget {
             if (state.cityList != null) {
               state.cityList!.cityList.forEach((element) {
                 if (element.cityName == 'Delhi') {
-                  print('delhi found');
                   BlocProvider.of<PackageBloc>(blocContext)
                       .getVetScreedDetailPackages(element.cityId);
                 }
@@ -256,6 +261,7 @@ class VetDetail extends StatelessWidget {
                         ),
                       ),
                       Container(
+                        width: SizeConfig.screenWidth,
                         margin: EdgeInsets.only(top: 12),
                         color: kAppBackgroundColor,
                         child: Column(children: [
@@ -267,38 +273,32 @@ class VetDetail extends StatelessWidget {
                                 fontSize: 18,
                                 height: 1.5),
                           ),
-                          BlocBuilder<HomeBloc, HomeState>(
+                          BlocBuilder<ServiceDetailBloc, ServiceDetailState>(
                               builder: (blocContext, state) {
                             return Container(
                               margin: EdgeInsets.only(left: 18, top: 21),
                               height: 180,
-                              child: state.homeData == null
+                              child: state.fetchingData
                                   ? CircularProgressIndicator()
                                   : ListView.builder(
-                                      itemCount:
-                                          state.homeData!.partners!.length,
+                                      itemCount: state.petHeroList!.data.length,
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
                                         return PetHeroForDetailPage(
-                                          name: state.homeData!.partners![index]
-                                              .fullName!,
-                                          ratings: state
-                                                      .homeData!
-                                                      .partners![index]
-                                                      .rating ==
-                                                  null
-                                              ? "0"
-                                              : state.homeData!.partners![index]
-                                                  .rating!
-                                                  .toString(),
-                                          jobsDone: state.homeData!
-                                              .partners![index].jobsCount!
-                                              .toString(),
-                                        );
+                                            name: state.petHeroList!.data[index]
+                                                .fullName!,
+                                            ratings: state.petHeroList!
+                                                        .data[index].rating ==
+                                                    null
+                                                ? "0"
+                                                : state.petHeroList!.data[index]
+                                                    .rating!
+                                                    .toString(),
+                                            jobsDone: "");
                                       }),
                             );
-                          }),
+                          })
                         ]),
                       ),
                       TextButton(

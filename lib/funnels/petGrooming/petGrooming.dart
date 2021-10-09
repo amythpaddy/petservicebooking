@@ -226,7 +226,7 @@ class PetGroomingService extends StatelessWidget
                       BlocProvider.of<BookingBloc>(blocContext)
                           .getBookingDetails(
                               state.bookingConfirmationData!.lead!.id!,
-                              state.bookingConfirmationData!.lead!.leadType!);
+                              kLeadTypeGrooming);
                       body = ScreenBookingConfirmation(
                         onBookingConfirmation: this,
                         currentFunnel: FunnelType.PET_GROOMING,
@@ -361,7 +361,9 @@ class PetGroomingService extends StatelessWidget
     BlocProvider.of<PetGroomingBloc>(blocContext).paymentPageOpen();
     bool result = await Navigator.of(blocContext).push(MaterialPageRoute(
             builder: (context) => PaymentScreen(
-                bookingConfirmationData: bookingConfirmationData))) ??
+                  bookingConfirmationData: bookingConfirmationData,
+                  leadType: kLeadTypeGrooming,
+                ))) ??
         false;
     BlocProvider.of<PetGroomingBloc>(blocContext).openBookingConfirmation();
   }

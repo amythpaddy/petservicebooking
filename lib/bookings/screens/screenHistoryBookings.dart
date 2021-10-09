@@ -39,7 +39,9 @@ class ScreenBookingsHistory extends StatelessWidget {
                       textStyle: TextStyle(color: Colors.black)),
                   onPressed: () {
                     BookingDetailArguments args = BookingDetailArguments(
-                        leadId: historyBookings[index].id!, onGoing: false,leadType: historyBookings[index].leadType!);
+                        leadId: historyBookings[index].id!,
+                        onGoing: false,
+                        leadType: historyBookings[index].leadType!);
                     Navigator.pushNamed(
                             blocContext, kNavigationBookingDetailsPage,
                             arguments: args)
@@ -48,15 +50,19 @@ class ScreenBookingsHistory extends StatelessWidget {
                                 .getBookings(page: 1));
                   },
                   child: HistoryBookingCard(
-                    petName: historyBookings[index]
-                        .leadPetPackages![0]
-                        .customerPet!
-                        .name!,
+                    petName: historyBookings[index].leadPetPackages!.length > 0
+                        ? historyBookings[index]
+                            .leadPetPackages![0]
+                            .customerPet!
+                            .name!
+                        : '',
                     leadUUID: historyBookings[index].leadUuid!,
-                    dateTime: DateFormat("EEEE, dd MMM,yy - hh:mm a").format(
-                        DateTime.parse(
-                            historyBookings[index].appointmentDatetime!)),
-                    serviceName: historyBookings[index].leadType!,
+                    dateTime: historyBookings[index].appointmentDatetime != null
+                        ? DateFormat("EEEE, dd MMM,yy - hh:mm a").format(
+                            DateTime.parse(
+                                historyBookings[index].appointmentDatetime!))
+                        : '',
+                    serviceName: historyBookings[index].leadType ?? '',
                     petHero: historyBookings[index].petHero,
                     cancelled: historyBookings[index].status == 'cancelled',
                     city: '', //todo: city name to be fetched,

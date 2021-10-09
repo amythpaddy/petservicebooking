@@ -6,17 +6,21 @@ import 'package:the_pet_nest/funnels/model/paymentPostData.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({Key? key, required this.bookingConfirmationData})
+  const PaymentScreen(
+      {Key? key, required this.bookingConfirmationData, required this.leadType})
       : super(key: key);
   final BookingConfirmationData bookingConfirmationData;
+  final String leadType;
 
   @override
-  _PaymentScreenState createState() => _PaymentScreenState();
+  _PaymentScreenState createState() => _PaymentScreenState(leadType);
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
   WebViewController? _controller;
   bool loading = false;
+  String leadType;
+  _PaymentScreenState(this.leadType);
 
   @override
   void dispose() {
@@ -41,13 +45,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
             debuggingEnabled: false,
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (controller) {
-              print(htmlPostData(widget.bookingConfirmationData.lead!.id,
-                  widget.bookingConfirmationData.lead!.leadType));
+              print(htmlPostData(
+                  widget.bookingConfirmationData.lead!.id, leadType));
               _controller = controller;
               _controller!.loadUrl(
                 Uri.dataFromString(
-                        htmlPostData(widget.bookingConfirmationData.lead!.id,
-                            widget.bookingConfirmationData.lead!.leadType),
+                        htmlPostData(
+                            widget.bookingConfirmationData.lead!.id, leadType),
                         mimeType: 'text/html')
                     .toString(),
               );

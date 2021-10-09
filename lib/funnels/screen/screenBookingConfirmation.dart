@@ -12,6 +12,7 @@ import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/utils/utils.dart';
 
 class ScreenBookingConfirmation extends StatelessWidget {
@@ -26,6 +27,18 @@ class ScreenBookingConfirmation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String leadType = '';
+    switch (currentFunnel) {
+      case FunnelType.VET_SERVICE:
+        leadType = kLeadTypeVet;
+        break;
+      case FunnelType.PET_GROOMING:
+        leadType = kLeadTypeGrooming;
+        break;
+      default:
+        leadType = kLeadTypeTraining;
+        break;
+    }
     return Stack(
       children: [
         Container(
@@ -89,9 +102,10 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                     BlocProvider.of<BookingBloc>(context)
                                         .cancelBooking(
                                             state.bookingData!.lead!.id!,
-                                            state.bookingData!.lead!.leadType!,
+                                            leadType,
                                             state.bookingData!.lead!
-                                                .appointmentDatetime!);
+                                                    .appointmentDatetime ??
+                                                '');
                                   },
                                 );
                               }),
@@ -150,16 +164,28 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                     title: 'Booking Id:',
                                     value:
                                         '${state.bookingData!.lead!.leadUuid!.toUpperCase()}'),
-                                BookingConfirmationDataComponent(
-                                    title: 'Time Slot:',
-                                    value: DateFormat("hh:mm a").format(
-                                        DateTime.parse(state.bookingData!.lead!
-                                            .appointmentDatetime!))),
-                                BookingConfirmationDataComponent(
-                                    title: 'Appointment Date:',
-                                    value: DateFormat("dd/MM/yyyy").format(
-                                        DateTime.parse(state.bookingData!.lead!
-                                            .appointmentDatetime!)))
+                                Visibility(
+                                  visible: state.bookingData!.lead!
+                                          .appointmentDatetime !=
+                                      null,
+                                  child: BookingConfirmationDataComponent(
+                                      title: 'Time Slot:',
+                                      value: DateFormat("hh:mm a").format(
+                                          DateTime.parse(state.bookingData!
+                                                  .lead!.appointmentDatetime ??
+                                              "2021-10-09T05:00:00.000+05:30"))),
+                                ),
+                                Visibility(
+                                  visible: state.bookingData!.lead!
+                                          .appointmentDatetime !=
+                                      null,
+                                  child: BookingConfirmationDataComponent(
+                                      title: 'Appointment Date:',
+                                      value: DateFormat("dd/MM/yyyy").format(
+                                          DateTime.parse(state.bookingData!
+                                                  .lead!.appointmentDatetime ??
+                                              "2021-10-09T05:00:00.000+05:30"))),
+                                )
                               ],
                             ),
                           ),
@@ -254,7 +280,8 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500,
-                                              height: 1.5),
+                                              height: 1.5,
+                                              color: Colors.black),
                                         ),
                                         Text(
                                           'Guaranteed reward for every referral',
@@ -332,9 +359,9 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                                             .leadPetPackages![
                                                                 index]
                                                             .package!
-                                                            .groomerPackage!
+                                                            .packageDetails!
                                                             .name!
-                                                        : '${state.bookingData!.lead!.leadPetPackages![index].package!.groomerPackage!.name!}, ',
+                                                        : '${state.bookingData!.lead!.leadPetPackages![index].package!.packageDetails!.name!}, ',
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -351,19 +378,40 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                     //todo: populate this value based on response from the api
                                     Container(
                                       decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.green),
+                                          border: Border.all(
+                                              color: state.bookingData!.lead!
+                                                              .paymentStatus ==
+                                                          kPaymentStatusFullyPaid ||
+                                                      state.bookingData!.lead!
+                                                              .paymentStatus ==
+                                                          kPaymentStatusOverPaid
+                                                  ? Colors.green
+                                                  : kAppIconColor),
                                           borderRadius:
                                               BorderRadius.circular(5)),
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 5),
                                       child: Text(
-                                        "Successful",
+                                        state.bookingData!.lead!
+                                                        .paymentStatus ==
+                                                    kPaymentStatusFullyPaid ||
+                                                state.bookingData!.lead!
+                                                        .paymentStatus ==
+                                                    kPaymentStatusOverPaid
+                                            ? "Successful"
+                                            : "Pending",
                                         style: TextStyle(
                                             height: 1.5,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
-                                            color: Colors.green),
+                                            color: state.bookingData!.lead!
+                                                            .paymentStatus !=
+                                                        kPaymentStatusFullyPaid ||
+                                                    state.bookingData!.lead!
+                                                            .paymentStatus !=
+                                                        kPaymentStatusOverPaid
+                                                ? kAppIconColor
+                                                : Colors.green),
                                       ),
                                     )
                                   ],
@@ -382,7 +430,7 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     Text(
-                                      '\u{20B9} 800',
+                                      '\u{20B9} ${state.bookingData!.lead!.price!.totalPrice ?? 0}',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 18,
@@ -397,28 +445,34 @@ class ScreenBookingConfirmation extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          TextButton(
-                            onPressed: () => onBookingConfirmation.payOnline(
-                                blocContext, state.bookingData!),
-                            child: Container(
-                                decoration: kDataContainerStyle,
-                                padding: EdgeInsets.all(10),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                        'assets/images/funnels/icon_payment_online.svg'),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      'Pay Online',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15,
-                                          height: 1.5),
-                                    )
-                                  ],
-                                )),
+                          Visibility(
+                            visible: state.bookingData!.lead!.paymentStatus !=
+                                    kPaymentStatusFullyPaid ||
+                                state.bookingData!.lead!.paymentStatus !=
+                                    kPaymentStatusOverPaid,
+                            child: TextButton(
+                              onPressed: () => onBookingConfirmation.payOnline(
+                                  blocContext, state.bookingData!),
+                              child: Container(
+                                  decoration: kDataContainerStyle,
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                          'assets/images/funnels/icon_payment_online.svg'),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'Pay Online',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15,
+                                            height: 1.5),
+                                      )
+                                    ],
+                                  )),
+                            ),
                           )
                         ],
                       );
@@ -436,9 +490,9 @@ class ScreenBookingConfirmation extends StatelessWidget {
                       state.bookingData!.lead!.id.toString(),
                       selectedDate,
                       getTimeSlot(timeSlot: selectedTime),
-                      state.bookingData!.lead!.leadType!);
+                      leadType);
                 },
-                leadType: state.bookingData!.lead!.leadType!,
+                leadType: leadType,
               ));
         })
       ],

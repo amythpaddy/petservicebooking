@@ -5,9 +5,10 @@ class BookingConfirmationResponseModel {
 
   BookingConfirmationResponseModel({this.data});
 
-  BookingConfirmationResponseModel.fromJson(Map<String, dynamic> json) {
+  BookingConfirmationResponseModel.fromJson(
+      Map<String, dynamic> json, String leadType) {
     data = json['data'] != null
-        ? new BookingConfirmationData.fromJson(json['data'])
+        ? new BookingConfirmationData.fromJson(json['data'], leadType)
         : null;
   }
 
@@ -25,8 +26,15 @@ class BookingConfirmationData {
 
   BookingConfirmationData({this.lead});
 
-  BookingConfirmationData.fromJson(Map<String, dynamic> json) {
-    lead = json['lead'] != null ? new _Lead.fromJson(json['lead']) : null;
+  BookingConfirmationData.fromJson(Map<String, dynamic> json, String leadType) {
+    if (json['lead'] != null)
+      lead = _Lead.fromJson(json['lead'], leadType);
+    else if (json['dog_training_lead'] != null)
+      lead = _Lead.fromJson(json['dog_training_lead'], leadType);
+    else if (json['vet_lead'] != null)
+      lead = _Lead.fromJson(json['vet_lead'], leadType);
+    else
+      lead = null;
   }
 
   Map<String, dynamic> toJson() {
@@ -53,7 +61,8 @@ class _Lead {
   _LeadDetail? leadDetail;
   Null userLeadCoupon;
   List<_LeadPetPackages>? leadPetPackages;
-
+  String? paymentStatus;
+  _Price? price;
   _Lead(
       {this.id,
       this.leadType,
@@ -68,13 +77,16 @@ class _Lead {
       this.notes,
       this.leadDetail,
       this.userLeadCoupon,
-      this.leadPetPackages});
+      this.leadPetPackages,
+      this.paymentStatus,
+      this.price});
 
-  _Lead.fromJson(Map<String, dynamic> json) {
+  _Lead.fromJson(Map<String, dynamic> json, String leadType) {
     id = json['id'];
-    leadType = json['lead_type'];
+    leadType = leadType;
     status = json['status'];
-    appointmentDatetime = json['appointment_datetime'];
+    appointmentDatetime =
+        json['appointment_datetime'] ?? json['appointment_date'];
     additionalNote = json['additional_note'];
     leadUuid = json['lead_uuid'];
     orderUuid = json['order_uuid'];
@@ -82,12 +94,14 @@ class _Lead {
     feedback = json['feedback'];
     petHero = json['pet_hero'];
     notes = json['notes'];
+    paymentStatus = json['payment_status'];
+    price = json['price'] != null ? new _Price.fromJson(json['price']) : null;
     leadDetail = json['lead_detail'] != null
         ? new _LeadDetail.fromJson(json['lead_detail'])
         : null;
     userLeadCoupon = json['user_lead_coupon'];
+    leadPetPackages = [];
     if (json['lead_pet_packages'] != null) {
-      leadPetPackages = [];
       json['lead_pet_packages'].forEach((v) {
         leadPetPackages!.add(new _LeadPetPackages.fromJson(v));
       });
@@ -324,52 +338,53 @@ class _LeadPetPackages {
 }
 
 class _Package {
-  _GroomerPackage? groomerPackage;
+  _PackageDetails? packageDetails;
 
-  _Package({this.groomerPackage});
+  _Package({this.packageDetails});
 
   _Package.fromJson(Map<String, dynamic> json) {
-    groomerPackage = json['groomer_package'] != null
-        ? new _GroomerPackage.fromJson(json['groomer_package'])
-        : null;
+    if (json['groomer_package'] != null) {
+      packageDetails = _PackageDetails.fromJson(json['groomer_package']);
+    } else if (json['dog_training_package'] != null) {
+      packageDetails = _PackageDetails.fromJson(json['dog_training_package']);
+    } else if (json['vet_package'] != null) {
+      packageDetails = _PackageDetails.fromJson(json['vet_package']);
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.groomerPackage != null) {
-      data['groomer_package'] = this.groomerPackage!.toJson();
+    if (this.packageDetails != null) {
+      data['groomer_package'] = this.packageDetails!.toJson();
     }
     return data;
   }
 }
 
-class _GroomerPackage {
+class _PackageDetails {
   int? id;
   int? groomerId;
   String? name;
   String? detail;
   String? price;
-  int? active;
   String? city;
   String? petType;
 
-  _GroomerPackage(
+  _PackageDetails(
       {this.id,
       this.groomerId,
       this.name,
       this.detail,
       this.price,
-      this.active,
       this.city,
       this.petType});
 
-  _GroomerPackage.fromJson(Map<String, dynamic> json) {
+  _PackageDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     groomerId = json['groomer_id'];
     name = json['name'];
     detail = json['detail'];
-    price = json['price'];
-    active = json['active'];
+    price = json['price'].toString();
     city = json['city'];
     petType = json['pet_type'];
   }
@@ -381,7 +396,6 @@ class _GroomerPackage {
     data['name'] = this.name;
     data['detail'] = this.detail;
     data['price'] = this.price;
-    data['active'] = this.active;
     data['city'] = this.city;
     data['pet_type'] = this.petType;
     return data;
@@ -509,6 +523,31 @@ class _Subcategory {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    return data;
+  }
+}
+
+class _Price {
+  String? totalPrice;
+  String? discountPrice;
+  String? grossPrice;
+  String? netPrice;
+
+  _Price({this.totalPrice, this.discountPrice, this.grossPrice, this.netPrice});
+
+  _Price.fromJson(Map<String, dynamic> json) {
+    totalPrice = json['total_price'].toString();
+    discountPrice = json['discount_price'].toString();
+    grossPrice = json['gross_price'].toString();
+    netPrice = json['net_price'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['total_price'] = this.totalPrice;
+    data['discount_price'] = this.discountPrice;
+    data['gross_price'] = this.grossPrice;
+    data['net_price'] = this.netPrice;
     return data;
   }
 }

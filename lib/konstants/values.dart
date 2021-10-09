@@ -33,10 +33,18 @@ const timeSlots = [
 ];
 
 //-----------------Lead Types----------------------------------------//
-const String kLeadTypeGrooming="grooming";
-const String kLeadTypeTraining="training";
-const String kLeadTypeVet="vet";
+const String kLeadTypeGrooming = "grooming";
+const String kLeadTypeTraining = "training";
+const String kLeadTypeVet = "vet";
 
-const String kLeadValueForGrooming="grooming_leads";
-const String kLeadValueForTraining="dog_training_leads";
-const String kLeadValueForVet="vet_leads";
+const String kLeadValueForGrooming = "grooming_leads";
+const String kLeadValueForTraining = "dog_training_leads";
+const String kLeadValueForVet = "vet_leads";
+
+//-----------------------Payment Status----------------------------------//
+const String kPaymentStatusIssue = "payment_issues";
+const String kPaymentStatusUnpaid = "unpaid";
+const String kPaymentStatusPartiallyPaid = "partially_paid";
+const String kPaymentStatusOverPaid = "overpaid";
+const String kPaymentStatusFullyPaid = "fully_paid";
+const String kPaymentStatusNeedConfirmation = "need_confirmation";

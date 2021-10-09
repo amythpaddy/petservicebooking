@@ -368,7 +368,9 @@ class VetService extends StatelessWidget
     BlocProvider.of<VetBloc>(blocContext).paymentPageOpen();
     bool result = await Navigator.of(blocContext).push(MaterialPageRoute(
             builder: (context) => PaymentScreen(
-                bookingConfirmationData: bookingConfirmationData))) ??
+                  bookingConfirmationData: bookingConfirmationData,
+                  leadType: kLeadTypeVet,
+                ))) ??
         false;
     BlocProvider.of<VetBloc>(blocContext).openBookingConfirmation();
   }

@@ -36,71 +36,90 @@ String kUrlGetVetPackageInfo(cityId, petType, serviceType) {
   return '/v1/leads/vet_packages?city_id=$cityId&service_type=$serviceType&category_id=$pet';
 }
 
-String kUrlGetBookedTimeSlots(date, cityId,leadType){
-  String leadCategory='';
-  switch(leadType){
+String kUrlGetBookedTimeSlots(date, cityId, leadType) {
+  String leadCategory = '';
+  switch (leadType) {
     case kLeadTypeGrooming:
-      leadCategory=kLeadValueForGrooming;
+      leadCategory = kLeadValueForGrooming;
       break;
     case kLeadTypeTraining:
-      leadCategory=kLeadValueForTraining;
+      leadCategory = kLeadValueForTraining;
       break;
     default:
-      leadCategory=kLeadValueForVet;
+      leadCategory = kLeadValueForVet;
   }
-    return '/v1/$leadCategory/booked_slots?date=$date&city_id=$cityId';
+  return '/v1/$leadCategory/booked_slots?date=$date&city_id=$cityId';
 }
+
 const kUrlCreateGroomingLead = '/v1/grooming_leads';
 const kUrlCreateTrainingLead = '/v1/dog_training_leads';
 const kUrlCreateVetLead = '/v1/vet_leads';
 String kUrlGetCouponsList(serviceType) =>
     '/v1/coupons?service_type=$serviceType';
 const kUrlApplyCoupons = '/v1/coupons/validate_coupon';
-String kUrlUpdateBookingDetail(leadId,leadType){
-  String leadCategory='';
-  switch(leadType){
+String kUrlUpdateBookingDetail(leadId, leadType) {
+  String leadCategory = '';
+  switch (leadType) {
     case kLeadTypeGrooming:
-      leadCategory=kLeadValueForGrooming;
+      leadCategory = kLeadValueForGrooming;
       break;
     case kLeadTypeTraining:
-      leadCategory=kLeadValueForTraining;
+      leadCategory = kLeadValueForTraining;
       break;
     default:
-      leadCategory=kLeadValueForVet;
+      leadCategory = kLeadValueForVet;
   }
-  return '/v1/$leadCategory/$leadId';}
-String kUrlGetBookingDetail(leadId,leadType){
-  String leadCategory='';
-  switch(leadType){
+  return '/v1/$leadCategory/$leadId';
+}
+
+String kUrlGetBookingDetail(leadId, leadType) {
+  String leadCategory = '';
+  switch (leadType) {
     case kLeadTypeGrooming:
-      leadCategory=kLeadValueForGrooming;
+      leadCategory = kLeadValueForGrooming;
       break;
     case kLeadTypeTraining:
-      leadCategory=kLeadValueForTraining;
+      leadCategory = kLeadValueForTraining;
       break;
     default:
-      leadCategory=kLeadValueForVet;
+      leadCategory = kLeadValueForVet;
   }
-  return '/v1/$leadCategory/$leadId';}
+  return '/v1/$leadCategory/$leadId';
+}
+
 String kUrlGetBookings(pageNumber) => '/v1/leads/orders?page=$pageNumber';
-String kUrlCancelBooking(leadId,leadType){
-  String leadCategory='';
-  switch(leadType){
+const String kUrlGetOrdersGrooming = '/v1/grooming_leads/orders';
+const String kUrlGetOrdersTraining = '/v1/dog_training_leads/orders';
+const String kUrlGetOrdersVet = '/v1/vet_leads/orders';
+String kUrlCancelBooking(leadId, leadType) {
+  String leadCategory = '';
+  switch (leadType) {
     case kLeadTypeGrooming:
-      leadCategory=kLeadValueForGrooming;
+      leadCategory = kLeadValueForGrooming;
       break;
     case kLeadTypeTraining:
-      leadCategory=kLeadValueForTraining;
+      leadCategory = kLeadValueForTraining;
       break;
     default:
-      leadCategory=kLeadValueForVet;
+      leadCategory = kLeadValueForVet;
   }
   return '/v1/$leadCategory/$leadId/cancel_lead';
-  }
+}
+
 String kUrlGetFeedbackContent(leadId) => '/v1/feedbacks/order_feedback/$leadId';
 String kUrlPostFeedbackContent(leadId) =>
     '/v1/feedbacks/order_feedback/$leadId';
 String kUrlGetFeedbackQuestions(leadId) => '/v1/feedbacks/qna/$leadId';
 const kUrlGetHomeData = '/v2/home/details';
 const kUrlUploadUserImage = '/v1/users/upload_photo';
-String kUrlUploadPetImage(petId)=>'/v1/customer_pets/$petId/upload_photo';
+String kUrlUploadPetImage(petId) => '/v1/customer_pets/$petId/upload_photo';
+String kUrlGetPetHeroDetail(leadType) {
+  switch (leadType) {
+    case kLeadTypeVet:
+      return '/v1/pet_heroes?q[partnerable_type_eq]=Veterinarian';
+    case kLeadTypeTraining:
+      return '/v1/pet_heroes?q[partnerable_type_eq]=Trainer';
+    default:
+      return '/v1/pet_heroes?q[partnerable_type_eq]=Groomer';
+  }
+}

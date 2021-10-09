@@ -163,7 +163,6 @@ class PackageBloc extends Bloc<PackageEvent, PackageState> {
   }
 
   void getVetScreedDetailPackages(int cityId) async {
-    print('getting detail');
     add(PackageEvent.FETCHING_PACKAGE_LIST);
     var response = await ApiCaller.get(
         kUrlGetVetPackageInfo(cityId, PetCategory.DOG, 'veterinary_service'),

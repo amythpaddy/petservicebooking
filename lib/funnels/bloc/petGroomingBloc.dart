@@ -266,7 +266,7 @@ class PetGroomingBloc extends Bloc<FunnelEvent, FunnelState> {
     var response =
         await ApiCaller.post(kUrlCreateGroomingLead, body, withToken: true);
     BookingConfirmationResponseModel responseModel =
-        BookingConfirmationResponseModel.fromJson(response);
+        BookingConfirmationResponseModel.fromJson(response, kLeadTypeGrooming);
     if (responseModel.data != null) {
       _bookingConfirmationData = responseModel.data;
       return true;

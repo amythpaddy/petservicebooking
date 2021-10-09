@@ -4,21 +4,22 @@ class BookingsDataResponseModel {
 
   BookingsDataResponseModel({this.meta, this.data});
 
-  BookingsDataResponseModel.fromJson(Map<String, dynamic> json) {
-    meta = json['meta'] != null ? new _Meta.fromJson(json['meta']) : null;
+  BookingsDataResponseModel.fromJson(
+      Map<String, dynamic> json, String leadType) {
+    // meta = json['meta'] != null ? new _Meta.fromJson(json['meta']) : null;
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data!.add(new BookingData.fromJson(v));
+        data!.add(new BookingData.fromJson(v, leadType));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.meta != null) {
-      data['meta'] = this.meta!.toJson();
-    }
+    // if (this.meta != null) {
+    //   data['meta'] = this.meta!.toJson();
+    // }
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -65,9 +66,9 @@ class BookingData {
   PetHero? petHero;
   List<_LeadPetPackages>? leadPetPackages;
 
-  BookingData.fromJson(Map<String, dynamic> json) {
+  BookingData.fromJson(Map<String, dynamic> json, String leadType) {
     id = json['id'];
-    leadType = json['lead_type'];
+    this.leadType = leadType;
     status = json['status'];
     appointmentDatetime = json['appointment_datetime'];
     additionalNote = json['additional_note'];

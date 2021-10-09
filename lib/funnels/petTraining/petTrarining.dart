@@ -357,7 +357,9 @@ class PetTrainingService extends StatelessWidget
     BlocProvider.of<PetTrainingBloc>(blocContext).paymentPageOpen();
     bool result = await Navigator.of(blocContext).push(MaterialPageRoute(
             builder: (context) => PaymentScreen(
-                bookingConfirmationData: bookingConfirmationData))) ??
+                  bookingConfirmationData: bookingConfirmationData,
+                  leadType: kLeadTypeTraining,
+                ))) ??
         false;
     BlocProvider.of<PetTrainingBloc>(blocContext).openBookingConfirmation();
   }

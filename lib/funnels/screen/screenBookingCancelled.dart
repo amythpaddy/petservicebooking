@@ -85,16 +85,26 @@ class ScreenBookingCancelled extends StatelessWidget {
                               title: 'Booking Id:',
                               value:
                                   '${state.bookingData!.lead!.orderUuid!.toUpperCase()}'),
-                          BookingConfirmationDataComponent(
-                              title: 'Time Slot:',
-                              value: DateFormat("hh:mm a").format(
-                                  DateTime.parse(state.bookingData!.lead!
-                                      .appointmentDatetime!))),
-                          BookingConfirmationDataComponent(
-                              title: 'Appointment Date:',
-                              value: DateFormat("dd/MM/yyyy").format(
-                                  DateTime.parse(state.bookingData!.lead!
-                                      .appointmentDatetime!)))
+                          Visibility(
+                              visible: state
+                                      .bookingData!.lead!.appointmentDatetime !=
+                                  null,
+                              child: BookingConfirmationDataComponent(
+                                  title: 'Time Slot:',
+                                  value: DateFormat("hh:mm a").format(
+                                      DateTime.parse(state.bookingData!.lead!
+                                              .appointmentDatetime ??
+                                          "2000-01-01T00:00:00.000+05:30")))),
+                          Visibility(
+                              visible: state
+                                      .bookingData!.lead!.appointmentDatetime !=
+                                  null,
+                              child: BookingConfirmationDataComponent(
+                                  title: 'Appointment Date:',
+                                  value: DateFormat("dd/MM/yyyy").format(
+                                      DateTime.parse(state.bookingData!.lead!
+                                              .appointmentDatetime ??
+                                          "2000-01-01T00:00:00.000+05:30"))))
                         ],
                       ),
                     ),
@@ -154,9 +164,9 @@ class ScreenBookingCancelled extends StatelessWidget {
                                                       .lead!
                                                       .leadPetPackages![index]
                                                       .package!
-                                                      .groomerPackage!
+                                                      .packageDetails!
                                                       .name!
-                                                  : '${state.bookingData!.lead!.leadPetPackages![index].package!.groomerPackage!.name!}, ',
+                                                  : '${state.bookingData!.lead!.leadPetPackages![index].package!.packageDetails!.name!}, ',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.w400,
                                                   fontSize: 12,

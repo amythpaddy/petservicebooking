@@ -5,6 +5,7 @@ import 'package:the_pet_nest/bookings/model/bookingDataModel.dart';
 import 'package:the_pet_nest/funnels/model/bookingConfirmationResponseModel.dart';
 import 'package:the_pet_nest/konstants/endpoints.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/utils/ApiCaller.dart';
 
 class BookingBloc extends Bloc<BookingEvents, BookingState> {
@@ -14,8 +15,16 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
 
   void getBookings({required int page}) async {
     add(BookingEvents.PROCESSING);
-    var response = await ApiCaller.get(kUrlGetBookings(page), withToken: true);
-    _bookingsList = BookingsDataResponseModel.fromJson(response);
+    // var response = await ApiCaller.get(kUrlGetBookings(page), withToken: true);
+    var response = await ApiCaller.get(kUrlGetOrdersGrooming, withToken: true);
+    _bookingsList =
+        BookingsDataResponseModel.fromJson(response, kLeadTypeGrooming);
+    response = await ApiCaller.get(kUrlGetOrdersVet, withToken: true);
+    _bookingsList!.data!.addAll(
+        BookingsDataResponseModel.fromJson(response, kLeadTypeVet).data!);
+    response = await ApiCaller.get(kUrlGetOrdersTraining, withToken: true);
+    _bookingsList!.data!.addAll(
+        BookingsDataResponseModel.fromJson(response, kLeadTypeTraining).data!);
     add(BookingEvents.BOOKINGS_FETCHED);
   }
 
@@ -63,48 +72,50 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
     }
   }
 
-  void reschedule(
-      String leadId, String selectedDate, String selectedTime,String leadType) async {
+  void reschedule(String leadId, String selectedDate, String selectedTime,
+      String leadType) async {
     add(BookingEvents.PROCESSING);
     add(BookingEvents.HIDE_DATE_PICKER);
     Map<String, dynamic> leadDateTime = Map();
     leadDateTime["appointment_datetime"] = '$selectedDate $selectedTime';
     Map<String, dynamic> data = Map();
-    
-  switch(leadType){
-    case 'grooming':
-      data["lead"] = leadDateTime;
-      break;
-    case 'training':
-      data["dog_training_lead"] = leadDateTime;
-      break;
-    default:
-      data["vet_lead"] = leadDateTime;
-  }
-    
-    var response = await ApiCaller.put(kUrlUpdateBookingDetail(leadId,leadType), data,
+
+    switch (leadType) {
+      case 'grooming':
+        data["lead"] = leadDateTime;
+        break;
+      case 'training':
+        data["dog_training_lead"] = leadDateTime;
+        break;
+      default:
+        data["vet_lead"] = leadDateTime;
+    }
+
+    var response = await ApiCaller.put(
+        kUrlUpdateBookingDetail(leadId, leadType), data,
         withToken: true);
     BookingConfirmationResponseModel _bookingRescheduledData =
-        BookingConfirmationResponseModel.fromJson(response);
+        BookingConfirmationResponseModel.fromJson(response, leadType);
     _bookingData = _bookingRescheduledData.data;
     add(BookingEvents.UPDATE_BOOKING_DATA);
   }
 
   void getBookingDetails(int leadId, String leadType) async {
     add(BookingEvents.PROCESSING);
-    var response =
-        await ApiCaller.get(kUrlGetBookingDetail(leadId,leadType), withToken: true);
+    var response = await ApiCaller.get(kUrlGetBookingDetail(leadId, leadType),
+        withToken: true);
 
     BookingConfirmationResponseModel _bookingRescheduledData =
-        BookingConfirmationResponseModel.fromJson(response);
+        BookingConfirmationResponseModel.fromJson(response, leadType);
     _bookingData = _bookingRescheduledData.data;
 
     add(BookingEvents.UPDATE_BOOKING_DATA);
   }
 
-  void cancelBooking(int leadId, String leadType, String appointmentDateTime) async {
-    var response = await ApiCaller.post(
-        kUrlCancelBooking(leadId, leadType), {"appointment_datetime": appointmentDateTime},
+  void cancelBooking(
+      int leadId, String leadType, String appointmentDateTime) async {
+    var response = await ApiCaller.post(kUrlCancelBooking(leadId, leadType),
+        {"appointment_datetime": appointmentDateTime},
         withToken: true);
     if (response["data"]["success"]) add(BookingEvents.BOOKING_CANCELLED);
   }
