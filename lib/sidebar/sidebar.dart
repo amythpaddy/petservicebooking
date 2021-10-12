@@ -5,6 +5,8 @@ import 'package:the_pet_nest/konstants/dataAccessors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/sidebar/component/welcome/loginRegisterHeader.dart';
 import 'package:the_pet_nest/sidebar/component/welcome/userHeaderTile.dart';
+import 'package:the_pet_nest/utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Sidebar extends StatefulWidget {
   @override
@@ -69,9 +71,11 @@ class _SidebarState extends State<Sidebar> {
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     height: 1.5)),
-            onTap: () {
-              // Update the state of the app.
-              // ...
+            onTap: () async {
+              const petPatnerUrl = 'https://thepetnest.com/groomer';
+              await canLaunch(petPatnerUrl)
+                  ? launch(petPatnerUrl)
+                  : showSnackbar(context: context);
             },
           ),
           ListTile(
@@ -94,9 +98,11 @@ class _SidebarState extends State<Sidebar> {
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     height: 1.5)),
-            onTap: () {
-              // Update the state of the app.
-              // ...
+            onTap: () async {
+              const shopUrl = 'https://shop.thepetnest.com/';
+              await canLaunch(shopUrl)
+                  ? launch(shopUrl)
+                  : showSnackbar(context: context);
             },
           ),
           ListTile(
@@ -108,9 +114,11 @@ class _SidebarState extends State<Sidebar> {
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     height: 1.5)),
-            onTap: () {
-              // Update the state of the app.
-              // ...
+            onTap: () async {
+              const privacyUrl = 'https://thepetnest.com/privacy-policy';
+              await canLaunch(privacyUrl)
+                  ? launch(privacyUrl)
+                  : showSnackbar(context: context);
             },
           ),
           ListTile(
@@ -121,9 +129,11 @@ class _SidebarState extends State<Sidebar> {
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     height: 1.5)),
-            onTap: () {
-              // Update the state of the app.
-              // ...
+            onTap: () async {
+              const tncUrl = 'https://shop.thepetnest.com/';
+              await canLaunch(tncUrl)
+                  ? launch(tncUrl)
+                  : showSnackbar(context: context);
             },
           ),
           Expanded(

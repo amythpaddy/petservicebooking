@@ -39,13 +39,16 @@ class ServiceBookingDetailPetCardComponent extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.w600, fontSize: 16, height: 1.5),
                 ),
-                Text(
-                  bookingDate,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 10,
-                      height: 1.5,
-                      color: Colors.grey),
+                Visibility(
+                  visible: false,
+                  child: Text(
+                    bookingDate,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 10,
+                        height: 1.5,
+                        color: Colors.grey),
+                  ),
                 ),
               ],
             )),

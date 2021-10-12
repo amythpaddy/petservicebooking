@@ -9,6 +9,7 @@ import 'package:the_pet_nest/funnels/component/serviceBookingDetailPetCardCompon
 import 'package:the_pet_nest/funnels/interfaces/bookingDetailReviewInterface.dart';
 import 'package:the_pet_nest/funnels/model/packageDetailApiResponseModel.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
+import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 import 'package:the_pet_nest/profiles/model/getPetListModel.dart';
 
@@ -227,25 +228,32 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                         SizedBox(
                           width: 20,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Refer and Earn',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.5),
-                            ),
-                            Text(
-                              'Guaranteed reward for every referral',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  height: 1.5,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(0xFFB6B7B9)),
-                            )
-                          ],
+                        TextButton(
+                          style:
+                              TextButton.styleFrom(padding: EdgeInsets.all(0)),
+                          onPressed: () => Navigator.pushNamed(
+                              context, kNavigationReferAndEarn),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Refer and Earn',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.5,
+                                    color: Colors.black),
+                              ),
+                              Text(
+                                'Guaranteed reward for every referral',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    height: 1.5,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFFB6B7B9)),
+                              )
+                            ],
+                          ),
                         )
                       ],
                     )),
