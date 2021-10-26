@@ -294,8 +294,10 @@ class PetInfoModal extends StatelessWidget {
                       Container(
                           width: double.infinity,
                           decoration: kActiveButtonContainerStyle,
-                          padding: EdgeInsets.symmetric(vertical: 8),
+                          height: 50,
                           child: TextButton(
+                              style: TextButton.styleFrom(
+                                  padding: EdgeInsets.all(0)),
                               onPressed: () {
                                 if (!state.addingPet)
                                   BlocProvider.of<PetProfileBloc>(context)

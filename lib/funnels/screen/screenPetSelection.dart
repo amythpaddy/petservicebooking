@@ -18,7 +18,7 @@ class ScreenPetSelection extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
           height: SizeConfig.blockSizeVertical * 85,
-          color: kAppBackgroundAltGray,
+          color: kAppBackgroundColor,
           margin: EdgeInsets.symmetric(horizontal: 18.46),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,12 +86,14 @@ class ScreenPetSelection extends StatelessWidget {
                 ),
                 Center(
                   child: Container(
+                    height: 40,
                     decoration: BoxDecoration(
                         color: kActiveButtonColor,
                         borderRadius: BorderRadius.all(Radius.circular(51)),
                         boxShadow: [kContainerBoxShadow]),
-                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                    padding: EdgeInsets.symmetric(horizontal: 18),
                     child: TextButton(
+                      style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
                       onPressed: () {
                         showModalBottomSheet(
                           isScrollControlled: true,
@@ -108,8 +110,8 @@ class ScreenPetSelection extends StatelessWidget {
                       child: Text(
                         'Add another pet',
                         style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w200,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
                             height: 1.5,
                             color: Colors.white),
                       ),
@@ -144,6 +146,7 @@ class ScreenPetSelection extends StatelessWidget {
                   height: 84,
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: TextField(
+                    style: TextStyle(fontSize: 14),
                     minLines: 2,
                     maxLines: 10,
                     keyboardType: TextInputType.multiline,
@@ -160,7 +163,7 @@ class ScreenPetSelection extends StatelessWidget {
                   },
                   child: Container(
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 0),
                     decoration: kActiveButtonContainerStyle,
                     child: Text(
                       'Next',

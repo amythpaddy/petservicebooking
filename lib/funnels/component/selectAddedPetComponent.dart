@@ -26,11 +26,30 @@ class SelectAddedPetCard extends StatelessWidget {
                 color: selected ? kAppIconColor : Color(0x331A202E), width: 1),
           ),
           padding: EdgeInsets.all(5),
-          child: Image.asset(
-            image.isEmpty ? 'assets/images/profile/dog_avatar.png' : image,
-            fit: BoxFit.fill,
-            height: 82,
-            width: 82,
+          child: Stack(
+            children: [
+              Image.asset(
+                image.isEmpty ? 'assets/images/profile/dog_avatar.png' : image,
+                fit: BoxFit.fill,
+                height: 82,
+                width: 82,
+              ),
+              Visibility(
+                visible: selected,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    height: 82,
+                    width: 82,
+                    color: Color(0x4E000000),
+                    child: Icon(
+                      Icons.check_circle,
+                      color: kAppIconColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(
@@ -50,7 +69,7 @@ class SelectAddedPetCard extends StatelessWidget {
               fontSize: 12,
               height: 1.5,
               fontWeight: FontWeight.w400,
-              color: Colors.black87),
+              color: Color(0xFFAFB0B5)),
         )
       ]),
     );

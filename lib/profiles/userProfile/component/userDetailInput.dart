@@ -54,12 +54,15 @@ class UserDetailInput extends StatelessWidget {
             heading: heading,
             required: required,
           ),
+          SizedBox(
+            height: 6.2,
+          ),
           Container(
-            height: 50,
+            height: 40,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                    color: showError ? Colors.redAccent : Color(0x331A202E)),
+                    color: showError ? Colors.redAccent : Color(0x551A202E)),
                 color: disabled ? Colors.grey[100] : Colors.white),
             alignment: Alignment.center,
             padding: EdgeInsets.only(top: 4, bottom: 2, left: 10, right: 10),

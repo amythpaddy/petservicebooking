@@ -26,10 +26,11 @@ class TimeSelectionCard extends StatelessWidget {
         },
         child: Container(
           width: SizeConfig.screenWidth,
+          padding: EdgeInsets.symmetric(vertical: 5),
           decoration: BoxDecoration(
               color: selected ? kAppIconColor : Colors.white,
-              border:
-                  Border.all(color: available ? kAppIconColor : Colors.grey),
+              border: Border.all(
+                  color: selected ? kAppIconColor : Color(0xFFDEDFDF)),
               borderRadius: BorderRadius.circular(12)),
           child: Column(
             children: [
@@ -38,7 +39,7 @@ class TimeSelectionCard extends StatelessWidget {
                       fontWeight: FontWeight.w300,
                       fontSize: 14,
                       height: 1.5,
-                      color: selected ? Colors.white : kAppIconColor)),
+                      color: selected ? Colors.white : Color(0xFF1A202E))),
               Text(
                 available ? 'Available' : 'Booked',
                 style: TextStyle(

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:the_pet_nest/bookings/bloc/bookingBloc.dart';
 import 'package:the_pet_nest/bookings/bloc/bookingStates.dart';
+import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/funnels/component/bookingConfirmationDataComponent.dart';
 import 'package:the_pet_nest/funnels/component/bookingStatusHeaderIcons.dart';
 import 'package:the_pet_nest/funnels/component/customDateTimeSelectorComponent.dart';
@@ -69,7 +70,6 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                   title: "Details",
                                   icon:
                                       "assets/images/funnels/icon_booking_detail.svg",
-                                  iconColor: kAppIconColor,
                                 ),
                               ),
                               SizedBox(
@@ -100,12 +100,7 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                       "assets/images/funnels/icon_booking_cancel.svg",
                                   onPressed: () {
                                     BlocProvider.of<BookingBloc>(context)
-                                        .cancelBooking(
-                                            state.bookingData!.lead!.id!,
-                                            leadType,
-                                            state.bookingData!.lead!
-                                                    .appointmentDatetime ??
-                                                '');
+                                        .showBookingCancelConfirmation();
                                   },
                                 );
                               }),
@@ -254,7 +249,6 @@ class ScreenBookingConfirmation extends StatelessWidget {
                             style: TextButton.styleFrom(
                                 padding: EdgeInsets.all(0)),
                             onPressed: () {
-                              print('asd');
                               Navigator.pushNamed(
                                   context, kNavigationReferAndEarn);
                             },
@@ -494,6 +488,111 @@ class ScreenBookingConfirmation extends StatelessWidget {
                 },
                 leadType: leadType,
               ));
+        }),
+        BlocBuilder<BookingBloc, BookingState>(builder: (blocContext, state) {
+          return Visibility(
+            visible: state.showBookingCancelConfirmation,
+            child: Container(
+              width: SizeConfig.screenWidth,
+              height: SizeConfig.screenHeight,
+              color: Color(0x8D000000),
+              child: Center(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 25),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [kContainerBoxShadow],
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 12.86,
+                      ),
+                      Text(
+                        'Cancel Booking',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            height: 1.5,
+                            color: Color(0xFFA3A6Ab)),
+                      ),
+                      SizedBox(
+                        height: 8.38,
+                      ),
+                      SvgPicture.asset(
+                          'assets/images/funnels/icon_confirm_cancel.svg'),
+                      SizedBox(
+                        height: 21,
+                      ),
+                      Text(
+                        'Are you sure, you want to cancel Booking?',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            height: 1.5,
+                            color: Color(0xFF151724)),
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                BlocProvider.of<BookingBloc>(context)
+                                    .cancelBooking(
+                                        state.bookingData!.lead!.id!,
+                                        leadType,
+                                        state.bookingData!.lead!
+                                                .appointmentDatetime ??
+                                            '');
+                              },
+                              child: Container(
+                                  height: 34,
+                                  width: 106,
+                                  decoration: kActiveButtonContainerBlueStyle,
+                                  child: Center(
+                                    child: Text(
+                                      'Yes',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          height: 1.5,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ))),
+                          TextButton(
+                              onPressed: () {
+                                BlocProvider.of<BookingBloc>(context)
+                                    .hideBookingCancelConfirmation();
+                              },
+                              child: Container(
+                                  height: 34,
+                                  width: 106,
+                                  decoration: kActiveButtonContainerStyle,
+                                  child: Center(
+                                    child: Text(
+                                      'No',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          height: 1.5,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ))),
+                          SizedBox(
+                            height: 14,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
         })
       ],
     );

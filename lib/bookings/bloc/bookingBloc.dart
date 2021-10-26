@@ -28,6 +28,14 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
     add(BookingEvents.BOOKINGS_FETCHED);
   }
 
+  void showBookingCancelConfirmation() {
+    add(BookingEvents.SHOW_BOOKING_CANCEL_CONFIRMATION);
+  }
+
+  void hideBookingCancelConfirmation() {
+    add(BookingEvents.HIDE_BOOKING_CANCEL_CONFIRMATION);
+  }
+
   void showDateTimePicker() {
     add(BookingEvents.SHOW_DATE_PICKER);
   }
@@ -69,6 +77,10 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
       yield state.copyWith(bookingType: BookingType.HISTORY);
     } else if (event == BookingEvents.BOOKING_CANCELLED) {
       yield state.copyWith(bookingCancelled: true);
+    } else if (event == BookingEvents.HIDE_BOOKING_CANCEL_CONFIRMATION) {
+      yield state.copyWith(showBookingCancelConfirmation: false);
+    } else if (event == BookingEvents.SHOW_BOOKING_CANCEL_CONFIRMATION) {
+      yield state.copyWith(showBookingCancelConfirmation: true);
     }
   }
 

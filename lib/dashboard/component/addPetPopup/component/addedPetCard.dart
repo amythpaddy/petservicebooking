@@ -41,8 +41,11 @@ class AddedPetCard extends StatelessWidget {
         ),
         Text(
           breed,
-          style:
-              TextStyle(fontSize: 14, height: 1.5, fontWeight: FontWeight.w400),
+          style: TextStyle(
+              fontSize: 14,
+              height: 1.5,
+              fontWeight: FontWeight.w400,
+              color: Color(0xFFA3A6AB)),
         )
       ]),
     );

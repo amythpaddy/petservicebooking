@@ -82,9 +82,12 @@ class PetSelectModal extends StatelessWidget {
                   ),
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(vertical: 4),
+                    height: 44,
                     decoration: kActiveButtonContainerStyle,
                     child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.all(0),
+                      ),
                       onPressed: () =>
                           BlocProvider.of<PetProfileBloc>(blocContext)
                               .showPetDetailScreen(),
@@ -99,10 +102,13 @@ class PetSelectModal extends StatelessWidget {
                     height: 20,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 4),
+                    height: 44,
                     width: double.infinity,
                     decoration: kActiveButtonOutlineContainerStyle,
                     child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.all(0),
+                      ),
                       onPressed: () =>
                           BlocProvider.of<PetProfileBloc>(blocContext)
                               .closePetDetailPopup(),

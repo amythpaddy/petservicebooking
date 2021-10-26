@@ -127,6 +127,7 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12)),
                           child: TextField(
                             keyboardType: TextInputType.text,
+                            style: TextStyle(fontSize: 14),
                             decoration: InputDecoration(
                                 hintText: 'Enter name',
                                 border: InputBorder.none),

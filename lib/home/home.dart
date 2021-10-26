@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
                     'Services',
                     style: TextStyle(
                         fontWeight: FontWeight.w700, fontSize: 17, height: 1.5),
-                  ),
+                  ),SizedBox(height:9.57),
                   Row(
                     children: [
                       Expanded(

@@ -50,19 +50,21 @@ class AddedPetModal extends StatelessWidget {
                     height: 10,
                   ),
                   Container(
+                    height: 40,
                     decoration: BoxDecoration(
                         color: kActiveButtonColor,
                         borderRadius: BorderRadius.all(Radius.circular(51)),
                         boxShadow: [kContainerBoxShadow]),
-                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                    padding: EdgeInsets.symmetric(horizontal: 18),
                     child: TextButton(
+                      style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
                       onPressed: () => BlocProvider.of<PetProfileBloc>(context)
                           .showPetCategoryScreen(),
                       child: Text(
                         'Add another pet',
                         style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w200,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
                             height: 1.5,
                             color: Colors.white),
                       ),
@@ -73,9 +75,11 @@ class AddedPetModal extends StatelessWidget {
                   ),
                   Container(
                     width: double.infinity,
+                    height: 50,
                     decoration: kActiveButtonContainerStyle,
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child: TextButton(
+                      style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
                       onPressed: () => BlocProvider.of<PetProfileBloc>(context)
                           .closePetDetailPopup(),
                       child: Text(
