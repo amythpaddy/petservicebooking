@@ -111,9 +111,8 @@ class _DashboardState extends State<Dashboard> {
             ? kAppBackgroundAltGray
             : kAppBackgroundColor,
         elevation: 0,
-        title: Center(
-          child: appBarTitle,
-        ),
+        centerTitle: true,
+        title: appBarTitle,
         leading: Container(
           child: TextButton(
             child: SvgPicture.asset(
@@ -149,8 +148,8 @@ class _DashboardState extends State<Dashboard> {
                               borderRadius: BorderRadius.circular(25),
                               child: Image.network(
                                 state.imageAddress,
-                                height: 50,
-                                width: 50,
+                                height: 45,
+                                width: 45,
                                 fit: BoxFit.fitWidth,
                               ));
                         }

@@ -430,7 +430,7 @@ class VetDetail extends StatelessWidget {
                                   : Container(
                                       margin:
                                           EdgeInsets.only(left: 20, top: 13),
-                                      height: 175,
+                                      height: 150,
                                       child: ListView.builder(
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,

@@ -49,11 +49,21 @@ class EditUserProfile extends StatelessWidget {
                                   alignment: Alignment.center,
                                   children: [
                                     state.image == null
-                                        ? Image.asset(
-                                            'assets/images/avatar.png',
-                                            width: 82,
-                                            height: 82,
-                                          )
+                                        ? state.imageAddress.isEmpty
+                                            ? Image.asset(
+                                                'assets/images/avatar.png',
+                                                width: 82,
+                                                height: 82,
+                                              )
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(82),
+                                                child: Image.network(
+                                                  state.imageAddress,
+                                                  height: 82,
+                                                  width: 82,
+                                                ),
+                                              )
                                         : kIsWeb
                                             ? Image.network(state.image!.path)
                                             : ClipRRect(

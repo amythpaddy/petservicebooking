@@ -48,3 +48,7 @@ const String kPaymentStatusPartiallyPaid = "partially_paid";
 const String kPaymentStatusOverPaid = "overpaid";
 const String kPaymentStatusFullyPaid = "fully_paid";
 const String kPaymentStatusNeedConfirmation = "need_confirmation";
+
+//------------------------Pet Category Value----------------------------//
+const String kPetCategoryDog = 'Dog';
+const String kPetCategoryCat = 'Cat';

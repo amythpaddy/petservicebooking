@@ -54,7 +54,8 @@ class _HomeState extends State<Home> {
                     'Services',
                     style: TextStyle(
                         fontWeight: FontWeight.w700, fontSize: 17, height: 1.5),
-                  ),SizedBox(height:9.57),
+                  ),
+                  SizedBox(height: 9.57),
                   Row(
                     children: [
                       Expanded(
@@ -337,7 +338,7 @@ class _HomeState extends State<Home> {
                       ? Center(child: CircularProgressIndicator())
                       : Container(
                           margin: EdgeInsets.only(left: 20, top: 13),
-                          height: 175,
+                          height: 150,
                           child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,

@@ -62,10 +62,23 @@ class PetProfile extends StatelessWidget {
                           padding: EdgeInsets.all(12),
                           child: Row(
                             children: [
-                              Image.asset(state.addUpdatePet!.petCategory ==
-                                      PetCategory.DOG
-                                  ? 'assets/images/profile/dog_avatar.png'
-                                  : 'assets/images/profile/dog_avatar.png'),
+                              state.addUpdatePet!.image.isEmpty
+                                  ? SvgPicture.asset(
+                                      state.addUpdatePet!.petCategory ==
+                                              PetCategory.DOG
+                                          ? 'assets/images/dog_avatar.svg'
+                                          : 'assets/images/cat_avatar.svg',
+                                      height: 72,
+                                      width: 72,
+                                    )
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(36),
+                                      child: Image.network(
+                                        state.addUpdatePet!.image,
+                                        height: 72,
+                                        width: 72,
+                                        fit: BoxFit.fitWidth,
+                                      )),
                               SizedBox(
                                 width: 9,
                               ),

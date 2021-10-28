@@ -23,7 +23,7 @@ class PetParentReviewCard extends StatelessWidget {
       margin: EdgeInsets.only(right: 8.05),
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       width: SizeConfig.blockSizeHorizontal * 90,
-      constraints: BoxConstraints(maxHeight: 101),
+      constraints: BoxConstraints(maxHeight: 90),
       decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [kContainerBoxShadow],
@@ -38,7 +38,7 @@ class PetParentReviewCard extends StatelessWidget {
               Text(
                 name,
                 style: TextStyle(
-                    fontWeight: FontWeight.w600, fontSize: 12, height: 1.5),
+                    fontWeight: FontWeight.w600, fontSize: 14, height: 1.5),
               ),
               Text(
                 date,
@@ -53,7 +53,7 @@ class PetParentReviewCard extends StatelessWidget {
               color: Color(0xFFFFC107),
               size: 10.0,
             ),
-            itemSize: 12,
+            itemSize: 10,
             itemCount: 5,
             rating: rating,
           ),
@@ -63,7 +63,8 @@ class PetParentReviewCard extends StatelessWidget {
               review,
               maxLines: 5,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
+              style: TextStyle(
+                  fontWeight: FontWeight.w300, fontSize: 12, height: 1.5),
             ),
           )
         ],

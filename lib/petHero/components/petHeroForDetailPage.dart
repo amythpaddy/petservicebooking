@@ -14,7 +14,7 @@ class PetHeroForDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 15),
+      margin: EdgeInsets.only(right: jobsDone.isEmpty ? 67 : 15),
       child: Column(
         children: [
           CircleAvatar(
@@ -30,7 +30,9 @@ class PetHeroForDetailPage extends StatelessWidget {
                 color: Colors.black),
           ),
           Text(
-            '$ratings Star Rating \n $jobsDone Grooming Done',
+            jobsDone.isEmpty
+                ? '$ratings Star Rating'
+                : '$ratings Star Rating | $jobsDone Grooming Done',
             style: TextStyle(
                 color: Color(0xFF767982),
                 fontSize: 10,

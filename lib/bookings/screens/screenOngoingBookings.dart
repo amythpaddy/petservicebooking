@@ -62,23 +62,29 @@ class ScreenOngoingBookings extends StatelessWidget {
                                 .getBookings(page: 1));
                   },
                   child: OngoingBookingCard(
-                      petName:
-                          onGoingBookings[index].leadPetPackages!.length > 0
-                              ? onGoingBookings[index]
-                                  .leadPetPackages![0]
-                                  .customerPet!
-                                  .name!
-                              : '',
-                      leadUUID: onGoingBookings[index].leadUuid!,
-                      dateTime: onGoingBookings[index].appointmentDatetime !=
-                              null
-                          ? DateFormat("EEEE, dd MMM,yy - hh:mm a").format(
-                              DateTime.parse(
-                                  onGoingBookings[index].appointmentDatetime!))
-                          : '',
-                      serviceName: onGoingBookings[index].leadType ?? '',
-                      petHero: onGoingBookings[index].petHero,
-                      ongoing: onGoingBookings[index].status == "in_progress"),
+                    petName: onGoingBookings[index].leadPetPackages!.length > 0
+                        ? onGoingBookings[index]
+                            .leadPetPackages![0]
+                            .customerPet!
+                            .name!
+                        : '',
+                    leadUUID: onGoingBookings[index].leadUuid!,
+                    dateTime: onGoingBookings[index].appointmentDatetime != null
+                        ? DateFormat("EEEE, dd MMM,yy - hh:mm a").format(
+                            DateTime.parse(
+                                onGoingBookings[index].appointmentDatetime!))
+                        : '',
+                    serviceName: onGoingBookings[index].leadType ?? '',
+                    petHero: onGoingBookings[index].petHero,
+                    ongoing: onGoingBookings[index].status == "in_progress",
+                    petCategory:
+                        onGoingBookings[index].leadPetPackages!.length > 0
+                            ? onGoingBookings[index]
+                                .leadPetPackages![0]
+                                .customerPet!
+                                .categoryId!
+                            : 2,
+                  ),
                 );
               },
             );

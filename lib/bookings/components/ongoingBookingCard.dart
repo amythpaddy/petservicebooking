@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:the_pet_nest/bookings/model/bookingDataModel.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
@@ -12,6 +13,7 @@ class OngoingBookingCard extends StatelessWidget {
   final String dateTime;
   final String leadUUID;
   final bool ongoing;
+  final int petCategory;
 
   const OngoingBookingCard(
       {Key? key,
@@ -20,7 +22,8 @@ class OngoingBookingCard extends StatelessWidget {
       required this.petHero,
       required this.dateTime,
       required this.leadUUID,
-      required this.ongoing})
+      required this.ongoing,
+      required this.petCategory})
       : super(key: key);
 
   @override
@@ -72,7 +75,7 @@ class OngoingBookingCard extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 8.25),
+            margin: EdgeInsets.only(top: 2.25, bottom: 8.25),
             height: 1.5,
             color: Color.fromARGB(16, 00, 0, 0),
           ),
@@ -82,7 +85,13 @@ class OngoingBookingCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset('assets/images/profile/dog_avatar.png'),
+                SvgPicture.asset(
+                  petCategory == 2
+                      ? 'assets/images/dog_avatar.svg'
+                      : 'assets/images/cat_avatar.svg',
+                  height: 60,
+                  width: 60,
+                ),
                 SizedBox(
                   width: 5,
                 ),

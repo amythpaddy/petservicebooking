@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 
 class AddedPetCard extends StatelessWidget {
@@ -24,7 +25,7 @@ class AddedPetCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(41),
             border: Border.all(color: kAppIconColor, width: 2),
           ),
-          child: Image.asset(
+          child: SvgPicture.asset(
             image,
             fit: BoxFit.fill,
             height: 82,

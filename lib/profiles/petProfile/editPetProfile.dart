@@ -4,6 +4,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/enums.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
@@ -78,11 +79,26 @@ class EditPetProfile extends StatelessWidget {
                                       alignment: Alignment.center,
                                       children: [
                                         state.image == null
-                                            ? Image.asset(
-                                                'assets/images/profile/dog_avatar.png',
-                                                width: 82,
-                                                height: 82,
-                                              )
+                                            ? state.addUpdatePet!.image.isEmpty
+                                                ? SvgPicture.asset(
+                                                    state.addUpdatePet!
+                                                                .petCategory ==
+                                                            PetCategory.DOG
+                                                        ? 'assets/images/dog_avatar.svg'
+                                                        : 'assets/images/cat_avatar.svg',
+                                                    height: 72,
+                                                    width: 72,
+                                                  )
+                                                : ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            36),
+                                                    child: Image.network(
+                                                      state.addUpdatePet!.image,
+                                                      height: 72,
+                                                      width: 72,
+                                                      fit: BoxFit.fitWidth,
+                                                    ))
                                             : kIsWeb
                                                 ? Image.network(
                                                     state.image!.path)

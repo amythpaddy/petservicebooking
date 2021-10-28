@@ -121,6 +121,7 @@ class VetService extends StatelessWidget
                   switch (state.currentScreen) {
                     case FunnelScreens.SCREEN_BOOKING_CONFIRMED:
                       return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
                               'assets/images/funnels/icon_booking_confirmed.svg'),

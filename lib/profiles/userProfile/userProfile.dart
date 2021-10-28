@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
 import 'package:the_pet_nest/profiles/bloc/userProfile/userProfileBloc.dart';
@@ -36,7 +37,7 @@ class UserProfile extends StatelessWidget {
                   BlocBuilder<UserProfileBloc, UserProfileState>(
                       builder: (blocContext, state) {
                     return Container(
-                        margin: EdgeInsets.only(bottom: 6),
+                        margin: EdgeInsets.only(bottom: 10.64),
                         padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -101,6 +102,9 @@ class UserProfile extends StatelessWidget {
                   Text(
                     'No of Pets:',
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                  ),
+                  SizedBox(
+                    height: 7.64,
                   ),
                   BlocBuilder<PetProfileBloc, PetProfileState>(
                       builder: (blocContext, state) {
@@ -207,21 +211,25 @@ class UserProfile extends StatelessWidget {
                                       state.petList!.petDataStore[index]
                                                   .images ==
                                               null
-                                          ? Image.asset(
-                                              'assets/images/profile/dog_avatar.png',
+                                          ? SvgPicture.asset(
+                                              state.petList!.petDataStore[index]
+                                                          .category!.name ==
+                                                      kPetCategoryDog
+                                                  ? 'assets/images/dog_avatar.svg'
+                                                  : 'assets/images/cat_avatar.svg',
                                               height: 46.16,
                                               width: 46.16,
                                             )
                                           : ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(46),
+                                                  BorderRadius.circular(21),
                                               child: Image.network(
                                                 state
                                                     .petList!
                                                     .petDataStore[index]
                                                     .images!,
-                                                height: 46.16,
-                                                width: 46.16,
+                                                height: 42,
+                                                width: 42,
                                                 fit: BoxFit.fitWidth,
                                               ),
                                             ),
@@ -264,7 +272,7 @@ class UserProfile extends StatelessWidget {
                     child: Column(
                       children: [
                         MenuItem(
-                          icon: 'assets/images/feedback/location.svg',
+                          icon: 'assets/images/profile/service_address.svg',
                           title: 'Service Address',
                           onClick: () => Navigator.pushNamed(
                               context, kNavigationAddressBook),
@@ -331,6 +339,9 @@ class UserProfile extends StatelessWidget {
                             height: 1.5),
                       );
                     }),
+                  ),
+                  SizedBox(
+                    height: 100,
                   )
                 ],
               ),

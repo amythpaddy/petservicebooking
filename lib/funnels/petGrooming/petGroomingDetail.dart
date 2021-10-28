@@ -230,7 +230,7 @@ class PetGroomingDetail extends StatelessWidget {
                                 'Prices may vary according to your City',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 12,
+                                    fontSize: 13,
                                     height: 1.5),
                               ))
                             ],
@@ -474,7 +474,7 @@ class PetGroomingDetail extends StatelessWidget {
                                 ? CircularProgressIndicator()
                                 : Container(
                                     margin: EdgeInsets.only(left: 20, top: 13),
-                                    height: 175,
+                                    height: 150,
                                     child: ListView.builder(
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,

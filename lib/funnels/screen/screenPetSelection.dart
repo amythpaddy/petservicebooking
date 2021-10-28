@@ -67,6 +67,12 @@ class ScreenPetSelection extends StatelessWidget {
                                         name: state
                                             .petList!.petDataStore[index].name!,
                                         image: '',
+                                        petCategory: state
+                                                .petList!
+                                                .petDataStore[index]
+                                                .category!
+                                                .name ??
+                                            '',
                                         breed: state
                                             .petList!
                                             .petDataStore[index]

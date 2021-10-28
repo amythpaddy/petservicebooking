@@ -224,6 +224,13 @@ class AddEditMap extends StatelessWidget {
                                                               Mode.BOTTOM_SHEET,
                                                           showSelectedItem:
                                                               true,
+                                                          selectedItem: getSelectedState(
+                                                              state
+                                                                  .addAddressModel!
+                                                                  .stateId,
+                                                              state
+                                                                  .statesAndCitiesList!
+                                                                  .stateList),
                                                           showSearchBox: true,
                                                           items: state
                                                               .statesAndCitiesList!
@@ -305,6 +312,20 @@ class AddEditMap extends StatelessWidget {
                                                         )),
                                                 mode: Mode.BOTTOM_SHEET,
                                                 showSearchBox: true,
+                                                selectedItem: getSelectedCity(
+                                                    state.addAddressModel!
+                                                        .cityId,
+                                                    state.addAddressModel!
+                                                                .stateId ==
+                                                            -1
+                                                        ? []
+                                                        : state
+                                                            .statesAndCitiesList!
+                                                            .stateList![state
+                                                                    .addAddressModel!
+                                                                    .stateId -
+                                                                1]
+                                                            .cities),
                                                 showSelectedItem: true,
                                                 items: state.addAddressModel!
                                                             .stateId ==
@@ -459,5 +480,27 @@ class AddEditMap extends StatelessWidget {
   void updateLocationOnMap(CameraPosition mapPosition) async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(mapPosition));
+  }
+
+  StateData? getSelectedState(int stateId, List<StateData>? stateList) {
+    StateData? result;
+    if (stateList != null) {
+      stateList.forEach((state) {
+        if (state.id == stateId) result = state;
+        return;
+      });
+    }
+    return result;
+  }
+
+  Cities? getSelectedCity(int cityId, List<Cities>? cityList) {
+    Cities? result;
+    if (cityList != null) {
+      cityList.forEach((city) {
+        if (city.id == cityId) result = city;
+        return;
+      });
+    }
+    return result;
   }
 }

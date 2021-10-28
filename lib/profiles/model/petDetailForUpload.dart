@@ -13,6 +13,7 @@ class PetDetailForUpload extends Equatable {
   int vaccine;
   BreedDetail? subCategory;
   PetCategory petCategory;
+  String image;
   PetDetailForUpload(
       {this.name = '',
       this.aggression = Aggression.HIGH,
@@ -21,7 +22,8 @@ class PetDetailForUpload extends Equatable {
       this.weight,
       this.vaccine = 0,
       this.petCategory = PetCategory.DOG,
-      this.subCategory});
+      this.subCategory,
+      this.image = ''});
 
   static PetDetailForUpload fromPetStore(CustomerPet petDetail) {
     Aggression agg = Aggression.HIGH;
@@ -61,6 +63,7 @@ class PetDetailForUpload extends Equatable {
         age: petDetail.age!,
         gender: petDetail.gender == "male" ? Gender.MALE : Gender.FEMALE,
         weight: petDetail.weight!,
+        image: petDetail.images ?? '',
         vaccine: petDetail.vaccinations == true ? 1 : 0,
         petCategory: petDetail.category!.name == 'dog'
             ? PetCategory.DOG

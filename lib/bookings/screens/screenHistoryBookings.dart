@@ -68,6 +68,13 @@ class ScreenBookingsHistory extends StatelessWidget {
                     city: '', //todo: city name to be fetched,
                     leadId: historyBookings[index].id!,
                     leadType: historyBookings[index].leadType!,
+                    petCategory:
+                        historyBookings[index].leadPetPackages!.length > 0
+                            ? historyBookings[index]
+                                .leadPetPackages![0]
+                                .customerPet!
+                                .categoryId!
+                            : 2,
                   ),
                 );
               },

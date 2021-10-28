@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_pet_nest/dashboard/component/addPetPopup/component/addedPetCard.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileBloc.dart';
 import 'package:the_pet_nest/profiles/bloc/petProfile/petProfileState.dart';
 
@@ -40,7 +41,11 @@ class AddedPetModal extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return AddedPetCard(
                             name: state.petList!.petDataStore[index].name!,
-                            image: 'assets/images/profile/dog_avatar.png',
+                            image: state.petList!.petDataStore[index].category!
+                                        .name ==
+                                    kPetCategoryDog
+                                ? 'assets/images/dog_avatar.svg'
+                                : 'assets/images/cat_avatar.svg',
                             breed: state.petList!.petDataStore[index]
                                 .subcategory!.name!,
                           );

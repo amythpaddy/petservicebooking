@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
+import 'package:the_pet_nest/konstants/values.dart';
 
 class SelectAddedPetCard extends StatelessWidget {
   const SelectAddedPetCard(
@@ -7,11 +9,13 @@ class SelectAddedPetCard extends StatelessWidget {
       required this.image,
       required this.name,
       required this.breed,
+      required this.petCategory,
       this.selected = false})
       : super(key: key);
   final String image;
   final String name;
   final String breed;
+  final String petCategory;
   final bool selected;
 
   @override
@@ -28,12 +32,20 @@ class SelectAddedPetCard extends StatelessWidget {
           padding: EdgeInsets.all(5),
           child: Stack(
             children: [
-              Image.asset(
-                image.isEmpty ? 'assets/images/profile/dog_avatar.png' : image,
-                fit: BoxFit.fill,
-                height: 82,
-                width: 82,
-              ),
+              image.isEmpty
+                  ? SvgPicture.asset(
+                      petCategory == kPetCategoryDog
+                          ? 'assets/images/dog_avatar.svg'
+                          : 'assets/images/cat_avatar.svg',
+                      height: 82,
+                      width: 82,
+                    )
+                  : Image.asset(
+                      image,
+                      fit: BoxFit.fill,
+                      height: 82,
+                      width: 82,
+                    ),
               Visibility(
                 visible: selected,
                 child: ClipRRect(

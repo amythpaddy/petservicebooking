@@ -11,13 +11,13 @@ class Messaging extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: 20),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            SizedBox(
-              height: 10,
-            ),
-            Text.rich(TextSpan(children: [
-              TextSpan(text: 'Sort By :'),
-              TextSpan(text: 'Chat')
-            ])),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // Text.rich(TextSpan(children: [
+            //   TextSpan(text: 'Sort By :'),
+            //   TextSpan(text: 'Chat')
+            // ])),
             SizedBox(
               height: 30,
             ),

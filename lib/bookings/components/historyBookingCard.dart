@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:the_pet_nest/bookings/bloc/bookingBloc.dart';
 import 'package:the_pet_nest/bookings/model/bookingDataModel.dart';
@@ -20,6 +21,7 @@ class HistoryBookingCard extends StatelessWidget {
   final String city;
   final int leadId;
   final String leadType;
+  final int petCategory;
 
   const HistoryBookingCard(
       {Key? key,
@@ -31,7 +33,8 @@ class HistoryBookingCard extends StatelessWidget {
       required this.cancelled,
       required this.city,
       required this.leadId,
-      required this.leadType})
+      required this.leadType,
+      required this.petCategory})
       : super(key: key);
 
   @override
@@ -86,7 +89,7 @@ class HistoryBookingCard extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 8.25),
+            margin: EdgeInsets.only(top: 2.25, bottom: 8.25),
             height: 1.5,
             color: Color.fromARGB(16, 00, 0, 0),
           ),
@@ -96,7 +99,13 @@ class HistoryBookingCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset('assets/images/profile/dog_avatar.png'),
+                SvgPicture.asset(
+                  petCategory == 2
+                      ? 'assets/images/dog_avatar.svg'
+                      : 'assets/images/cat_avatar.svg',
+                  height: 60,
+                  width: 60,
+                ),
                 SizedBox(
                   width: 5,
                 ),
@@ -180,7 +189,9 @@ class HistoryBookingCard extends StatelessWidget {
                     TextButton(
                         onPressed: () {
                           BookingDetailArguments args = BookingDetailArguments(
-                              leadId: leadId, onGoing: false,leadType:leadType );
+                              leadId: leadId,
+                              onGoing: false,
+                              leadType: leadType);
                           Navigator.pushNamed(
                                   context, kNavigationBookingDetailsPage,
                                   arguments: args)
