@@ -217,8 +217,8 @@ class UserProfile extends StatelessWidget {
                                                       kPetCategoryDog
                                                   ? 'assets/images/dog_avatar.svg'
                                                   : 'assets/images/cat_avatar.svg',
-                                              height: 46.16,
-                                              width: 46.16,
+                                              height: 42,
+                                              width: 42,
                                             )
                                           : ClipRRect(
                                               borderRadius:

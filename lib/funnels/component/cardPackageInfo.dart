@@ -102,19 +102,20 @@ class CardPackageInfo extends StatelessWidget {
               )
             ],
           ),
-          // Wrap(
-          //   children: detailsPointer,
-          //   direction: Axis.horizontal,
-          // ),
-          Html(
-            data: details,
-            style: {
-              "body": Style(
-                  color: kTextColorBlue,
-                  fontSize: FontSize.medium,
-                  fontWeight: FontWeight.w300)
-            },
-          ),
+          currentFunnel == FunnelType.PET_TRAINING
+              ? Html(
+                  data: details,
+                  style: {
+                    "body": Style(
+                        color: kTextColorBlue,
+                        fontSize: FontSize.medium,
+                        fontWeight: FontWeight.w300)
+                  },
+                )
+              : Wrap(
+                  children: detailsPointer,
+                  direction: Axis.horizontal,
+                ),
           Divider(),
           Visibility(
             visible: currentFunnel == FunnelType.PET_TRAINING,

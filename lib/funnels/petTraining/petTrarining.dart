@@ -106,11 +106,17 @@ class PetTrainingService extends StatelessWidget
               backgroundColor: kAppBackgroundAltGray,
               leading: BlocBuilder<PetTrainingBloc, FunnelState>(
                 builder: (blocContext, state) {
-                  return IconButton(
-                    onPressed: () {
+                  return WillPopScope(
+                    onWillPop: () async {
                       BlocProvider.of<PetTrainingBloc>(blocContext).goBack();
+                      return false;
                     },
-                    icon: Icon(Icons.arrow_back),
+                    child: IconButton(
+                      onPressed: () {
+                        BlocProvider.of<PetTrainingBloc>(blocContext).goBack();
+                      },
+                      icon: Icon(Icons.arrow_back),
+                    ),
                   );
                 },
               ),

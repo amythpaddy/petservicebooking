@@ -108,11 +108,17 @@ class VetService extends StatelessWidget
               backgroundColor: kAppBackgroundAltGray,
               leading: BlocBuilder<VetBloc, FunnelState>(
                 builder: (blocContext, state) {
-                  return IconButton(
-                    onPressed: () {
+                  return WillPopScope(
+                    onWillPop: () async {
                       BlocProvider.of<VetBloc>(blocContext).goBack();
+                      return false;
                     },
-                    icon: Icon(Icons.arrow_back),
+                    child: IconButton(
+                      onPressed: () {
+                        BlocProvider.of<VetBloc>(blocContext).goBack();
+                      },
+                      icon: Icon(Icons.arrow_back),
+                    ),
                   );
                 },
               ),

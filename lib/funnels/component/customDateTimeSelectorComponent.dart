@@ -30,11 +30,18 @@ class CustomDateTimeSelectorComponent extends StatelessWidget {
         ),
         BlocBuilder<DateTimeBloc, DateTimeState>(
           builder: (blocContext, state) {
+            if (state.bookedSlots!.response == null &&
+                showTimeSlots &&
+                state.gettingAvailableTimeSlots) {
+              BlocProvider.of<DateTimeBloc>(blocContext).setDate(DateTime.now(),
+                  format: "dd-MM-yyyy", leadType: leadType);
+            }
             return Container(
               margin: EdgeInsets.all(20),
               padding: EdgeInsets.all(20),
               decoration: kDataContainerStyle,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   CalendarDatePicker(
                       initialDate: DateTime.now(),

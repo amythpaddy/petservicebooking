@@ -91,7 +91,8 @@ class VetDetail extends StatelessWidget {
                                       onPressed: () => Navigator.pushNamed(
                                           context, kNavigationVetFunnel),
                                       child: Container(
-                                        padding: EdgeInsets.all(8),
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 36.5),
                                         decoration: kActiveButtonContainerStyle,
                                         child: Text(
                                           'Talk to a Vet',
@@ -102,11 +103,15 @@ class VetDetail extends StatelessWidget {
                                     SizedBox(
                                       height: 14.55,
                                     ),
-                                    Text(
-                                      'Connect With a Vet Expert Online in Under 1 Minute',
-                                      style:
-                                          TextStyle(color: Color(0xFFE5E5E5)),
-                                      textAlign: TextAlign.center,
+                                    Container(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      child: Text(
+                                        'Connect With a Vet Expert Online in Under 1 Minute',
+                                        style:
+                                            TextStyle(color: Color(0xFFE5E5E5)),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                     SizedBox(
                                       height: 21,

@@ -106,23 +106,33 @@ class PetGroomingService extends StatelessWidget
               backgroundColor: kAppBackgroundColor,
               leading: BlocBuilder<PetGroomingBloc, FunnelState>(
                 builder: (blocContext, state) {
-                  return IconButton(
-                    onPressed: () {
+                  return WillPopScope(
+                    onWillPop: () async {
                       BlocProvider.of<PetGroomingBloc>(blocContext).goBack();
+                      return false;
                     },
-                    icon: Icon(Icons.arrow_back),
+                    child: IconButton(
+                      onPressed: () {
+                        BlocProvider.of<PetGroomingBloc>(blocContext).goBack();
+                      },
+                      icon: Icon(Icons.arrow_back),
+                    ),
                   );
                 },
               ),
+              centerTitle: true,
               title: BlocBuilder<PetGroomingBloc, FunnelState>(
                 builder: (blocContext, state) {
                   switch (state.currentScreen) {
                     case FunnelScreens.SCREEN_BOOKING_CONFIRMED:
                       return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset(
                               'assets/images/funnels/icon_booking_confirmed.svg'),
+                          SizedBox(
+                            width: 9.13,
+                          ),
                           Text(
                             "Booking Confirmed",
                             style: TextStyle(
@@ -134,9 +144,13 @@ class PetGroomingService extends StatelessWidget
                       );
                     case FunnelScreens.SCREEN_BOOKING_CANCELLED:
                       return Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset(
                               'assets/images/funnels/icon_booking_cancelled.svg'),
+                          SizedBox(
+                            width: 9.13,
+                          ),
                           Text(
                             "Booking Cancelled",
                             style: TextStyle(
@@ -193,7 +207,7 @@ class PetGroomingService extends StatelessWidget
                           totalPrice: _totalPrice,
                           petData: state.petData!,
                           packageDetail: state.packageDetail!,
-                          currentFunnel: FunnelType.PET_TRAINING);
+                          currentFunnel: FunnelType.PET_GROOMING);
                       break;
                     case FunnelScreens.SCREEN_PAYMENT_METHOD:
                       double _totalPrice = 0;

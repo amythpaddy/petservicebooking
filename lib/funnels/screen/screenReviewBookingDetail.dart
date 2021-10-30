@@ -51,25 +51,30 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                           height: 8.4,
                         ),
                         ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: petData.length,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (builder, index) =>
-                                ServiceBookingDetailPetCardComponent(
-                                    petName: petData[index].name!,
-                                    bookingDate: '',
-                                    servicePrice: packageDetail[index].price!,
-                                    bookingService:
-                                        packageDetail[index].name!)),
+                          shrinkWrap: true,
+                          itemCount: petData.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (builder, index) =>
+                              ServiceBookingDetailPetCardComponent(
+                                  petName: petData[index].name!,
+                                  bookingDate: '',
+                                  servicePrice: packageDetail[index].price!,
+                                  bookingService: packageDetail[index].name!,
+                                  petCategory: petData[index].category!.name!),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
                         TextButton(
                           style:
                               TextButton.styleFrom(padding: EdgeInsets.all(0)),
                           onPressed: () => onBookingDetailReviewInterface
                               .onAddAnotherPetClicked(context),
                           child: Container(
+                              height: 52,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 22, vertical: 14.5),
-                              margin: EdgeInsets.symmetric(vertical: 8.2),
+                              margin: EdgeInsets.symmetric(vertical: 0),
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(12),
@@ -121,6 +126,7 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                         ),
                         Container(
                           width: double.infinity,
+                          height: 50,
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -139,6 +145,7 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                         Visibility(
                           visible: currentFunnel == FunnelType.PET_GROOMING,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'Appointment Prep',
@@ -150,20 +157,29 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                               SizedBox(
                                 height: 10,
                               ),
-                              Image.asset(
-                                'assets/images/funnels/grooming_prep_image.png',
-                                height: 160,
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Image.asset(
+                                  'assets/images/funnels/grooming_prep_image.png',
+                                  height: 160,
+                                ),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                  'We recommend you to have following items on the day of appointment. \n ${String.fromCharCode(0x2022)} A bathing area and Personal towels (If Any) \n ${String.fromCharCode(0x2022)} A well-lit area that has access to outlets for blow drying.'),
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                    'We recommend you to have following items on the day of appointment. \n ${String.fromCharCode(0x2022)} A bathing area and Personal towels (If Any) \n ${String.fromCharCode(0x2022)} A well-lit area that has access to outlets for blow drying.'),
+                              ),
                             ],
                           ),
                         ),
                       ],
                     )),
+                SizedBox(
+                  height: 22.67,
+                ),
                 TextButton(
                   style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
                   onPressed: () {

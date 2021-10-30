@@ -200,7 +200,14 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                       width: 10,
                                     ),
                                     Expanded(
-                                      child: Text(getShortlyAssignMsg()),
+                                      child: Text(
+                                        getShortlyAssignMsg(),
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.5,
+                                            color: Color(0x771A202E)),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -525,13 +532,17 @@ class ScreenBookingConfirmation extends StatelessWidget {
                       SizedBox(
                         height: 21,
                       ),
-                      Text(
-                        'Are you sure, you want to cancel Booking?',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            height: 1.5,
-                            color: Color(0xFF151724)),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          'Are you sure, you want to cancel Booking?',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              height: 1.5,
+                              color: Color(0xFF151724)),
+                        ),
                       ),
                       SizedBox(
                         height: 24,
@@ -587,6 +598,9 @@ class ScreenBookingConfirmation extends StatelessWidget {
                           )
                         ],
                       ),
+                      SizedBox(
+                        height: 20,
+                      )
                     ],
                   ),
                 ),
