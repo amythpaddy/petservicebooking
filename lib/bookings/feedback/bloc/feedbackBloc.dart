@@ -76,5 +76,6 @@ class FeedbackBloc extends Bloc<FeedbackEvents, FeedbackState> {
     } catch (err) {}
     _feedbackData.userFeedback.insert(index, feedback);
     add(FeedbackEvents.UPDATE_FEEDBACK_OPTIONS);
+    print(_feedbackData.userFeedback[0].answer);
   }
 }

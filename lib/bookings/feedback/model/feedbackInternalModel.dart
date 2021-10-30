@@ -49,7 +49,7 @@ class UsersFeedback {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> userFeedback = Map();
     userFeedback["feedback_question"] = question;
-    userFeedback["selected_feedback_option"] = question;
+    userFeedback["selected_feedback_option"] = answer;
     return userFeedback;
   }
 }
