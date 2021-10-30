@@ -302,7 +302,7 @@ class PetTrainingDetail extends StatelessWidget {
                                                           kNavigationPetTrainingFunnel),
                                                   child: CardPackageInfo(
                                                     currentFunnel:
-                                                        FunnelType.PET_GROOMING,
+                                                        FunnelType.PET_TRAINING,
                                                     name: state.packages!
                                                         .data![index].name!,
                                                     details: state.packages!
@@ -313,6 +313,14 @@ class PetTrainingDetail extends StatelessWidget {
                                                             .selectedPackageIndex ==
                                                         index,
                                                     expand: true,
+                                                    valueAdded: state
+                                                        .packages!
+                                                        .data![index]
+                                                        .valueAdded!,
+                                                    requirements: state
+                                                        .packages!
+                                                        .data![index]
+                                                        .requirements!,
                                                   ),
                                                 )),
                                       ),
