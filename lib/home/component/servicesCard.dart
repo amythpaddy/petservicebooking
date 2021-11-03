@@ -6,9 +6,13 @@ class ServicesCard extends StatelessWidget {
   final String text;
   final String svgPath;
   final void Function() onClick;
+  final bool marginRight;
 
   const ServicesCard(
-      {required this.text, required this.svgPath, required this.onClick});
+      {required this.text,
+      required this.svgPath,
+      required this.onClick,
+      this.marginRight = true});
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -19,8 +23,8 @@ class ServicesCard extends StatelessWidget {
             color: Colors.white,
             boxShadow: [kContainerBoxShadow],
             borderRadius: BorderRadius.circular(18)),
-        margin: EdgeInsets.only(right: 9),
-        padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+        margin: EdgeInsets.only(right: marginRight ? 9 : 0),
+        padding: EdgeInsets.only(bottom: 10, left: 9, right: 9),
         child: Column(
           children: [
             Container(
@@ -39,7 +43,7 @@ class ServicesCard extends StatelessWidget {
                 text,
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 12,
+                    fontSize: 11,
                     color: Color(0xFF151724)),
               ),
             )

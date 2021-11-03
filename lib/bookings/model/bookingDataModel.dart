@@ -112,9 +112,11 @@ class BookingData {
 class PetHero {
   String? name;
   String? rating;
+  int? jobsDone;
   PetHero.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     rating = json['rating'];
+    jobsDone = json['jobs_done'];
   }
 }
 

@@ -15,15 +15,18 @@ import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 import 'package:the_pet_nest/konstants/values.dart';
 import 'package:the_pet_nest/utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScreenBookingConfirmation extends StatelessWidget {
   final BookingConfirmationInterface onBookingConfirmation;
   final FunnelType currentFunnel;
+  final bool fromFunnels;
 
   const ScreenBookingConfirmation(
       {Key? key,
       required this.onBookingConfirmation,
-      required this.currentFunnel})
+      required this.currentFunnel,
+      this.fromFunnels = true})
       : super(key: key);
 
   @override
@@ -231,9 +234,17 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                             width: 10,
                                           ),
                                           Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "Pet Hero",
+                                                state.bookingData!.lead!
+                                                            .petHero ==
+                                                        null
+                                                    ? "Pet Hero"
+                                                    : state.bookingData!.lead!
+                                                            .petHero!.name ??
+                                                        "Pet Hero",
                                                 style: TextStyle(
                                                     fontSize: 16,
                                                     height: 1.5,
@@ -241,10 +252,175 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
+                                              RichText(
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "Service Ratings: ",
+                                                    style: TextStyle(
+                                                        fontSize: 10,
+                                                        height: 1.5,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
+                                                  WidgetSpan(
+                                                      alignment:
+                                                          PlaceholderAlignment
+                                                              .middle,
+                                                      child: Icon(
+                                                        Icons.star_rounded,
+                                                        size: 11,
+                                                        color:
+                                                            Color(0xFF00BE63),
+                                                      )),
+                                                  TextSpan(
+                                                      text: state
+                                                                  .bookingData!
+                                                                  .lead!
+                                                                  .petHero ==
+                                                              null
+                                                          ? "4.0"
+                                                          : state
+                                                                  .bookingData!
+                                                                  .lead!
+                                                                  .petHero!
+                                                                  .rating ??
+                                                              "3.2",
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          height: 1.5,
+                                                          color:
+                                                              Color(0xFF00BE63),
+                                                          fontWeight:
+                                                              FontWeight.w700))
+                                                ]),
+                                              ),
                                             ],
                                           )
                                         ],
                                       ),
+                                    ),
+                                    SizedBox(
+                                      height: 10.66,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/bookings/icon_sheild.png',
+                                          height: 22,
+                                          width: 22,
+                                        ),
+                                        SizedBox(
+                                          width: 7,
+                                        ),
+                                        RichText(
+                                          text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                    text:
+                                                        '${state.bookingData!.lead!.petHero == null ? 109 : state.bookingData!.lead!.petHero!.jobsDone ?? 200} safe jobs ',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w300)),
+                                                TextSpan(
+                                                    text: 'done.',
+                                                    style: TextStyle(
+                                                        color: kAppIconColor,
+                                                        fontWeight:
+                                                            FontWeight.w500))
+                                              ],
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                  height: 1.5)),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(height: 19.23),
+                                    Divider(
+                                      height: 1,
+                                    ),
+                                    SizedBox(height: 8.77),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () async {
+                                            {
+                                              Uri emailLaunchUri = Uri(
+                                                scheme: 'tel',
+                                                path: '9354074426',
+                                              );
+                                              await canLaunch(
+                                                      emailLaunchUri.toString())
+                                                  ? launch(
+                                                      emailLaunchUri.toString())
+                                                  : showSnackbar(
+                                                      context: context);
+                                            }
+                                          },
+                                          child: Column(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/images/bookings/icon_phone.svg',
+                                                height: 19,
+                                                width: 19,
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                'Call',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.5,
+                                                    color: Colors.black),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 72,
+                                        ),
+                                        Container(
+                                          width: 1,
+                                          height: 40,
+                                          color: kAppBackgroundAltGray,
+                                        ),
+                                        SizedBox(
+                                          width: 72,
+                                        ),
+                                        TextButton(
+                                          onPressed: () {},
+                                          child: Column(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/images/bookings/icon_chat.svg',
+                                                height: 19,
+                                                width: 19,
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                'Chat',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.5,
+                                                    color: Colors.black),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
                                     )
                                   ],
                                 ),
@@ -593,6 +769,120 @@ class ScreenBookingConfirmation extends StatelessWidget {
                                           fontWeight: FontWeight.w600),
                                     ),
                                   ))),
+                          SizedBox(
+                            height: 14,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+        BlocBuilder<BookingBloc, BookingState>(builder: (blocContext, state) {
+          return Visibility(
+            visible: fromFunnels && state.showBookingSuccessPopup,
+            child: Container(
+              width: SizeConfig.screenWidth,
+              height: SizeConfig.screenHeight,
+              color: Color(0x8D000000),
+              child: Center(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 25),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [kContainerBoxShadow],
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 12.86,
+                      ),
+                      Text(
+                        'Booking Successful',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            height: 1.5,
+                            color: Color(0xFFA3A6Ab)),
+                      ),
+                      SizedBox(
+                        height: 8.38,
+                      ),
+                      SvgPicture.asset(
+                          'assets/images/funnels/icon_booking_success.svg'),
+                      SizedBox(
+                        height: 15.57,
+                      ),
+                      Text(
+                        currentFunnel == FunnelType.VET_SERVICE
+                            ? "Thank You!"
+                            : "Congratulation!",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            height: 1.5,
+                            color: Color(0xFF151724)),
+                      ),
+                      SizedBox(
+                        height: 6.99,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          currentFunnel == FunnelType.VET_SERVICE
+                              ? 'Your  appointment with pet Expert has been successfully booked.'
+                              : 'Your pet grooming appointment is successfully booked.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              height: 1.5,
+                              color: Color(0xFF151724)),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 21,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                BlocProvider.of<BookingBloc>(context)
+                                    .hideBookingSuccessPopup();
+                              },
+                              child: Container(
+                                height: 34,
+                                width: 106,
+                                decoration:
+                                    currentFunnel == FunnelType.VET_SERVICE
+                                        ? kActiveButtonContainerBlueStyle
+                                        : kActiveButtonContainerStyle,
+                                child: Center(
+                                  child: Text(
+                                    'Yes',
+                                    style:
+                                        currentFunnel == FunnelType.VET_SERVICE
+                                            ? TextStyle(
+                                                fontSize: 14,
+                                                height: 1.5,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600)
+                                            : TextStyle(
+                                                fontSize: 14,
+                                                height: 1.5,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              )),
                           SizedBox(
                             height: 14,
                           )

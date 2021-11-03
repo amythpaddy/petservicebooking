@@ -67,8 +67,8 @@ class CardPackageInfo extends StatelessWidget {
                   child: Text(
                     this.name,
                     style: TextStyle(
-                        height: 1.5, fontWeight: FontWeight.w500, fontSize: 18),
-                    textAlign: TextAlign.center,
+                        height: 1.5, fontWeight: FontWeight.w700, fontSize: 16),
+                    textAlign: TextAlign.left,
                   ),
                 ),
               ),
@@ -194,13 +194,15 @@ class CardPackageInfo extends StatelessWidget {
   TextSpan bulletText(String text) {
     return TextSpan(
       children: [
-        TextSpan(text: '\u2022 ', style: TextStyle(color: kAppIconColor)),
+        TextSpan(
+            text: '\u2022 ',
+            style: TextStyle(color: kAppIconColor, fontSize: 16)),
         TextSpan(
             text: '$text  ',
             style: TextStyle(
                 color: kTextColorBlue,
                 fontWeight: FontWeight.w300,
-                fontSize: 10,
+                fontSize: 12,
                 height: 2.7))
       ],
     );

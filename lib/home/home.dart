@@ -57,6 +57,7 @@ class _HomeState extends State<Home> {
                   ),
                   SizedBox(height: 9.57),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: ServicesCard(
@@ -80,6 +81,7 @@ class _HomeState extends State<Home> {
                           svgPath: ServiceList[2]['image']!,
                           onClick: () => Navigator.pushNamed(
                               context, kNavigationVetDetail),
+                          marginRight: false,
                         ),
                       )
                     ],

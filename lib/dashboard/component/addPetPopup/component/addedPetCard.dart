@@ -21,15 +21,15 @@ class AddedPetCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 33),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Container(
+          padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(41),
+            borderRadius: BorderRadius.circular(45),
             border: Border.all(color: kAppIconColor, width: 2),
           ),
           child: SvgPicture.asset(
             image,
-            fit: BoxFit.fill,
-            height: 82,
-            width: 82,
+            height: 70,
+            width: 70,
           ),
         ),
         SizedBox(

@@ -81,7 +81,7 @@ class ServiceBookingDetailPetCardComponent extends StatelessWidget {
                   Text(
                     '\u{20B9} $servicePrice',
                     style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w700,
                         fontSize: 18,
                         height: 1.5,
                         color: kAppIconColor),

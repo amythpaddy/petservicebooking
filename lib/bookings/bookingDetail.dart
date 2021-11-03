@@ -60,6 +60,7 @@ class BookingDetail extends StatelessWidget
                     : ScreenBookingConfirmation(
                         onBookingConfirmation: this,
                         currentFunnel: getCurrentFunnel(args!.leadType),
+                        fromFunnels: false,
                       );
           },
         ),

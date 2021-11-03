@@ -127,7 +127,8 @@ class ScreenReviewBookingDetail extends StatelessWidget {
                         Container(
                           width: double.infinity,
                           height: 50,
-                          padding: EdgeInsets.all(8),
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.only(left: 16.33),
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12)),

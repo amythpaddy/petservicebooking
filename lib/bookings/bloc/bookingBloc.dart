@@ -59,6 +59,10 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
     add(BookingEvents.UPDATE_BOOKING_DATA);
   }
 
+  void hideBookingSuccessPopup() {
+    add(BookingEvents.HIDE_BOOKING_SUCCESS_POPUP);
+  }
+
   @override
   Stream<BookingState> mapEventToState(BookingEvents event) async* {
     if (event == BookingEvents.SHOW_DATE_PICKER) {
@@ -81,6 +85,8 @@ class BookingBloc extends Bloc<BookingEvents, BookingState> {
       yield state.copyWith(showBookingCancelConfirmation: false);
     } else if (event == BookingEvents.SHOW_BOOKING_CANCEL_CONFIRMATION) {
       yield state.copyWith(showBookingCancelConfirmation: true);
+    } else if (event == BookingEvents.HIDE_BOOKING_SUCCESS_POPUP) {
+      yield state.copyWith(showBookingSuccessPopup: false);
     }
   }
 

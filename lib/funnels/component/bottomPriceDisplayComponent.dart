@@ -36,8 +36,10 @@ class BottomPriceDisplayComponent extends StatelessWidget {
                 TextSpan(
                   text: '\u{20B9} ${(totalPrice - discountPrice).toInt()}',
                   style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
+                      height: 1.5,
                       color: kAppIconColor),
                 ),
                 TextSpan(
