@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:the_pet_nest/config/sizeConfig.dart';
 import 'package:the_pet_nest/funnels/bloc/packageBloc/packageBloc.dart';
 import 'package:the_pet_nest/funnels/bloc/packageBloc/packageState.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
@@ -24,7 +25,7 @@ class CardPackageInfo extends StatelessWidget {
       detailsPointer.add(
         RichText(
           text: bulletText(element),
-          softWrap: false,
+          softWrap: true,
         ),
       );
     });
@@ -43,8 +44,8 @@ class CardPackageInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(right: 16),
-      width: 325,
-      padding: EdgeInsets.symmetric(horizontal: 16.81),
+      width: SizeConfig.blockSizeHorizontal * 84,
+      padding: EdgeInsets.only(left: 16.81),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
@@ -55,21 +56,31 @@ class CardPackageInfo extends StatelessWidget {
       child: Column(
         mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.only(top: 10),
-                  child: Text(
-                    this.name,
-                    style: TextStyle(
-                        height: 1.5, fontWeight: FontWeight.w700, fontSize: 16),
-                    textAlign: TextAlign.left,
-                  ),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: Text(
+                        this.name,
+                        style: TextStyle(
+                            height: 1.5,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    Visibility(
+                        visible: currentFunnel == FunnelType.PET_GROOMING,
+                        child: detailsPointer[0]),
+                  ],
                 ),
               ),
               Container(
@@ -113,10 +124,14 @@ class CardPackageInfo extends StatelessWidget {
                   },
                 )
               : Wrap(
-                  children: detailsPointer,
+                  children: currentFunnel == FunnelType.PET_GROOMING
+                      ? detailsPointer.sublist(1, detailsPointer.length)
+                      : detailsPointer,
                   direction: Axis.horizontal,
                 ),
-          Divider(),
+          SizedBox(
+            height: 10,
+          ),
           Visibility(
             visible: currentFunnel == FunnelType.PET_TRAINING,
             child: BlocBuilder<PackageBloc, PackageState>(
@@ -124,6 +139,7 @@ class CardPackageInfo extends StatelessWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Divider(),
                   TextButton(
                       onPressed: state.valueAddedExpanded
                           ? BlocProvider.of<PackageBloc>(blocContext)

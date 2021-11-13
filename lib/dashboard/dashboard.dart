@@ -8,7 +8,6 @@ import 'package:the_pet_nest/dashboard/component/addPetPopup/addPetPopup.dart';
 import 'package:the_pet_nest/home/home.dart';
 import 'package:the_pet_nest/konstants/colors.dart';
 import 'package:the_pet_nest/konstants/dataAccessors.dart';
-import 'package:the_pet_nest/konstants/paths.dart';
 import 'package:the_pet_nest/konstants/styles.dart';
 import 'package:the_pet_nest/messaging/messaging.dart';
 import 'package:the_pet_nest/profiles/bloc/userProfile/userProfileBloc.dart';
@@ -132,7 +131,9 @@ class _DashboardState extends State<Dashboard> {
                   onPressed: () {
                     String token = prefs.getString(kDataToken) ?? '';
                     if (token.isNotEmpty)
-                      Navigator.pushNamed(context, kNavigationUserprofile);
+                      setState(() {
+                        navigationOptions = BottomNavigationOptions.ME;
+                      });
                   },
                   child: BlocProvider(
                     create: (_) => UserProfileBloc(UserProfileState()),
@@ -148,6 +149,19 @@ class _DashboardState extends State<Dashboard> {
                               borderRadius: BorderRadius.circular(25),
                               child: Image.network(
                                 state.imageAddress,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null)
+                                    return child;
+                                  else {
+                                    return Container(
+                                        width: 50,
+                                        height: 50,
+                                        child: Image.asset(
+                                            'assets/images/avatar.png'));
+                                  }
+                                },
                                 height: 45,
                                 width: 45,
                                 fit: BoxFit.fitWidth,
@@ -278,9 +292,12 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           BottomNavigationIcons(
                             onPressed: () {
-                              setState(() {
-                                navigationOptions = BottomNavigationOptions.ME;
-                              });
+                              if ((prefs.getString(kDataToken) ?? '')
+                                  .isNotEmpty)
+                                setState(() {
+                                  navigationOptions =
+                                      BottomNavigationOptions.ME;
+                                });
                             },
                             icon: navigationOptions ==
                                     BottomNavigationOptions.ME

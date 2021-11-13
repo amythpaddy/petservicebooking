@@ -18,7 +18,6 @@ class ScreenPetSelection extends StatelessWidget {
     return SingleChildScrollView(
       child: Container(
           height: SizeConfig.blockSizeVertical * 85,
-          color: kAppBackgroundColor,
           margin: EdgeInsets.symmetric(horizontal: 18.46),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

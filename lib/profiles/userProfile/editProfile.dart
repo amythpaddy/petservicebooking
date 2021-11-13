@@ -105,6 +105,7 @@ class EditUserProfile extends StatelessWidget {
                                   child: UserDetailInput(
                                   heading: 'Name',
                                   required: true,
+                                  inputHeight: 45,
                                   onDataFilled: (name) => context
                                       .read<UserProfileBloc>()
                                       .updateName(name),
@@ -125,6 +126,7 @@ class EditUserProfile extends StatelessWidget {
                           : UserDetailInput(
                               heading: 'Email',
                               required: true,
+                              inputHeight: 45,
                               onDataFilled: (email) => context
                                   .read<UserProfileBloc>()
                                   .updateEmail(email),
@@ -141,6 +143,7 @@ class EditUserProfile extends StatelessWidget {
                               )
                             : UserDetailInput(
                                 heading: 'Phone number',
+                                inputHeight: 45,
                                 required: true,
                                 disabled: true,
                                 onDataFilled: (String value) {},
@@ -179,7 +182,7 @@ class EditUserProfile extends StatelessWidget {
                                     .read<UserProfileBloc>()
                                     .updateData(state.name, state.email),
                                 child: Container(
-                                  padding: EdgeInsets.all(8),
+                                  padding: EdgeInsets.all(10),
                                   alignment: Alignment.center,
                                   decoration: kActiveButtonContainerStyle,
                                   child:
